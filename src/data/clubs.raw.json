@@ -1,0 +1,63 @@
+{
+  "_comment": "Curated club pool. Format: \"Club name|tier\" where tier 1 = title contender, 5 = relegation fodder. Strength is derived from league strength + tier offset (see leagues.ts). Badge URLs are resolved by scripts/fetch-badges.mjs into clubs.json.",
+
+  "eng1": ["Manchester City|1", "Arsenal|1", "Liverpool|1", "Chelsea|1", "Manchester United|2", "Tottenham Hotspur|2", "Newcastle United|2", "Aston Villa|2", "Brighton|3", "West Ham United|3", "Crystal Palace|3", "Fulham|3", "Brentford|3", "Nottingham Forest|3", "Bournemouth|3", "Everton|4", "Wolverhampton Wanderers|4", "Leeds United|4", "Burnley|5", "Sunderland|5"],
+
+  "esp1": ["Real Madrid|1", "Barcelona|1", "Atletico Madrid|1", "Athletic Bilbao|2", "Villarreal|2", "Real Sociedad|2", "Real Betis|2", "Sevilla|3", "Valencia|3", "Celta Vigo|3", "Girona|3", "Osasuna|4", "Rayo Vallecano|4", "Mallorca|4", "Getafe|4", "Espanyol|4", "Alaves|5", "Elche|5", "Levante|5", "Real Oviedo|5"],
+
+  "ger1": ["Bayern Munich|1", "Bayer Leverkusen|1", "Borussia Dortmund|1", "RB Leipzig|2", "Eintracht Frankfurt|2", "VfB Stuttgart|2", "Borussia Monchengladbach|3", "Werder Bremen|3", "Freiburg|3", "Wolfsburg|3", "Mainz 05|3", "Hoffenheim|4", "Augsburg|4", "Union Berlin|4", "FC Koln|4", "Hamburg|5", "St. Pauli|5", "Heidenheim|5"],
+
+  "ita1": ["Inter Milan|1", "Napoli|1", "AC Milan|1", "Juventus|1", "Atalanta|2", "Roma|2", "Lazio|2", "Fiorentina|3", "Bologna|3", "Torino|3", "Como|3", "Udinese|4", "Genoa|4", "Cagliari|4", "Sassuolo|4", "Parma|4", "Lecce|5", "Hellas Verona|5", "Pisa|5", "Cremonese|5"],
+
+  "fra1": ["Paris Saint-Germain|1", "Marseille|2", "Monaco|2", "Lille|2", "Lyon|2", "Nice|3", "Lens|3", "Rennes|3", "Strasbourg|3", "Toulouse|4", "Brest|4", "Nantes|4", "Auxerre|4", "Angers|5", "Le Havre|5", "Metz|5", "Lorient|5", "Paris FC|5"],
+
+  "por1": ["Sporting CP|1", "Benfica|1", "FC Porto|1", "Braga|2", "Vitoria Guimaraes|3", "Famalicao|3", "Moreirense|4", "Santa Clara|4", "Casa Pia|4", "Gil Vicente|4", "Estoril|4", "Rio Ave|4", "Arouca|4", "Nacional|5", "Estrela da Amadora|5", "Alverca|5", "Tondela|5", "AVS|5"],
+
+  "tur1": ["Galatasaray|1", "Fenerbahce|1", "Besiktas|2", "Trabzonspor|2", "Istanbul Basaksehir|3", "Samsunspor|3", "Goztepe|3", "Konyaspor|4", "Kasimpasa|4", "Rizespor|4", "Antalyaspor|4", "Alanyaspor|4", "Gaziantep|4", "Eyupspor|5", "Kayserispor|5", "Genclerbirligi|5", "Fatih Karagumruk|5", "Kocaelispor|5", "Sivasspor|5"],
+
+  "ned1": ["PSV|1", "Ajax|1", "Feyenoord|1", "AZ Alkmaar|2", "FC Twente|2", "Utrecht|3", "Go Ahead Eagles|3", "NEC Nijmegen|3", "Sparta Rotterdam|4", "Heerenveen|4", "Fortuna Sittard|4", "PEC Zwolle|4", "Groningen|4", "Heracles|5", "NAC Breda|5", "Excelsior|5", "Telstar|5", "Volendam|5"],
+
+  "bel1": ["Club Brugge|1", "Union Saint-Gilloise|1", "Anderlecht|2", "Genk|2", "Antwerp|3", "Gent|3", "Standard Liege|3", "Cercle Brugge|4", "Charleroi|4", "Mechelen|4", "Westerlo|4", "OH Leuven|4", "Sint-Truiden|4", "Dender|5", "Zulte Waregem|5", "La Louviere|5"],
+
+  "gre1": ["Olympiacos|1", "PAOK|1", "AEK Athens|2", "Panathinaikos|2", "Aris|3", "Asteras Tripolis|4", "OFI Crete|4", "Atromitos|4", "Volos|4", "Levadiakos|4", "Panetolikos|5", "Kifisia|5", "Panserraikos|5", "Larissa|5"],
+
+  "sco1": ["Celtic|1", "Rangers|1", "Aberdeen|2", "Hearts|2", "Hibernian|3", "Dundee United|4", "Motherwell|4", "St Mirren|4", "Kilmarnock|4", "Dundee|5", "Falkirk|5", "Livingston|5"],
+
+  "aut1": ["Red Bull Salzburg|1", "Sturm Graz|1", "Rapid Vienna|2", "Austria Vienna|2", "LASK|3", "Wolfsberger AC|3", "Hartberg|4", "Blau-Weiss Linz|4", "WSG Tirol|4", "Grazer AK|5", "Altach|5", "Ried|5"],
+
+  "sui1": ["Young Boys|1", "Basel|1", "Servette|2", "Lugano|2", "St. Gallen|3", "Zurich|3", "Luzern|4", "Lausanne Sport|4", "Sion|4", "Grasshopper|4", "Winterthur|5", "Thun|5"],
+
+  "den1": ["FC Copenhagen|1", "Midtjylland|1", "Brondby|2", "Nordsjaelland|2", "AGF|3", "Silkeborg|3", "Randers|4", "Viborg|4", "Sonderjyske|4", "Odense|4", "AaB|5", "Fredericia|5"],
+
+  "cze1": ["Slavia Prague|1", "Sparta Prague|1", "Viktoria Plzen|2", "Banik Ostrava|3", "Sigma Olomouc|3", "Slovan Liberec|3", "Jablonec|3", "Slovacko|4", "Mlada Boleslav|4", "Bohemians 1905|4", "Teplice|4", "Hradec Kralove|4", "Karvina|5", "Dukla Prague|5", "Pardubice|5", "Zlin|5"],
+
+  "cro1": ["Dinamo Zagreb|1", "Hajduk Split|1", "Rijeka|2", "Osijek|3", "Slaven Belupo|4", "Varazdin|4", "Lokomotiva Zagreb|4", "Istra 1961|5", "Gorica|5", "Vukovar 1991|5"],
+
+  "pol1": ["Legia Warsaw|1", "Lech Poznan|1", "Jagiellonia Bialystok|2", "Rakow Czestochowa|2", "Pogon Szczecin|3", "Cracovia|3", "Gornik Zabrze|3", "Wisla Plock|4", "Widzew Lodz|4", "Piast Gliwice|4", "Motor Lublin|4", "Radomiak Radom|4", "Zaglebie Lubin|4", "Korona Kielce|5", "Lechia Gdansk|5", "GKS Katowice|5", "Arka Gdynia|5", "Termalica Nieciecza|5"],
+
+  "nor1": ["Bodo/Glimt|1", "Molde|1", "Rosenborg|2", "Brann|2", "Viking|3", "Valerenga|3", "Lillestrom|3", "Tromso|4", "Sarpsborg 08|4", "Fredrikstad|4", "KFUM Oslo|4", "Haugesund|4", "Kristiansund|5", "Stromsgodset|5", "Sandefjord|5", "HamKam|5"],
+
+  "eng2": ["Leicester City|1", "Southampton|1", "Ipswich Town|2", "Middlesbrough|2", "West Bromwich Albion|2", "Coventry City|2", "Norwich City|3", "Sheffield United|3", "Watford|3", "Bristol City|3", "Millwall|3", "Stoke City|3", "Birmingham City|3", "Hull City|4", "Preston North End|4", "Queens Park Rangers|4", "Blackburn Rovers|4", "Swansea City|4", "Derby County|4", "Wrexham|4", "Portsmouth|5", "Charlton Athletic|5", "Oxford United|5", "Sheffield Wednesday|5"],
+
+  "esp2": ["Racing Santander|1", "Almeria|1", "Las Palmas|1", "Sporting Gijon|2", "Granada|2", "Leganes|2", "Real Valladolid|2", "Deportivo La Coruna|2", "Cadiz|3", "Malaga|3", "Real Zaragoza|3", "Eibar|3", "Huesca|3", "Mirandes|4", "Albacete|4", "Burgos|4", "Castellon|4", "Cordoba|4", "Cultural Leonesa|5", "Ceuta|5", "Andorra|5", "Real Sociedad B|5"],
+
+  "ger2": ["Schalke 04|1", "Hertha Berlin|1", "Fortuna Dusseldorf|2", "Hannover 96|2", "Paderborn 07|2", "Holstein Kiel|2", "Bochum|2", "Karlsruher SC|3", "Kaiserslautern|3", "Nurnberg|3", "Darmstadt 98|3", "Magdeburg|3", "Elversberg|4", "Greuther Furth|4", "Eintracht Braunschweig|4", "Arminia Bielefeld|4", "Preussen Munster|5", "Dynamo Dresden|5"],
+
+  "ita2": ["Palermo|1", "Venezia|1", "Monza|1", "Sampdoria|2", "Empoli|2", "Spezia|2", "Bari|3", "Catanzaro|3", "Modena|3", "Cesena|3", "Frosinone|3", "Reggiana|4", "Sudtirol|4", "Juve Stabia|4", "Carrarese|4", "Avellino|4", "Padova|5", "Mantova|5", "Virtus Entella|5", "Pescara|5"],
+
+  "fra2": ["Saint-Etienne|1", "Reims|1", "Troyes|2", "Montpellier|2", "Guingamp|3", "Amiens|3", "Grenoble|3", "Clermont|3", "Dunkerque|3", "Red Star|4", "Bastia|4", "Rodez|4", "Laval|4", "Annecy|4", "Pau|4", "Le Mans|5", "Nancy|5", "Boulogne|5"],
+
+  "eng3": ["Cardiff City|1", "Plymouth Argyle|1", "Luton Town|1", "Blackpool|2", "Barnsley|2", "Reading|2", "Huddersfield Town|2", "Stockport County|2", "Bolton Wanderers|2", "Wycombe Wanderers|2", "Wigan Athletic|3", "Doncaster Rovers|3", "Peterborough United|3", "Bradford City|3", "Leyton Orient|3", "Lincoln City|3", "AFC Wimbledon|4", "Northampton Town|4", "Stevenage|4", "Mansfield Town|4", "Exeter City|4", "Port Vale|4", "Milton Keynes Dons|5", "Burton Albion|5"],
+
+  "ger3": ["1860 Munich|2", "Rot-Weiss Essen|2", "Saarbrucken|2", "Hansa Rostock|2", "Energie Cottbus|3", "Erzgebirge Aue|3", "Verl|3", "Wehen Wiesbaden|3", "Ingolstadt|3", "Osnabruck|3", "Duisburg|3", "Jahn Regensburg|3", "Waldhof Mannheim|4", "Viktoria Koln|4", "Ulm|4", "Alemannia Aachen|4", "Sandhausen|4", "Schweinfurt 05|5", "TSV Havelse|5", "Stuttgarter Kickers|5"],
+
+  "bra1": ["Flamengo|1", "Palmeiras|1", "Botafogo|1", "Cruzeiro|2", "Fluminense|2", "Sao Paulo|2", "Corinthians|2", "Atletico Mineiro|2", "Internacional|3", "Gremio|3", "Bahia|3", "Fortaleza|3", "Vasco da Gama|3", "Santos|3", "Bragantino|4", "Ceara|4", "Mirassol|4", "Juventude|5", "Vitoria|5", "Sport Recife|5"],
+
+  "ksa1": ["Al Hilal|1", "Al Nassr|1", "Al Ittihad|1", "Al Ahli|1", "Al Qadsiah|2", "Al Shabab|2", "Neom|2", "Al Ettifaq|3", "Al Taawoun|3", "Al Fateh|3", "Al Khaleej|4", "Al Riyadh|4", "Al Fayha|4", "Damac|4", "Al Okhdood|5", "Al Kholood|5", "Al Najma|5", "Al Hazem|5"],
+
+  "mex1": ["Club America|1", "Cruz Azul|1", "Monterrey|1", "Tigres UANL|1", "Guadalajara|2", "Toluca|2", "Pachuca|2", "Pumas UNAM|3", "Leon|3", "Tijuana|3", "Santos Laguna|4", "Atlas|4", "Necaxa|4", "Juarez|4", "Atletico San Luis|4", "Puebla|5", "Queretaro|5", "Mazatlan|5"],
+
+  "arg1": ["River Plate|1", "Boca Juniors|1", "Racing Club|2", "Independiente|2", "Velez Sarsfield|2", "Estudiantes|2", "Rosario Central|2", "San Lorenzo|3", "Talleres|3", "Lanus|3", "Argentinos Juniors|3", "Huracan|3", "Newells Old Boys|3", "Defensa y Justicia|3", "Godoy Cruz|4", "Banfield|4", "Platense|4", "Belgrano|4", "Instituto|4", "Union|4", "Tigre|4", "Barracas Central|4", "Gimnasia|4", "Central Cordoba|4", "Sarmiento|5", "Aldosivi|5", "San Martin|5", "Deportivo Riestra|5"],
+
+  "usa1": ["Inter Miami|1", "Los Angeles FC|1", "Columbus Crew|1", "Philadelphia Union|2", "FC Cincinnati|2", "LA Galaxy|2", "Seattle Sounders|2", "Vancouver Whitecaps|2", "San Diego FC|2", "Atlanta United|3", "New York City FC|3", "New York Red Bulls|3", "Orlando City|3", "Portland Timbers|3", "Nashville SC|3", "Charlotte FC|3", "Minnesota United|3", "Austin FC|4", "Real Salt Lake|4", "Houston Dynamo|4", "Chicago Fire|4", "FC Dallas|4", "New England Revolution|4", "Colorado Rapids|4", "Sporting Kansas City|4", "San Jose Earthquakes|5", "Toronto FC|5", "DC United|5", "St. Louis City|5"]
+}
