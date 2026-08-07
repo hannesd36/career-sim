@@ -1,0 +1,2889 @@
+/* ===========================================================================
+   FLOODLIGHTS
+   The interface of a football career, not a website about football.
+
+   The system in one paragraph: an olive-black ground the colour of a pitch at
+   night, chalk-white type, hairline rules borrowed from touchlines, and one
+   loud colour — floodlight amber — that only ever marks the thing you are
+   meant to do next. Headlines and numbers are set in Anton, the face of a
+   matchday poster; everything that is metadata, a stat or a control is set in
+   IBM Plex Sans, the face of a registration document. Two families, no more.
+
+   Three rules this file holds itself to:
+     1. Amber is an action, never decoration. If it is amber, it is clickable
+        or it is the current club.
+     2. Almost nothing is a card. Information is separated by rules and space.
+        A raised surface has to earn itself.
+     3. Rarity colour is the one place colour is data, and it is carried on a
+        rule and a ladder, not on a shiny fill.
+
+   Naming: football nouns, BEM-ish. `.mast`, `.grade`, `.approach`, `.fork`,
+   `.spot`, `.ledger`, `.standings`. Elements with a single dash, states and
+   variants with a double dash. Nothing is called card, block or button.
+   =========================================================================== */
+
+:root {
+  /* --- ground: floodlit night, the house style --- */
+  --bg: #0e100e;
+  --bg-raise: #171a17;
+  --bg-sunk: #090a09;
+
+  --fg: #f2efe4;
+  --fg-2: #a3a69b;
+  --fg-3: #6d716a;
+
+  --line: #262a26;
+  --line-2: #3a3f39;
+
+  /* --- the one loud colour --- */
+  --flood: #f0b429;
+  --flood-fg: #17130a;
+  /* amber as a surface reads at any weight; amber as small text does not, so
+     text keeps its own value and the two diverge in daylight */
+  --flood-text: #f0b429;
+
+  /* --- institutional --- */
+  --pitch: #3f8f63;
+  --claret: #c0405c;
+
+  /* --- results --- */
+  --up: #4fb27d;
+  --down: #e0637a;
+
+  /* --- type --- */
+  --poster: 'Anton', 'Arial Narrow', 'Haettenschweiler', Impact, sans-serif;
+  --doc: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* --- space: a six-step scale, nothing between --- */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 14px;
+  --s4: 22px;
+  --s5: 36px;
+  --s6: 60px;
+  --s7: 96px;
+
+  --rail: 54px;
+  --t: 180ms cubic-bezier(0.2, 0, 0, 1);
+  --t-slow: 320ms cubic-bezier(0.2, 0, 0, 1);
+
+  color-scheme: dark;
+}
+
+/* --- daylight: the same system, printed rather than lit --- */
+:root[data-theme='white'] {
+  --bg: #e9e5da;
+  --bg-raise: #f5f2e9;
+  --bg-sunk: #ded9cc;
+
+  --fg: #14150f;
+  --fg-2: #4f5148;
+  --fg-3: #7e8177;
+
+  --line: #cdc7b8;
+  --line-2: #b0a996;
+
+  --flood: #d4901a;
+  --flood-fg: #17130a;
+  --flood-text: #8a5806;
+
+  --pitch: #26714b;
+  --claret: #a02341;
+
+  --up: #237a4c;
+  --down: #b0293f;
+
+  color-scheme: light;
+}
+
+/* The tiers are lit for a dark ground; on paper they need their own values or
+   platinum and silver disappear into the page. Same six steps, same order. */
+:root[data-theme='white'] .rar-bronze {
+  --tier: #8a5326;
+}
+:root[data-theme='white'] .rar-silver {
+  --tier: #666e73;
+}
+:root[data-theme='white'] .rar-gold {
+  --tier: #96700f;
+}
+:root[data-theme='white'] .rar-rare {
+  --tier: #b0821a;
+}
+:root[data-theme='white'] .rar-platinum {
+  --tier: #256f88;
+}
+:root[data-theme='white'] .rar-ultimate {
+  --tier: #7c5c14;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--doc);
+  font-size: 15px;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+}
+
+input,
+select {
+  font: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--flood);
+  color: var(--flood-fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--flood);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--poster);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+/* ============================================================ 1. the shell */
+
+/*
+ * The page is deliberately off-centre. A fixed rail runs the full height of
+ * the window carrying the season and the stage of the career, the way a
+ * tunnel or a programme spine carries them, and the reading column sits in
+ * what is left. Nothing else in the interface is symmetrical by accident.
+ */
+.shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px 120px;
+}
+
+.flow > * + * {
+  margin-top: var(--s7);
+}
+
+/*
+ * A career screen is two columns and they answer two different questions.
+ * Left is the present tense: who you are, the season you have just played, and
+ * the one thing the game is waiting on. Right is the whole career, by age,
+ * including the years you have not played yet. Nothing crosses between them.
+ */
+.spread {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: var(--s6);
+  align-items: start;
+}
+
+.now > * + * {
+  margin-top: var(--s6);
+}
+
+/* a decision inside the column keeps its slab and drops the bleed */
+.now .moment {
+  margin-inline: 0;
+}
+
+.rail {
+  position: sticky;
+  top: var(--s3);
+}
+
+.spine {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-sunk);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.spine-mark {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  background: var(--line-2);
+  transition: background var(--t-slow);
+}
+
+/* the career visibly settles into itself: the mark lights up as it goes on */
+[data-stage='emerging'] .spine-mark,
+[data-stage='established'] .spine-mark {
+  background: var(--fg-2);
+}
+
+[data-stage='prime'] .spine-mark,
+[data-stage='veteran'] .spine-mark {
+  background: var(--flood);
+}
+
+[data-stage='legacy'] .spine-mark {
+  background: var(--flood);
+  box-shadow: 0 0 0 3px var(--bg-sunk), 0 0 0 4px var(--flood);
+}
+
+@media (min-width: 1060px) {
+  body {
+    padding-left: var(--rail);
+  }
+
+  /*
+   * Vertical writing mode swaps the flex axes: `row` now runs down the rail,
+   * and the 180° turn stands the whole thing up so it reads from the bottom.
+   */
+  .spine {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--rail);
+    z-index: 40;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--s4);
+    padding: var(--s5) 0;
+    border-bottom: none;
+    border-right: 1px solid var(--line);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+}
+
+/* --- topbar: a fixture strip, not a navigation bar --- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s4) 0 var(--s3);
+  border-bottom: 2px solid var(--fg);
+  margin-bottom: var(--s6);
+}
+
+.wordmark {
+  font-family: var(--poster);
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.topbar-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  margin-left: auto;
+}
+
+/* ============================================================== 2. type kit */
+
+.kicker {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin: 0 0 var(--s3);
+}
+
+.kicker--loud {
+  color: var(--flood-text);
+}
+
+.kicker--risk {
+  color: var(--claret);
+}
+
+.rule-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  padding-bottom: var(--s2);
+  border-bottom: 2px solid var(--fg);
+  margin-bottom: var(--s4);
+}
+
+.rule-head h2 {
+  font-family: var(--doc);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.rule-head .aside {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+
+.lede {
+  font-size: 16.5px;
+  line-height: 1.45;
+  color: var(--fg-2);
+  max-width: 42ch;
+  margin: 0;
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  flex: none;
+  background: var(--line-2);
+}
+
+/* ============================================================== 3. actions */
+
+.act {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  border: 1px solid var(--line-2);
+  color: var(--fg);
+  background: transparent;
+  transition: background var(--t), color var(--t), border-color var(--t);
+}
+
+.act:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.act:active {
+  transform: translateY(1px);
+}
+
+.act--primary {
+  background: var(--flood);
+  color: var(--flood-fg);
+  border-color: var(--flood);
+}
+
+.act--primary:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.act--quiet {
+  border-color: transparent;
+  color: var(--fg-2);
+}
+
+.act--quiet:hover {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--line-2);
+}
+
+.act--risk {
+  border-color: var(--line-2);
+  color: var(--fg-3);
+}
+
+.act--risk:hover {
+  background: var(--claret);
+  border-color: var(--claret);
+  color: #fff;
+}
+
+.act--icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+.act:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.act:disabled:hover {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--line-2);
+}
+
+.act-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  align-items: center;
+}
+
+/* --- the language toggle reads as a scoreboard toggle --- */
+
+.lang {
+  display: flex;
+}
+
+.lang button {
+  padding: 8px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--fg-3);
+  transition: color var(--t);
+}
+
+.lang button:hover {
+  color: var(--fg);
+}
+
+.lang button.on {
+  color: var(--fg);
+  box-shadow: inset 0 -2px 0 var(--flood);
+}
+
+/* ====================================================== 4. player identity */
+
+/*
+ * The player, at the head of the left hand column. Everything on it holds for
+ * the whole career: the name, the rating, the shirt, the totals, the ceiling
+ * and the cabinet. It is ruled rather than boxed, so it reads as the top of
+ * the column rather than as a card floating on it.
+ */
+.card {
+  border-top: 2px solid var(--fg);
+  padding-top: var(--s3);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s4);
+}
+
+.card-name {
+  font-size: clamp(28px, 4.6vw, 48px);
+  text-transform: uppercase;
+  margin: 0 0 var(--s2);
+  hyphens: auto;
+}
+
+.card-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.card-line .pos {
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.card .grade {
+  margin-left: auto;
+}
+
+.card-club {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s3);
+  margin-top: var(--s4);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+}
+
+.card-where {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.card-tally {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s5);
+  margin-top: var(--s3);
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.card-tally span {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+}
+
+.card-tally b {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 21px;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+}
+
+.card .ceiling {
+  margin-top: var(--s4);
+}
+
+/* the cabinet, which is usually empty and says so */
+.case {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s4);
+}
+
+.case-empty {
+  font-size: 11.5px;
+  color: var(--fg-3);
+}
+
+.case-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 5px 10px;
+  background: var(--bg-raise);
+  box-shadow: inset 2px 0 0 var(--flood);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--fg-2);
+}
+
+.case-item svg {
+  color: var(--flood-text);
+  flex: none;
+}
+
+.case-item b {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--fg);
+}
+
+.card .alarms {
+  margin-top: var(--s4);
+}
+
+.club-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-weight: 600;
+  color: var(--fg);
+  letter-spacing: 0.04em;
+  padding-bottom: 2px;
+  box-shadow: inset 0 -1px 0 var(--line-2);
+  transition: box-shadow var(--t), color var(--t);
+}
+
+.club-tag:hover {
+  color: var(--flood-text);
+  box-shadow: inset 0 -1px 0 var(--flood);
+}
+
+/* ================================================================ 5. grade */
+
+/*
+ * The rating, as a typographic monument rather than a badge. The rule under
+ * the numeral and the six-notch ladder beside it are the whole tier system:
+ * you can see where you are and how far the ladder still goes.
+ */
+.grade {
+  flex: none;
+  text-align: right;
+}
+
+.grade-num {
+  display: block;
+  font-family: var(--poster);
+  font-size: clamp(64px, 13vw, 132px);
+  line-height: 0.76;
+  letter-spacing: -0.01em;
+  animation: grade-in 420ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.grade-rule {
+  display: block;
+  height: 4px;
+  margin-top: var(--s2);
+  background: var(--tier, var(--fg));
+}
+
+.grade-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--s3);
+  margin-top: var(--s2);
+}
+
+.grade-tier {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tier, var(--fg-2));
+}
+
+.grade-ladder {
+  display: flex;
+  gap: 3px;
+}
+
+.grade-ladder i {
+  width: 4px;
+  height: 11px;
+  background: var(--line-2);
+}
+
+.grade-ladder i.on {
+  background: var(--tier, var(--fg));
+}
+
+/* the top of the ladder is the one place the system allows itself a flourish */
+.grade.rar-ultimate .grade-rule {
+  box-shadow: 0 3px 0 var(--bg), 0 6px 0 var(--tier);
+}
+
+.grade.rar-ultimate .grade-foot {
+  margin-top: 14px;
+}
+
+.grade--md .grade-num {
+  font-size: clamp(40px, 6vw, 56px);
+}
+
+.grade--sm .grade-num {
+  font-size: 34px;
+}
+
+.grade--sm .grade-rule,
+.grade--md .grade-rule {
+  height: 3px;
+  margin-top: 5px;
+}
+
+.grade--sm .grade-ladder,
+.grade--sm .grade-tier {
+  display: none;
+}
+
+@keyframes grade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* --- rarity: the one place colour carries data --- */
+
+.rar-bronze {
+  --tier: #a8703c;
+}
+.rar-silver {
+  --tier: #9aa2a6;
+}
+.rar-gold {
+  --tier: #c99a2a;
+}
+.rar-rare {
+  --tier: #e8bb45;
+}
+.rar-platinum {
+  --tier: #86c0d2;
+}
+.rar-ultimate {
+  --tier: #f0e2bd;
+}
+
+/* ============================================================= 6. readouts */
+
+/* A ruled strip of numbers. Dense on purpose: this is a stat line, not five
+   tiles in a grid. */
+.readout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+  border-top: 2px solid var(--fg);
+  border-bottom: 1px solid var(--line);
+}
+
+.readout-cell {
+  padding: var(--s3) var(--s3) var(--s3) 0;
+  border-right: 1px solid var(--line);
+}
+
+.readout-cell:last-child {
+  border-right: none;
+}
+
+.readout-k {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: var(--s1);
+}
+
+.readout-v {
+  font-family: var(--poster);
+  font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* --- alarms: the three things that can be wrong with a career --- */
+
+.alarms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin-top: var(--s4);
+}
+
+.alarm {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--claret);
+  box-shadow: inset 2px 0 0 var(--claret);
+  background: var(--bg-raise);
+}
+
+.alarm b {
+  font-family: var(--poster);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+/* ========================================================== 7. the ceiling */
+
+/*
+ * What you are and what you could still be are the same fact read at two
+ * distances, so the range sits beside the rating rather than in a panel of its
+ * own further down the page. Three marks and no chrome: the range, where today
+ * falls inside it, and the points left to the next tier.
+ */
+.ceiling {
+  padding-bottom: 6px;
+}
+
+.ceiling-top {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  margin-bottom: var(--s2);
+}
+
+.ceiling-k {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.ceiling-range {
+  margin-left: auto;
+  font-family: var(--poster);
+  font-size: 17px;
+  white-space: nowrap;
+}
+
+.ceiling-range i {
+  font-style: normal;
+  font-family: var(--doc);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin: 0 6px;
+}
+
+.ceiling-bar {
+  position: relative;
+  height: 2px;
+  background: var(--line);
+}
+
+.ceiling-span {
+  position: absolute;
+  top: 0;
+  height: 2px;
+  background: var(--fg-2);
+}
+
+.ceiling-now {
+  position: absolute;
+  top: -5px;
+  width: 3px;
+  height: 12px;
+  background: var(--flood);
+  transition: left var(--t-slow);
+}
+
+.ceiling-next {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s2);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.ceiling-next i {
+  width: 3px;
+  height: 11px;
+  background: var(--tier, var(--fg-2));
+  flex: none;
+}
+
+.ceiling-next b {
+  font-family: var(--poster);
+  font-size: 13px;
+  color: var(--fg-2);
+}
+
+/* ============================================================= 8. kick off */
+
+/*
+ * One page, one thing to do. The play bar is the only large amber surface in
+ * the game, and it says which club and which season out loud.
+ */
+.kickoff {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  width: 100%;
+  padding: var(--s4) var(--s4);
+  background: var(--flood);
+  color: var(--flood-fg);
+  transition: background var(--t), color var(--t);
+}
+
+.kickoff-label {
+  font-family: var(--poster);
+  font-size: clamp(21px, 3.4vw, 34px);
+  line-height: 1.02;
+  text-transform: uppercase;
+  min-width: 0;
+}
+
+.kickoff-go {
+  margin-left: auto;
+  font-family: var(--poster);
+  font-size: clamp(24px, 3.6vw, 34px);
+  line-height: 1;
+  flex: none;
+  transition: transform var(--t);
+}
+
+.kickoff:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.kickoff:hover .kickoff-go {
+  transform: translateX(8px);
+}
+
+.kickoff:active {
+  transform: translateY(1px);
+}
+
+.kickoff .crest,
+.kickoff .crest-fallback {
+  filter: none;
+}
+
+.tempo {
+  display: flex;
+  border: 1px solid var(--line-2);
+  border-top: none;
+}
+
+.tempo button {
+  flex: 1;
+  padding: 11px 0;
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  border-right: 1px solid var(--line-2);
+  transition: color var(--t), background var(--t);
+}
+
+.tempo button:last-child {
+  border-right: none;
+}
+
+.tempo button:hover {
+  color: var(--fg);
+  background: var(--bg-raise);
+}
+
+.tempo button.on {
+  color: var(--fg);
+  box-shadow: inset 0 -3px 0 var(--flood);
+}
+
+/* ============================================================ 9. the record */
+
+/*
+ * The career measured in years rather than in seasons, because a career is a
+ * fixed number of years and how many of them you have spent, and because age
+ * is the number anybody actually thinks in. It runs to forty whether you get
+ * there or not: the empty rows under the present are the part still to play,
+ * and they are the reason the column exists.
+ *
+ * Consecutive seasons at one club are one row, the way anybody would say it
+ * out loud. Opening a row lists the seasons inside it, and picking one sends
+ * it to the left hand column to be read.
+ */
+.years {
+  border-top: 2px solid var(--fg);
+}
+
+.years-head,
+.yr {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 32px 28px 42px;
+  align-items: center;
+  gap: var(--s2);
+  text-align: left;
+}
+
+.years-head {
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--line-2);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.years-head span:nth-child(n + 3) {
+  text-align: right;
+}
+
+.yr {
+  width: 100%;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  transition: background var(--t);
+}
+
+.yr-age {
+  font-family: var(--poster);
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--fg-2);
+  transition: color var(--t);
+}
+
+.yr-who {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 0;
+  font-weight: 600;
+}
+
+.yr-who .nm {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yr-n {
+  text-align: right;
+  font-size: 12px;
+  color: var(--fg-2);
+}
+
+.yr-ovr {
+  text-align: right;
+  font-size: 12px;
+  color: var(--fg-3);
+}
+
+button.yr:hover {
+  background: var(--bg-raise);
+}
+
+button.yr:hover .yr-age,
+.yr--open .yr-age {
+  color: var(--fg);
+}
+
+/*
+ * The rating as a flat tier block. Everywhere else in the game the tier is a
+ * rule under a numeral; here it is the column you scan down, and a career is
+ * meant to be readable as a run of colour going one way or the other.
+ */
+.ovr {
+  justify-self: end;
+  min-width: 40px;
+  padding: 2px 0 3px;
+  text-align: center;
+  font-family: var(--poster);
+  font-size: 16px;
+  line-height: 1.1;
+  color: #17130a;
+  background: var(--tier, var(--fg-2));
+}
+
+.yr-loan {
+  flex: none;
+  font-size: 13px;
+  color: var(--fg-3);
+}
+
+.yr-cup {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  color: var(--flood-text);
+}
+
+.yr-cup b {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 11px;
+}
+
+.yr--nation .yr-who {
+  font-weight: 500;
+  color: var(--fg-2);
+}
+
+/* the year being played right now: the only amber thing in the column */
+.yr--now {
+  box-shadow: inset 3px 0 0 var(--flood);
+  padding-left: var(--s2);
+}
+
+.yr--now .yr-age,
+.yr--now .yr-ovr {
+  color: var(--flood-text);
+}
+
+.yr--now .yr-who {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--flood-text);
+}
+
+/* the years still ahead of you, which is the whole point of the column */
+.yr--ahead .yr-age {
+  color: var(--fg-3);
+  opacity: 0.55;
+}
+
+/* --- the seasons inside a spell --- */
+
+.sub {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--s2);
+  width: 100%;
+  padding: 7px var(--s2) 7px 30px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-sunk);
+  font-size: 11.5px;
+  color: var(--fg-3);
+  transition: color var(--t), background var(--t);
+}
+
+.sub:hover {
+  color: var(--fg);
+  background: var(--bg-raise);
+}
+
+.sub--on {
+  color: var(--fg);
+  box-shadow: inset 3px 0 0 var(--flood);
+}
+
+.sub-yr {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.sub-num {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.sub-out {
+  color: var(--down);
+}
+
+/* --- one season, read in full in the left hand column --- */
+
+.dispatch-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  padding-bottom: var(--s4);
+  border-bottom: 2px solid var(--fg);
+}
+
+.dispatch-head h2 {
+  font-size: clamp(26px, 4vw, 40px);
+  text-transform: uppercase;
+}
+
+.dispatch-sub {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s3);
+  margin-top: var(--s3);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.dispatch-head .delta {
+  margin-left: auto;
+  flex: none;
+}
+
+.dispatch .readout {
+  margin-top: var(--s4);
+}
+
+.notes {
+  margin-top: var(--s2);
+}
+
+.note {
+  display: flex;
+  gap: var(--s3);
+  align-items: baseline;
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14.5px;
+  color: var(--fg-2);
+}
+
+.note:last-child {
+  border-bottom: none;
+}
+
+.note::before {
+  content: '';
+  width: 16px;
+  height: 1px;
+  flex: none;
+  background: var(--line-2);
+  transform: translateY(-4px);
+}
+
+.note--loud {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.note--loud::before {
+  height: 3px;
+  background: var(--flood);
+}
+
+/* what you decided that year, in the season it belongs to */
+.note--turn {
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s3);
+}
+
+.note--turn::before {
+  height: 3px;
+  background: var(--flood);
+}
+
+.note--turn b {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.note--turn span {
+  color: var(--fg-3);
+}
+
+.note--bad::before {
+  background: var(--claret);
+}
+
+.note--bad b {
+  color: var(--claret);
+}
+
+/* --- the two things a season can shout --- */
+
+.promotion {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  margin-top: var(--s4);
+  background: var(--bg-raise);
+  box-shadow: inset 4px 0 0 var(--tier, var(--flood));
+}
+
+.promotion strong {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 24px;
+  text-transform: uppercase;
+  color: var(--tier, var(--fg));
+}
+
+.promotion span {
+  font-size: 12.5px;
+  color: var(--fg-2);
+}
+
+.busted {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  margin-top: var(--s4);
+  background: var(--claret);
+  color: #fff;
+  font-weight: 600;
+}
+
+.busted .delta {
+  color: #fff;
+}
+
+/* =========================================================== 10. the window */
+
+/*
+ * Six clubs are not six identical rows. The biggest one that wants you is
+ * given the top of the page and the space to make its case; the rest are a
+ * ruled list you can run your eye down.
+ */
+.market-head {
+  margin-bottom: var(--s5);
+}
+
+.market-title {
+  font-size: clamp(38px, 8vw, 76px);
+  text-transform: uppercase;
+  margin-bottom: var(--s2);
+}
+
+.market-ask {
+  font-size: 17px;
+  color: var(--fg-2);
+  margin: 0;
+}
+
+.approach {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  padding: var(--s3) var(--s2);
+  border-bottom: 1px solid var(--line);
+  transition: background var(--t), box-shadow var(--t), padding-left var(--t);
+}
+
+.approach:hover {
+  background: var(--bg-raise);
+  box-shadow: inset 3px 0 0 var(--flood);
+  padding-left: var(--s4);
+}
+
+.approach-name {
+  display: block;
+  font-family: var(--poster);
+  font-size: 20px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.approach-where {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.approach-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+  margin-left: auto;
+  flex: none;
+}
+
+.approach-squad {
+  flex: none;
+  text-align: right;
+  min-width: 92px;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.approach-squad b {
+  display: block;
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--fg);
+}
+
+/* --- the club at the top of the pile --- */
+
+.approach--lead {
+  align-items: stretch;
+  gap: var(--s4);
+  padding: var(--s4);
+  margin-bottom: var(--s4);
+  background: var(--bg-raise);
+  border-bottom: none;
+  box-shadow: inset 4px 0 0 var(--flood);
+}
+
+.approach--lead:hover {
+  background: var(--bg-raise);
+  padding-left: var(--s4);
+  box-shadow: inset 8px 0 0 var(--flood);
+}
+
+.approach--lead .approach-name {
+  font-size: clamp(28px, 5vw, 46px);
+  margin-top: var(--s1);
+}
+
+.approach--lead .approach-where {
+  font-size: 12px;
+  margin-top: var(--s2);
+}
+
+.approach--lead .approach-squad b {
+  font-size: 40px;
+}
+
+.approach-lead-crest {
+  width: 64px;
+  height: 64px;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+
+.approach-lead-crest > * {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  font-size: 15px;
+}
+
+.approach-lead-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-left: auto;
+  flex: none;
+}
+
+.approach-sign {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 9px 14px;
+  background: var(--flood);
+  color: var(--flood-fg);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background var(--t);
+}
+
+.approach--lead:hover .approach-sign {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.approach-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--line);
+}
+
+.approach-row:first-of-type {
+  border-top: 2px solid var(--fg);
+}
+
+.approach-row .approach {
+  border-bottom: none;
+}
+
+.approach-table {
+  flex: none;
+  padding: 0 var(--s3);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  border-left: 1px solid var(--line);
+  transition: background var(--t), color var(--t);
+}
+
+.approach-table:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* --- tags: small, factual, never decorative --- */
+
+.tag {
+  padding: 3px 7px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--fg-3);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+
+.tag--role-key,
+.tag--role-starter {
+  color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--fg-2);
+}
+
+.tag--euro {
+  color: var(--pitch);
+  box-shadow: inset 0 0 0 1px var(--pitch);
+}
+
+.tag--home {
+  color: var(--flood-text);
+  box-shadow: inset 0 0 0 1px var(--flood);
+}
+
+/* ============================================================ 11. a moment */
+
+/*
+ * An event has to interrupt. It bleeds past the reading column, drops a heavy
+ * claret rule across the page, and then asks one question with two answers,
+ * side by side, so the choice is a fork in a road rather than a form.
+ */
+.moment {
+  margin-inline: -24px;
+  background: var(--bg-raise);
+  border-top: 4px solid var(--claret);
+  animation: moment-in 320ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.moment-slab {
+  padding: var(--s5) var(--s4) var(--s5);
+}
+
+.moment-title {
+  font-size: clamp(32px, 6.4vw, 62px);
+  text-transform: uppercase;
+  margin-bottom: var(--s3);
+}
+
+.moment-body {
+  font-size: 16.5px;
+  line-height: 1.45;
+  color: var(--fg-2);
+  max-width: 46ch;
+  margin: 0;
+}
+
+.fork {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--line-2);
+}
+
+.fork-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  padding: var(--s4);
+  min-height: 148px;
+  border-right: 1px solid var(--line-2);
+  transition: background var(--t), color var(--t);
+}
+
+.fork-side:last-child {
+  border-right: none;
+}
+
+.fork-side:hover {
+  background: var(--flood);
+  color: var(--flood-fg);
+}
+
+.fork-name {
+  font-family: var(--poster);
+  font-size: clamp(19px, 2.8vw, 26px);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.fork-odds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s4);
+  margin-top: auto;
+}
+
+.odd {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.odd-pct {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--fg-3);
+}
+
+.fork-side:hover .odd-pct {
+  color: color-mix(in srgb, var(--flood-fg) 65%, transparent);
+}
+
+.fork-side:hover .delta {
+  color: var(--flood-fg);
+}
+
+.odd--risk .odd-pct {
+  color: var(--claret);
+}
+
+.odd-note {
+  font-size: 10.5px;
+  line-height: 1.25;
+  max-width: 14ch;
+  color: var(--claret);
+}
+
+.fork-side:hover .odd--risk .odd-pct,
+.fork-side:hover .odd-note {
+  color: var(--flood-fg);
+}
+
+.aftermath {
+  display: grid;
+  gap: var(--s4);
+  justify-items: start;
+  padding: var(--s5) var(--s4);
+  border-top: 1px solid var(--line-2);
+}
+
+.aftermath p {
+  font-size: 17px;
+  line-height: 1.45;
+  max-width: 44ch;
+  margin: 0;
+  color: var(--fg-2);
+}
+
+@keyframes moment-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* ============================================================ 12. the spot */
+
+/*
+ * The only part of the game that is played rather than simulated. Everything
+ * here is physical: a chalk goal, a keeper who has to commit, and a verdict
+ * stamped across the frame afterwards.
+ */
+.spot-title {
+  font-size: clamp(26px, 5vw, 46px);
+  text-transform: uppercase;
+  margin-bottom: var(--s3);
+}
+
+.spot-title i {
+  font-style: normal;
+  font-family: var(--doc);
+  font-size: 0.4em;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: var(--fg-3);
+  margin: 0 10px;
+  vertical-align: middle;
+}
+
+.spot-ask {
+  font-size: 15px;
+  color: var(--fg-2);
+  margin: 0 0 var(--s5);
+}
+
+/* a goal is roughly three times as wide as it is tall, and so is this one */
+.goal {
+  position: relative;
+  max-width: 660px;
+  margin: var(--s4) auto 0;
+  background: var(--bg-sunk);
+  border: 3px solid var(--fg);
+  border-bottom: none;
+}
+
+.goal-net {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.26;
+  background-image: repeating-linear-gradient(90deg, var(--line-2) 0 1px, transparent 1px 16px),
+    repeating-linear-gradient(0deg, var(--line-2) 0 1px, transparent 1px 16px);
+}
+
+.zones {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.zone {
+  position: relative;
+  height: 212px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: var(--s3);
+  border-right: 1px dashed var(--line-2);
+  transition: background var(--t);
+}
+
+.zone:last-child {
+  border-right: none;
+}
+
+.zone:not(:disabled):hover {
+  background: color-mix(in srgb, var(--flood) 16%, transparent);
+}
+
+.zone-name {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.zone--picked .zone-name {
+  color: var(--flood-text);
+}
+
+.ball {
+  position: absolute;
+  top: 56px;
+  left: calc(50% - 13px);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--fg);
+  box-shadow: inset -5px -5px 0 rgba(0, 0, 0, 0.28);
+  z-index: 2;
+  animation: strike 400ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.ball--over {
+  top: -42px;
+  opacity: 0.35;
+}
+
+.keeper {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  color: var(--fg-2);
+  transform: translateX(-50%);
+  transition: left var(--t-slow), transform var(--t-slow);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.keeper--left {
+  left: 17%;
+  transform: translateX(-50%) rotate(-30deg);
+}
+
+.keeper--right {
+  left: 83%;
+  transform: translateX(-50%) rotate(30deg);
+}
+
+.keeper--centre {
+  transform: translateX(-50%) translateY(-16px) scale(1.08);
+}
+
+/* the ground in front of the goal: the D of the box, and the spot you kick from */
+.turf {
+  position: relative;
+  max-width: 660px;
+  height: 76px;
+  margin: 0 auto;
+  border-top: 3px solid var(--fg);
+}
+
+.turf::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 58px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--fg-2);
+  transform: translateX(-50%);
+}
+
+.turf::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 38%;
+  height: 40px;
+  border: 1px solid var(--line-2);
+  border-top: none;
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  transform: translateX(-50%);
+}
+
+.verdict {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+  border-top: 2px solid var(--fg);
+  animation: moment-in 260ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.verdict strong {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: clamp(30px, 6vw, 54px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.verdict--in strong {
+  color: var(--up);
+}
+
+.verdict--out strong {
+  color: var(--down);
+}
+
+.verdict span {
+  color: var(--fg-2);
+  font-size: 14px;
+}
+
+.verdict .act {
+  margin-left: auto;
+}
+
+@keyframes strike {
+  from {
+    transform: translateY(160px) scale(0.35);
+    opacity: 0;
+  }
+}
+
+/* ========================================================== 13. standings */
+
+/*
+ * Not a centred modal. The table slides in from the edge like a screen being
+ * pushed in from the side of a broadcast, and stays a dense, authoritative
+ * list of twenty clubs.
+ */
+.sheet-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: color-mix(in srgb, var(--bg-sunk) 76%, transparent);
+  display: flex;
+  justify-content: flex-end;
+  animation: fade 160ms ease both;
+}
+
+.sheet {
+  width: min(460px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border-left: 2px solid var(--fg);
+  animation: slide-in 260ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.sheet-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  padding: var(--s4) var(--s4) var(--s3);
+  border-bottom: 2px solid var(--fg);
+}
+
+.sheet-head h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 28px;
+  text-transform: uppercase;
+}
+
+.sheet-head .kicker {
+  margin-bottom: 6px;
+}
+
+.sheet-country {
+  margin: 6px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.sheet-head .act {
+  margin-left: auto;
+  flex: none;
+}
+
+.standings {
+  overflow-y: auto;
+  padding: var(--s2) 0;
+}
+
+.standing {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: 7px var(--s4);
+  font-size: 13.5px;
+  box-shadow: inset 3px 0 0 transparent;
+}
+
+.standing-pos {
+  width: 20px;
+  flex: none;
+  font-size: 11.5px;
+  color: var(--fg-3);
+}
+
+/* flex children default to min-width:auto, which stops the ellipsis working */
+.standing-club {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.standing-pts {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--poster);
+  font-size: 16px;
+}
+
+.standing--euro {
+  box-shadow: inset 3px 0 0 var(--pitch);
+}
+
+.standing--drop {
+  box-shadow: inset 3px 0 0 var(--claret);
+}
+
+.standing--drop .standing-club,
+.standing--drop .standing-pos {
+  color: var(--fg-3);
+}
+
+.standing--mine {
+  background: var(--flood);
+  color: var(--flood-fg);
+  box-shadow: inset 3px 0 0 var(--flood);
+  font-weight: 600;
+}
+
+.standing--mine .standing-pos,
+.standing--mine .standing-pts {
+  color: var(--flood-fg);
+}
+
+.sheet-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  border-top: 1px solid var(--line);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.sheet-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sheet-key i {
+  width: 3px;
+  height: 12px;
+  flex: none;
+}
+
+.sheet-key i.euro {
+  background: var(--pitch);
+}
+
+.sheet-key i.drop {
+  background: var(--claret);
+}
+
+.sheet-key .pts {
+  margin-left: auto;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+}
+
+/* ============================================================= 14. ledger */
+
+.ledger-wrap {
+  overflow-x: auto;
+}
+
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.ledger th {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  text-align: right;
+  white-space: nowrap;
+  padding: 0 10px 10px 0;
+  border-bottom: 2px solid var(--fg);
+}
+
+.ledger th.left,
+.ledger td.left {
+  text-align: left;
+}
+
+.ledger td {
+  text-align: right;
+  white-space: nowrap;
+  padding: 10px 10px 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ledger tbody tr:hover td {
+  background: var(--bg-raise);
+}
+
+.ledger-yr {
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+}
+
+.ledger-club {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  transition: color var(--t);
+}
+
+.ledger-club:hover {
+  color: var(--flood-text);
+}
+
+.ledger-club .nm {
+  font-weight: 600;
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* the best year of a career is marked in the margin, not highlighted in colour */
+.ledger tr.peak td:first-child {
+  box-shadow: inset 3px 0 0 var(--flood);
+}
+
+.tier-num {
+  display: inline-block;
+  min-width: 26px;
+  padding: 2px 5px;
+  text-align: center;
+  font-family: var(--poster);
+  font-size: 13px;
+  color: var(--tier, var(--fg));
+  box-shadow: inset 0 -2px 0 var(--tier, var(--fg));
+}
+
+.stamp {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 2px 5px;
+  color: var(--fg-3);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+
+.stamp--out {
+  color: var(--claret);
+  box-shadow: inset 0 0 0 1px var(--claret);
+}
+
+.empty {
+  padding: var(--s5) 0;
+  color: var(--fg-3);
+  font-size: 14px;
+}
+
+/* --- rating moves: one currency, one look --- */
+
+.delta {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--fg-3);
+  letter-spacing: 0.01em;
+}
+
+.delta--up {
+  color: var(--up);
+}
+
+.delta--down {
+  color: var(--down);
+}
+
+.delta--lg {
+  font-size: clamp(34px, 6vw, 54px);
+  line-height: 1;
+}
+
+/* ============================================================== 15. crests */
+
+.crest,
+.crest-fallback {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  object-fit: contain;
+}
+
+.crest--lg,
+.crest-fallback.crest--lg {
+  width: 34px;
+  height: 34px;
+}
+
+.crest-fallback {
+  display: grid;
+  place-items: center;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--fg-3);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+
+.crest-fallback.crest--lg {
+  font-size: 11px;
+}
+
+.flagimg {
+  width: 18px;
+  height: 12px;
+  flex: none;
+  object-fit: cover;
+}
+
+/* ============================================================ 16. sign-up */
+
+/*
+ * The first contract. Fields sit on ruled lines rather than in boxes, and the
+ * position is picked off a pitch, because that is where positions live.
+ */
+.signup {
+  max-width: 640px;
+}
+
+.signup-title {
+  font-size: clamp(38px, 7.4vw, 66px);
+  text-transform: uppercase;
+  margin-bottom: var(--s3);
+}
+
+.field {
+  margin-bottom: var(--s5);
+}
+
+.field > label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: var(--s2);
+}
+
+.ruled {
+  width: 100%;
+  padding: 10px 2px;
+  background: transparent;
+  color: var(--fg);
+  border: none;
+  border-bottom: 1px solid var(--line-2);
+  border-radius: 0;
+  transition: border-color var(--t);
+}
+
+.ruled:hover {
+  border-color: var(--fg-3);
+}
+
+.ruled:focus {
+  outline: none;
+  border-color: var(--flood);
+}
+
+.ruled::placeholder {
+  color: var(--fg-3);
+}
+
+select.ruled {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 11px) 18px, calc(100% - 6px) 18px;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 26px;
+}
+
+select.ruled option {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.signup-name input {
+  font-family: var(--poster);
+  font-size: clamp(26px, 5vw, 40px);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  padding: 6px 2px;
+}
+
+.two-up {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: var(--s4);
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin: var(--s2) 0 0;
+  font-size: 12px;
+  color: var(--fg-3);
+}
+
+.hint b {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* --- the pitch --- */
+
+/* a half pitch is about four wide to three long, and this is a half pitch */
+.pitchmap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-raise);
+  border: 1px solid var(--line-2);
+}
+
+.pitchmap::before {
+  /* the halfway line, which is where this half stops */
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 5%;
+  height: 1px;
+  background: var(--line-2);
+}
+
+.pitchmap::after {
+  /* penalty area at the bottom, in front of your own goal */
+  content: '';
+  position: absolute;
+  left: 26%;
+  right: 26%;
+  bottom: 0;
+  height: 17%;
+  border: 1px solid var(--line-2);
+  border-bottom: none;
+}
+
+.pitchspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 7px 8px;
+  min-width: 46px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--fg-3);
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+  transition: color var(--t), background var(--t), box-shadow var(--t);
+}
+
+.pitchspot:hover {
+  color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--fg-2);
+}
+
+.pitchspot--on {
+  background: var(--flood);
+  color: var(--flood-fg);
+  box-shadow: inset 0 0 0 1px var(--flood);
+}
+
+/* ============================================================== 17. roster */
+
+.roster-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s2);
+  border-bottom: 1px solid var(--line);
+  transition: background var(--t), box-shadow var(--t), padding-left var(--t);
+}
+
+.roster-row:hover {
+  background: var(--bg-raise);
+  box-shadow: inset 3px 0 0 var(--flood);
+  padding-left: var(--s4);
+}
+
+.roster-who {
+  font-family: var(--poster);
+  font-size: 19px;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.roster-meta {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-top: 2px;
+}
+
+.roster-row .spacer {
+  margin-left: auto;
+}
+
+/* ============================================================= 18. legacy */
+
+/*
+ * The end of a career is the only screen in the game with room to breathe.
+ * It reads top to bottom like an honours board: who, how good, what was won,
+ * where it was spent.
+ */
+/* the front of the game: one sentence, set as a poster */
+.poster-title {
+  font-size: clamp(40px, 8.2vw, 86px);
+  text-transform: uppercase;
+  max-width: 15ch;
+  margin: 0 0 var(--s4);
+}
+
+.legacy-top {
+  padding-bottom: var(--s5);
+  border-bottom: 2px solid var(--fg);
+}
+
+.legacy-name {
+  font-size: clamp(46px, 11vw, 122px);
+  text-transform: uppercase;
+  margin: var(--s2) 0 var(--s4);
+}
+
+.legacy-span {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+/* what the career amounted to, beside the number it got to */
+.legacy-close {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s5);
+  margin-top: var(--s6);
+}
+
+.legacy-verdict {
+  font-family: var(--poster);
+  font-size: clamp(21px, 3.4vw, 34px);
+  line-height: 1.12;
+  text-transform: uppercase;
+  max-width: 20ch;
+  margin: 0;
+  color: var(--flood-text);
+}
+
+.legacy-grade {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s2);
+  flex: none;
+}
+
+.legacy-peak {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.honours-roll {
+  display: grid;
+}
+
+.honour {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14.5px;
+}
+
+.honour-count {
+  margin-left: auto;
+  font-family: var(--poster);
+  font-size: 20px;
+  color: var(--fg-2);
+}
+
+.honour--major {
+  font-weight: 600;
+}
+
+.honour--major .honour-count {
+  color: var(--flood-text);
+}
+
+.spells {
+  display: grid;
+}
+
+.spell {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.spell-yr {
+  flex: none;
+  min-width: 9ch;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+}
+
+.spell-club {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--poster);
+  font-size: 18px;
+  text-transform: uppercase;
+  min-width: 0;
+}
+
+.spell-nums {
+  margin-left: auto;
+  flex: none;
+  display: flex;
+  gap: var(--s4);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.spell-nums b {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--fg);
+  margin-left: 6px;
+}
+
+.logline {
+  display: flex;
+  gap: var(--s3);
+  align-items: baseline;
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13.5px;
+  color: var(--fg-2);
+}
+
+.logline-yr {
+  flex: none;
+  min-width: 12ch;
+  font-size: 11.5px;
+  color: var(--fg-3);
+}
+
+.logline--bad .logline-what {
+  color: var(--down);
+}
+
+.logline-times {
+  margin-left: auto;
+  font-family: var(--poster);
+  font-size: 14px;
+  color: var(--fg-3);
+}
+
+.arc {
+  color: var(--fg-2);
+}
+
+.arc svg {
+  display: block;
+  width: 100%;
+  height: 68px;
+}
+
+/* =========================================================== 19. settings */
+
+.settings {
+  padding-top: var(--s4);
+  border-top: 2px solid var(--fg);
+  margin-bottom: var(--s6);
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-bottom: var(--s3);
+}
+
+.settings-row .spacer {
+  margin-left: auto;
+}
+
+.pace {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  border-top: 1px solid var(--line);
+}
+
+.pace-opt {
+  padding: var(--s3) var(--s3) var(--s3) 0;
+  border-right: 1px solid var(--line);
+  transition: background var(--t), box-shadow var(--t), padding-left var(--t);
+}
+
+.pace-opt:last-child {
+  border-right: none;
+}
+
+.pace-opt:hover {
+  background: var(--bg-raise);
+}
+
+.pace-opt--on {
+  box-shadow: inset 0 3px 0 var(--flood);
+}
+
+.pace-name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.pace-opt--on .pace-name {
+  color: var(--flood-text);
+}
+
+.pace-n {
+  font-family: var(--poster);
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.pace-note {
+  font-size: 11px;
+  line-height: 1.3;
+  color: var(--fg-3);
+}
+
+/* ============================================================== 20. phones */
+
+@media (max-width: 900px) {
+  :root {
+    --s6: 44px;
+    --s7: 64px;
+  }
+
+  .shell {
+    padding: 0 18px 90px;
+  }
+
+  .moment {
+    margin-inline: -18px;
+  }
+
+  /* One column at a time on a phone: the present first, the years under it. */
+  .spread {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s6);
+  }
+
+  .rail {
+    position: static;
+  }
+
+  .now .moment {
+    margin-inline: -18px;
+  }
+
+  /* stacked, the monument turns on its side and keeps the ladder beside it */
+  .card .grade {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--s3);
+    text-align: left;
+  }
+
+  .card .grade-num {
+    font-size: 46px;
+  }
+
+  .card .grade-rule {
+    display: none;
+  }
+
+  .card .grade-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s2);
+    margin-bottom: var(--s2);
+  }
+
+  .fork {
+    grid-template-columns: 1fr;
+  }
+
+  .fork-side {
+    min-height: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .fork-odds {
+    margin-top: 0;
+  }
+
+  .approach--lead {
+    flex-wrap: wrap;
+    gap: var(--s3);
+  }
+
+  .approach-lead-side {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+  }
+
+  .approach {
+    flex-wrap: wrap;
+  }
+
+  .approach-tags,
+  .approach-squad {
+    margin-left: 0;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  /* the squad number and what it means to you get their own line, not a gap
+     in the middle of the tags */
+  .approach-squad {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s2);
+    width: 100%;
+  }
+
+  .approach-squad b {
+    display: inline;
+  }
+
+  .sheet-scrim {
+    align-items: flex-end;
+  }
+
+  .sheet {
+    width: 100%;
+    max-height: 86vh;
+    border-left: none;
+    border-top: 2px solid var(--fg);
+    animation-name: slide-up;
+  }
+
+  .two-up {
+    grid-template-columns: 1fr;
+  }
+
+  .spell {
+    flex-wrap: wrap;
+  }
+
+  .spell-nums {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .legacy-close {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s4);
+  }
+
+  .legacy-grade {
+    align-items: flex-start;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(28px);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .rule-head {
+    flex-wrap: wrap;
+  }
+
+  /* Two languages, four controls and 390px: the mark carries the name. */
+  .wordmark {
+    font-size: 0;
+    line-height: 0;
+  }
+
+  .wordmark::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: var(--flood);
+  }
+}
+
+@media (max-width: 480px) {
+  .zone {
+    height: 168px;
+  }
+
+  .zone-name {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .pitchspot {
+    min-width: 40px;
+    padding: 6px 5px;
+    font-size: 10px;
+  }
+}
+
+/* thumbs need more than a mouse does */
+@media (pointer: coarse) {
+  .act {
+    padding: 13px 16px;
+  }
+
+  .lang button {
+    padding: 11px 12px;
+  }
+
+  .ledger-club {
+    padding: 7px 0;
+  }
+
+  .standing {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

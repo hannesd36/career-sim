@@ -1,0 +1,13 @@
+node_modules/
+dist/
+tsconfig.tsbuildinfo
+
+# local editor and OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# never commit an API key
+.env
+.env.local

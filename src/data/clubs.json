@@ -1,0 +1,3838 @@
+[
+ {
+  "id": "eng1-manchester-city",
+  "name": "Manchester City",
+  "leagueId": "eng1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png"
+ },
+ {
+  "id": "eng1-arsenal",
+  "name": "Arsenal",
+  "leagueId": "eng1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uyhbfe1612467038.png"
+ },
+ {
+  "id": "eng1-liverpool",
+  "name": "Liverpool",
+  "leagueId": "eng1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/kfaher1737969724.png"
+ },
+ {
+  "id": "eng1-chelsea",
+  "name": "Chelsea",
+  "leagueId": "eng1",
+  "tier": 1,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/pbf4ul1782638263.png"
+ },
+ {
+  "id": "eng1-manchester-united",
+  "name": "Manchester United",
+  "leagueId": "eng1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xzqdr11517660252.png"
+ },
+ {
+  "id": "eng1-tottenham-hotspur",
+  "name": "Tottenham Hotspur",
+  "leagueId": "eng1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/dfyfhl1604094109.png"
+ },
+ {
+  "id": "eng1-newcastle-united",
+  "name": "Newcastle United",
+  "leagueId": "eng1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/lhwuiz1621593302.png"
+ },
+ {
+  "id": "eng1-aston-villa",
+  "name": "Aston Villa",
+  "leagueId": "eng1",
+  "tier": 2,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/cgvxt61785930389.png"
+ },
+ {
+  "id": "eng1-brighton",
+  "name": "Brighton",
+  "leagueId": "eng1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/zn0x7h1605371909.png"
+ },
+ {
+  "id": "eng1-west-ham-united",
+  "name": "West Ham United",
+  "leagueId": "eng1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yutyxs1467459956.png"
+ },
+ {
+  "id": "eng1-crystal-palace",
+  "name": "Crystal Palace",
+  "leagueId": "eng1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ia6i3m1656014992.png"
+ },
+ {
+  "id": "eng1-fulham",
+  "name": "Fulham",
+  "leagueId": "eng1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xwwvyt1448811086.png"
+ },
+ {
+  "id": "eng1-brentford",
+  "name": "Brentford",
+  "leagueId": "eng1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/grv1aw1546453779.png"
+ },
+ {
+  "id": "eng1-nottingham-forest",
+  "name": "Nottingham Forest",
+  "leagueId": "eng1",
+  "tier": 3,
+  "badge": null
+ },
+ {
+  "id": "eng1-bournemouth",
+  "name": "Bournemouth",
+  "leagueId": "eng1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/y08nak1534071116.png"
+ },
+ {
+  "id": "eng1-everton",
+  "name": "Everton",
+  "leagueId": "eng1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/eqayrf1523184794.png"
+ },
+ {
+  "id": "eng1-wolverhampton-wanderers",
+  "name": "Wolverhampton Wanderers",
+  "leagueId": "eng1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/16posu1727839976.png"
+ },
+ {
+  "id": "eng1-leeds-united",
+  "name": "Leeds United",
+  "leagueId": "eng1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/jcgrml1756649030.png"
+ },
+ {
+  "id": "eng1-burnley",
+  "name": "Burnley",
+  "leagueId": "eng1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ql7nl31686893820.png"
+ },
+ {
+  "id": "eng1-sunderland",
+  "name": "Sunderland",
+  "leagueId": "eng1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tprtus1448813498.png"
+ },
+ {
+  "id": "esp1-real-madrid",
+  "name": "Real Madrid",
+  "leagueId": "esp1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vwvwrw1473502969.png"
+ },
+ {
+  "id": "esp1-barcelona",
+  "name": "Barcelona",
+  "leagueId": "esp1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wq9sir1639406443.png"
+ },
+ {
+  "id": "esp1-atletico-madrid",
+  "name": "Atletico Madrid",
+  "leagueId": "esp1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/0ulh3q1719984315.png"
+ },
+ {
+  "id": "esp1-athletic-bilbao",
+  "name": "Athletic Bilbao",
+  "leagueId": "esp1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/68w7fe1639408210.png"
+ },
+ {
+  "id": "esp1-villarreal",
+  "name": "Villarreal",
+  "leagueId": "esp1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vrypqy1473503073.png"
+ },
+ {
+  "id": "esp1-real-sociedad",
+  "name": "Real Sociedad",
+  "leagueId": "esp1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vptvpr1473502986.png"
+ },
+ {
+  "id": "esp1-real-betis",
+  "name": "Real Betis",
+  "leagueId": "esp1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2oqulv1663245386.png"
+ },
+ {
+  "id": "esp1-sevilla",
+  "name": "Sevilla",
+  "leagueId": "esp1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vpsqqx1473502977.png"
+ },
+ {
+  "id": "esp1-valencia",
+  "name": "Valencia",
+  "leagueId": "esp1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/dm8l6o1655594864.png"
+ },
+ {
+  "id": "esp1-celta-vigo",
+  "name": "Celta Vigo",
+  "leagueId": "esp1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xfjtku1690436219.png"
+ },
+ {
+  "id": "esp1-girona",
+  "name": "Girona",
+  "leagueId": "esp1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/kfu7zu1659897499.png"
+ },
+ {
+  "id": "esp1-osasuna",
+  "name": "Osasuna",
+  "leagueId": "esp1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rvspvt1473502960.png"
+ },
+ {
+  "id": "esp1-rayo-vallecano",
+  "name": "Rayo Vallecano",
+  "leagueId": "esp1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/nzhu941655595465.png"
+ },
+ {
+  "id": "esp1-mallorca",
+  "name": "Mallorca",
+  "leagueId": "esp1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ssptsx1473503730.png"
+ },
+ {
+  "id": "esp1-getafe",
+  "name": "Getafe",
+  "leagueId": "esp1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/eyh2891655594452.png"
+ },
+ {
+  "id": "esp1-espanyol",
+  "name": "Espanyol",
+  "leagueId": "esp1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/867nzz1681703222.png"
+ },
+ {
+  "id": "esp1-alaves",
+  "name": "Alaves",
+  "leagueId": "esp1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/0aaifo1734673843.png"
+ },
+ {
+  "id": "esp1-elche",
+  "name": "Elche",
+  "leagueId": "esp1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/e4vaw51655594332.png"
+ },
+ {
+  "id": "esp1-levante",
+  "name": "Levante",
+  "leagueId": "esp1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xwtxsx1473503739.png"
+ },
+ {
+  "id": "esp1-real-oviedo",
+  "name": "Real Oviedo",
+  "leagueId": "esp1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yuwqus1447590681.png"
+ },
+ {
+  "id": "ger1-bayern-munich",
+  "name": "Bayern Munich",
+  "leagueId": "ger1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/01ogkh1716960412.png"
+ },
+ {
+  "id": "ger1-bayer-leverkusen",
+  "name": "Bayer Leverkusen",
+  "leagueId": "ger1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3x9k851726760113.png"
+ },
+ {
+  "id": "ger1-borussia-dortmund",
+  "name": "Borussia Dortmund",
+  "leagueId": "ger1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tqo8ge1716960353.png"
+ },
+ {
+  "id": "ger1-rb-leipzig",
+  "name": "RB Leipzig",
+  "leagueId": "ger1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/zjgapo1594244951.png"
+ },
+ {
+  "id": "ger1-eintracht-frankfurt",
+  "name": "Eintracht Frankfurt",
+  "leagueId": "ger1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rurwpy1473453269.png"
+ },
+ {
+  "id": "ger1-vfb-stuttgart",
+  "name": "VfB Stuttgart",
+  "leagueId": "ger1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yppyux1473454085.png"
+ },
+ {
+  "id": "ger1-borussia-monchengladbach",
+  "name": "Borussia Monchengladbach",
+  "leagueId": "ger1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/sysurw1473453380.png"
+ },
+ {
+  "id": "ger1-werder-bremen",
+  "name": "Werder Bremen",
+  "leagueId": "ger1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tkvqan1716960454.png"
+ },
+ {
+  "id": "ger1-freiburg",
+  "name": "Freiburg",
+  "leagueId": "ger1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/urwtup1473453288.png"
+ },
+ {
+  "id": "ger1-wolfsburg",
+  "name": "Wolfsburg",
+  "leagueId": "ger1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ci9trv1778399557.png"
+ },
+ {
+  "id": "ger1-mainz-05",
+  "name": "Mainz 05",
+  "leagueId": "ger1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/r50v8i1696012905.png"
+ },
+ {
+  "id": "ger1-hoffenheim",
+  "name": "Hoffenheim",
+  "leagueId": "ger1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/9hwvb21621593919.png"
+ },
+ {
+  "id": "ger1-augsburg",
+  "name": "Augsburg",
+  "leagueId": "ger1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xqyyvq1473453233.png"
+ },
+ {
+  "id": "ger1-union-berlin",
+  "name": "Union Berlin",
+  "leagueId": "ger1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/q0o5001599679795.png"
+ },
+ {
+  "id": "ger1-fc-koln",
+  "name": "FC Koln",
+  "leagueId": "ger1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2j1sc91566049407.png"
+ },
+ {
+  "id": "ger1-hamburg",
+  "name": "Hamburg",
+  "leagueId": "ger1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tvtppt1473453296.png"
+ },
+ {
+  "id": "ger1-st-pauli",
+  "name": "St. Pauli",
+  "leagueId": "ger1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/5qupxa1608237013.png"
+ },
+ {
+  "id": "ger1-heidenheim",
+  "name": "Heidenheim",
+  "leagueId": "ger1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/lbj7g01608236988.png"
+ },
+ {
+  "id": "ita1-inter-milan",
+  "name": "Inter Milan",
+  "leagueId": "ita1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ryhu6d1617113103.png"
+ },
+ {
+  "id": "ita1-napoli",
+  "name": "Napoli",
+  "leagueId": "ita1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/l8qyxv1742982541.png"
+ },
+ {
+  "id": "ita1-ac-milan",
+  "name": "AC Milan",
+  "leagueId": "ita1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wvspur1448806617.png"
+ },
+ {
+  "id": "ita1-juventus",
+  "name": "Juventus",
+  "leagueId": "ita1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uxf0gr1742983727.png"
+ },
+ {
+  "id": "ita1-atalanta",
+  "name": "Atalanta",
+  "leagueId": "ita1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/qix5ku1780561327.png"
+ },
+ {
+  "id": "ita1-roma",
+  "name": "Roma",
+  "leagueId": "ita1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/jwro2s1760820674.png"
+ },
+ {
+  "id": "ita1-lazio",
+  "name": "Lazio",
+  "leagueId": "ita1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rwqyvs1448806608.png"
+ },
+ {
+  "id": "ita1-fiorentina",
+  "name": "Fiorentina",
+  "leagueId": "ita1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/hc8nhu1656098030.png"
+ },
+ {
+  "id": "ita1-bologna",
+  "name": "Bologna",
+  "leagueId": "ita1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2qi1u31655592366.png"
+ },
+ {
+  "id": "ita1-torino",
+  "name": "Torino",
+  "leagueId": "ita1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xxprty1448806802.png"
+ },
+ {
+  "id": "ita1-como",
+  "name": "Como",
+  "leagueId": "ita1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/02x81t1627405841.png"
+ },
+ {
+  "id": "ita1-udinese",
+  "name": "Udinese",
+  "leagueId": "ita1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vwvstr1448806811.png"
+ },
+ {
+  "id": "ita1-genoa",
+  "name": "Genoa",
+  "leagueId": "ita1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/52s8dn1655553600.png"
+ },
+ {
+  "id": "ita1-cagliari",
+  "name": "Cagliari",
+  "leagueId": "ita1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wvsvxt1447534471.png"
+ },
+ {
+  "id": "ita1-sassuolo",
+  "name": "Sassuolo",
+  "leagueId": "ita1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xystvp1448806138.png"
+ },
+ {
+  "id": "ita1-parma",
+  "name": "Parma",
+  "leagueId": "ita1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/6yiaxs1627406063.png"
+ },
+ {
+  "id": "ita1-lecce",
+  "name": "Lecce",
+  "leagueId": "ita1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/j4vznr1567365249.png"
+ },
+ {
+  "id": "ita1-hellas-verona",
+  "name": "Hellas Verona",
+  "leagueId": "ita1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/p6camf1593457737.png"
+ },
+ {
+  "id": "ita1-pisa",
+  "name": "Pisa",
+  "leagueId": "ita1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2eso9w1579708309.png"
+ },
+ {
+  "id": "ita1-cremonese",
+  "name": "Cremonese",
+  "leagueId": "ita1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/6ng2vy1579708291.png"
+ },
+ {
+  "id": "fra1-paris-saint-germain",
+  "name": "Paris Saint-Germain",
+  "leagueId": "fra1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rwqrrq1473504808.png"
+ },
+ {
+  "id": "fra1-marseille",
+  "name": "Marseille",
+  "leagueId": "fra1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/c6bazh1779212287.png"
+ },
+ {
+  "id": "fra1-monaco",
+  "name": "Monaco",
+  "leagueId": "fra1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/exjf5l1678808044.png"
+ },
+ {
+  "id": "fra1-lille",
+  "name": "Lille",
+  "leagueId": "fra1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2giize1534005340.png"
+ },
+ {
+  "id": "fra1-lyon",
+  "name": "Lyon",
+  "leagueId": "fra1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/blk9771656932845.png"
+ },
+ {
+  "id": "fra1-nice",
+  "name": "Nice",
+  "leagueId": "fra1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/msy7ly1621593859.png"
+ },
+ {
+  "id": "fra1-lens",
+  "name": "Lens",
+  "leagueId": "fra1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3pxoum1598797195.png"
+ },
+ {
+  "id": "fra1-rennes",
+  "name": "Rennes",
+  "leagueId": "fra1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ypturx1473504818.png"
+ },
+ {
+  "id": "fra1-strasbourg",
+  "name": "Strasbourg",
+  "leagueId": "fra1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/b8k77w1766625501.png"
+ },
+ {
+  "id": "fra1-toulouse",
+  "name": "Toulouse",
+  "leagueId": "fra1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/17eqox1688449282.png"
+ },
+ {
+  "id": "fra1-brest",
+  "name": "Brest",
+  "leagueId": "fra1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/z69be41598797026.png"
+ },
+ {
+  "id": "fra1-nantes",
+  "name": "Nantes",
+  "leagueId": "fra1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/mla9x61678808018.png"
+ },
+ {
+  "id": "fra1-auxerre",
+  "name": "Auxerre",
+  "leagueId": "fra1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/lzdtbf1658753355.png"
+ },
+ {
+  "id": "fra1-angers",
+  "name": "Angers",
+  "leagueId": "fra1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ix6q4w1678808069.png"
+ },
+ {
+  "id": "fra1-le-havre",
+  "name": "Le Havre",
+  "leagueId": "fra1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/aikowk1546475003.png"
+ },
+ {
+  "id": "fra1-metz",
+  "name": "Metz",
+  "leagueId": "fra1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/1iuew61688452857.png"
+ },
+ {
+  "id": "fra1-lorient",
+  "name": "Lorient",
+  "leagueId": "fra1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/sxsttw1473504748.png"
+ },
+ {
+  "id": "fra1-paris-fc",
+  "name": "Paris FC",
+  "leagueId": "fra1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yuvtsy1447594254.png"
+ },
+ {
+  "id": "por1-sporting-cp",
+  "name": "Sporting CP",
+  "leagueId": "por1",
+  "tier": 1,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/5hiuk71783137875.png"
+ },
+ {
+  "id": "por1-benfica",
+  "name": "Benfica",
+  "leagueId": "por1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/hj4kyc1781152436.png"
+ },
+ {
+  "id": "por1-fc-porto",
+  "name": "FC Porto",
+  "leagueId": "por1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/w8yspj1705225875.png"
+ },
+ {
+  "id": "por1-braga",
+  "name": "Braga",
+  "leagueId": "por1",
+  "tier": 2,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/skbiwo1785775946.png"
+ },
+ {
+  "id": "por1-vitoria-guimaraes",
+  "name": "Vitoria Guimaraes",
+  "leagueId": "por1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/af52z61628855707.png"
+ },
+ {
+  "id": "por1-famalicao",
+  "name": "Famalicao",
+  "leagueId": "por1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/a3f4er1563653256.png"
+ },
+ {
+  "id": "por1-moreirense",
+  "name": "Moreirense",
+  "leagueId": "por1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yrquxu1471878153.png"
+ },
+ {
+  "id": "por1-santa-clara",
+  "name": "Santa Clara",
+  "leagueId": "por1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/7337a61724860742.png"
+ },
+ {
+  "id": "por1-casa-pia",
+  "name": "Casa Pia",
+  "leagueId": "por1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/d8ugsc1678717133.png"
+ },
+ {
+  "id": "por1-gil-vicente",
+  "name": "Gil Vicente",
+  "leagueId": "por1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/88bsg41626201503.png"
+ },
+ {
+  "id": "por1-estoril",
+  "name": "Estoril",
+  "leagueId": "por1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/lq9h8m1628854051.png"
+ },
+ {
+  "id": "por1-rio-ave",
+  "name": "Rio Ave",
+  "leagueId": "por1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ngbklq1628851239.png"
+ },
+ {
+  "id": "por1-arouca",
+  "name": "Arouca",
+  "leagueId": "por1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vgbzjq1628853833.png"
+ },
+ {
+  "id": "por1-nacional",
+  "name": "Nacional",
+  "leagueId": "por1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/1ln5fe1628850538.png"
+ },
+ {
+  "id": "por1-estrela-da-amadora",
+  "name": "Estrela da Amadora",
+  "leagueId": "por1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2tx5621626095555.png"
+ },
+ {
+  "id": "por1-alverca",
+  "name": "Alverca",
+  "leagueId": "por1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/6ljryf1691990098.png"
+ },
+ {
+  "id": "por1-tondela",
+  "name": "Tondela",
+  "leagueId": "por1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/o7nqff1628856081.png"
+ },
+ {
+  "id": "por1-avs",
+  "name": "AVS",
+  "leagueId": "por1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xp8oqb1688676544.png"
+ },
+ {
+  "id": "tur1-galatasaray",
+  "name": "Galatasaray",
+  "leagueId": "tur1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/io7jk21767941298.png"
+ },
+ {
+  "id": "tur1-fenerbahce",
+  "name": "Fenerbahce",
+  "leagueId": "tur1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/twxxvs1448199691.png"
+ },
+ {
+  "id": "tur1-besiktas",
+  "name": "Besiktas",
+  "leagueId": "tur1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/svo05k1776827439.png"
+ },
+ {
+  "id": "tur1-trabzonspor",
+  "name": "Trabzonspor",
+  "leagueId": "tur1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/96s34o1776827629.png"
+ },
+ {
+  "id": "tur1-istanbul-basaksehir",
+  "name": "Istanbul Basaksehir",
+  "leagueId": "tur1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/895mqt1685993958.png"
+ },
+ {
+  "id": "tur1-samsunspor",
+  "name": "Samsunspor",
+  "leagueId": "tur1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vz05y71679456608.png"
+ },
+ {
+  "id": "tur1-goztepe",
+  "name": "Goztepe",
+  "leagueId": "tur1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/9jwk7o1513952059.png"
+ },
+ {
+  "id": "tur1-konyaspor",
+  "name": "Konyaspor",
+  "leagueId": "tur1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rxwptr1448203413.png"
+ },
+ {
+  "id": "tur1-kasimpasa",
+  "name": "Kasimpasa",
+  "leagueId": "tur1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uryxtp1448203236.png"
+ },
+ {
+  "id": "tur1-rizespor",
+  "name": "Rizespor",
+  "leagueId": "tur1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/t7senr1657195719.png"
+ },
+ {
+  "id": "tur1-antalyaspor",
+  "name": "Antalyaspor",
+  "leagueId": "tur1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vqoral1601669436.png"
+ },
+ {
+  "id": "tur1-alanyaspor",
+  "name": "Alanyaspor",
+  "leagueId": "tur1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/9fr3071601667898.png"
+ },
+ {
+  "id": "tur1-gaziantep",
+  "name": "Gaziantep",
+  "leagueId": "tur1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/54j6ik1579458093.png"
+ },
+ {
+  "id": "tur1-eyupspor",
+  "name": "Eyupspor",
+  "leagueId": "tur1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/7fb0ub1626445710.png"
+ },
+ {
+  "id": "tur1-kayserispor",
+  "name": "Kayserispor",
+  "leagueId": "tur1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/bvskgi1601668985.png"
+ },
+ {
+  "id": "tur1-genclerbirligi",
+  "name": "Genclerbirligi",
+  "leagueId": "tur1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/5hnd1c1639569938.png"
+ },
+ {
+  "id": "tur1-fatih-karagumruk",
+  "name": "Fatih Karagumruk",
+  "leagueId": "tur1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/bfb84y1580847945.png"
+ },
+ {
+  "id": "tur1-kocaelispor",
+  "name": "Kocaelispor",
+  "leagueId": "tur1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/f6erki1626445224.png"
+ },
+ {
+  "id": "tur1-sivasspor",
+  "name": "Sivasspor",
+  "leagueId": "tur1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/pnhe5i1681161798.png"
+ },
+ {
+  "id": "ned1-psv",
+  "name": "PSV",
+  "leagueId": "ned1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xfsz6i1721297428.png"
+ },
+ {
+  "id": "ned1-ajax",
+  "name": "Ajax",
+  "leagueId": "ned1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/zg9tii1755495289.png"
+ },
+ {
+  "id": "ned1-feyenoord",
+  "name": "Feyenoord",
+  "leagueId": "ned1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uturtx1473534803.png"
+ },
+ {
+  "id": "ned1-az-alkmaar",
+  "name": "AZ Alkmaar",
+  "leagueId": "ned1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wtqwvv1473534757.png"
+ },
+ {
+  "id": "ned1-fc-twente",
+  "name": "FC Twente",
+  "leagueId": "ned1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rsrxrt1473534783.png"
+ },
+ {
+  "id": "ned1-utrecht",
+  "name": "Utrecht",
+  "leagueId": "ned1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yuhha71625167104.png"
+ },
+ {
+  "id": "ned1-go-ahead-eagles",
+  "name": "Go Ahead Eagles",
+  "leagueId": "ned1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3hq2cy1685597026.png"
+ },
+ {
+  "id": "ned1-nec-nijmegen",
+  "name": "NEC Nijmegen",
+  "leagueId": "ned1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/t5qjle1701019868.png"
+ },
+ {
+  "id": "ned1-sparta-rotterdam",
+  "name": "Sparta Rotterdam",
+  "leagueId": "ned1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/upluv31586362224.png"
+ },
+ {
+  "id": "ned1-heerenveen",
+  "name": "Heerenveen",
+  "leagueId": "ned1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/surtsx1473534841.png"
+ },
+ {
+  "id": "ned1-fortuna-sittard",
+  "name": "Fortuna Sittard",
+  "leagueId": "ned1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/aqr7it1685596947.png"
+ },
+ {
+  "id": "ned1-pec-zwolle",
+  "name": "PEC Zwolle",
+  "leagueId": "ned1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/qpvqwy1473534822.png"
+ },
+ {
+  "id": "ned1-groningen",
+  "name": "Groningen",
+  "leagueId": "ned1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/f36qnp1666107447.png"
+ },
+ {
+  "id": "ned1-heracles",
+  "name": "Heracles",
+  "leagueId": "ned1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vyyvss1473534851.png"
+ },
+ {
+  "id": "ned1-nac-breda",
+  "name": "NAC Breda",
+  "leagueId": "ned1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ute4en1544965805.png"
+ },
+ {
+  "id": "ned1-excelsior",
+  "name": "Excelsior",
+  "leagueId": "ned1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/bmbn9v1625172555.png"
+ },
+ {
+  "id": "ned1-telstar",
+  "name": "Telstar",
+  "leagueId": "ned1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xg1ss31579463659.png"
+ },
+ {
+  "id": "ned1-volendam",
+  "name": "Volendam",
+  "leagueId": "ned1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rdouic1625167940.png"
+ },
+ {
+  "id": "bel1-club-brugge",
+  "name": "Club Brugge",
+  "leagueId": "bel1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/mz8y0q1771129880.png"
+ },
+ {
+  "id": "bel1-union-saint-gilloise",
+  "name": "Union Saint-Gilloise",
+  "leagueId": "bel1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ljszp41654601742.png"
+ },
+ {
+  "id": "bel1-anderlecht",
+  "name": "Anderlecht",
+  "leagueId": "bel1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/auindn1771129464.png"
+ },
+ {
+  "id": "bel1-genk",
+  "name": "Genk",
+  "leagueId": "bel1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tp06te1534875918.png"
+ },
+ {
+  "id": "bel1-antwerp",
+  "name": "Antwerp",
+  "leagueId": "bel1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/gawwcf1691182178.png"
+ },
+ {
+  "id": "bel1-gent",
+  "name": "Gent",
+  "leagueId": "bel1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/48e27o1750703124.png"
+ },
+ {
+  "id": "bel1-standard-liege",
+  "name": "Standard Liege",
+  "leagueId": "bel1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/0ynlvb1771130035.png"
+ },
+ {
+  "id": "bel1-cercle-brugge",
+  "name": "Cercle Brugge",
+  "leagueId": "bel1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/0v6uv41656017321.png"
+ },
+ {
+  "id": "bel1-charleroi",
+  "name": "Charleroi",
+  "leagueId": "bel1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/cwf1zk1771129608.png"
+ },
+ {
+  "id": "bel1-mechelen",
+  "name": "Mechelen",
+  "leagueId": "bel1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/sxsxpt1447618693.png"
+ },
+ {
+  "id": "bel1-westerlo",
+  "name": "Westerlo",
+  "leagueId": "bel1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xrxtrq1447620014.png"
+ },
+ {
+  "id": "bel1-oh-leuven",
+  "name": "OH Leuven",
+  "leagueId": "bel1",
+  "tier": 4,
+  "badge": null
+ },
+ {
+  "id": "bel1-sint-truiden",
+  "name": "Sint-Truiden",
+  "leagueId": "bel1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/qww8ap1534620441.png"
+ },
+ {
+  "id": "bel1-dender",
+  "name": "Dender",
+  "leagueId": "bel1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/r4ihc61654884430.png"
+ },
+ {
+  "id": "bel1-zulte-waregem",
+  "name": "Zulte Waregem",
+  "leagueId": "bel1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/6mdsut1695740517.png"
+ },
+ {
+  "id": "bel1-la-louviere",
+  "name": "La Louviere",
+  "leagueId": "bel1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/z4iv4k1770956799.png"
+ },
+ {
+  "id": "gre1-olympiacos",
+  "name": "Olympiacos",
+  "leagueId": "gre1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xckasq1721291508.png"
+ },
+ {
+  "id": "gre1-paok",
+  "name": "PAOK",
+  "leagueId": "gre1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/m15zsh1602774126.png"
+ },
+ {
+  "id": "gre1-aek-athens",
+  "name": "AEK Athens",
+  "leagueId": "gre1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/4nogst1602773624.png"
+ },
+ {
+  "id": "gre1-panathinaikos",
+  "name": "Panathinaikos",
+  "leagueId": "gre1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vtpwwt1448208397.png"
+ },
+ {
+  "id": "gre1-aris",
+  "name": "Aris",
+  "leagueId": "gre1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2d1zih1602773641.png"
+ },
+ {
+  "id": "gre1-asteras-tripolis",
+  "name": "Asteras Tripolis",
+  "leagueId": "gre1",
+  "tier": 4,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/eaf2vb1785777279.png"
+ },
+ {
+  "id": "gre1-ofi-crete",
+  "name": "OFI Crete",
+  "leagueId": "gre1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/02xrl91602773672.png"
+ },
+ {
+  "id": "gre1-atromitos",
+  "name": "Atromitos",
+  "leagueId": "gre1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/adh2j01602774237.png"
+ },
+ {
+  "id": "gre1-volos",
+  "name": "Volos",
+  "leagueId": "gre1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/d73m0n1602773666.png"
+ },
+ {
+  "id": "gre1-levadiakos",
+  "name": "Levadiakos",
+  "leagueId": "gre1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/csu6c61659016057.png"
+ },
+ {
+  "id": "gre1-panetolikos",
+  "name": "Panetolikos",
+  "leagueId": "gre1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3qtv8s1602773680.png"
+ },
+ {
+  "id": "gre1-kifisia",
+  "name": "Kifisia",
+  "leagueId": "gre1",
+  "tier": 5,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/bcq8ix1785777516.png"
+ },
+ {
+  "id": "gre1-panserraikos",
+  "name": "Panserraikos",
+  "leagueId": "gre1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uz7slk1689689598.png"
+ },
+ {
+  "id": "gre1-larissa",
+  "name": "Larissa",
+  "leagueId": "gre1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xlln3b1782459015.png"
+ },
+ {
+  "id": "sco1-celtic",
+  "name": "Celtic",
+  "leagueId": "sco1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3uv1641758780002.png"
+ },
+ {
+  "id": "sco1-rangers",
+  "name": "Rangers",
+  "leagueId": "sco1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ti24j61614290048.png"
+ },
+ {
+  "id": "sco1-aberdeen",
+  "name": "Aberdeen",
+  "leagueId": "sco1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/f9s6vg1781155578.png"
+ },
+ {
+  "id": "sco1-hearts",
+  "name": "Hearts",
+  "leagueId": "sco1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/v3eyvw1617287212.png"
+ },
+ {
+  "id": "sco1-hibernian",
+  "name": "Hibernian",
+  "leagueId": "sco1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/qjys3z1684928969.png"
+ },
+ {
+  "id": "sco1-dundee-united",
+  "name": "Dundee United",
+  "leagueId": "sco1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/orfh821655722356.png"
+ },
+ {
+  "id": "sco1-motherwell",
+  "name": "Motherwell",
+  "leagueId": "sco1",
+  "tier": 4,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/3e1dtj1785820999.png"
+ },
+ {
+  "id": "sco1-st-mirren",
+  "name": "St Mirren",
+  "leagueId": "sco1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xvtuvv1447604452.png"
+ },
+ {
+  "id": "sco1-kilmarnock",
+  "name": "Kilmarnock",
+  "leagueId": "sco1",
+  "tier": 4,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/ihxzq71785820059.png"
+ },
+ {
+  "id": "sco1-dundee",
+  "name": "Dundee",
+  "leagueId": "sco1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tlei9x1750743461.png"
+ },
+ {
+  "id": "sco1-falkirk",
+  "name": "Falkirk",
+  "leagueId": "sco1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/w37ucy1685023169.png"
+ },
+ {
+  "id": "sco1-livingston",
+  "name": "Livingston",
+  "leagueId": "sco1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/1o38ll1749203191.png"
+ },
+ {
+  "id": "aut1-red-bull-salzburg",
+  "name": "Red Bull Salzburg",
+  "leagueId": "aut1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/nc2cua1781541639.png"
+ },
+ {
+  "id": "aut1-sturm-graz",
+  "name": "Sturm Graz",
+  "leagueId": "aut1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ppg0j71578585847.png"
+ },
+ {
+  "id": "aut1-rapid-vienna",
+  "name": "Rapid Vienna",
+  "leagueId": "aut1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/87y8id1779342351.png"
+ },
+ {
+  "id": "aut1-austria-vienna",
+  "name": "Austria Vienna",
+  "leagueId": "aut1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/w7j21f1779342211.png"
+ },
+ {
+  "id": "aut1-lask",
+  "name": "LASK",
+  "leagueId": "aut1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/oox26l1683556395.png"
+ },
+ {
+  "id": "aut1-wolfsberger-ac",
+  "name": "Wolfsberger AC",
+  "leagueId": "aut1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xcwuqt1568668946.png"
+ },
+ {
+  "id": "aut1-hartberg",
+  "name": "Hartberg",
+  "leagueId": "aut1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/72c0xg1578833261.png"
+ },
+ {
+  "id": "aut1-blau-weiss-linz",
+  "name": "Blau-Weiss Linz",
+  "leagueId": "aut1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/7qazvh1583516559.png"
+ },
+ {
+  "id": "aut1-wsg-tirol",
+  "name": "WSG Tirol",
+  "leagueId": "aut1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/9dmxk01685123856.png"
+ },
+ {
+  "id": "aut1-grazer-ak",
+  "name": "Grazer AK",
+  "leagueId": "aut1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/43rocv1750352978.png"
+ },
+ {
+  "id": "aut1-altach",
+  "name": "Altach",
+  "leagueId": "aut1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2hit6x1750352012.png"
+ },
+ {
+  "id": "aut1-ried",
+  "name": "Ried",
+  "leagueId": "aut1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/c1bxyq1583516636.png"
+ },
+ {
+  "id": "sui1-young-boys",
+  "name": "Young Boys",
+  "leagueId": "sui1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/9mxdoo1534784569.png"
+ },
+ {
+  "id": "sui1-basel",
+  "name": "Basel",
+  "leagueId": "sui1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xppxwr1473791183.png"
+ },
+ {
+  "id": "sui1-servette",
+  "name": "Servette",
+  "leagueId": "sui1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/440wv71692206330.png"
+ },
+ {
+  "id": "sui1-lugano",
+  "name": "Lugano",
+  "leagueId": "sui1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2kh2if1567615581.png"
+ },
+ {
+  "id": "sui1-st-gallen",
+  "name": "St. Gallen",
+  "leagueId": "sui1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/lsikmx1658414612.png"
+ },
+ {
+  "id": "sui1-zurich",
+  "name": "Zurich",
+  "leagueId": "sui1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/af50gk1779213314.png"
+ },
+ {
+  "id": "sui1-luzern",
+  "name": "Luzern",
+  "leagueId": "sui1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rsupty1473587847.png"
+ },
+ {
+  "id": "sui1-lausanne-sport",
+  "name": "Lausanne Sport",
+  "leagueId": "sui1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/za539g1580927491.png"
+ },
+ {
+  "id": "sui1-sion",
+  "name": "Sion",
+  "leagueId": "sui1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/gzpfmv1689085319.png"
+ },
+ {
+  "id": "sui1-grasshopper",
+  "name": "Grasshopper",
+  "leagueId": "sui1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/o8vms91779213403.png"
+ },
+ {
+  "id": "sui1-winterthur",
+  "name": "Winterthur",
+  "leagueId": "sui1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/bimd8z1580926541.png"
+ },
+ {
+  "id": "sui1-thun",
+  "name": "Thun",
+  "leagueId": "sui1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/sovjgl1699462359.png"
+ },
+ {
+  "id": "den1-fc-copenhagen",
+  "name": "FC Copenhagen",
+  "leagueId": "den1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/styqtr1473535513.png"
+ },
+ {
+  "id": "den1-midtjylland",
+  "name": "Midtjylland",
+  "leagueId": "den1",
+  "tier": 1,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/lvkl8g1783533167.png"
+ },
+ {
+  "id": "den1-brondby",
+  "name": "Brondby",
+  "leagueId": "den1",
+  "tier": 2,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/usxoux1784825763.png"
+ },
+ {
+  "id": "den1-nordsjaelland",
+  "name": "Nordsjaelland",
+  "leagueId": "den1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/p2hof41579460164.png"
+ },
+ {
+  "id": "den1-agf",
+  "name": "AGF",
+  "leagueId": "den1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/n5mwbk1628558301.png"
+ },
+ {
+  "id": "den1-silkeborg",
+  "name": "Silkeborg",
+  "leagueId": "den1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tpxvvp1473535560.png"
+ },
+ {
+  "id": "den1-randers",
+  "name": "Randers",
+  "leagueId": "den1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/w0kmhn1690407779.png"
+ },
+ {
+  "id": "den1-viborg",
+  "name": "Viborg",
+  "leagueId": "den1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uvrpsp1447539333.png"
+ },
+ {
+  "id": "den1-sonderjyske",
+  "name": "Sonderjyske",
+  "leagueId": "den1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/04mzis1677238771.png"
+ },
+ {
+  "id": "den1-odense",
+  "name": "Odense",
+  "leagueId": "den1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vem69p1657827704.png"
+ },
+ {
+  "id": "den1-aab",
+  "name": "AaB",
+  "leagueId": "den1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vtwqwt1473535469.png"
+ },
+ {
+  "id": "den1-fredericia",
+  "name": "Fredericia",
+  "leagueId": "den1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/aq1xqm1780641007.png"
+ },
+ {
+  "id": "cze1-slavia-prague",
+  "name": "Slavia Prague",
+  "leagueId": "cze1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/l7kl4n1759252139.png"
+ },
+ {
+  "id": "cze1-sparta-prague",
+  "name": "Sparta Prague",
+  "leagueId": "cze1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/j00qct1718287150.png"
+ },
+ {
+  "id": "cze1-viktoria-plzen",
+  "name": "Viktoria Plzen",
+  "leagueId": "cze1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/at8i2h1679265942.png"
+ },
+ {
+  "id": "cze1-banik-ostrava",
+  "name": "Banik Ostrava",
+  "leagueId": "cze1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/y1pij41691419087.png"
+ },
+ {
+  "id": "cze1-sigma-olomouc",
+  "name": "Sigma Olomouc",
+  "leagueId": "cze1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/cbcg021578836711.png"
+ },
+ {
+  "id": "cze1-slovan-liberec",
+  "name": "Slovan Liberec",
+  "leagueId": "cze1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/00k5891718287162.png"
+ },
+ {
+  "id": "cze1-jablonec",
+  "name": "Jablonec",
+  "leagueId": "cze1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/1fvoty1781843588.png"
+ },
+ {
+  "id": "cze1-slovacko",
+  "name": "Slovacko",
+  "leagueId": "cze1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2fmeix1578836703.png"
+ },
+ {
+  "id": "cze1-mlada-boleslav",
+  "name": "Mlada Boleslav",
+  "leagueId": "cze1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/o8x4y51578836726.png"
+ },
+ {
+  "id": "cze1-bohemians-1905",
+  "name": "Bohemians 1905",
+  "leagueId": "cze1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/shnvm91578836748.png"
+ },
+ {
+  "id": "cze1-teplice",
+  "name": "Teplice",
+  "leagueId": "cze1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/0hnqi61777766291.png"
+ },
+ {
+  "id": "cze1-hradec-kralove",
+  "name": "Hradec Kralove",
+  "leagueId": "cze1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ckjzy41691419056.png"
+ },
+ {
+  "id": "cze1-karvina",
+  "name": "Karvina",
+  "leagueId": "cze1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/5w2blo1578836734.png"
+ },
+ {
+  "id": "cze1-dukla-prague",
+  "name": "Dukla Prague",
+  "leagueId": "cze1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/n950g01578837378.png"
+ },
+ {
+  "id": "cze1-pardubice",
+  "name": "Pardubice",
+  "leagueId": "cze1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vpjqq11596471599.png"
+ },
+ {
+  "id": "cze1-zlin",
+  "name": "Zlin",
+  "leagueId": "cze1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/dlljv61693459452.png"
+ },
+ {
+  "id": "cro1-dinamo-zagreb",
+  "name": "Dinamo Zagreb",
+  "leagueId": "cro1",
+  "tier": 1,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/zcb6f61784988620.png"
+ },
+ {
+  "id": "cro1-hajduk-split",
+  "name": "Hajduk Split",
+  "leagueId": "cro1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/23mvtk1579955412.png"
+ },
+ {
+  "id": "cro1-rijeka",
+  "name": "Rijeka",
+  "leagueId": "cro1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/z8bxvi1603310975.png"
+ },
+ {
+  "id": "cro1-osijek",
+  "name": "Osijek",
+  "leagueId": "cro1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/kly3v31578830575.png"
+ },
+ {
+  "id": "cro1-slaven-belupo",
+  "name": "Slaven Belupo",
+  "leagueId": "cro1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/r8yo3a1672950533.png"
+ },
+ {
+  "id": "cro1-varazdin",
+  "name": "Varazdin",
+  "leagueId": "cro1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/r82ai21578830558.png"
+ },
+ {
+  "id": "cro1-lokomotiva-zagreb",
+  "name": "Lokomotiva Zagreb",
+  "leagueId": "cro1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vzl3cy1578830545.png"
+ },
+ {
+  "id": "cro1-istra-1961",
+  "name": "Istra 1961",
+  "leagueId": "cro1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/6h1n791578830529.png"
+ },
+ {
+  "id": "cro1-gorica",
+  "name": "Gorica",
+  "leagueId": "cro1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3se3h51602615468.png"
+ },
+ {
+  "id": "cro1-vukovar-1991",
+  "name": "Vukovar 1991",
+  "leagueId": "cro1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vwsbht1657803379.png"
+ },
+ {
+  "id": "pol1-legia-warsaw",
+  "name": "Legia Warsaw",
+  "leagueId": "pol1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/c969ez1632775656.png"
+ },
+ {
+  "id": "pol1-lech-poznan",
+  "name": "Lech Poznan",
+  "leagueId": "pol1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/8zfxyx1685597440.png"
+ },
+ {
+  "id": "pol1-jagiellonia-bialystok",
+  "name": "Jagiellonia Bialystok",
+  "leagueId": "pol1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ucze1y1601404699.png"
+ },
+ {
+  "id": "pol1-rakow-czestochowa",
+  "name": "Rakow Czestochowa",
+  "leagueId": "pol1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vy8paa1579458598.png"
+ },
+ {
+  "id": "pol1-pogon-szczecin",
+  "name": "Pogon Szczecin",
+  "leagueId": "pol1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uxyuwx1448219553.png"
+ },
+ {
+  "id": "pol1-cracovia",
+  "name": "Cracovia",
+  "leagueId": "pol1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/bgqbo51714200086.png"
+ },
+ {
+  "id": "pol1-gornik-zabrze",
+  "name": "Gornik Zabrze",
+  "leagueId": "pol1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/fk1fam1767928408.png"
+ },
+ {
+  "id": "pol1-wisla-plock",
+  "name": "Wisla Plock",
+  "leagueId": "pol1",
+  "tier": 4,
+  "badge": null
+ },
+ {
+  "id": "pol1-widzew-lodz",
+  "name": "Widzew Lodz",
+  "leagueId": "pol1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3rkfjd1692596430.png"
+ },
+ {
+  "id": "pol1-piast-gliwice",
+  "name": "Piast Gliwice",
+  "leagueId": "pol1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/qywuux1448219182.png"
+ },
+ {
+  "id": "pol1-motor-lublin",
+  "name": "Motor Lublin",
+  "leagueId": "pol1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/7qevx11720351099.png"
+ },
+ {
+  "id": "pol1-radomiak-radom",
+  "name": "Radomiak Radom",
+  "leagueId": "pol1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wpi1dx1698554708.png"
+ },
+ {
+  "id": "pol1-zaglebie-lubin",
+  "name": "Zaglebie Lubin",
+  "leagueId": "pol1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/7n07qf1702990302.png"
+ },
+ {
+  "id": "pol1-korona-kielce",
+  "name": "Korona Kielce",
+  "leagueId": "pol1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ytpvtv1448218305.png"
+ },
+ {
+  "id": "pol1-lechia-gdansk",
+  "name": "Lechia Gdansk",
+  "leagueId": "pol1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/92qkyn1601412225.png"
+ },
+ {
+  "id": "pol1-gks-katowice",
+  "name": "GKS Katowice",
+  "leagueId": "pol1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/zsva1p1626103599.png"
+ },
+ {
+  "id": "pol1-arka-gdynia",
+  "name": "Arka Gdynia",
+  "leagueId": "pol1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/i6ls7n1698553767.png"
+ },
+ {
+  "id": "pol1-termalica-nieciecza",
+  "name": "Termalica Nieciecza",
+  "leagueId": "pol1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/m1tod31628431456.png"
+ },
+ {
+  "id": "nor1-bodo-glimt",
+  "name": "Bodo/Glimt",
+  "leagueId": "nor1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uqpwwx1449165943.png"
+ },
+ {
+  "id": "nor1-molde",
+  "name": "Molde",
+  "leagueId": "nor1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/apziyg1534866527.png"
+ },
+ {
+  "id": "nor1-rosenborg",
+  "name": "Rosenborg",
+  "leagueId": "nor1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/z483ps1764866361.png"
+ },
+ {
+  "id": "nor1-brann",
+  "name": "Brann",
+  "leagueId": "nor1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ovuad71690695412.png"
+ },
+ {
+  "id": "nor1-viking",
+  "name": "Viking",
+  "leagueId": "nor1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/9mzq961590148192.png"
+ },
+ {
+  "id": "nor1-valerenga",
+  "name": "Valerenga",
+  "leagueId": "nor1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/e8c63s1764643725.png"
+ },
+ {
+  "id": "nor1-lillestrom",
+  "name": "Lillestrom",
+  "leagueId": "nor1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/txpuvv1448823342.png"
+ },
+ {
+  "id": "nor1-tromso",
+  "name": "Tromso",
+  "leagueId": "nor1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/sb24al1764644259.png"
+ },
+ {
+  "id": "nor1-sarpsborg-08",
+  "name": "Sarpsborg 08",
+  "leagueId": "nor1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/pxrf831534869388.png"
+ },
+ {
+  "id": "nor1-fredrikstad",
+  "name": "Fredrikstad",
+  "leagueId": "nor1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/9se6qv1690695269.png"
+ },
+ {
+  "id": "nor1-kfum-oslo",
+  "name": "KFUM Oslo",
+  "leagueId": "nor1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/981eyj1690696173.png"
+ },
+ {
+  "id": "nor1-haugesund",
+  "name": "Haugesund",
+  "leagueId": "nor1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vx4q8p1602448530.png"
+ },
+ {
+  "id": "nor1-kristiansund",
+  "name": "Kristiansund",
+  "leagueId": "nor1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wzrjhc1690695847.png"
+ },
+ {
+  "id": "nor1-stromsgodset",
+  "name": "Stromsgodset",
+  "leagueId": "nor1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wow1ny1746032568.png"
+ },
+ {
+  "id": "nor1-sandefjord",
+  "name": "Sandefjord",
+  "leagueId": "nor1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3tzlt31691821291.png"
+ },
+ {
+  "id": "nor1-hamkam",
+  "name": "HamKam",
+  "leagueId": "nor1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/zft1oc1639776721.png"
+ },
+ {
+  "id": "eng2-leicester-city",
+  "name": "Leicester City",
+  "leagueId": "eng2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xtxwtu1448813356.png"
+ },
+ {
+  "id": "eng2-southampton",
+  "name": "Southampton",
+  "leagueId": "eng2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ggqtd01621593274.png"
+ },
+ {
+  "id": "eng2-ipswich-town",
+  "name": "Ipswich Town",
+  "leagueId": "eng2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/mdj1ey1634670785.png"
+ },
+ {
+  "id": "eng2-middlesbrough",
+  "name": "Middlesbrough",
+  "leagueId": "eng2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/advjg71780068902.png"
+ },
+ {
+  "id": "eng2-west-bromwich-albion",
+  "name": "West Bromwich Albion",
+  "leagueId": "eng2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rsvuxw1448813527.png"
+ },
+ {
+  "id": "eng2-coventry-city",
+  "name": "Coventry City",
+  "leagueId": "eng2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uxyqys1424033798.png"
+ },
+ {
+  "id": "eng2-norwich-city",
+  "name": "Norwich City",
+  "leagueId": "eng2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/pabczm1679951464.png"
+ },
+ {
+  "id": "eng2-sheffield-united",
+  "name": "Sheffield United",
+  "leagueId": "eng2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/w7f8pj1672950689.png"
+ },
+ {
+  "id": "eng2-watford",
+  "name": "Watford",
+  "leagueId": "eng2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rsuswy1448813519.png"
+ },
+ {
+  "id": "eng2-bristol-city",
+  "name": "Bristol City",
+  "leagueId": "eng2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/0ejxwz1601721013.png"
+ },
+ {
+  "id": "eng2-millwall",
+  "name": "Millwall",
+  "leagueId": "eng2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/5p1z5k1537208888.png"
+ },
+ {
+  "id": "eng2-stoke-city",
+  "name": "Stoke City",
+  "leagueId": "eng2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/lz89v21781718914.png"
+ },
+ {
+  "id": "eng2-birmingham-city",
+  "name": "Birmingham City",
+  "leagueId": "eng2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wufs551672950865.png"
+ },
+ {
+  "id": "eng2-hull-city",
+  "name": "Hull City",
+  "leagueId": "eng2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/fbqqda1601726113.png"
+ },
+ {
+  "id": "eng2-preston-north-end",
+  "name": "Preston North End",
+  "leagueId": "eng2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wqtwvw1448811512.png"
+ },
+ {
+  "id": "eng2-queens-park-rangers",
+  "name": "Queens Park Rangers",
+  "leagueId": "eng2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/l4qscx1601721022.png"
+ },
+ {
+  "id": "eng2-blackburn-rovers",
+  "name": "Blackburn Rovers",
+  "leagueId": "eng2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rvryut1448810814.png"
+ },
+ {
+  "id": "eng2-swansea-city",
+  "name": "Swansea City",
+  "leagueId": "eng2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/474rco1686920744.png"
+ },
+ {
+  "id": "eng2-derby-county",
+  "name": "Derby County",
+  "leagueId": "eng2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/jioo4z1557155744.png"
+ },
+ {
+  "id": "eng2-wrexham",
+  "name": "Wrexham",
+  "leagueId": "eng2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ezpymt1675092551.png"
+ },
+ {
+  "id": "eng2-portsmouth",
+  "name": "Portsmouth",
+  "leagueId": "eng2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/j13pfe1601726274.png"
+ },
+ {
+  "id": "eng2-charlton-athletic",
+  "name": "Charlton Athletic",
+  "leagueId": "eng2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/o08wvi1635872307.png"
+ },
+ {
+  "id": "eng2-oxford-united",
+  "name": "Oxford United",
+  "leagueId": "eng2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/hgpm6u1781718489.png"
+ },
+ {
+  "id": "eng2-sheffield-wednesday",
+  "name": "Sheffield Wednesday",
+  "leagueId": "eng2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/m3km7p1781284189.png"
+ },
+ {
+  "id": "esp2-racing-santander",
+  "name": "Racing Santander",
+  "leagueId": "esp2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/97kkiq1536575158.png"
+ },
+ {
+  "id": "esp2-almeria",
+  "name": "Almeria",
+  "leagueId": "esp2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yswsww1473503818.png"
+ },
+ {
+  "id": "esp2-las-palmas",
+  "name": "Las Palmas",
+  "leagueId": "esp2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/mmhyb11616443601.png"
+ },
+ {
+  "id": "esp2-sporting-gijon",
+  "name": "Sporting Gijon",
+  "leagueId": "esp2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/oom09m1578831384.png"
+ },
+ {
+  "id": "esp2-granada",
+  "name": "Granada",
+  "leagueId": "esp2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/f9iss11677472689.png"
+ },
+ {
+  "id": "esp2-leganes",
+  "name": "Leganes",
+  "leagueId": "esp2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tm0adr1616443898.png"
+ },
+ {
+  "id": "esp2-real-valladolid",
+  "name": "Real Valladolid",
+  "leagueId": "esp2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/bnhu8b1719983736.png"
+ },
+ {
+  "id": "esp2-deportivo-la-coruna",
+  "name": "Deportivo La Coruna",
+  "leagueId": "esp2",
+  "tier": 2,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/js3j841783013173.png"
+ },
+ {
+  "id": "esp2-cadiz",
+  "name": "Cadiz",
+  "leagueId": "esp2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/e2phzp1639408503.png"
+ },
+ {
+  "id": "esp2-malaga",
+  "name": "Malaga",
+  "leagueId": "esp2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/upqyvr1473502952.png"
+ },
+ {
+  "id": "esp2-real-zaragoza",
+  "name": "Real Zaragoza",
+  "leagueId": "esp2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/sxpwxs1473503702.png"
+ },
+ {
+  "id": "esp2-eibar",
+  "name": "Eibar",
+  "leagueId": "esp2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/hccive1680933599.png"
+ },
+ {
+  "id": "esp2-huesca",
+  "name": "Huesca",
+  "leagueId": "esp2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tuxusx1447590509.png"
+ },
+ {
+  "id": "esp2-mirandes",
+  "name": "Mirandes",
+  "leagueId": "esp2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xjeaa21625677345.png"
+ },
+ {
+  "id": "esp2-albacete",
+  "name": "Albacete",
+  "leagueId": "esp2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/17oqja1616436316.png"
+ },
+ {
+  "id": "esp2-burgos",
+  "name": "Burgos",
+  "leagueId": "esp2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/79h3ul1708150894.png"
+ },
+ {
+  "id": "esp2-castellon",
+  "name": "Castellon",
+  "leagueId": "esp2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ywibjw1733456820.png"
+ },
+ {
+  "id": "esp2-cordoba",
+  "name": "Cordoba",
+  "leagueId": "esp2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ttyyvy1473503827.png"
+ },
+ {
+  "id": "esp2-cultural-leonesa",
+  "name": "Cultural Leonesa",
+  "leagueId": "esp2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yk28a51677472494.png"
+ },
+ {
+  "id": "esp2-ceuta",
+  "name": "Ceuta",
+  "leagueId": "esp2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ja7sl51677475273.png"
+ },
+ {
+  "id": "esp2-andorra",
+  "name": "Andorra",
+  "leagueId": "esp2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/l5qspn1552847356.png"
+ },
+ {
+  "id": "esp2-real-sociedad-b",
+  "name": "Real Sociedad B",
+  "leagueId": "esp2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/hliq4n1579632023.png"
+ },
+ {
+  "id": "ger2-schalke-04",
+  "name": "Schalke 04",
+  "leagueId": "ger2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/hnci291621593978.png"
+ },
+ {
+  "id": "ger2-hertha-berlin",
+  "name": "Hertha Berlin",
+  "leagueId": "ger2",
+  "tier": 1,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/aszcmz1782623817.png"
+ },
+ {
+  "id": "ger2-fortuna-dusseldorf",
+  "name": "Fortuna Dusseldorf",
+  "leagueId": "ger2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rsruww1473454140.png"
+ },
+ {
+  "id": "ger2-hannover-96",
+  "name": "Hannover 96",
+  "leagueId": "ger2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tqpqqv1473454148.png"
+ },
+ {
+  "id": "ger2-paderborn-07",
+  "name": "Paderborn 07",
+  "leagueId": "ger2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/kddvva1566048058.png"
+ },
+ {
+  "id": "ger2-holstein-kiel",
+  "name": "Holstein Kiel",
+  "leagueId": "ger2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/1fpmgs1514394524.png"
+ },
+ {
+  "id": "ger2-bochum",
+  "name": "Bochum",
+  "leagueId": "ger2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/kag3jy1599821108.png"
+ },
+ {
+  "id": "ger2-karlsruher-sc",
+  "name": "Karlsruher SC",
+  "leagueId": "ger2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/l784ls1696006504.png"
+ },
+ {
+  "id": "ger2-kaiserslautern",
+  "name": "Kaiserslautern",
+  "leagueId": "ger2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/jghax31740165513.png"
+ },
+ {
+  "id": "ger2-nurnberg",
+  "name": "Nurnberg",
+  "leagueId": "ger2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wtj8rd1659904028.png"
+ },
+ {
+  "id": "ger2-darmstadt-98",
+  "name": "Darmstadt 98",
+  "leagueId": "ger2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/5f3dyd1608236981.png"
+ },
+ {
+  "id": "ger2-magdeburg",
+  "name": "Magdeburg",
+  "leagueId": "ger2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/f2fuxs1532856216.png"
+ },
+ {
+  "id": "ger2-elversberg",
+  "name": "Elversberg",
+  "leagueId": "ger2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/z079go1677573926.png"
+ },
+ {
+  "id": "ger2-greuther-furth",
+  "name": "Greuther Furth",
+  "leagueId": "ger2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/87n1901608237004.png"
+ },
+ {
+  "id": "ger2-eintracht-braunschweig",
+  "name": "Eintracht Braunschweig",
+  "leagueId": "ger2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/lrrq0z1599820707.png"
+ },
+ {
+  "id": "ger2-arminia-bielefeld",
+  "name": "Arminia Bielefeld",
+  "leagueId": "ger2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xrrwpx1447591964.png"
+ },
+ {
+  "id": "ger2-preussen-munster",
+  "name": "Preussen Munster",
+  "leagueId": "ger2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/nu38ih1579106303.png"
+ },
+ {
+  "id": "ger2-dynamo-dresden",
+  "name": "Dynamo Dresden",
+  "leagueId": "ger2",
+  "tier": 5,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/0vfmdu1783231141.png"
+ },
+ {
+  "id": "ita2-palermo",
+  "name": "Palermo",
+  "leagueId": "ita2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/zi1tb01579708939.png"
+ },
+ {
+  "id": "ita2-venezia",
+  "name": "Venezia",
+  "leagueId": "ita2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vbiget1781026964.png"
+ },
+ {
+  "id": "ita2-monza",
+  "name": "Monza",
+  "leagueId": "ita2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/bxearg1603170113.png"
+ },
+ {
+  "id": "ita2-sampdoria",
+  "name": "Sampdoria",
+  "leagueId": "ita2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/pr6co21655592769.png"
+ },
+ {
+  "id": "ita2-empoli",
+  "name": "Empoli",
+  "leagueId": "ita2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/c1ie6b1622561483.png"
+ },
+ {
+  "id": "ita2-spezia",
+  "name": "Spezia",
+  "leagueId": "ita2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3wgebp1749146364.png"
+ },
+ {
+  "id": "ita2-bari",
+  "name": "Bari",
+  "leagueId": "ita2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/isfrtg1579724972.png"
+ },
+ {
+  "id": "ita2-catanzaro",
+  "name": "Catanzaro",
+  "leagueId": "ita2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/byrc5e1691995858.png"
+ },
+ {
+  "id": "ita2-modena",
+  "name": "Modena",
+  "leagueId": "ita2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/93n2wm1656015823.png"
+ },
+ {
+  "id": "ita2-cesena",
+  "name": "Cesena",
+  "leagueId": "ita2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/9l00zr1677256723.png"
+ },
+ {
+  "id": "ita2-frosinone",
+  "name": "Frosinone",
+  "leagueId": "ita2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/a7xa151603170120.png"
+ },
+ {
+  "id": "ita2-reggiana",
+  "name": "Reggiana",
+  "leagueId": "ita2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/dffx6o1600266770.png"
+ },
+ {
+  "id": "ita2-sudtirol",
+  "name": "Sudtirol",
+  "leagueId": "ita2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/8fico41579725098.png"
+ },
+ {
+  "id": "ita2-juve-stabia",
+  "name": "Juve Stabia",
+  "leagueId": "ita2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/aojsvb1677257282.png"
+ },
+ {
+  "id": "ita2-carrarese",
+  "name": "Carrarese",
+  "leagueId": "ita2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/njh6tl1651779724.png"
+ },
+ {
+  "id": "ita2-avellino",
+  "name": "Avellino",
+  "leagueId": "ita2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/swsu5p1579724964.png"
+ },
+ {
+  "id": "ita2-padova",
+  "name": "Padova",
+  "leagueId": "ita2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/hklo0i1579724992.png"
+ },
+ {
+  "id": "ita2-mantova",
+  "name": "Mantova",
+  "leagueId": "ita2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/6mz7tb1648579351.png"
+ },
+ {
+  "id": "ita2-virtus-entella",
+  "name": "Virtus Entella",
+  "leagueId": "ita2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/c7yb5u1693457662.png"
+ },
+ {
+  "id": "ita2-pescara",
+  "name": "Pescara",
+  "leagueId": "ita2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uywyxr1426869739.png"
+ },
+ {
+  "id": "fra2-saint-etienne",
+  "name": "Saint-Etienne",
+  "leagueId": "fra2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/m4ej831656423694.png"
+ },
+ {
+  "id": "fra2-reims",
+  "name": "Reims",
+  "leagueId": "fra2",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xcrw1b1592925946.png"
+ },
+ {
+  "id": "fra2-troyes",
+  "name": "Troyes",
+  "leagueId": "fra2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/sl5kzg1766617559.png"
+ },
+ {
+  "id": "fra2-montpellier",
+  "name": "Montpellier",
+  "leagueId": "fra2",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/8wn9x31750879448.png"
+ },
+ {
+  "id": "fra2-guingamp",
+  "name": "Guingamp",
+  "leagueId": "fra2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/5iihrp1590259631.png"
+ },
+ {
+  "id": "fra2-amiens",
+  "name": "Amiens",
+  "leagueId": "fra2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/nwgget1656423507.png"
+ },
+ {
+  "id": "fra2-grenoble",
+  "name": "Grenoble",
+  "leagueId": "fra2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/x2hcpg1488227785.png"
+ },
+ {
+  "id": "fra2-clermont",
+  "name": "Clermont",
+  "leagueId": "fra2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wrytst1426871249.png"
+ },
+ {
+  "id": "fra2-dunkerque",
+  "name": "Dunkerque",
+  "leagueId": "fra2",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3s4ne51750879372.png"
+ },
+ {
+  "id": "fra2-red-star",
+  "name": "Red Star",
+  "leagueId": "fra2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/so4unb1658758422.png"
+ },
+ {
+  "id": "fra2-bastia",
+  "name": "Bastia",
+  "leagueId": "fra2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/mv09b91754278549.png"
+ },
+ {
+  "id": "fra2-rodez",
+  "name": "Rodez",
+  "leagueId": "fra2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/e8rjka1576848094.png"
+ },
+ {
+  "id": "fra2-laval",
+  "name": "Laval",
+  "leagueId": "fra2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/s6g8y81580152463.png"
+ },
+ {
+  "id": "fra2-annecy",
+  "name": "Annecy",
+  "leagueId": "fra2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/h6981f1655120883.png"
+ },
+ {
+  "id": "fra2-pau",
+  "name": "Pau",
+  "leagueId": "fra2",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/g1p2l71653308318.png"
+ },
+ {
+  "id": "fra2-le-mans",
+  "name": "Le Mans",
+  "leagueId": "fra2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wjhziv1700145026.png"
+ },
+ {
+  "id": "fra2-nancy",
+  "name": "Nancy",
+  "leagueId": "fra2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ve39pj1547899643.png"
+ },
+ {
+  "id": "fra2-boulogne",
+  "name": "Boulogne",
+  "leagueId": "fra2",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/c7p39l1754278109.png"
+ },
+ {
+  "id": "eng3-cardiff-city",
+  "name": "Cardiff City",
+  "leagueId": "eng3",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xtytpt1448808285.png"
+ },
+ {
+  "id": "eng3-plymouth-argyle",
+  "name": "Plymouth Argyle",
+  "leagueId": "eng3",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wod5cj1689630278.png"
+ },
+ {
+  "id": "eng3-luton-town",
+  "name": "Luton Town",
+  "leagueId": "eng3",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/v977eh1681319466.png"
+ },
+ {
+  "id": "eng3-blackpool",
+  "name": "Blackpool",
+  "leagueId": "eng3",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/utywru1448754934.png"
+ },
+ {
+  "id": "eng3-barnsley",
+  "name": "Barnsley",
+  "leagueId": "eng3",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/glbmdm1781719675.png"
+ },
+ {
+  "id": "eng3-reading",
+  "name": "Reading",
+  "leagueId": "eng3",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tprvtu1448811527.png"
+ },
+ {
+  "id": "eng3-huddersfield-town",
+  "name": "Huddersfield Town",
+  "leagueId": "eng3",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/y11fin1677527513.png"
+ },
+ {
+  "id": "eng3-stockport-county",
+  "name": "Stockport County",
+  "leagueId": "eng3",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/jcsz9k1594450753.png"
+ },
+ {
+  "id": "eng3-bolton-wanderers",
+  "name": "Bolton Wanderers",
+  "leagueId": "eng3",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yvxxrv1448808301.png"
+ },
+ {
+  "id": "eng3-wycombe-wanderers",
+  "name": "Wycombe Wanderers",
+  "leagueId": "eng3",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/avi3bu1688678934.png"
+ },
+ {
+  "id": "eng3-wigan-athletic",
+  "name": "Wigan Athletic",
+  "leagueId": "eng3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wtxwyw1448759640.png"
+ },
+ {
+  "id": "eng3-doncaster-rovers",
+  "name": "Doncaster Rovers",
+  "leagueId": "eng3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ssvpvx1424033260.png"
+ },
+ {
+  "id": "eng3-peterborough-united",
+  "name": "Peterborough United",
+  "leagueId": "eng3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/p14ltc1779778820.png"
+ },
+ {
+  "id": "eng3-bradford-city",
+  "name": "Bradford City",
+  "leagueId": "eng3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ebl8zx1781737432.png"
+ },
+ {
+  "id": "eng3-leyton-orient",
+  "name": "Leyton Orient",
+  "leagueId": "eng3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/g4d9bi1688678797.png"
+ },
+ {
+  "id": "eng3-lincoln-city",
+  "name": "Lincoln City",
+  "leagueId": "eng3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/x46tji1719860130.png"
+ },
+ {
+  "id": "eng3-afc-wimbledon",
+  "name": "AFC Wimbledon",
+  "leagueId": "eng3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/md7iqx1684129667.png"
+ },
+ {
+  "id": "eng3-northampton-town",
+  "name": "Northampton Town",
+  "leagueId": "eng3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/aa42641684131255.png"
+ },
+ {
+  "id": "eng3-stevenage",
+  "name": "Stevenage",
+  "leagueId": "eng3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/o4m2ci1596480474.png"
+ },
+ {
+  "id": "eng3-mansfield-town",
+  "name": "Mansfield Town",
+  "leagueId": "eng3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/c1fpes1761709071.png"
+ },
+ {
+  "id": "eng3-exeter-city",
+  "name": "Exeter City",
+  "leagueId": "eng3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/98wt4h1521144923.png"
+ },
+ {
+  "id": "eng3-port-vale",
+  "name": "Port Vale",
+  "leagueId": "eng3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/s1ke3v1761710614.png"
+ },
+ {
+  "id": "eng3-milton-keynes-dons",
+  "name": "Milton Keynes Dons",
+  "leagueId": "eng3",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/31qpa91738992684.png"
+ },
+ {
+  "id": "eng3-burton-albion",
+  "name": "Burton Albion",
+  "leagueId": "eng3",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/dfjbwe1781738043.png"
+ },
+ {
+  "id": "ger3-1860-munich",
+  "name": "1860 Munich",
+  "leagueId": "ger3",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/sla8o31750356061.png"
+ },
+ {
+  "id": "ger3-rot-weiss-essen",
+  "name": "Rot-Weiss Essen",
+  "leagueId": "ger3",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/h9lz2d1580150937.png"
+ },
+ {
+  "id": "ger3-saarbrucken",
+  "name": "Saarbrucken",
+  "leagueId": "ger3",
+  "tier": 2,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/mejwf01782625751.png"
+ },
+ {
+  "id": "ger3-hansa-rostock",
+  "name": "Hansa Rostock",
+  "leagueId": "ger3",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/g96u1z1660300651.png"
+ },
+ {
+  "id": "ger3-energie-cottbus",
+  "name": "Energie Cottbus",
+  "leagueId": "ger3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/8ks84j1750352338.png"
+ },
+ {
+  "id": "ger3-erzgebirge-aue",
+  "name": "Erzgebirge Aue",
+  "leagueId": "ger3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vudwit1608236951.png"
+ },
+ {
+  "id": "ger3-verl",
+  "name": "Verl",
+  "leagueId": "ger3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/twwtrc1580151923.png"
+ },
+ {
+  "id": "ger3-wehen-wiesbaden",
+  "name": "Wehen Wiesbaden",
+  "leagueId": "ger3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/8clib21565194003.png"
+ },
+ {
+  "id": "ger3-ingolstadt",
+  "name": "Ingolstadt",
+  "leagueId": "ger3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/5rcchm1677552691.png"
+ },
+ {
+  "id": "ger3-osnabruck",
+  "name": "Osnabruck",
+  "leagueId": "ger3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tjs2611565193747.png"
+ },
+ {
+  "id": "ger3-duisburg",
+  "name": "Duisburg",
+  "leagueId": "ger3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/16m3st1677552500.png"
+ },
+ {
+  "id": "ger3-jahn-regensburg",
+  "name": "Jahn Regensburg",
+  "leagueId": "ger3",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/dedrta1608236993.png"
+ },
+ {
+  "id": "ger3-waldhof-mannheim",
+  "name": "Waldhof Mannheim",
+  "leagueId": "ger3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/7m7f591579106271.png"
+ },
+ {
+  "id": "ger3-viktoria-koln",
+  "name": "Viktoria Koln",
+  "leagueId": "ger3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ilegfp1579106280.png"
+ },
+ {
+  "id": "ger3-ulm",
+  "name": "Ulm",
+  "leagueId": "ger3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/v5yjla1580150603.png"
+ },
+ {
+  "id": "ger3-alemannia-aachen",
+  "name": "Alemannia Aachen",
+  "leagueId": "ger3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/hcbovz1726533617.png"
+ },
+ {
+  "id": "ger3-sandhausen",
+  "name": "Sandhausen",
+  "leagueId": "ger3",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/8mb87j1608238882.png"
+ },
+ {
+  "id": "ger3-schweinfurt-05",
+  "name": "Schweinfurt 05",
+  "leagueId": "ger3",
+  "tier": 5,
+  "badge": "https://www.thesportsdb.com/images/media/team/badge/bdw2c01783615548.png"
+ },
+ {
+  "id": "ger3-tsv-havelse",
+  "name": "TSV Havelse",
+  "leagueId": "ger3",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/fhpyap1580151675.png"
+ },
+ {
+  "id": "ger3-stuttgarter-kickers",
+  "name": "Stuttgarter Kickers",
+  "leagueId": "ger3",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/cbmxaz1596394004.png"
+ },
+ {
+  "id": "bra1-flamengo",
+  "name": "Flamengo",
+  "leagueId": "bra1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/syptwx1473538074.png"
+ },
+ {
+  "id": "bra1-palmeiras",
+  "name": "Palmeiras",
+  "leagueId": "bra1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vsqwqp1473538105.png"
+ },
+ {
+  "id": "bra1-botafogo",
+  "name": "Botafogo",
+  "leagueId": "bra1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/bs5mbw1733004596.png"
+ },
+ {
+  "id": "bra1-cruzeiro",
+  "name": "Cruzeiro",
+  "leagueId": "bra1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/upsvvu1473538059.png"
+ },
+ {
+  "id": "bra1-fluminense",
+  "name": "Fluminense",
+  "leagueId": "bra1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/stvvwp1473538082.png"
+ },
+ {
+  "id": "bra1-sao-paulo",
+  "name": "Sao Paulo",
+  "leagueId": "bra1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/sxpupx1473538135.png"
+ },
+ {
+  "id": "bra1-corinthians",
+  "name": "Corinthians",
+  "leagueId": "bra1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vvuvps1473538042.png"
+ },
+ {
+  "id": "bra1-atletico-mineiro",
+  "name": "Atletico Mineiro",
+  "leagueId": "bra1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/x5lixs1743742872.png"
+ },
+ {
+  "id": "bra1-internacional",
+  "name": "Internacional",
+  "leagueId": "bra1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yprvxx1473538097.png"
+ },
+ {
+  "id": "bra1-gremio",
+  "name": "Gremio",
+  "leagueId": "bra1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uvpwyt1473538089.png"
+ },
+ {
+  "id": "bra1-bahia",
+  "name": "Bahia",
+  "leagueId": "bra1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xuvtsv1473539308.png"
+ },
+ {
+  "id": "bra1-fortaleza",
+  "name": "Fortaleza",
+  "leagueId": "bra1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tosmdr1532853458.png"
+ },
+ {
+  "id": "bra1-vasco-da-gama",
+  "name": "Vasco da Gama",
+  "leagueId": "bra1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ynqlxo1630521109.png"
+ },
+ {
+  "id": "bra1-santos",
+  "name": "Santos",
+  "leagueId": "bra1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/j8xk9g1679447486.png"
+ },
+ {
+  "id": "bra1-bragantino",
+  "name": "Bragantino",
+  "leagueId": "bra1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2p7tl41701423595.png"
+ },
+ {
+  "id": "bra1-ceara",
+  "name": "Ceara",
+  "leagueId": "bra1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rxxvyp1464886685.png"
+ },
+ {
+  "id": "bra1-mirassol",
+  "name": "Mirassol",
+  "leagueId": "bra1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/pw8uo11765900737.png"
+ },
+ {
+  "id": "bra1-juventude",
+  "name": "Juventude",
+  "leagueId": "bra1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/1ntter1766506778.png"
+ },
+ {
+  "id": "bra1-vitoria",
+  "name": "Vitoria",
+  "leagueId": "bra1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tysrrx1473538156.png"
+ },
+ {
+  "id": "bra1-sport-recife",
+  "name": "Sport Recife",
+  "leagueId": "bra1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tyrbls1545421563.png"
+ },
+ {
+  "id": "ksa1-al-hilal",
+  "name": "Al Hilal",
+  "leagueId": "ksa1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/5trzvq1660439102.png"
+ },
+ {
+  "id": "ksa1-al-nassr",
+  "name": "Al Nassr",
+  "leagueId": "ksa1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/84yvqi1748524565.png"
+ },
+ {
+  "id": "ksa1-al-ittihad",
+  "name": "Al Ittihad",
+  "leagueId": "ksa1",
+  "tier": 1,
+  "badge": null
+ },
+ {
+  "id": "ksa1-al-ahli",
+  "name": "Al Ahli",
+  "leagueId": "ksa1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/5jxyip1687165392.png"
+ },
+ {
+  "id": "ksa1-al-qadsiah",
+  "name": "Al Qadsiah",
+  "leagueId": "ksa1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ok63wb1719134839.png"
+ },
+ {
+  "id": "ksa1-al-shabab",
+  "name": "Al Shabab",
+  "leagueId": "ksa1",
+  "tier": 2,
+  "badge": null
+ },
+ {
+  "id": "ksa1-neom",
+  "name": "Neom",
+  "leagueId": "ksa1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/4luwe11737685220.png"
+ },
+ {
+  "id": "ksa1-al-ettifaq",
+  "name": "Al Ettifaq",
+  "leagueId": "ksa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/m272h51694761970.png"
+ },
+ {
+  "id": "ksa1-al-taawoun",
+  "name": "Al Taawoun",
+  "leagueId": "ksa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rlsmp91646835052.png"
+ },
+ {
+  "id": "ksa1-al-fateh",
+  "name": "Al Fateh",
+  "leagueId": "ksa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/a5cjf41662659789.png"
+ },
+ {
+  "id": "ksa1-al-khaleej",
+  "name": "Al Khaleej",
+  "leagueId": "ksa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/mvf6ga1755192630.png"
+ },
+ {
+  "id": "ksa1-al-riyadh",
+  "name": "Al Riyadh",
+  "leagueId": "ksa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/i4o0zy1755193321.png"
+ },
+ {
+  "id": "ksa1-al-fayha",
+  "name": "Al Fayha",
+  "leagueId": "ksa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/jl3spp1677530565.png"
+ },
+ {
+  "id": "ksa1-damac",
+  "name": "Damac",
+  "leagueId": "ksa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/z2l4w31677530963.png"
+ },
+ {
+  "id": "ksa1-al-okhdood",
+  "name": "Al Okhdood",
+  "leagueId": "ksa1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ub1l7h1755193155.png"
+ },
+ {
+  "id": "ksa1-al-kholood",
+  "name": "Al Kholood",
+  "leagueId": "ksa1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vv44v01755192851.png"
+ },
+ {
+  "id": "ksa1-al-najma",
+  "name": "Al Najma",
+  "leagueId": "ksa1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/m6aqmi1727589261.png"
+ },
+ {
+  "id": "ksa1-al-hazem",
+  "name": "Al Hazem",
+  "leagueId": "ksa1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3uy27p1635871755.png"
+ },
+ {
+  "id": "mex1-club-america",
+  "name": "Club America",
+  "leagueId": "mex1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/amy1xs1581857392.png"
+ },
+ {
+  "id": "mex1-cruz-azul",
+  "name": "Cruz Azul",
+  "leagueId": "mex1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/wcd2yi1781543370.png"
+ },
+ {
+  "id": "mex1-monterrey",
+  "name": "Monterrey",
+  "leagueId": "mex1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yglj911721542561.png"
+ },
+ {
+  "id": "mex1-tigres-uanl",
+  "name": "Tigres UANL",
+  "leagueId": "mex1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/lh80fx1701423708.png"
+ },
+ {
+  "id": "mex1-guadalajara",
+  "name": "Guadalajara",
+  "leagueId": "mex1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/qt2hk81757606691.png"
+ },
+ {
+  "id": "mex1-toluca",
+  "name": "Toluca",
+  "leagueId": "mex1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/y64wy91523913186.png"
+ },
+ {
+  "id": "mex1-pachuca",
+  "name": "Pachuca",
+  "leagueId": "mex1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/k9duyw1747334895.png"
+ },
+ {
+  "id": "mex1-pumas-unam",
+  "name": "Pumas UNAM",
+  "leagueId": "mex1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/o01nvl1695734937.png"
+ },
+ {
+  "id": "mex1-leon",
+  "name": "Leon",
+  "leagueId": "mex1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/pc9gro1752393439.png"
+ },
+ {
+  "id": "mex1-tijuana",
+  "name": "Tijuana",
+  "leagueId": "mex1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/b0mky81779772352.png"
+ },
+ {
+  "id": "mex1-santos-laguna",
+  "name": "Santos Laguna",
+  "leagueId": "mex1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/kg9gzh1779771734.png"
+ },
+ {
+  "id": "mex1-atlas",
+  "name": "Atlas",
+  "leagueId": "mex1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/svvyvw1473541813.png"
+ },
+ {
+  "id": "mex1-necaxa",
+  "name": "Necaxa",
+  "leagueId": "mex1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tqdk9e1779772432.png"
+ },
+ {
+  "id": "mex1-juarez",
+  "name": "Juarez",
+  "leagueId": "mex1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/b4oy071567446336.png"
+ },
+ {
+  "id": "mex1-atletico-san-luis",
+  "name": "Atletico San Luis",
+  "leagueId": "mex1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/9kgjme1593448412.png"
+ },
+ {
+  "id": "mex1-puebla",
+  "name": "Puebla",
+  "leagueId": "mex1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/h0jgg51593451845.png"
+ },
+ {
+  "id": "mex1-queretaro",
+  "name": "Queretaro",
+  "leagueId": "mex1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/024n481781543211.png"
+ },
+ {
+  "id": "mex1-mazatlan",
+  "name": "Mazatlan",
+  "leagueId": "mex1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/fgpobf1593446489.png"
+ },
+ {
+  "id": "arg1-river-plate",
+  "name": "River Plate",
+  "leagueId": "arg1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/03dmi31645539717.png"
+ },
+ {
+  "id": "arg1-boca-juniors",
+  "name": "Boca Juniors",
+  "leagueId": "arg1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/bm7krb1775741582.png"
+ },
+ {
+  "id": "arg1-racing-club",
+  "name": "Racing Club",
+  "leagueId": "arg1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vi4mu41695734959.png"
+ },
+ {
+  "id": "arg1-independiente",
+  "name": "Independiente",
+  "leagueId": "arg1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/eki4nd1580842605.png"
+ },
+ {
+  "id": "arg1-velez-sarsfield",
+  "name": "Velez Sarsfield",
+  "leagueId": "arg1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/jo98m71517769587.png"
+ },
+ {
+  "id": "arg1-estudiantes",
+  "name": "Estudiantes",
+  "leagueId": "arg1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/pf08dq1760634366.png"
+ },
+ {
+  "id": "arg1-rosario-central",
+  "name": "Rosario Central",
+  "leagueId": "arg1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/y6q1ds1769660256.png"
+ },
+ {
+  "id": "arg1-san-lorenzo",
+  "name": "San Lorenzo",
+  "leagueId": "arg1",
+  "tier": 3,
+  "badge": null
+ },
+ {
+  "id": "arg1-talleres",
+  "name": "Talleres",
+  "leagueId": "arg1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/7hum2t1769310938.png"
+ },
+ {
+  "id": "arg1-lanus",
+  "name": "Lanus",
+  "leagueId": "arg1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ddty0w1769146364.png"
+ },
+ {
+  "id": "arg1-argentinos-juniors",
+  "name": "Argentinos Juniors",
+  "leagueId": "arg1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uqfjuo1769234850.png"
+ },
+ {
+  "id": "arg1-huracan",
+  "name": "Huracan",
+  "leagueId": "arg1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/kppi2b1775776550.png"
+ },
+ {
+  "id": "arg1-newells-old-boys",
+  "name": "Newells Old Boys",
+  "leagueId": "arg1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/23aftf1580842633.png"
+ },
+ {
+  "id": "arg1-defensa-y-justicia",
+  "name": "Defensa y Justicia",
+  "leagueId": "arg1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/3guvlh1775778978.png"
+ },
+ {
+  "id": "arg1-godoy-cruz",
+  "name": "Godoy Cruz",
+  "leagueId": "arg1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/d3c0ds1517768584.png"
+ },
+ {
+  "id": "arg1-banfield",
+  "name": "Banfield",
+  "leagueId": "arg1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/c2ea011775756104.png"
+ },
+ {
+  "id": "arg1-platense",
+  "name": "Platense",
+  "leagueId": "arg1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/lbs14n1769317149.png"
+ },
+ {
+  "id": "arg1-belgrano",
+  "name": "Belgrano",
+  "leagueId": "arg1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/0twgzi1517768087.png"
+ },
+ {
+  "id": "arg1-instituto",
+  "name": "Instituto",
+  "leagueId": "arg1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/jup59w1578825794.png"
+ },
+ {
+  "id": "arg1-union",
+  "name": "Union",
+  "leagueId": "arg1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/btnx6q1734587495.png"
+ },
+ {
+  "id": "arg1-tigre",
+  "name": "Tigre",
+  "leagueId": "arg1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/krryg71765858882.png"
+ },
+ {
+  "id": "arg1-barracas-central",
+  "name": "Barracas Central",
+  "leagueId": "arg1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rbkjba1707458543.png"
+ },
+ {
+  "id": "arg1-gimnasia",
+  "name": "Gimnasia",
+  "leagueId": "arg1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/epmttr1678849271.png"
+ },
+ {
+  "id": "arg1-central-cordoba",
+  "name": "Central Cordoba",
+  "leagueId": "arg1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/72n7wv1640484673.png"
+ },
+ {
+  "id": "arg1-sarmiento",
+  "name": "Sarmiento",
+  "leagueId": "arg1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xxofu71677634191.png"
+ },
+ {
+  "id": "arg1-aldosivi",
+  "name": "Aldosivi",
+  "leagueId": "arg1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/nqrjqb1517767667.png"
+ },
+ {
+  "id": "arg1-san-martin",
+  "name": "San Martin",
+  "leagueId": "arg1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/lfbuwg1734661613.png"
+ },
+ {
+  "id": "arg1-deportivo-riestra",
+  "name": "Deportivo Riestra",
+  "leagueId": "arg1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/332h0l1578824392.png"
+ },
+ {
+  "id": "usa1-inter-miami",
+  "name": "Inter Miami",
+  "leagueId": "usa1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/m4it3e1602103647.png"
+ },
+ {
+  "id": "usa1-los-angeles-fc",
+  "name": "Los Angeles FC",
+  "leagueId": "usa1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/7nbj2a1602103638.png"
+ },
+ {
+  "id": "usa1-columbus-crew",
+  "name": "Columbus Crew",
+  "leagueId": "usa1",
+  "tier": 1,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/dzs8cp1629059854.png"
+ },
+ {
+  "id": "usa1-philadelphia-union",
+  "name": "Philadelphia Union",
+  "leagueId": "usa1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/gyznyo1602103682.png"
+ },
+ {
+  "id": "usa1-fc-cincinnati",
+  "name": "FC Cincinnati",
+  "leagueId": "usa1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vvhsqc1707631046.png"
+ },
+ {
+  "id": "usa1-la-galaxy",
+  "name": "LA Galaxy",
+  "leagueId": "usa1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png"
+ },
+ {
+  "id": "usa1-seattle-sounders",
+  "name": "Seattle Sounders",
+  "leagueId": "usa1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/2dy5cx1706711036.png"
+ },
+ {
+  "id": "usa1-vancouver-whitecaps",
+  "name": "Vancouver Whitecaps",
+  "leagueId": "usa1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tpwxpy1473536521.png"
+ },
+ {
+  "id": "usa1-san-diego-fc",
+  "name": "San Diego FC",
+  "leagueId": "usa1",
+  "tier": 2,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/7ka2xd1734621068.png"
+ },
+ {
+  "id": "usa1-atlanta-united",
+  "name": "Atlanta United",
+  "leagueId": "usa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/ej091x1602103070.png"
+ },
+ {
+  "id": "usa1-new-york-city-fc",
+  "name": "New York City FC",
+  "leagueId": "usa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/m9vis71735140655.png"
+ },
+ {
+  "id": "usa1-new-york-red-bulls",
+  "name": "New York Red Bulls",
+  "leagueId": "usa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/suytvy1473536462.png"
+ },
+ {
+  "id": "usa1-orlando-city",
+  "name": "Orlando City",
+  "leagueId": "usa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/qyppxw1423832326.png"
+ },
+ {
+  "id": "usa1-portland-timbers",
+  "name": "Portland Timbers",
+  "leagueId": "usa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/skm30j1557953559.png"
+ },
+ {
+  "id": "usa1-nashville-sc",
+  "name": "Nashville SC",
+  "leagueId": "usa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/znrwt71602103062.png"
+ },
+ {
+  "id": "usa1-charlotte-fc",
+  "name": "Charlotte FC",
+  "leagueId": "usa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/b6p4uz1595434047.png"
+ },
+ {
+  "id": "usa1-minnesota-united",
+  "name": "Minnesota United",
+  "leagueId": "usa1",
+  "tier": 3,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vl67t41492453433.png"
+ },
+ {
+  "id": "usa1-austin-fc",
+  "name": "Austin FC",
+  "leagueId": "usa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/a3dlg61595434277.png"
+ },
+ {
+  "id": "usa1-real-salt-lake",
+  "name": "Real Salt Lake",
+  "leagueId": "usa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/kkjlfa1556488022.png"
+ },
+ {
+  "id": "usa1-houston-dynamo",
+  "name": "Houston Dynamo",
+  "leagueId": "usa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/yvz9dq1707631352.png"
+ },
+ {
+  "id": "usa1-chicago-fire",
+  "name": "Chicago Fire",
+  "leagueId": "usa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/8xuc781639493166.png"
+ },
+ {
+  "id": "usa1-fc-dallas",
+  "name": "FC Dallas",
+  "leagueId": "usa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/vxy8xy1602103187.png"
+ },
+ {
+  "id": "usa1-new-england-revolution",
+  "name": "New England Revolution",
+  "leagueId": "usa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/1ula2l1639493143.png"
+ },
+ {
+  "id": "usa1-colorado-rapids",
+  "name": "Colorado Rapids",
+  "leagueId": "usa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uppupv1473536412.png"
+ },
+ {
+  "id": "usa1-sporting-kansas-city",
+  "name": "Sporting Kansas City",
+  "leagueId": "usa1",
+  "tier": 4,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/tqupxw1473536504.png"
+ },
+ {
+  "id": "usa1-san-jose-earthquakes",
+  "name": "San Jose Earthquakes",
+  "leagueId": "usa1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/xyrqqt1420781048.png"
+ },
+ {
+  "id": "usa1-toronto-fc",
+  "name": "Toronto FC",
+  "leagueId": "usa1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/rsxyrr1473536512.png"
+ },
+ {
+  "id": "usa1-dc-united",
+  "name": "DC United",
+  "leagueId": "usa1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/uwvsyt1467462609.png"
+ },
+ {
+  "id": "usa1-st-louis-city",
+  "name": "St. Louis City",
+  "leagueId": "usa1",
+  "tier": 5,
+  "badge": "https://r2.thesportsdb.com/images/media/team/badge/v0wen91771603471.png"
+ }
+]
