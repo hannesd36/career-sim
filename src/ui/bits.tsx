@@ -104,36 +104,86 @@ export function Delta({ value, size = 'sm' }: { value: number; size?: 'sm' | 'lg
 // --------------------------------------------------------------- trophies
 
 /**
- * Trophies are drawn as silhouettes in the current text colour. Eleven tinted
- * icons would be eleven colours the palette does not have, and the shape
- * already says which trophy it is.
+ * Eleven trophies, eleven drawings.
+ *
+ * They used to share five silhouettes, which meant a league title, a cup and a
+ * European cup were the same picture: the cabinet said how much you had won
+ * but never what. Each one is now its own shape, recognisable at thirteen
+ * pixels, and each is a *type* of trophy rather than a copy of a real one — a
+ * plate, a cup with handles, a cup with tall ears, a figure holding a globe.
+ *
+ * They are drawn in the current text colour, with a second path at reduced
+ * opacity carrying the shading, so a trophy sits in a cabinet, a table row or
+ * a note without ever needing a colour the palette does not have.
  */
-const TROPHY_SHAPE: Record<TrophyId, 'cup' | 'ball' | 'glove' | 'star' | 'boot'> = {
-  league: 'cup',
-  cup: 'cup',
-  continental: 'cup',
-  worldcup: 'cup',
-  continentalnation: 'cup',
-  ballondor: 'ball',
-  goldenboot: 'boot',
-  playmaker: 'star',
-  goldenglove: 'glove',
-  goldenboy: 'star',
-  tots: 'star',
+interface Art {
+  /** the silhouette */
+  d: string
+  /** highlights and shadow, drawn over it at low opacity */
+  detail?: string
 }
 
-const SHAPES: Record<string, string> = {
-  cup: 'M6 3h12v3a6 6 0 0 1-3.2 5.3l-.3.2v2.5h2.5a1 1 0 0 1 0 2h-2.5v1.5h3a1 1 0 0 1 0 2H8.5a1 1 0 0 1 0-2h3V16H9a1 1 0 0 1 0-2h2.5v-2.5l-.3-.2A6 6 0 0 1 8 6zM4 5h2v3a4 4 0 0 1-2-3.4zm14 0h2v-.4A4 4 0 0 1 18 8z',
-  ball: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 3.2 3.4 2.5-1.3 4h-4.2l-1.3-4zM6.4 8.9l1.3 3.9-3 2.1A8 8 0 0 1 6.4 8.9m11.2 0a8 8 0 0 1 1.7 6l-3-2.1zM9.6 18l1.2-1h2.4l1.2 1-.9 2.5a8 8 0 0 1-3 0z',
-  glove: 'M8 3a2 2 0 0 1 2 2v5h1V4a2 2 0 0 1 4 0v6h1V6a2 2 0 0 1 4 0v9a6 6 0 0 1-6 6h-3a6 6 0 0 1-6-6V9a2 2 0 0 1 3-1.7V5a2 2 0 0 1 0 0z',
-  star: 'M12 2.5 15 9l7 .9-5.1 4.7 1.3 6.9L12 18.2 5.8 21.5l1.3-6.9L2 9.9 9 9z',
-  boot: 'M3 7h5.5l1.2 3.2L14 11l6 2.2a3 3 0 0 1 2 2.8V19H3zM3 20h19v2H3z',
+const TROPHY_ART: Record<TrophyId, Art> = {
+  // a broad flat plate on a foot: the shield you hold above your head
+  league: {
+    d: 'M12 2c4.4 0 8 1.6 8 3.6S16.4 9.2 12 9.2 4 7.6 4 5.6 7.6 2 12 2m0 1.8c-3.2 0-5.6 1-5.6 1.8S8.8 7.4 12 7.4s5.6-1 5.6-1.8S15.2 3.8 12 3.8M11 10.4h2v6.4h-2zM7 18h10a1 1 0 0 1 1 1v2H6v-2a1 1 0 0 1 1-1',
+    detail: 'M8.6 4.6c.8-.4 2-.6 3.4-.6v1.4c-1.2 0-2.2.1-2.8.4z',
+  },
+  // a two-handled cup: the domestic knockout
+  cup: {
+    d: 'M7 2h10v5.2a5 5 0 0 1-4 4.9v2.7h2.4a1 1 0 0 1 0 2H13v1.4h3.4a1 1 0 0 1 0 2H7.6a1 1 0 0 1 0-2H11v-1.4H8.6a1 1 0 0 1 0-2H11v-2.7A5 5 0 0 1 7 7.2zM5.4 3.4h1.2v4.2A3.4 3.4 0 0 1 5 4.8zm12 0h1.2v1.4a3.4 3.4 0 0 1-1.6 2.8z',
+    detail: 'M9 3.6h1.6v3.8H9z',
+  },
+  // tall ears and a deep bowl: the continental cup
+  continental: {
+    d: 'M8 2h8v2.4c0 4-1.4 6.6-3 7.6v2.6h2.6a1 1 0 0 1 0 2H13v1.6h3.6a1 1 0 0 1 0 2H7.4a1 1 0 0 1 0-2H11v-1.6H8.4a1 1 0 0 1 0-2H11v-2.6C9.4 11 8 8.4 8 4.4zM6.6 3.2c-2 .6-3 2-2.6 3.6.4 1.4 1.8 2.2 3.4 2.2V7.2c-.8 0-1.4-.3-1.6-.9-.2-.6.2-1.1 1-1.4zm10.8 0v1.7c.8.3 1.2.8 1 1.4-.2.6-.8.9-1.6.9V9c1.6 0 3-.8 3.4-2.2.4-1.6-.6-3-2.6-3.6z',
+    detail: 'M10 3.6h1.4v6.2c-.9-.9-1.4-2.6-1.4-5.4z',
+  },
+  // a figure holding up a globe: the world
+  worldcup: {
+    d: 'M12 2a3.2 3.2 0 0 1 3.2 3.2c0 1.3-.8 2.4-1.9 2.9l.9 5.5a10 10 0 0 1-4.4 0l.9-5.5A3.2 3.2 0 0 1 12 2m0 1.9a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6M9 15.2h6c.5 1.3 1.4 2.2 2.6 2.7v.7H6.4v-.7c1.2-.5 2.1-1.4 2.6-2.7M5.6 19.8h12.8a1 1 0 0 1 1 1v1.2H4.6v-1.2a1 1 0 0 1 1-1',
+    detail: 'M10.4 8.9h1.2l-.7 4.4h-1.2z',
+  },
+  // a laurel around a low bowl: the continental title
+  continentalnation: {
+    d: 'M9 9h6v1.8a3 3 0 0 1-2 2.8v2.2h2.4a1 1 0 0 1 0 2H8.6a1 1 0 0 1 0-2H11v-2.2a3 3 0 0 1-2-2.8zM8 19.6h8a1 1 0 0 1 1 1v1.2H7v-1.2a1 1 0 0 1 1-1M6.4 2.4c2 .6 3.4 2.2 3.8 4.4l-1.8.4C8.1 5.7 7.3 4.7 6 4.2zm11.2 0 .4 1.8c-1.3.5-2.1 1.5-2.4 3l-1.8-.4c.4-2.2 1.8-3.8 3.8-4.4M12 3.4a2.4 2.4 0 1 1 0 4.8 2.4 2.4 0 0 1 0-4.8',
+  },
+  // a ball on a plinth: the individual award
+  ballondor: {
+    d: 'M12 1.8a5.4 5.4 0 1 1 0 10.8 5.4 5.4 0 0 1 0-10.8m0 1.9-2.6 1.9 1 3h3.2l1-3zm-4.2 3.1a3.5 3.5 0 0 0 .8 3.1l1.4-1zm8.4 0-2.2 2.1 1.4 1a3.5 3.5 0 0 0 .8-3.1M10.2 11l1.1.9h1.4l1.1-.9a3.5 3.5 0 0 1-3.6 0M11 13.6h2v3.6h-2zM7.6 18.6h8.8a1 1 0 0 1 1 1v2.4H6.6v-2.4a1 1 0 0 1 1-1',
+    detail: 'M8.8 20.2h6.4v.8H8.8z',
+  },
+  // a boot, studs down: the scorer
+  goldenboot: {
+    d: 'M3 6.4h4.8c.5 0 .9.3 1.1.8l1 2.6 4.3.7 4.9 1.8a3.4 3.4 0 0 1 2.2 3.2v2.1H3zM3.4 20h17.2v2.2H3.4z',
+    detail: 'M14.2 12.6 15 15h1.9l-.8-2.4zM10 11.4l.7 2.2h1.9l-.7-2.2z',
+  },
+  // a boot with a wing: the one who makes them
+  playmaker: {
+    d: 'M5 8.6h4.4c.5 0 .9.3 1.1.8l.9 2.4 3.9.6 4.4 1.6a3.1 3.1 0 0 1 2 2.9v1.9H5zM5.4 19.6h16.2v2.1H5.4zM2.2 3.4l6 2.6-6 1.2 2-1.9zM9.8 2l2.6 3.4-3.2-.6L9 3.6z',
+  },
+  // a keeper's glove, fingers spread
+  goldenglove: {
+    d: 'M7.4 6.2a1.5 1.5 0 0 1 1.5 1.5v2.6h.8V4.1a1.5 1.5 0 0 1 3 0v6.2h.8V5.3a1.5 1.5 0 0 1 3 0v5h.8V7.6a1.5 1.5 0 0 1 3 0v7.2a6.6 6.6 0 0 1-6.6 6.6h-1.8A6.6 6.6 0 0 1 5 14.8v-5a1.5 1.5 0 0 1 2.4-1.2z',
+    detail: 'M8.4 13.4h7.8v1.6H8.4zM8.4 16.4h7.8V18H8.4z',
+  },
+  // a star over a young shoot: the best of the kids
+  goldenboy: {
+    d: 'M12 1.6 14.2 7l5.8.5-4.4 3.8 1.3 5.6L12 13.9l-4.9 3 1.3-5.6L4 7.5 9.8 7zM11 17.4h2V22h-2zM10.8 18.6c0 1-.7 1.8-2.2 2.2-.3-1.6.3-2.6 2.2-2.2m2.4 0c1.9-.4 2.5.6 2.2 2.2-1.5-.4-2.2-1.2-2.2-2.2',
+  },
+  // a shield with eleven: the team of the season
+  tots: {
+    d: 'M12 1.8 21 4v7.4c0 5-3.6 9.2-9 10.8-5.4-1.6-9-5.8-9-10.8V4zm0 2.1L5 5.6v5.8c0 3.9 2.7 7.2 7 8.7 4.3-1.5 7-4.8 7-8.7V5.6z',
+    detail: 'M9.2 8.4h1.6v7.2H9.2zM12.8 8.4h1.6v7.2h-1.6zM7.8 8.4h1.4v1.4H7.8zM11.4 8.4h1.4v1.4h-1.4z',
+  },
 }
 
 export function TrophyIcon({ id, size = 14 }: { id: TrophyId; size?: number }) {
+  const art = TROPHY_ART[id] ?? TROPHY_ART.cup
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d={SHAPES[TROPHY_SHAPE[id] ?? 'cup']} />
+      <path d={art.d} />
+      {art.detail && <path d={art.detail} opacity="0.45" />}
     </svg>
   )
 }

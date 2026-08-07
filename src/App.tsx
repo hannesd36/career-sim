@@ -12,6 +12,7 @@ import {
 } from './engine/career'
 import { deleteCareer, exportCareer, importCareer, listCareers, saveCareer } from './engine/storage'
 import { MODE_CONFIG, type Career, type Offer, type PenaltyCorner } from './engine/types'
+import { rarityClass } from './engine/rarity'
 import { useI18n } from './i18n'
 import type { StringKey } from './i18n/strings'
 import { CreateScreen } from './ui/CreateScreen'
@@ -25,7 +26,7 @@ import { Rail } from './ui/Rail'
 import { SeasonPanel } from './ui/SeasonPanel'
 import { SettingsPanel } from './ui/SettingsPanel'
 import { SummaryScreen } from './ui/SummaryScreen'
-import { Crest, careerStage, seasonLabel, type Stage } from './ui/bits'
+import { Crest, careerStage, formatValue, seasonLabel, type Stage } from './ui/bits'
 import { useTheme, type Theme } from './ui/useSettings'
 
 type View = 'home' | 'create' | 'career'
@@ -35,7 +36,7 @@ const STEPS = [1, 3, 5]
 
 export default function App() {
   const { t } = useI18n()
-  const { theme, toggle } = useTheme()
+  const { theme, next, cycle, setTheme } = useTheme()
   const [view, setView] = useState<View>('home')
   const [career, setCareer] = useState<Career | null>(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -43,12 +44,32 @@ export default function App() {
   const [saves, setSaves] = useState<Career[]>(() => listCareers())
   /** an old season picked off the rail, or null for the one just played */
   const [reading, setReading] = useState<number | null>(null)
+  /** true once the player card has scrolled off the top of the window */
+  const [perched, setPerched] = useState(false)
   const fileInput = useRef<HTMLInputElement>(null)
   const nowRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (career) saveCareer(career)
   }, [career])
+
+  // The bar takes the player over the moment the card leaves the window, and
+  // hands him back when it returns. Watching the card itself rather than a
+  // scroll offset means it stays right at any zoom, font size or layout.
+  useEffect(() => {
+    const card = cardRef.current
+    if (!card) {
+      setPerched(false)
+      return
+    }
+    const watch = new IntersectionObserver(([entry]) => setPerched(!entry.isIntersecting), {
+      // the topbar is about 60px tall, so the handover happens under it
+      rootMargin: '-64px 0px 0px 0px',
+    })
+    watch.observe(card)
+    return () => watch.disconnect()
+  }, [view, career?.phase])
 
   // Whatever the career is waiting on is the point of the page, so a phase that
   // changes brings it into view. `nearest` does nothing when it already is.
@@ -85,7 +106,7 @@ export default function App() {
   if (view === 'create') {
     return (
       <Frame label={t('app.name')}>
-        <Topbar theme={theme} onTheme={toggle} />
+        <Topbar next={next} onTheme={cycle} />
         <CreateScreen onStart={open} onCancel={saves.length ? backHome : undefined} />
       </Frame>
     )
@@ -94,7 +115,7 @@ export default function App() {
   if (view === 'home' || !career) {
     return (
       <Frame label={t('app.name')}>
-        <Topbar theme={theme} onTheme={toggle} />
+        <Topbar next={next} onTheme={cycle} />
         <Home
           saves={saves}
           onNew={() => setView('create')}
@@ -143,7 +164,12 @@ export default function App() {
       stage={stage}
       label={`${seasonLabel(career.season)} · ${t(`stage.${stage}` as StringKey)}`}
     >
-      <Topbar theme={theme} onTheme={toggle} onSettings={() => setSettingsOpen((v) => !v)}>
+      <Topbar
+        next={next}
+        onTheme={cycle}
+        onSettings={() => setSettingsOpen((v) => !v)}
+        perch={perched ? career : null}
+      >
         <button className="act act--quiet" onClick={backHome}>
           {t('app.careers')}
         </button>
@@ -153,6 +179,8 @@ export default function App() {
         <SettingsPanel
           mode={career.mode}
           onMode={(mode) => setCareer({ ...career, mode })}
+          theme={theme}
+          onTheme={setTheme}
           onExport={() => exportCareer(career)}
           onClose={() => setSettingsOpen(false)}
         />
@@ -168,7 +196,9 @@ export default function App() {
       ) : (
         <div className="spread">
           <div className="now">
-            <Identity career={career} onClub={openClub} />
+            <div ref={cardRef}>
+              <Identity career={career} onClub={openClub} />
+            </div>
 
             {shown && (
               <SeasonPanel
@@ -290,34 +320,55 @@ function Frame({
 
 function Topbar({
   children,
-  theme,
+  next,
   onTheme,
   onSettings,
+  perch,
 }: {
   children?: React.ReactNode
-  theme: Theme
+  /** the ground the button moves to, named in its tooltip */
+  next: Theme
   onTheme: () => void
   onSettings?: () => void
+  /** the player, shown once the card has scrolled off the top */
+  perch?: Career | null
 }) {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
+  const club = perch ? CLUB_BY_ID[perch.player.clubId] : null
   return (
     <div className="topbar">
       <div className="wordmark">{t('app.name')}</div>
+
+      {/*
+       * The player follows you down the page. Once the card is gone the bar
+       * carries the four things you keep checking while you read a career:
+       * who, how old, what you are worth, what you are rated.
+       */}
+      {perch && (
+        <div className="perch">
+          {club && <Crest club={club} eager />}
+          <span className="perch-name">{perch.player.name}</span>
+          <span className="perch-facts">
+            <b>{perch.player.age}</b>
+            <span className="dot" />
+            <b>{formatValue(perch.player.value, lang)}</b>
+          </span>
+          <span className={`perch-ovr ${rarityClass(perch.player.ovr)}`}>{perch.player.ovr}</span>
+        </div>
+      )}
+
       <div className="topbar-tools">
         {children}
         <LangSwitch />
         <button
           className="act act--quiet act--icon"
           onClick={onTheme}
-          title={t(theme === 'black' ? 'theme.white' : 'theme.black')}
-          aria-label={t(theme === 'black' ? 'theme.white' : 'theme.black')}
+          title={t('theme.next', { theme: t(`theme.${next}` as StringKey) })}
+          aria-label={t('theme.next', { theme: t(`theme.${next}` as StringKey) })}
         >
+          {/* a cycler, so the mark is a ground half lit rather than a sun or a moon */}
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            {theme === 'black' ? (
-              <path d="M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14m0 2.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2M11 1h2v2.8h-2zm0 19.2h2V23h-2zM1 11h2.8v2H1zm19.2 0H23v2h-2.8zM4.2 5.6l1.4-1.4 2 2-1.4 1.4zm12.2 12.2 1.4-1.4 2 2-1.4 1.4zm2-14.2 1.4 1.4-2 2-1.4-1.4zM4.2 18.4l2-2 1.4 1.4-2 2z" />
-            ) : (
-              <path d="M21 13.6A9 9 0 1 1 10.4 3a7.2 7.2 0 0 0 10.6 10.6" />
-            )}
+            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 2.2a7.8 7.8 0 0 1 0 15.6z" />
           </svg>
         </button>
         {onSettings && (
