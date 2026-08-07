@@ -338,11 +338,24 @@ on the career seed, the season and the league id, which is exactly the stream
 the season itself used. What you see is what happened, rebuilt from three
 numbers.
 
-## Black and white
+## Four grounds
 
-Paper by default, dark on request, toggled from the header and remembered per
-browser. Only the dark one is an override: it swaps the surface variables on
-`:root[data-theme='black']` and leaves everything else alone.
+The same design on four surfaces, cycled from the button in the bar and named
+in the gear menu. Floodlights is the house style; the other three are
+preferences, remembered per browser.
+
+| ground | what it is | the loud colour |
+|---|---|---|
+| Floodlights | olive-black, a pitch at night | amber |
+| Daylight | warm paper | amber, darkened |
+| The pitch | deep grass | touchline white-green |
+| The press | newsprint, the sports section | match-report red |
+
+Each is nothing but a block of surface variables on `:root[data-theme='…']`.
+No component knows which one is on, with two exceptions, both because contrast
+is not a preference: the six rarity tiers are re-lit for the printed grounds,
+and `--tier-fg` flips the ink on a filled tier block, since a tier is bright on
+a dark ground and dark on paper.
 
 The rest of the design holds itself to a short list: one accent colour used
 sparingly, flat surfaces and hairline rules with no glows or decorative
@@ -351,6 +364,32 @@ IBM Plex Sans for everything else, 96px between the major blocks of a page, and
 a stated hover, active and focus at 200ms on everything you can click. The
 rarity tiers are the single deliberate exception to the palette, because colour
 there is data: a gold card has to look like a gold card.
+
+## The player follows you down the page
+
+The card at the top of the left column carries the name, the rating, the club,
+the ceiling and the cabinet, with **age and market value set at rating size** —
+they are the two numbers a career is discussed in, and they used to be four
+words of metadata under the name.
+
+The moment that card scrolls out of the window, the top bar takes the player
+over: crest, name, age, value, rating underlined in its tier. It hands him back
+when the card returns. An `IntersectionObserver` on the card itself does the
+handover, rather than a scroll offset, so it stays right at any zoom or font
+size.
+
+## Eleven trophies, eleven drawings
+
+`TROPHY_ART` in `src/ui/bits.tsx` draws each one: a plate for a league title, a
+two-handled cup for a domestic one, tall ears for the continental, a figure
+holding a globe for the World Cup, a boot, a glove, a ball on a plinth, a
+shield for the team of the season. They used to share five silhouettes, which
+meant the cabinet said how much you had won but never what.
+
+Each is a *type* of trophy rather than a copy of a real one, drawn as a
+silhouette plus one detail path at low opacity, in the current text colour — so
+they work at 13px in a rail row and at any size in the cabinet, on all four
+grounds, without needing a colour the palette does not have.
 
 ## Adding a language
 

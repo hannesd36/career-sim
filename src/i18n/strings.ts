@@ -371,8 +371,12 @@ const en = {
 
   'set.title': 'Settings',
   'set.done': 'Done',
+  'set.theme': 'Ground',
   'theme.black': 'Floodlights',
   'theme.white': 'Daylight',
+  'theme.pitch': 'The pitch',
+  'theme.press': 'The press',
+  'theme.next': 'Switch to {theme}',
 }
 
 type Key = keyof typeof en
@@ -715,8 +719,12 @@ const de: Record<Key, string> = {
 
   'set.title': 'Einstellungen',
   'set.done': 'Fertig',
+  'set.theme': 'Untergrund',
   'theme.black': 'Flutlicht',
   'theme.white': 'Tageslicht',
+  'theme.pitch': 'Rasen',
+  'theme.press': 'Zeitung',
+  'theme.next': 'Wechseln zu {theme}',
 }
 
 export const DICT: Record<Lang, Record<Key, string>> = { en, de }

@@ -42,6 +42,10 @@
      text keeps its own value and the two diverge in daylight */
   --flood-text: #f0b429;
 
+  /* Text on a filled tier block. The tiers are bright on a dark ground and
+     dark on paper, so the ink on them has to flip with the ground. */
+  --tier-fg: #17130a;
+
   /* --- institutional --- */
   --pitch: #3f8f63;
   --claret: #c0405c;
@@ -86,6 +90,7 @@
   --flood: #d4901a;
   --flood-fg: #17130a;
   --flood-text: #8a5806;
+  --tier-fg: #fffdf6;
 
   --pitch: #26714b;
   --claret: #a02341;
@@ -96,24 +101,92 @@
   color-scheme: light;
 }
 
+/*
+ * --- the pitch: a night game seen from the halfway line ---
+ * Deep grass rather than tarmac, and the loud colour moves from floodlight
+ * amber to the white of a fresh touchline, because on green a line is the
+ * thing your eye follows.
+ */
+:root[data-theme='pitch'] {
+  --bg: #0b1a12;
+  --bg-raise: #12251a;
+  --bg-sunk: #071009;
+
+  --fg: #eef4ec;
+  --fg-2: #9bb3a4;
+  --fg-3: #67806f;
+
+  --line: #1d3527;
+  --line-2: #2d4c36;
+
+  --flood: #6ee79a;
+  --flood-fg: #05170c;
+  --flood-text: #7ff0a8;
+
+  --pitch: #6ee79a;
+  --claret: #e0607c;
+
+  --up: #6ee79a;
+  --down: #e0607c;
+
+  color-scheme: dark;
+}
+
+/*
+ * --- the press: the sports section, on newsprint ---
+ * Cheap warm paper, ink that is not quite black, and one red the way a match
+ * report marks the score. The most printed of the four.
+ */
+:root[data-theme='press'] {
+  --bg: #f4f1e8;
+  --bg-raise: #fffdf6;
+  --bg-sunk: #e6e1d4;
+
+  --fg: #1a1a18;
+  --fg-2: #55534c;
+  --fg-3: #86837a;
+
+  --line: #d5d0c2;
+  --line-2: #b6b0a0;
+
+  --flood: #c0261f;
+  --flood-fg: #fffdf6;
+  --flood-text: #a51d17;
+  --tier-fg: #fffdf6;
+
+  --pitch: #1f6b45;
+  --claret: #8c1d3f;
+
+  --up: #1f6b45;
+  --down: #b0293f;
+
+  color-scheme: light;
+}
+
 /* The tiers are lit for a dark ground; on paper they need their own values or
    platinum and silver disappear into the page. Same six steps, same order. */
-:root[data-theme='white'] .rar-bronze {
+:root[data-theme='white'] .rar-bronze,
+:root[data-theme='press'] .rar-bronze {
   --tier: #8a5326;
 }
-:root[data-theme='white'] .rar-silver {
+:root[data-theme='white'] .rar-silver,
+:root[data-theme='press'] .rar-silver {
   --tier: #666e73;
 }
-:root[data-theme='white'] .rar-gold {
+:root[data-theme='white'] .rar-gold,
+:root[data-theme='press'] .rar-gold {
   --tier: #96700f;
 }
-:root[data-theme='white'] .rar-rare {
+:root[data-theme='white'] .rar-rare,
+:root[data-theme='press'] .rar-rare {
   --tier: #b0821a;
 }
-:root[data-theme='white'] .rar-platinum {
+:root[data-theme='white'] .rar-platinum,
+:root[data-theme='press'] .rar-platinum {
   --tier: #256f88;
 }
-:root[data-theme='white'] .rar-ultimate {
+:root[data-theme='white'] .rar-ultimate,
+:root[data-theme='press'] .rar-ultimate {
   --tier: #7c5c14;
 }
 
@@ -289,12 +362,26 @@ h3 {
 /* --- topbar: a fixture strip, not a navigation bar --- */
 
 .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
   display: flex;
   align-items: center;
   gap: var(--s3);
   padding: var(--s4) 0 var(--s3);
+  background: var(--bg);
   border-bottom: 2px solid var(--fg);
   margin-bottom: var(--s6);
+}
+
+/* the bar spans the gutter too, so nothing slides visibly under its edges */
+.topbar::before {
+  content: '';
+  position: absolute;
+  inset: 0 -24px;
+  background: var(--bg);
+  border-bottom: 2px solid var(--fg);
+  z-index: -1;
 }
 
 .wordmark {
@@ -310,6 +397,65 @@ h3 {
   align-items: center;
   gap: var(--s1);
   margin-left: auto;
+}
+
+/*
+ * The player perched in the bar. He appears the moment the card scrolls out of
+ * the window and goes again when it comes back, so the four things you keep
+ * glancing at are never off the screen: who, how old, what you are worth, what
+ * you are rated.
+ */
+.perch {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-width: 0;
+  margin-left: var(--s4);
+  padding-left: var(--s4);
+  border-left: 1px solid var(--line-2);
+  animation: perch-in var(--t) both;
+}
+
+@keyframes perch-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.perch-name {
+  font-family: var(--poster);
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.perch-facts {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 12px;
+  color: var(--fg-2);
+  white-space: nowrap;
+}
+
+.perch-facts b {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+}
+
+.perch-ovr {
+  font-family: var(--poster);
+  font-size: 20px;
+  line-height: 1;
+  padding-bottom: 2px;
+  box-shadow: inset 0 -3px 0 var(--tier, var(--fg-2));
 }
 
 /* ============================================================== 2. type kit */
@@ -544,11 +690,48 @@ h3 {
   color: var(--fg-3);
 }
 
+/*
+ * Age and market value, at the size the rating is. They are the two numbers a
+ * career gets discussed in — how much time is left and what the market thinks
+ * of you — and they were previously four words of metadata under the name.
+ */
+.card-figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: var(--s4);
+  border-top: 1px solid var(--line);
+}
+
+.figure {
+  padding: var(--s3) var(--s3) var(--s3) 0;
+}
+
+.figure + .figure {
+  padding-left: var(--s4);
+  border-left: 1px solid var(--line);
+}
+
+.figure-k {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: var(--s1);
+}
+
+.figure-v {
+  font-family: var(--poster);
+  font-size: clamp(30px, 3.6vw, 44px);
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
 .card-tally {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s2) var(--s5);
-  margin-top: var(--s3);
+  margin-top: 0;
   padding: var(--s3) 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -1097,7 +1280,7 @@ button.yr:hover .yr-age,
   font-family: var(--poster);
   font-size: 16px;
   line-height: 1.1;
-  color: #17130a;
+  color: var(--tier-fg);
   background: var(--tier, var(--fg-2));
 }
 
@@ -2677,6 +2860,87 @@ select.ruled option {
   color: var(--fg-3);
 }
 
+/* --- the four grounds --- */
+
+.grounds {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  border: 1px solid var(--line);
+}
+
+.ground {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3);
+  border-right: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  transition: color var(--t), background var(--t);
+}
+
+.ground:last-child {
+  border-right: none;
+}
+
+.ground:hover {
+  color: var(--fg);
+  background: var(--bg-raise);
+}
+
+.ground--on {
+  color: var(--fg);
+  box-shadow: inset 0 -3px 0 var(--flood);
+}
+
+/* each swatch is the ground it stands for, with its own loud colour on it */
+.ground-swatch {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border: 1px solid var(--line-2);
+}
+
+.ground-swatch i {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  width: 10px;
+  height: 4px;
+}
+
+.ground-swatch--black {
+  background: #0e100e;
+}
+.ground-swatch--black i {
+  background: #f0b429;
+}
+
+.ground-swatch--white {
+  background: #e9e5da;
+}
+.ground-swatch--white i {
+  background: #d4901a;
+}
+
+.ground-swatch--pitch {
+  background: #0b1a12;
+}
+.ground-swatch--pitch i {
+  background: #6ee79a;
+}
+
+.ground-swatch--press {
+  background: #f4f1e8;
+}
+.ground-swatch--press i {
+  background: #c0261f;
+}
+
 /* ============================================================== 20. phones */
 
 @media (max-width: 900px) {
@@ -2825,6 +3089,24 @@ select.ruled option {
 @media (max-width: 560px) {
   .rule-head {
     flex-wrap: wrap;
+  }
+
+  /* On a phone the perch drops everything but the name and the rating, and
+     takes the bar's whole width once the wordmark is down to its square. */
+  .perch {
+    margin-left: var(--s3);
+    padding-left: var(--s3);
+    gap: var(--s2);
+  }
+
+  .perch-facts,
+  .perch .crest,
+  .perch .crest-fallback {
+    display: none;
+  }
+
+  .perch-name {
+    font-size: 15px;
   }
 
   /* Two languages, four controls and 390px: the mark carries the name. */

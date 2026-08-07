@@ -43,9 +43,7 @@ export function Identity({ career, onClub }: Props) {
             {nation && <Flag code={nation.flag} title={country(nation.name)} />}
             <span className="pos">{t(`pos.${player.position}` as StringKey)}</span>
             <span className="dot" />
-            <span>{player.age}</span>
-            <span className="dot" />
-            <span>{formatValue(player.value, lang)}</span>
+            <span>{t(`create.foot${player.foot}` as StringKey)}</span>
           </div>
         </div>
         <Grade ovr={player.ovr} size="md" />
@@ -66,6 +64,20 @@ export function Identity({ career, onClub }: Props) {
           </span>
         )}
         {player.onLoan && <span className="tag">{t('card.loan')}</span>}
+      </div>
+
+      {/* Age and what you are worth are the two numbers a career is discussed
+          in, so they are set at the size the rating is, not tucked into a
+          line of metadata. Everything you have produced follows them. */}
+      <div className="card-figures">
+        <div className="figure">
+          <div className="figure-k">{t('card.age')}</div>
+          <div className="figure-v">{player.age}</div>
+        </div>
+        <div className="figure">
+          <div className="figure-k">{t('card.value')}</div>
+          <div className="figure-v">{formatValue(player.value, lang)}</div>
+        </div>
       </div>
 
       <div className="card-tally">

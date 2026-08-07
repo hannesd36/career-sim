@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { NATION_BY_NAME } from '../data/nations'
 import { rarityClass } from '../engine/rarity'
 import { isKeeper } from '../engine/sim'
-import type { Career, SeasonRecord } from '../engine/types'
+import type { Career, SeasonRecord, TrophyId } from '../engine/types'
 import { useI18n } from '../i18n'
 import { Crest, Delta, Flag, TrophyIcon, seasonLabel } from './bits'
 
@@ -20,7 +20,8 @@ interface Spell {
   goals: number
   cleanSheets: number
   ovrEnd: number
-  trophies: number
+  /** what was won here, so the cabinet shows up in the timeline */
+  trophies: TrophyId[]
   seasons: SeasonRecord[]
 }
 
@@ -38,7 +39,7 @@ function spellsOf(history: SeasonRecord[]): Spell[] {
       last.goals += s.goals
       last.cleanSheets += s.cleanSheets
       last.ovrEnd = s.ovrEnd
-      last.trophies += s.trophies.length
+      last.trophies.push(...s.trophies.map((tr) => tr.id))
       last.seasons.push(s)
       continue
     }
@@ -53,7 +54,7 @@ function spellsOf(history: SeasonRecord[]): Spell[] {
       goals: s.goals,
       cleanSheets: s.cleanSheets,
       ovrEnd: s.ovrEnd,
-      trophies: s.trophies.length,
+      trophies: s.trophies.map((tr) => tr.id),
       seasons: [s],
     })
   }
@@ -79,7 +80,7 @@ interface Props {
  * fixed number of years and how many you have spent.
  */
 export function Rail({ career, reading, onRead, onNow }: Props) {
-  const { t, country } = useI18n()
+  const { t, country, trophyShort } = useI18n()
   const keeper = isKeeper(career.player.position)
   const spells = spellsOf(career.history)
   const nation = NATION_BY_NAME[career.player.nation]
@@ -142,10 +143,13 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
               )}
               <Crest club={{ name: spell.clubName, badge: spell.badge }} />
               <span className="nm">{spell.clubName}</span>
-              {spell.trophies > 0 && (
-                <span className="yr-cup">
-                  <TrophyIcon id="league" size={12} />
-                  {spell.trophies > 1 && <b>{spell.trophies}</b>}
+              {spell.trophies.length > 0 && (
+                <span className="yr-cup" title={spell.trophies.map((id) => trophyShort(id)).join(', ')}>
+                  {/* two at most, then a count: a shelf, not a parade */}
+                  {spell.trophies.slice(0, 2).map((id, i) => (
+                    <TrophyIcon id={id} size={13} key={i} />
+                  ))}
+                  {spell.trophies.length > 2 && <b>{spell.trophies.length}</b>}
                 </span>
               )}
             </span>
