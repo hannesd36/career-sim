@@ -1,9 +1,33 @@
 import { LEAGUE_BY_ID } from '../data/leagues'
 import { retirementHint } from '../engine/career'
-import type { Career, Offer } from '../engine/types'
+import type { Career, Club, Offer } from '../engine/types'
 import { useI18n } from '../i18n'
 import type { StringKey } from '../i18n/strings'
 import { Crest, Flag, roleClass, seasonLabel } from './bits'
+
+/**
+ * Where a club sits inside its own division. A career decision is never really
+ * "Bundesliga or Serie A", it is "who am I at this club", so the line under a
+ * club name says what the club is rather than repeating the country the flag
+ * has already given.
+ */
+function Standing({ club }: { club: Club }) {
+  const { t } = useI18n()
+  const league = LEAGUE_BY_ID[club.leagueId]
+  // nobody in the third division is chasing Europe; they are chasing the way out
+  const chasingEurope = league.euroSpots > 0
+  const key: StringKey =
+    club.tier === 2 && !chasingEurope ? 'standing.promotion' : (`standing.${club.tier}` as StringKey)
+
+  return (
+    <span className="approach-where">
+      <Flag code={league.flag} />
+      {league.name}
+      <span className="dot" />
+      {t(key)}
+    </span>
+  )
+}
 
 interface Props {
   career: Career
@@ -20,7 +44,7 @@ interface Props {
  * before you have read a word.
  */
 export function OfferScreen({ career, onAccept, onRetire, onClub }: Props) {
-  const { t, role, country, competition } = useI18n()
+  const { t, role, competition } = useI18n()
   const reason = retirementHint(career)
 
   if (career.offers.length === 0) return null
@@ -32,7 +56,11 @@ export function OfferScreen({ career, onAccept, onRetire, onClub }: Props) {
       ? o
       : best,
   )
-  const rest = career.offers.filter((o) => o !== lead)
+  // the rest read down the page as a ladder, best first, so the shape of the
+  // window is legible before a single club name has been read
+  const rest = career.offers
+    .filter((o) => o !== lead)
+    .sort((a, b) => b.club.strength - a.club.strength)
 
   return (
     <section className="market">
@@ -64,10 +92,7 @@ export function OfferScreen({ career, onAccept, onRetire, onClub }: Props) {
                   <Crest club={offer.club} />
                   <span style={{ minWidth: 0 }}>
                     <span className="approach-name">{offer.club.name}</span>
-                    <span className="approach-where">
-                      <Flag code={league.flag} />
-                      {league.name}, {country(league.country)}
-                    </span>
+                    <Standing club={offer.club} />
                   </span>
                   <span className="approach-tags">
                     {staying && <span className="tag tag--home">{t('offers.stay')}</span>}
@@ -125,7 +150,7 @@ function Lead({
   onAccept: (o: Offer) => void
   onClub: (id: string) => void
 }) {
-  const { t, role, country, competition } = useI18n()
+  const { t, role, competition } = useI18n()
   const league = LEAGUE_BY_ID[offer.club.leagueId]
   const staying = offer.club.id === career.player.clubId && !offer.loan
 
@@ -141,10 +166,7 @@ function Lead({
             {t('offers.lead')}
           </span>
           <span className="approach-name">{offer.club.name}</span>
-          <span className="approach-where">
-            <Flag code={league.flag} />
-            {league.name}, {country(league.country)}
-          </span>
+          <Standing club={offer.club} />
           <span className="approach-tags" style={{ marginLeft: 0, justifyContent: 'flex-start', marginTop: 'var(--s3)' }}>
             {staying && <span className="tag tag--home">{t('offers.stay')}</span>}
             {offer.loan && <span className="tag">{t('offers.loan')}</span>}
@@ -167,7 +189,8 @@ function Lead({
           </span>
         </span>
       </button>
-      <div className="act-row" style={{ marginTop: 'var(--s3)' }}>
+      {/* secondary to the point of being almost absent: the page has one action */}
+      <div className="act-row" style={{ marginTop: 'var(--s2)', justifyContent: 'flex-end' }}>
         <button className="act act--quiet" onClick={() => onClub(offer.club.id)}>
           {t('table.open')}
         </button>

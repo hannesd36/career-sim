@@ -4,7 +4,7 @@ import { isKeeper } from '../engine/sim'
 import type { Career, TrophyId } from '../engine/types'
 import { useI18n } from '../i18n'
 import type { StringKey } from '../i18n/strings'
-import { Arc, Crest, Flag, Grade, TrophyIcon, formatValue, seasonLabel } from './bits'
+import { Crest, Flag, Grade, Trajectory, TrophyIcon, formatValue, seasonLabel } from './bits'
 import { CareerTable } from './CareerTable'
 
 interface Props {
@@ -118,7 +118,10 @@ export function SummaryScreen({ career, onPlayAgain, onBack, onClub }: Props) {
       </header>
 
       <section>
-        <div className="readout">
+        {/* the whole thing as one line: sixteen to the day you stopped */}
+        {career.history.length >= 2 && <Trajectory career={career} height={150} />}
+
+        <div className="readout" style={{ marginTop: 'var(--s5)' }}>
           <div className="readout-cell">
             <div className="readout-k">{t('card.apps')}</div>
             <div className="readout-v">{stats.apps + stats.natApps}</div>
@@ -143,11 +146,6 @@ export function SummaryScreen({ career, onPlayAgain, onBack, onClub }: Props) {
           </div>
         </div>
 
-        {career.history.length >= 2 && (
-          <div className="arc" style={{ marginTop: 'var(--s5)' }}>
-            <Arc values={career.history.map((s) => s.ovrEnd)} />
-          </div>
-        )}
       </section>
 
       <section>

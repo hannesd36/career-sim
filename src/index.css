@@ -238,12 +238,18 @@ img {
   outline-offset: 2px;
 }
 
+/*
+ * Set tight, but not tighter than German allows. At 0.92 the dots of an
+ * uppercase Ä or Ü land inside the line above and get cut, which turns WÄHL
+ * into WAHL and FÜR into FUR. One is the room the diacritics need, and the
+ * poster still reads as a poster.
+ */
 h1,
 h2,
 h3 {
   font-family: var(--poster);
   font-weight: 400;
-  line-height: 0.92;
+  line-height: 1;
   letter-spacing: 0.005em;
   margin: 0;
   overflow-wrap: break-word;
@@ -423,9 +429,13 @@ h3 {
   }
 }
 
+/* `overflow: hidden` clips top and bottom as well as the sides, so a name set
+   at a line height of one loses the dots off its umlauts. The leading is the
+   only room they get. */
 .perch-name {
   font-family: var(--poster);
-  font-size: 17px;
+  font-size: 30px;
+  line-height: 1.3;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -433,10 +443,16 @@ h3 {
   text-overflow: ellipsis;
 }
 
+/*
+ * The facts are the whole reason the bar carries him, so they are set at the
+ * size of the name rather than as footnotes beside it. Age above all: it is
+ * the number that decides how much career is left, and it was previously the
+ * smallest thing on the bar.
+ */
 .perch-facts {
   display: flex;
   align-items: center;
-  gap: var(--s2);
+  gap: var(--s3);
   font-size: 12px;
   color: var(--fg-2);
   white-space: nowrap;
@@ -445,17 +461,24 @@ h3 {
 .perch-facts b {
   font-family: var(--poster);
   font-weight: 400;
-  font-size: 15px;
+  font-size: 30px;
+  line-height: 1;
   letter-spacing: 0.02em;
   color: var(--fg);
 }
 
 .perch-ovr {
   font-family: var(--poster);
-  font-size: 20px;
+  font-size: 38px;
   line-height: 1;
-  padding-bottom: 2px;
-  box-shadow: inset 0 -3px 0 var(--tier, var(--fg-2));
+  padding-bottom: 3px;
+  box-shadow: inset 0 -4px 0 var(--tier, var(--fg-2));
+}
+
+.perch .crest,
+.perch .crest-fallback {
+  width: 32px;
+  height: 32px;
 }
 
 /* ============================================================== 2. type kit */
@@ -672,22 +695,152 @@ h3 {
   margin-left: auto;
 }
 
+/*
+ * The shirt you are in. It used to be a line of metadata; a club is the single
+ * biggest fact about a footballer at any given moment, so it is set as a crest
+ * and a name rather than a link in a sentence.
+ */
 .card-club {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--s2) var(--s3);
+  gap: var(--s3);
   margin-top: var(--s4);
   padding-top: var(--s3);
   border-top: 1px solid var(--line);
-  font-size: 13.5px;
 }
 
-.card-where {
-  font-size: 11px;
+.badge {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-width: 0;
+  transition: color var(--t);
+}
+
+.badge .crest--lg {
+  width: 34px;
+  height: 34px;
+}
+
+.badge-text {
+  display: block;
+  min-width: 0;
+}
+
+.badge-club {
+  display: block;
+  font-family: var(--poster);
+  font-size: 21px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.badge-where {
+  display: block;
+  margin-top: 2px;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.badge:hover .badge-club {
+  color: var(--flood-text);
+}
+
+/*
+ * The player reduced to one line, for the screens where he is not the subject
+ * but the person it is happening to. Same facts as the bar keeps when the card
+ * scrolls away, so the two never contradict each other.
+ */
+.who {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding-bottom: var(--s3);
+  border-bottom: 1px solid var(--line-2);
+}
+
+.who .crest--lg,
+.who .crest-fallback.crest--lg {
+  width: 34px;
+  height: 34px;
+  flex: none;
+}
+
+/* same leading as the bar, and for the same reason: the ellipsis costs a clip */
+.who-name {
+  font-family: var(--poster);
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.3;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: none;
+  max-width: 40%;
+}
+
+/* the one flexible thing on the strip, so it takes the slack and the numbers
+   are held against the right edge */
+.who-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 12.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--fg-3);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.who-club {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--fg-2);
+}
+
+/*
+ * Age and value at the size the rating is. On a decision screen these are not
+ * metadata about the player, they are the two things the decision turns on:
+ * how many years are left, and what the market currently thinks of you.
+ */
+.who-fact {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  flex: none;
+}
+
+.who-fact i {
+  font-style: normal;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.who-fact b {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.who-ovr {
+  flex: none;
+  font-family: var(--poster);
+  font-size: 38px;
+  line-height: 1;
+  padding-bottom: 3px;
+  box-shadow: inset 0 -4px 0 var(--tier, var(--fg-2));
 }
 
 /*
@@ -756,7 +909,7 @@ h3 {
   color: var(--fg);
 }
 
-.card .ceiling {
+.card .ahead {
   margin-top: var(--s4);
 }
 
@@ -1000,26 +1153,26 @@ h3 {
   letter-spacing: 0.02em;
 }
 
-/* ========================================================== 7. the ceiling */
+/* ============================================================== 7. the arc */
 
 /*
- * What you are and what you could still be are the same fact read at two
- * distances, so the range sits beside the rating rather than in a panel of its
- * own further down the page. Three marks and no chrome: the range, where today
- * falls inside it, and the points left to the next tier.
+ * The career as one line.
+ *
+ * Every rating the player has held, plotted against the only axis a career is
+ * really measured on, and then the part that has not happened yet: a wedge
+ * opening towards what the game still thinks he could become, and an empty
+ * stretch of years to do it in. It replaces a rating and a range read
+ * separately, and it is the one graphic in the game that is allowed to be the
+ * biggest thing on its panel.
  */
-.ceiling {
-  padding-bottom: 6px;
-}
-
-.ceiling-top {
+.ahead-top {
   display: flex;
   align-items: baseline;
   gap: var(--s2);
   margin-bottom: var(--s2);
 }
 
-.ceiling-k {
+.ahead-k {
   font-size: 9.5px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -1027,14 +1180,14 @@ h3 {
   color: var(--fg-3);
 }
 
-.ceiling-range {
+.ahead-range {
   margin-left: auto;
   font-family: var(--poster);
   font-size: 17px;
   white-space: nowrap;
 }
 
-.ceiling-range i {
+.ahead-range i {
   font-style: normal;
   font-family: var(--doc);
   font-size: 9px;
@@ -1045,50 +1198,126 @@ h3 {
   margin: 0 6px;
 }
 
-.ceiling-bar {
-  position: relative;
-  height: 2px;
-  background: var(--line);
-}
-
-.ceiling-span {
-  position: absolute;
-  top: 0;
-  height: 2px;
-  background: var(--fg-2);
-}
-
-.ceiling-now {
-  position: absolute;
-  top: -5px;
-  width: 3px;
-  height: 12px;
-  background: var(--flood);
-  transition: left var(--t-slow);
-}
-
-.ceiling-next {
+.ahead-next {
   display: flex;
   align-items: center;
   gap: var(--s2);
-  margin-top: var(--s2);
+  margin-top: var(--s3);
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--fg-3);
 }
 
-.ceiling-next i {
+.ahead-next i {
   width: 3px;
   height: 11px;
   background: var(--tier, var(--fg-2));
   flex: none;
 }
 
-.ceiling-next b {
+.ahead-next b {
   font-family: var(--poster);
   font-size: 13px;
   color: var(--fg-2);
+}
+
+.arc {
+  position: relative;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+/*
+ * The plot is stretched to the panel, so nothing round is drawn inside it, and
+ * the marks sit in an identical box on top so the two always agree. Neither
+ * takes a click: an svg sized by its own aspect ratio will happily swallow half
+ * the page.
+ */
+.arc-plot,
+.arc-marks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 18px);
+  pointer-events: none;
+}
+
+.arc-line {
+  stroke: var(--fg);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/*
+ * What is still possible: an opening range, drawn as two edges with barely
+ * anything between them. Filled any heavier it stops reading as a claim about
+ * the future and starts reading as a shape someone liked.
+ */
+.arc-ahead {
+  fill: color-mix(in srgb, var(--flood) 9%, transparent);
+  stroke: color-mix(in srgb, var(--flood) 50%, transparent);
+  stroke-width: 1;
+}
+
+/* markers are HTML on top of the plot, so a stretched viewBox cannot squash them */
+.arc-now,
+.arc-peak {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.arc-now {
+  width: 9px;
+  height: 9px;
+  background: var(--flood);
+  box-shadow: 0 0 0 3px var(--bg);
+}
+
+/* the best you have ever been, named where it happened */
+.arc-peak {
+  font-family: var(--poster);
+  font-size: 13px;
+  line-height: 1;
+  color: var(--fg-2);
+  transform: translate(-50%, -160%);
+  white-space: nowrap;
+}
+
+.arc-axis {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.arc-axis span {
+  position: absolute;
+  top: 4px;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--fg-3);
+  opacity: 0.6;
+}
+
+/* the years already spent are lit; the rest are the ones still to come */
+.arc-axis span.on {
+  color: var(--fg-2);
+  opacity: 1;
+}
+
+.arc-axis span:first-child {
+  transform: none;
+}
+
+.arc-axis span:last-child {
+  transform: translateX(-100%);
 }
 
 /* ============================================================= 8. kick off */
@@ -1290,6 +1519,25 @@ button.yr:hover .yr-age,
   color: var(--fg-3);
 }
 
+/*
+ * A transfer up or down the pyramid. Without it every club in the column reads
+ * the same weight, and the difference between signing for Chelsea and dropping
+ * to League One is left to the reader to work out from the crest.
+ */
+.yr-move {
+  flex: none;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.yr-move--up {
+  color: var(--up);
+}
+
+.yr-move--down {
+  color: var(--down);
+}
+
 .yr-cup {
   display: inline-flex;
   align-items: center;
@@ -1328,10 +1576,27 @@ button.yr:hover .yr-age,
   color: var(--flood-text);
 }
 
-/* the years still ahead of you, which is the whole point of the column */
+/*
+ * The years still ahead of you, which is the whole point of the column. The
+ * ones a career changes character at say so, so the empty half reads as the
+ * shape of what is coming rather than as blank rows: emerging at eighteen,
+ * established at twenty-one, prime at twenty-five, veteran at thirty.
+ */
 .yr--ahead .yr-age {
   color: var(--fg-3);
   opacity: 0.55;
+}
+
+.yr--chapter .yr-age {
+  opacity: 1;
+}
+
+.yr-stage {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-3);
 }
 
 /* --- the seasons inside a spell --- */
@@ -2613,11 +2878,13 @@ select.ruled option {
  * It reads top to bottom like an honours board: who, how good, what was won,
  * where it was spent.
  */
-/* the front of the game: one sentence, set as a poster */
+/* the front of the game: one sentence, set as a poster. Two lines in both
+   languages, and enough room above it for the umlauts German puts there. */
 .poster-title {
   font-size: clamp(40px, 8.2vw, 86px);
   text-transform: uppercase;
-  max-width: 15ch;
+  max-width: 19ch;
+  padding-top: 0.08em;
   margin: 0 0 var(--s4);
 }
 
@@ -2649,7 +2916,7 @@ select.ruled option {
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--s5);
-  margin-top: var(--s6);
+  margin-top: var(--s5);
 }
 
 .legacy-verdict {
@@ -2781,16 +3048,6 @@ select.ruled option {
   font-family: var(--poster);
   font-size: 14px;
   color: var(--fg-3);
-}
-
-.arc {
-  color: var(--fg-2);
-}
-
-.arc svg {
-  display: block;
-  width: 100%;
-  height: 68px;
 }
 
 /* =========================================================== 19. settings */
@@ -2957,6 +3214,11 @@ select.ruled option {
     margin-inline: -18px;
   }
 
+  /* the bar spans the gutter, and the gutter is narrower here */
+  .topbar::before {
+    inset: 0 -18px;
+  }
+
   /* One column at a time on a phone: the present first, the years under it. */
   .spread {
     grid-template-columns: minmax(0, 1fr);
@@ -3016,6 +3278,7 @@ select.ruled option {
   .approach-lead-side {
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
     width: 100%;
   }
 
@@ -3041,6 +3304,13 @@ select.ruled option {
 
   .approach-squad b {
     display: inline;
+  }
+
+  /* the lead keeps its number beside the one action, or the action is pushed
+     off the side of the phone */
+  .approach--lead .approach-squad {
+    width: auto;
+    flex: 1;
   }
 
   .sheet-scrim {
@@ -3091,6 +3361,41 @@ select.ruled option {
     flex-wrap: wrap;
   }
 
+  /* the strip keeps who, how old and what he is rated on one line and drops the
+     rest underneath, rather than shrinking a name until it is unreadable */
+  .who {
+    flex-wrap: wrap;
+    gap: var(--s2) var(--s3);
+  }
+
+  /* the meta drops to its own line, so the name takes the slack instead and
+     the numbers still finish against the right edge */
+  .who-name {
+    max-width: none;
+    font-size: 24px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .who-meta {
+    order: 3;
+    width: 100%;
+    font-size: 11.5px;
+  }
+
+  /* the market can wait until there is room for it */
+  .who-fact--value {
+    display: none;
+  }
+
+  .who-fact b {
+    font-size: 26px;
+  }
+
+  .who-ovr {
+    font-size: 30px;
+  }
+
   /* On a phone the perch drops everything but the name and the rating, and
      takes the bar's whole width once the wordmark is down to its square. */
   .perch {
@@ -3106,7 +3411,36 @@ select.ruled option {
   }
 
   .perch-name {
-    font-size: 15px;
+    font-size: 19px;
+    /* whatever else is on the bar, some of the name survives */
+    min-width: 4ch;
+  }
+
+  .perch-ovr {
+    font-size: 26px;
+  }
+
+  /* every pixel the furniture gives up is a pixel of the player's name */
+  .topbar {
+    gap: var(--s2);
+  }
+
+  .lang button {
+    padding: 11px 8px;
+  }
+
+  /* On a phone the bar belongs to the player, not to the furniture, so the way
+     back to the careers list drops to its glyph and gives up its label. */
+  .act--back {
+    width: 36px;
+    padding: 0;
+    font-size: 0;
+  }
+
+  .act--back::before {
+    content: '←';
+    font-size: 16px;
+    line-height: 1;
   }
 
   /* Two languages, four controls and 390px: the mark carries the name. */

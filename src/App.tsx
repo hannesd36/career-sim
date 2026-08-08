@@ -64,8 +64,8 @@ export default function App() {
       return
     }
     const watch = new IntersectionObserver(([entry]) => setPerched(!entry.isIntersecting), {
-      // the topbar is about 60px tall, so the handover happens under it
-      rootMargin: '-64px 0px 0px 0px',
+      // the topbar is about 80px tall, so the handover happens under it
+      rootMargin: '-80px 0px 0px 0px',
     })
     watch.observe(card)
     return () => watch.disconnect()
@@ -152,6 +152,77 @@ export default function App() {
   const steps = MODE_CONFIG[career.mode].seasons
   const stage = careerStage(career)
 
+  /*
+   * Between seasons the page is a dossier: who you are, what you just did, and
+   * one button. The moment the career is waiting on a decision it stops being a
+   * dossier. The decision takes the top of the column, the player shrinks to
+   * the one line it is happening to, and the season you just played becomes the
+   * context underneath it rather than the thing you have to scroll past.
+   */
+  const waiting = career.phase !== 'season'
+
+  const ask = (
+    <div className="ask" ref={nowRef}>
+      {career.phase === 'season' && (
+        <>
+          <button className="kickoff" onClick={() => play(steps)}>
+            {club && <Crest club={club} size="lg" eager />}
+            <span className="kickoff-label">
+              {steps > 1 && club
+                ? t('season.playNAt', { n: steps, club: club.name })
+                : club
+                  ? t('season.playAt', {
+                      season: seasonLabel(career.season),
+                      club: club.name,
+                    })
+                  : t('season.play', { season: seasonLabel(career.season) })}
+            </span>
+            <span className="kickoff-go" aria-hidden="true">
+              →
+            </span>
+          </button>
+          <div className="tempo" role="group" aria-label={t('mode.title')}>
+            {STEPS.map((n) => (
+              <button
+                key={n}
+                className={n === steps ? 'on' : undefined}
+                onClick={() => play(n)}
+                title={t('mode.seasonsPerClick', { n })}
+              >
+                {t('mode.nSeasons', { n })}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      {career.phase === 'event' && (
+        <EventScreen
+          career={career}
+          onChoose={(choice) => setCareer(resolveEvent(career, choice))}
+          onContinue={() => setCareer(closeEvent(career))}
+        />
+      )}
+
+      {career.phase === 'penalty' && (
+        <PenaltyScreen
+          career={career}
+          onTake={(corner: PenaltyCorner) => setCareer(takePenalty(career, corner))}
+          onContinue={() => setCareer(closePenalty(career))}
+        />
+      )}
+
+      {career.phase === 'offers' && (
+        <OfferScreen
+          career={career}
+          onAccept={accept}
+          onRetire={() => setCareer(retire(career))}
+          onClub={openClub}
+        />
+      )}
+    </div>
+  )
+
   // The left hand column reads one season: the one just played, or the one you
   // went back to on the rail. The right hand column is the career.
   const shown =
@@ -170,7 +241,7 @@ export default function App() {
         onSettings={() => setSettingsOpen((v) => !v)}
         perch={perched ? career : null}
       >
-        <button className="act act--quiet" onClick={backHome}>
+        <button className="act act--quiet act--back" onClick={backHome} title={t('app.careers')}>
           {t('app.careers')}
         </button>
       </Topbar>
@@ -197,8 +268,14 @@ export default function App() {
         <div className="spread">
           <div className="now">
             <div ref={cardRef}>
-              <Identity career={career} onClub={openClub} />
+              <Identity
+                career={career}
+                onClub={openClub}
+                variant={waiting ? 'strip' : 'full'}
+              />
             </div>
+
+            {waiting && ask}
 
             {shown && (
               <SeasonPanel
@@ -209,65 +286,7 @@ export default function App() {
               />
             )}
 
-            <div className="ask" ref={nowRef}>
-              {career.phase === 'season' && (
-                <>
-                  <button className="kickoff" onClick={() => play(steps)}>
-                    {club && <Crest club={club} size="lg" eager />}
-                    <span className="kickoff-label">
-                      {steps > 1 && club
-                        ? t('season.playNAt', { n: steps, club: club.name })
-                        : club
-                          ? t('season.playAt', {
-                              season: seasonLabel(career.season),
-                              club: club.name,
-                            })
-                          : t('season.play', { season: seasonLabel(career.season) })}
-                    </span>
-                    <span className="kickoff-go" aria-hidden="true">
-                      →
-                    </span>
-                  </button>
-                  <div className="tempo" role="group" aria-label={t('mode.title')}>
-                    {STEPS.map((n) => (
-                      <button
-                        key={n}
-                        className={n === steps ? 'on' : undefined}
-                        onClick={() => play(n)}
-                        title={t('mode.seasonsPerClick', { n })}
-                      >
-                        {t('mode.nSeasons', { n })}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              )}
-
-              {career.phase === 'event' && (
-                <EventScreen
-                  career={career}
-                  onChoose={(choice) => setCareer(resolveEvent(career, choice))}
-                  onContinue={() => setCareer(closeEvent(career))}
-                />
-              )}
-
-              {career.phase === 'penalty' && (
-                <PenaltyScreen
-                  career={career}
-                  onTake={(corner: PenaltyCorner) => setCareer(takePenalty(career, corner))}
-                  onContinue={() => setCareer(closePenalty(career))}
-                />
-              )}
-
-              {career.phase === 'offers' && (
-                <OfferScreen
-                  career={career}
-                  onAccept={accept}
-                  onRetire={() => setCareer(retire(career))}
-                  onClub={openClub}
-                />
-              )}
-            </div>
+            {!waiting && ask}
           </div>
 
           <aside className="rail">
@@ -407,7 +426,6 @@ function Home({ saves, onNew, onOpen, onDelete, onImport }: HomeProps) {
     <div className="flow">
       <section>
         <h1 className="poster-title">{t('home.title')}</h1>
-        <p className="lede">{t('home.blurb')}</p>
 
         <div className="act-row" style={{ marginTop: 'var(--s5)' }}>
           <button className="act act--primary" onClick={onNew}>

@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react'
+import { CLUB_BY_ID } from '../data/clubs'
+import { LEAGUE_BY_ID } from '../data/leagues'
 import { NATION_BY_NAME } from '../data/nations'
 import { rarityClass } from '../engine/rarity'
 import { isKeeper } from '../engine/sim'
 import type { Career, SeasonRecord, TrophyId } from '../engine/types'
 import { useI18n } from '../i18n'
-import { Crest, Delta, Flag, TrophyIcon, seasonLabel } from './bits'
-
-/** Nobody plays past forty, so that is where the empty years stop. */
-const LAST_AGE = 40
+import type { StringKey } from '../i18n/strings'
+import { Crest, Delta, Flag, LAST_AGE, STAGE_AT, TrophyIcon, seasonLabel } from './bits'
 
 interface Spell {
   key: string
   clubId: string
   clubName: string
   badge: string | null
+  leagueId: string
   onLoan: boolean
   age: number
   apps: number
@@ -48,6 +49,7 @@ function spellsOf(history: SeasonRecord[]): Spell[] {
       clubId: s.clubId,
       clubName: s.clubName,
       badge: s.badge,
+      leagueId: s.leagueId,
       onLoan: s.onLoan,
       age: s.age,
       apps: s.apps,
@@ -100,8 +102,13 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
   const [open, setOpen] = useState<string | null>(current)
   useEffect(() => setOpen(current), [current])
 
+  // The years still to play. Every age a career changes character at is always
+  // on the list and says what it is, so the empty half of the column reads as
+  // the plan rather than as padding.
   const ahead: number[] = []
   for (let a = age + 2; a <= LAST_AGE; a += 2) ahead.push(a)
+  for (const s of STAGE_AT) if (s.age > age && !ahead.includes(s.age)) ahead.push(s.age)
+  ahead.sort((a, b) => a - b)
 
   return (
     <div className="years">
@@ -126,7 +133,9 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
         </div>
       )}
 
-      {spells.map((spell) => (
+      {spells.map((spell, i) => {
+        const move = i > 0 ? stepBetween(spells[i - 1], spell) : null
+        return (
         <div key={spell.key}>
           <button
             className={`yr yr--spell${open === spell.key ? ' yr--open' : ''}`}
@@ -136,6 +145,13 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
           >
             <span className="yr-age">{spell.age}</span>
             <span className="yr-who">
+              {/* a move up or down the pyramid is the loudest thing a career
+                  does, and it is invisible if every club reads the same */}
+              {move && (
+                <span className={`yr-move yr-move--${move.dir}`} title={move.title}>
+                  {move.dir === 'up' ? '↑' : '↓'}
+                </span>
+              )}
               {spell.onLoan && (
                 <span className="yr-loan" title={t('card.loan')} aria-hidden="true">
                   ↩
@@ -186,7 +202,8 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
               )
             })}
         </div>
-      ))}
+        )
+      })}
 
       <button className="yr yr--now" onClick={onNow}>
         <span className="yr-age">{age}</span>
@@ -196,15 +213,39 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
         <span className="yr-ovr">?</span>
       </button>
 
-      {ahead.map((a) => (
-        <div className="yr yr--ahead" key={a}>
-          <span className="yr-age">{a}</span>
-          <span className="yr-who" />
-          <span className="yr-n" />
-          <span className="yr-n" />
-          <span className="yr-ovr" />
-        </div>
-      ))}
+      {ahead.map((a) => {
+        const opens = STAGE_AT.find((s) => s.age === a)
+        return (
+          <div className={`yr yr--ahead${opens ? ' yr--chapter' : ''}`} key={a}>
+            <span className="yr-age">{a}</span>
+            <span className="yr-who">
+              {opens && <span className="yr-stage">{t(`stage.${opens.stage}` as StringKey)}</span>}
+            </span>
+            <span className="yr-n" />
+            <span className="yr-n" />
+            <span className="yr-ovr" />
+          </div>
+        )
+      })}
     </div>
   )
+}
+
+/**
+ * Whether a transfer was a step up, a step down, or a move across.
+ *
+ * It is read off the two squads rather than the two divisions, because a title
+ * side in a smaller league is a bigger move than a relegation side in a bigger
+ * one, and the divisions alone would call that a demotion. The tooltip still
+ * names the leagues, which is how anybody would describe the move out loud.
+ */
+function stepBetween(from: Spell, to: Spell): { dir: 'up' | 'down'; title: string } | null {
+  const leagueA = LEAGUE_BY_ID[from.leagueId]
+  const leagueB = LEAGUE_BY_ID[to.leagueId]
+  if (!leagueA || !leagueB) return null
+  const a = CLUB_BY_ID[from.clubId]?.strength ?? leagueA.strength
+  const b = CLUB_BY_ID[to.clubId]?.strength ?? leagueB.strength
+  const gap = b - a
+  if (Math.abs(gap) < 2) return null
+  return { dir: gap > 0 ? 'up' : 'down', title: `${leagueA.name} → ${leagueB.name}` }
 }
