@@ -27,8 +27,8 @@ import { useLobby } from '../net/useLobby'
 import { AwardToast } from './Awards'
 import { LobbyPanel } from './LobbyPanel'
 import { Crest, Flag } from './bits'
-import { GameTop } from './GridGame'
-import { PlayerPicker } from './quizbits'
+import { BookWait, GameTop, PlayerPicker } from './quizbits'
+import { useBook } from './useBook'
 import { TrophyRow } from './trophies'
 
 const STREAK_KEY = 'career-sim:guess'
@@ -80,6 +80,7 @@ interface Props {
  */
 export function GuessGame({ onExit, invited }: Props) {
   const { t, position, num } = useI18n()
+  const book = useBook()
   const [mode, setMode] = useState<Mode>(invited ? 'online' : 'random')
   const [pond, setPond] = useState<Pond>('all')
   const [seed, setSeed] = useState(randomSeed)
@@ -193,6 +194,10 @@ export function GuessGame({ onExit, invited }: Props) {
   }
 
   const waitingForHost = online && (!lobby.connected || (!lobby.isHost && !rows.length && !rival))
+
+  // the same rule as the grid: nobody is hidden out of half a book
+  if (book.state === 'idle' || book.state === 'loading')
+    return <BookWait title={t('guess.title')} onExit={onExit} />
 
   return (
     <div className="flow game">

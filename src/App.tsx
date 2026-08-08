@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CLUB_BY_ID } from './data/clubs'
-import { LEGENDS } from './data/players'
 import { AWARDS, earnedCount, readStats } from './engine/awards'
 import {
   acceptOffer,
@@ -34,6 +33,7 @@ import { SeasonPanel } from './ui/SeasonPanel'
 import { SettingsPanel } from './ui/SettingsPanel'
 import { SummaryScreen } from './ui/SummaryScreen'
 import { Crest, careerStage, formatValue, seasonLabel, type Stage } from './ui/bits'
+import { useBook } from './ui/useBook'
 import { useTheme, type Theme } from './ui/useSettings'
 
 type View = 'home' | 'create' | 'career' | 'grid' | 'guess' | 'awards' | 'book'
@@ -46,6 +46,8 @@ const invite = roomFromUrl()
 
 export default function App() {
   const { t } = useI18n()
+  // the generated half of the book, pulled in once and shared by every screen
+  useBook()
   const { theme, next, cycle, setTheme } = useTheme()
   const [view, setView] = useState<View>(invite ? invite.game : 'home')
   const [career, setCareer] = useState<Career | null>(null)
@@ -506,7 +508,8 @@ interface HomeProps {
 }
 
 function Home({ saves, onNew, onOpen, onDelete, onImport, onGame }: HomeProps) {
-  const { t } = useI18n()
+  const { t, num } = useI18n()
+  const book = useBook()
   const rows = useMemo(
     () => saves.map((c) => ({ career: c, stats: totals(c), club: CLUB_BY_ID[c.player.clubId] })),
     [saves],
@@ -536,7 +539,7 @@ function Home({ saves, onNew, onOpen, onDelete, onImport, onGame }: HomeProps) {
       <section>
         <div className="rule-head">
           <h2>{t('home.games')}</h2>
-          <span className="aside">{t('home.bookSize', { n: LEGENDS.length })}</span>
+          <span className="aside">{t('home.bookSize', { n: num(book.count) })}</span>
         </div>
         <div className="games">
           {(

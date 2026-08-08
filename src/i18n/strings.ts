@@ -851,6 +851,12 @@ const en = {
   'book.countries': '{n} countries',
   'book.countries_one': 'One country',
   'grid.wrongSolo': '{name} does not fit. One name gone.',
+  'quiz.bookLoading': 'Fetching the rest of the book.',
+  'quiz.bookOffline': 'Only the hand written book loaded, so today’s board is yours alone.',
+  'net.otherBook': 'The other one has an older book. Some answers will disagree.',
+  'book.built': 'Last pulled from Wikidata on {date}.',
+  'book.builtNever': 'Only the hand written half is here.',
+  'book.source': 'The long tail comes from Wikidata and is refreshed every three months.',
 }
 
 type Key = keyof typeof en
@@ -1664,6 +1670,12 @@ const de: Record<Key, string> = {
   'book.countries': '{n} Länder',
   'book.countries_one': 'Ein Land',
   'grid.wrongSolo': '{name} passt nicht. Ein Name weg.',
+  'quiz.bookLoading': 'Der Rest des Lexikons wird geholt.',
+  'quiz.bookOffline': 'Nur der handgeschriebene Teil ist da, also ist das heutige Raster nur deins.',
+  'net.otherBook': 'Der andere hat ein älteres Lexikon. Ein paar Antworten passen nicht zusammen.',
+  'book.built': 'Zuletzt am {date} von Wikidata geholt.',
+  'book.builtNever': 'Nur der handgeschriebene Teil ist da.',
+  'book.source': 'Der lange Rest kommt von Wikidata und wird alle drei Monate neu geholt.',
 }
 
 export const DICT: Record<Lang, Record<Key, string>> = { en, de }

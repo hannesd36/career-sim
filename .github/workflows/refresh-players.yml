@@ -1,0 +1,96 @@
+# Pulls the book of footballers out of Wikidata again, four times a year.
+#
+# The hand-written half in src/data/players.ts is never touched. This only
+# rewrites public/players.json, and only commits it when the file
+# has actually changed — a run that finds nothing new leaves the repository
+# exactly as it was.
+name: Refresh players
+
+on:
+  schedule:
+    # 04:00 UTC on the first of January, April, July and October
+    - cron: '0 4 1 1,4,7,10 *'
+  # Changing how the book is built is a reason to build it again, and it is
+  # what fills the file in the first time. Wikidata throttles hard by address,
+  # so a runner with nobody else's day behind it does this far better than a
+  # laptop can.
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/fetch-players.mjs'
+      - 'scripts/map-clubs.mjs'
+      - 'scripts/wikidata.mjs'
+      - 'src/data/clubs.json'
+      - '.github/workflows/refresh-players.yml'
+  # and whenever you want it by hand, from the Actions tab
+  workflow_dispatch:
+    inputs:
+      min-links:
+        description: 'How many Wikipedias a player needs before he is included'
+        required: false
+        default: '7'
+      max:
+        description: 'Ceiling on the whole book'
+        required: false
+        default: '24000'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-players
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    # Wikidata is answered one query at a time and there are hundreds of clubs
+    timeout-minutes: 180
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Any club added to clubs.json since the last run has no Wikidata item
+      # yet, so look those up first. The map is committed, so this is usually
+      # a no-op that finishes in seconds.
+      - name: Map any new clubs
+        run: node scripts/map-clubs.mjs
+
+      - name: Pull the players
+        run: >
+          node scripts/fetch-players.mjs
+          --min-links ${{ github.event.inputs.min-links || '7' }}
+          --max ${{ github.event.inputs.max || '24000' }}
+
+      # A book that will not compile, or that came back suspiciously small, is
+      # not worth shipping: the site keeps the last good one instead.
+      - name: Check what came back
+        run: |
+          node -e "
+            const b = require('./public/players.json');
+            if (b.v !== 1) throw new Error('unknown format');
+            if (b.rows.length < 3000) throw new Error('only ' + b.rows.length + ' players came back');
+            console.log(b.rows.length + ' players, ' + b.clubs.length + ' clubs, ' + b.nations.length + ' countries');
+          "
+      - run: npm run check:players
+      - run: npm run build
+
+      - name: Commit it if it changed
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add public/players.json scripts/wikidata-clubs.json
+          if git diff --cached --quiet; then
+            echo 'nothing new in the book'
+            exit 0
+          fi
+          COUNT=$(node -e "console.log(require('./public/players.json').rows.length)")
+          git commit -m "Refresh the book from Wikidata: $COUNT players"
+          git push

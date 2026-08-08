@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "share": "vite build && vite preview",
     "fetch:badges": "node scripts/fetch-badges.mjs",
-    "check:players": "tsx scripts/check-players.ts"
+    "check:players": "tsx scripts/check-players.ts",
+    "map:clubs": "node scripts/map-clubs.mjs",
+    "fetch:players": "node scripts/fetch-players.mjs"
   },
   "dependencies": {
     "peerjs": "^1.5.5",

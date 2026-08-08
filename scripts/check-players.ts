@@ -72,5 +72,36 @@ const sample: Criterion[] = [
 ]
 for (const c of sample) if (!answersFor(c).length) fail(`nobody answers ${c.kind}:${c.id}`)
 
+// ---- and the generated half, if it has been pulled ----
+const { existsSync, readFileSync } = await import('node:fs')
+const GENERATED = 'public/players.json'
+if (existsSync(GENERATED)) {
+  const book = JSON.parse(readFileSync(GENERATED, 'utf8'))
+  console.log(`\ngenerated book: ${book.rows.length} players, pulled ${book.built}`)
+  if (book.v !== 1) fail('the generated book is in a format this game cannot read')
+  for (const id of book.clubs) if (!CLUB_BY_ID[id]) fail(`generated book: no such club "${id}"`)
+  for (const [name, flag, conf] of book.nations) {
+    if (!flag) fail(`generated book: no flag for "${name}"`)
+    if (!['UEFA', 'CONMEBOL', 'CONCACAF', 'CAF', 'AFC', 'OFC'].includes(conf))
+      fail(`generated book: "${name}" has confederation "${conf}"`)
+  }
+  const curated = new Set(LEGENDS.map((l) => l.name))
+  const overlap = book.rows.filter((r: [string]) => curated.has(r[0])).length
+  console.log(`  ${overlap} of them are also written by hand, and the hand written one wins`)
+
+  // how well known the generated half is, which is what decides who can be
+  // hidden in the guessing game and which clubs are allowed to head a grid
+  const steps = [100, 60, 40, 30, 20, 14, 8]
+  const fame = book.rows.map((r: unknown[]) => Number(r[4]))
+  console.log(
+    '  ' +
+      steps
+        .map((s) => `${s}+: ${fame.filter((f: number) => f >= s).length}`)
+        .join('   '),
+  )
+} else {
+  console.log('\nno generated book yet (run npm run fetch:players)')
+}
+
 console.log(bad ? `\n${bad} problems` : '\nall clear')
 process.exit(bad ? 1 : 0)

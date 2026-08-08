@@ -25,7 +25,8 @@ import { roomFromUrl } from '../net/peer'
 import { useLobby } from '../net/useLobby'
 import { AwardToast } from './Awards'
 import { LobbyPanel } from './LobbyPanel'
-import { CriterionHead, PlayerPicker } from './quizbits'
+import { BookWait, CriterionHead, GameTop, PlayerPicker } from './quizbits'
+import { useBook } from './useBook'
 
 type Mode = 'solo' | 'cpu' | 'friend' | 'online'
 
@@ -63,6 +64,7 @@ interface Props {
  */
 export function GridGame({ onExit, invited }: Props) {
   const { t, num } = useI18n()
+  const book = useBook()
   const [mode, setMode] = useState<Mode>(invited ? 'online' : 'cpu')
   const [difficulty, setDifficulty] = useState<Difficulty>('normal')
   const [daily, setDaily] = useState(false)
@@ -80,6 +82,8 @@ export function GridGame({ onExit, invited }: Props) {
   const [reveal, setReveal] = useState(false)
   const [shared, setShared] = useState(false)
   const [won, setWon] = useState<Award[]>([])
+  /** false when the other browser is holding a different edition of the book */
+  const [sameBook, setSameBook] = useState(true)
   const drawerRef = useRef<HTMLDivElement>(null)
 
   /*
@@ -247,6 +251,8 @@ export function GridGame({ onExit, invited }: Props) {
         setDifficulty(String(msg.difficulty) as Difficulty)
         resetBoard()
         setStarted(true)
+        // two different books would mean two different answer sheets
+        setSameBook(String(msg.book ?? '') === book.built)
         break
       case 'move': {
         const legend = LEGEND_BY_ID[String(msg.id)]
@@ -291,8 +297,14 @@ export function GridGame({ onExit, invited }: Props) {
     setSeed(nextSeed)
     resetBoard()
     setStarted(true)
-    if (online && lobby.isHost) lobby.send({ t: 'setup', seed: nextSeed, difficulty })
+    if (online && lobby.isHost)
+      lobby.send({ t: 'setup', seed: nextSeed, difficulty, book: book.built })
   }
+
+  // No board is dealt out of half a book: a daily has to be the same everywhere
+  // and two browsers in one room have to be holding the same names.
+  if (book.state === 'idle' || book.state === 'loading')
+    return <BookWait title={t('grid.title')} onExit={onExit} />
 
   // ------------------------------------------------------------------ setup
   if (!started) {
@@ -341,6 +353,7 @@ export function GridGame({ onExit, invited }: Props) {
               </button>
             </div>
             <p className="hint">{t(daily ? 'quiz.dailyHint' : 'quiz.randomHint')}</p>
+            {daily && book.state === 'failed' && <p className="note note--bad">{t('quiz.bookOffline')}</p>}
           </section>
         )}
 
@@ -472,6 +485,7 @@ export function GridGame({ onExit, invited }: Props) {
       {!result && mode === 'cpu' && turn === 'b' && <p className="note">{t('grid.cpuThinking')}</p>}
       {!result && online && turn !== me && <p className="note">{t('net.theirTurn')}</p>}
       {online && !lobby.connected && <p className="note note--bad">{t('net.lost')}</p>}
+      {online && !sameBook && <p className="note note--bad">{t('net.otherBook')}</p>}
 
       {result && (
         <div className="verdict verdict--in" role="status">
@@ -554,14 +568,3 @@ function Row({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
-export function GameTop({ title, onExit }: { title: string; onExit: () => void }) {
-  const { t } = useI18n()
-  return (
-    <div className="rule-head">
-      <h2>{title}</h2>
-      <button className="act act--quiet" onClick={onExit}>
-        {t('quiz.back')}
-      </button>
-    </div>
-  )
-}
