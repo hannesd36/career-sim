@@ -6,7 +6,7 @@ retire. Runs entirely client-side — no backend, no accounts.
 
 Two quizzes about real footballers sit alongside it: a tic tac toe grid of
 clubs, countries and trophies, and a guess-the-player game. Both are played out
-of a book of 849 real footballers, both have a daily puzzle everybody in the
+of a book of 1001 real footballers, both have a daily puzzle everybody in the
 world shares, and both can be played against a friend anywhere through an
 invite link. Neither needs a save, and there is still no backend: two browsers
 talk to each other directly.
@@ -404,7 +404,7 @@ Under the career on the home screen sit two games, a cabinet and the book they
 are all played out of. They share nothing with the simulation except the
 ground, the type and the crests.
 
-The book is `src/data/players.ts` and `src/data/legends2.ts` — **849 real
+The book is `src/data/players.ts` and `src/data/legends2.ts` — **1001 real
 players**, each with the senior clubs he played for in order, a country, a
 position, a birth year and the honours that are unambiguous enough to ask
 about. It runs from Pelé and Puskás to a seventeen year old at Porto, and it
