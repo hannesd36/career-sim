@@ -270,17 +270,17 @@ if (homeless.length) {
   console.log(`${homeless.length} people with no country on them, asking again`)
   for (const part of chunk(homeless.map(([id]) => id), 120)) {
     const rows = await ask(
-      `SELECT ?p ?nat ?natLabel ?viaTeam WHERE {
+      `SELECT ?p ?nat ?viaTeam WHERE {
          VALUES ?p { ${values(part)} }
          {
            ?p wdt:P54 ?team .
-           ?team wdt:P31/wdt:P279* wd:Q6979593 ; wdt:P17 ?nat .
+           ?team wdt:P31/wdt:P279* wd:Q6979593 .
+           ?team wdt:P17 ?nat .
            BIND(1 AS ?viaTeam)
          } UNION {
            ?p wdt:P27 ?nat .
            BIND(0 AS ?viaTeam)
          }
-         SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
        }`,
       { label: 'countries, second go' },
     )
@@ -288,9 +288,9 @@ if (homeless.length) {
       const rec = people.get(qid(row.p.value))
       if (!rec) continue
       const viaTeam = row.viaTeam?.value === '1'
-      const label = row.natLabel?.value ?? ''
-      // citizenship of the United Kingdom tells you nothing a game can use
-      if (!viaTeam && label === 'United Kingdom') continue
+      // citizenship of the United Kingdom tells you nothing a game can use:
+      // it is the four home nations, and it is never one of them
+      if (!viaTeam && qid(row.nat.value) === 'Q145') continue
       if (!rec.natQ || (viaTeam && !rec.natViaTeam)) {
         rec.natQ = qid(row.nat.value)
         rec.natViaTeam = viaTeam
@@ -307,9 +307,10 @@ for (const part of chunk(natQs, 120)) {
   const rows = await ask(
     `SELECT ?c ?cLabel ?iso ?cont WHERE {
        VALUES ?c { ${values(part)} }
+       ?c rdfs:label ?cLabel .
+       FILTER(lang(?cLabel) = 'en')
        OPTIONAL { ?c wdt:P297 ?iso }
        OPTIONAL { ?c wdt:P30 ?cont }
-       SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
      }`,
     { label: 'countries' },
   )

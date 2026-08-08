@@ -53,17 +53,43 @@ function leagueCountries() {
   return out
 }
 
-/** Wikidata calls some countries something else. */
-const COUNTRY_ALIASES = {
-  England: ['England', 'United Kingdom'],
-  Scotland: ['Scotland', 'United Kingdom'],
-  Wales: ['Wales', 'United Kingdom'],
-  USA: ['United States', 'United States of America'],
-  Türkiye: ['Turkey', 'Türkiye'],
-  Czechia: ['Czech Republic', 'Czechia'],
-  Netherlands: ['Netherlands', 'Kingdom of the Netherlands'],
-  'Saudi Arabia': ['Saudi Arabia'],
+/**
+ * The Wikidata item for each country our leagues are played in.
+ *
+ * Countries are compared as items rather than as words. It saves asking for a
+ * label on every query, and it is the only way "England" and "United Kingdom"
+ * can both be the right answer for Chelsea without a table of synonyms.
+ */
+const COUNTRY_Q = {
+  England: ['Q21', 'Q145'],
+  Scotland: ['Q22', 'Q145'],
+  Wales: ['Q25', 'Q145'],
+  'Northern Ireland': ['Q26', 'Q145'],
+  Spain: ['Q29'],
+  Germany: ['Q183'],
+  Italy: ['Q38'],
+  France: ['Q142'],
+  Portugal: ['Q45'],
+  Netherlands: ['Q55'],
+  Belgium: ['Q31'],
+  Türkiye: ['Q43'],
+  Greece: ['Q41'],
+  Austria: ['Q40'],
+  Switzerland: ['Q39'],
+  Denmark: ['Q35'],
+  Czechia: ['Q213'],
+  Croatia: ['Q224'],
+  Poland: ['Q36'],
+  Norway: ['Q20'],
+  Brazil: ['Q155'],
+  'Saudi Arabia': ['Q851'],
+  Mexico: ['Q96'],
+  Argentina: ['Q414'],
+  USA: ['Q30'],
 }
+
+/** Which items count as "the right country" for a club in this league. */
+const wantedCountries = (leagueId) => COUNTRY_Q[countryOf[leagueId]] ?? []
 
 /** The handful no amount of string matching will ever get right. */
 const OVERRIDES = {
@@ -96,26 +122,28 @@ for (const [leagueId, list] of byLeague) {
   for (const part of chunk(list, 40)) {
     const names = part.map((c) => `${JSON.stringify(c.name)}@en`).join(' ')
     const rows = await ask(
-      `SELECT ?name ?club ?countryLabel WHERE {
+      `SELECT ?name ?club ?country WHERE {
          VALUES ?name { ${names} }
-         ?club rdfs:label|skos:altLabel ?name .
+         { ?club rdfs:label ?name } UNION { ?club skos:altLabel ?name }
          VALUES ?type { wd:Q476028 wd:Q847017 }
          ?club wdt:P31/wdt:P279* ?type .
          OPTIONAL { ?club wdt:P17 ?country }
-         SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
        }`,
       { label: `labels for ${leagueId}` },
     )
     const found = new Map()
     for (const row of rows) {
       const name = row.name.value
-      found.set(name, [...(found.get(name) ?? []), { q: qid(row.club.value), country: row.countryLabel?.value }])
+      found.set(name, [
+        ...(found.get(name) ?? []),
+        { q: qid(row.club.value), country: row.country ? qid(row.country.value) : null },
+      ])
     }
     for (const club of part) {
       const hits = found.get(club.name)
       if (!hits?.length) continue
-      const want = COUNTRY_ALIASES[countryOf[club.leagueId]] ?? [countryOf[club.leagueId]]
-      const right = hits.filter((h) => want.includes(h.country))
+      const want = wantedCountries(club.leagueId)
+      const right = hits.filter((h) => h.country && want.includes(h.country))
       const pick = right.length === 1 ? right[0] : right.length ? null : hits.length === 1 ? hits[0] : null
       if (pick) map[club.id] = pick.q
     }
@@ -138,7 +166,7 @@ for (const club of stillMissing) {
     console.log('  (out of time, the rest can wait for next quarter)')
     break
   }
-  const want = COUNTRY_ALIASES[countryOf[club.leagueId]] ?? [countryOf[club.leagueId]]
+  const want = wantedCountries(club.leagueId)
   const seen = new Set()
   const candidates = []
 
@@ -168,19 +196,22 @@ for (const club of stillMissing) {
 
   // a first team has a country, is a football club, and has people in it
   const rows = await ask(
-    `SELECT ?club ?countryLabel (COUNT(DISTINCT ?p) AS ?squad) WHERE {
+    `SELECT ?club ?country (COUNT(DISTINCT ?p) AS ?squad) WHERE {
        VALUES ?club { ${values(candidates.slice(0, 16).map((c) => c.id))} }
        VALUES ?type { wd:Q476028 wd:Q847017 }
        ?club wdt:P31/wdt:P279* ?type .
        OPTIONAL { ?club wdt:P17 ?country }
        OPTIONAL { ?p wdt:P54 ?club }
-       SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-     } GROUP BY ?club ?countryLabel`,
+     } GROUP BY ?club ?country`,
     { label: `candidates for ${club.name}` },
   )
   const scored = rows
-    .map((r) => ({ q: qid(r.club.value), country: r.countryLabel?.value, squad: Number(r.squad?.value ?? 0) }))
-    .filter((r) => want.includes(r.country) && r.squad >= 15)
+    .map((r) => ({
+      q: qid(r.club.value),
+      country: r.country ? qid(r.country.value) : null,
+      squad: Number(r.squad?.value ?? 0),
+    }))
+    .filter((r) => r.country && want.includes(r.country) && r.squad >= 15)
     .sort((a, b) => b.squad - a.squad)
 
   if (scored.length) {
@@ -217,16 +248,6 @@ const norm = (s) =>
     .replace(/\s+/g, ' ')
     .trim()
 
-/** The Wikidata item for each country our leagues are played in. */
-const COUNTRY_Q = {
-  England: 'Q21', Scotland: 'Q22', Wales: 'Q25', 'Northern Ireland': 'Q26',
-  Spain: 'Q29', Germany: 'Q183', Italy: 'Q38', France: 'Q142', Portugal: 'Q45',
-  Netherlands: 'Q55', Belgium: 'Q31', Türkiye: 'Q43', Greece: 'Q41',
-  Austria: 'Q40', Switzerland: 'Q39', Denmark: 'Q35', Czechia: 'Q213',
-  Croatia: 'Q224', Poland: 'Q36', Norway: 'Q20', Brazil: 'Q155',
-  'Saudi Arabia': 'Q851', Mexico: 'Q96', Argentina: 'Q414', USA: 'Q30',
-}
-
 const left = clubs.filter((c) => !map[c.id])
 const byCountry = new Map()
 for (const club of left) {
@@ -239,7 +260,7 @@ for (const [country, list] of byCountry) {
     console.log('  (out of time, the rest can wait for next quarter)')
     break
   }
-  const cq = COUNTRY_Q[country]
+  const cq = (COUNTRY_Q[country] ?? [])[0]
   if (!cq) {
     console.log(`  ? no Wikidata country for ${country}`)
     continue
@@ -338,7 +359,7 @@ for (const club of clubs.filter((c) => !map[c.id])) {
   }
   const country = countryOf[club.leagueId]
   const adj = ADJECTIVE[country]
-  const want = COUNTRY_ALIASES[country] ?? [country]
+  const want = wantedCountries(club.leagueId)
   const hits = []
   for (const term of [club.name, `${club.name} ${adj ?? ''}`.trim()]) {
     for (const hit of await search(term, 8)) {
@@ -353,16 +374,19 @@ for (const club of clubs.filter((c) => !map[c.id])) {
   if (!hits.length) continue
 
   const rows = await ask(
-    `SELECT ?club ?countryLabel (COUNT(DISTINCT ?p) AS ?squad) WHERE {
+    `SELECT ?club ?country (COUNT(DISTINCT ?p) AS ?squad) WHERE {
        VALUES ?club { ${values(hits.map((h) => h.id))} }
        OPTIONAL { ?club wdt:P17 ?country }
        OPTIONAL { ?p wdt:P54 ?club }
-       SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-     } GROUP BY ?club ?countryLabel`,
+     } GROUP BY ?club ?country`,
     { label: `last chance for ${club.name}` },
   )
   const best = rows
-    .map((r) => ({ q: qid(r.club.value), country: r.countryLabel?.value, squad: Number(r.squad?.value ?? 0) }))
+    .map((r) => ({
+      q: qid(r.club.value),
+      country: r.country ? qid(r.country.value) : null,
+      squad: Number(r.squad?.value ?? 0),
+    }))
     .filter((r) => (r.country ? want.includes(r.country) : true) && r.squad >= 8)
     .sort((a, b) => b.squad - a.squad)[0]
   if (best) {

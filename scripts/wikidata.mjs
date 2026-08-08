@@ -8,8 +8,34 @@
  */
 
 const UA = 'career-sim-data/1.0 (https://github.com/hannesd36/career-sim)'
-const SPARQL = 'https://query.wikidata.org/sparql'
 const API = 'https://www.wikidata.org/w/api.php'
+
+/**
+ * Two endpoints answer the same questions about the same data.
+ *
+ * QLever is a public index of the Wikidata dump run by the University of
+ * Freiburg, and it answers in a tenth of a second what Wikidata's own service
+ * takes ten seconds and a two minute cooling off period to answer. It is tried
+ * first for that reason alone. Wikidata's own endpoint is the fallback, and is
+ * the only one that knows about anything newer than the last dump.
+ *
+ * Neither is asked for anything clever: no label service, no aggregation, just
+ * triples. That is what keeps both of them quick and this script portable.
+ */
+const QLEVER = 'https://qlever.cs.uni-freiburg.de/api/wikidata'
+const WDQS = 'https://query.wikidata.org/sparql'
+
+/** QLever declares nothing for you, so every query carries its own prefixes. */
+const PREFIXES = `PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX p: <http://www.wikidata.org/prop/>
+PREFIX ps: <http://www.wikidata.org/prop/statement/>
+PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX schema: <http://schema.org/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+`
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
@@ -24,7 +50,7 @@ export const qid = (uri) => String(uri).split('/').pop()
  * scoped to one club or one batch of people.
  */
 /** Never two requests inside this window, whoever asked for them. */
-const GAP_MS = 350
+const GAP_MS = 120
 let lastCall = 0
 
 async function queue() {
@@ -33,30 +59,45 @@ async function queue() {
   lastCall = Date.now()
 }
 
-export async function ask(query, { tries = 6, label = '' } = {}) {
-  let wait = 3000
+async function run(endpoint, query) {
+  const res =
+    endpoint === QLEVER
+      ? await fetch(QLEVER, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/sparql-query',
+            Accept: 'application/sparql-results+json',
+            'User-Agent': UA,
+          },
+          body: PREFIXES + query,
+        })
+      : await fetch(`${WDQS}?format=json&query=${encodeURIComponent(PREFIXES + query)}`, {
+          headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
+        })
+
+  if (res.status === 429) {
+    const after = Number(res.headers.get('retry-after')) || 60
+    await sleep((after + 2) * 1000)
+    throw new Error('rate limited')
+  }
+  if (!res.ok) throw new Error(`http ${res.status}: ${(await res.text()).slice(0, 160)}`)
+  const body = await res.text()
+  if (!body.trim()) throw new Error('empty body (the query timed out)')
+  return JSON.parse(body).results.bindings
+}
+
+export async function ask(query, { tries = 4, label = '' } = {}) {
+  let wait = 2000
   for (let attempt = 1; attempt <= tries; attempt++) {
+    // the fast one first, the authoritative one when it will not play
+    const endpoint = attempt <= 2 ? QLEVER : WDQS
     await queue()
     try {
-      const res = await fetch(`${SPARQL}?format=json&query=${encodeURIComponent(query)}`, {
-        headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
-      })
-      // being told to slow down is an instruction, not an error to retry over
-      if (res.status === 429) {
-        const after = Number(res.headers.get('retry-after')) || 60
-        console.log(`    (asked to wait ${after}s)`)
-        await sleep((after + 2) * 1000)
-        throw new Error('rate limited')
-      }
-      if (res.status >= 500) throw new Error(`http ${res.status}`)
-      if (!res.ok) throw new Error(`http ${res.status}: ${(await res.text()).slice(0, 200)}`)
-      const body = await res.text()
-      if (!body.trim()) throw new Error('empty body (the query timed out)')
-      return JSON.parse(body).results.bindings
+      return await run(endpoint, query)
     } catch (err) {
       if (attempt === tries) throw new Error(`${label || 'query'} failed: ${err.message}`)
       await sleep(wait)
-      wait = Math.min(wait * 2, 90_000)
+      wait = Math.min(wait * 2, 60_000)
     }
   }
   return []
