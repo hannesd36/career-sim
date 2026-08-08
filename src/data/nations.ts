@@ -1,4 +1,4 @@
-export type Confederation = 'UEFA' | 'CONMEBOL' | 'CONCACAF' | 'CAF' | 'AFC'
+export type Confederation = 'UEFA' | 'CONMEBOL' | 'CONCACAF' | 'CAF' | 'AFC' | 'OFC'
 
 export interface Nation {
   name: string
@@ -16,6 +16,7 @@ export const CONTINENTAL_CUP: Record<Confederation, string> = {
   CONCACAF: 'Gold Cup',
   CAF: 'Africa Cup of Nations',
   AFC: 'Asian Cup',
+  OFC: 'OFC Nations Cup',
 }
 
 export const NATIONS: Nation[] = [

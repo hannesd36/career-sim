@@ -3198,7 +3198,546 @@ select.ruled option {
   background: #c0261f;
 }
 
-/* ============================================================== 20. phones */
+/* ============================================================== 20. quizzes */
+
+/*
+ * Two games that are not a career.
+ *
+ * They borrow everything: the ground, the two faces, the crests, the trophy
+ * drawings, the amber that only ever marks the thing to do next. What they add
+ * is the one thing the career never needed — a verdict on an answer — and that
+ * gets exactly three colours: the pitch green for right, amber for warm, and
+ * nothing at all for wrong, because a wrong answer is an absence.
+ */
+
+/*
+ * A game is one column of things that answer each other, so it is read at
+ * arm's length rather than paced out like a career. It gets its own rhythm and
+ * a width a nine square board is still square at.
+ */
+.game {
+  max-width: 760px;
+}
+
+.game > * + * {
+  margin-top: var(--s4);
+}
+
+.game > .verdict {
+  margin-top: var(--s5);
+}
+
+.game .tempo {
+  border-top: 1px solid var(--line-2);
+}
+
+.game .note {
+  border-bottom: none;
+}
+
+.note--good::before {
+  height: 3px;
+  background: var(--pitch);
+}
+
+/* --- the two front doors --- */
+
+.games {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s3);
+}
+
+.gamecard {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: var(--s2);
+  padding: var(--s4);
+  text-align: left;
+  border: 1px solid var(--line-2);
+  color: var(--fg-2);
+  transition: border-color var(--t), background var(--t), color var(--t);
+}
+
+.gamecard:hover {
+  border-color: var(--flood);
+  background: var(--bg-raise);
+  color: var(--fg);
+}
+
+.gamecard-mark {
+  color: var(--fg-3);
+  line-height: 0;
+}
+
+.gamecard:hover .gamecard-mark {
+  color: var(--flood-text);
+}
+
+.gamecard-title {
+  font-family: var(--poster);
+  font-size: 22px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.gamecard-blurb {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.gamecard-go {
+  margin-top: var(--s2);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--flood-text);
+}
+
+/* --- what a square asks: a mark, then the words --- */
+
+.crit {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+/* every mark is drawn on the same 22px, so a column of them lines up */
+.crit-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  flex: none;
+  line-height: 0;
+  color: var(--fg-2);
+}
+
+.crit-name {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  color: var(--fg-2);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.crit-pos {
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: var(--fg-2);
+  background: var(--bg-sunk);
+  border: 1px solid var(--line);
+  padding: 3px 4px;
+}
+
+.crit-dot {
+  width: 7px;
+  height: 7px;
+  border: 2px solid var(--line-2);
+  border-radius: 50%;
+}
+
+/* --- the score line over the board --- */
+
+.tally {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding-bottom: var(--s3);
+  border-bottom: 1px solid var(--line);
+}
+
+.tally-side {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  transition: color var(--t);
+}
+
+.tally-side b {
+  font-family: var(--poster);
+  font-size: 20px;
+  letter-spacing: 0;
+  color: var(--fg-2);
+}
+
+.tally-side i {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  background: var(--line-2);
+}
+
+.tally-side--a i {
+  background: var(--flood);
+}
+
+.tally-side--b i {
+  background: var(--pitch);
+}
+
+.tally-side.on,
+.tally-side.on b {
+  color: var(--fg);
+}
+
+.tally-side--b {
+  margin-left: auto;
+}
+
+.tally-turns {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+}
+
+.tally-turns:only-child,
+.tally-turns:first-child {
+  margin-right: auto;
+}
+
+.tally-turns b {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* --- nine squares --- */
+
+.board {
+  display: grid;
+  grid-template-columns: minmax(72px, 1.1fr) repeat(3, 1fr);
+  border: 1px solid var(--line-2);
+  background: var(--line);
+  gap: 1px;
+}
+
+.board-corner,
+.board-head,
+.square {
+  background: var(--bg);
+  min-height: 76px;
+}
+
+.board-head {
+  display: flex;
+  align-items: center;
+  padding: var(--s2);
+  background: var(--bg-raise);
+}
+
+.board-head--col .crit {
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  text-align: center;
+}
+
+.board-head--col .crit-name {
+  text-align: center;
+}
+
+.board-head--col .crest,
+.board-head--col .crest-fallback {
+  width: 26px;
+  height: 26px;
+}
+
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s2);
+  text-align: center;
+  transition: background var(--t), box-shadow var(--t);
+}
+
+.square:not(:disabled):hover {
+  background: var(--bg-raise);
+  box-shadow: inset 0 0 0 1px var(--flood);
+}
+
+.square-plus {
+  font-size: 20px;
+  color: var(--line-2);
+  transition: color var(--t);
+}
+
+.square:not(:disabled):hover .square-plus {
+  color: var(--flood);
+}
+
+.square-name {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--fg);
+}
+
+.square-answers {
+  font-size: 10.5px;
+  line-height: 1.3;
+  color: var(--fg-3);
+}
+
+.square--a {
+  box-shadow: inset 0 0 0 2px var(--flood);
+  background: color-mix(in srgb, var(--flood) 10%, var(--bg));
+}
+
+.square--b {
+  box-shadow: inset 0 0 0 2px var(--pitch);
+  background: color-mix(in srgb, var(--pitch) 10%, var(--bg));
+}
+
+.square--picking {
+  box-shadow: inset 0 0 0 2px var(--flood);
+}
+
+.square--won {
+  animation: moment-in 260ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.square--won .square-name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- the drawer a square opens --- */
+
+.drawer {
+  position: sticky;
+  bottom: 0;
+  margin-top: var(--s4);
+  padding: var(--s4) 0 var(--s3);
+  background: var(--bg);
+  border-top: 2px solid var(--fg);
+  animation: moment-in 200ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.drawer-ask {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin-bottom: var(--s3);
+}
+
+.drawer-ask .crit {
+  flex: 1;
+  min-width: 0;
+}
+
+.drawer-ask .crit-name {
+  font-size: 12.5px;
+  color: var(--fg);
+  -webkit-line-clamp: 2;
+}
+
+.drawer-x {
+  font-size: 15px;
+  color: var(--fg-3);
+  flex: none;
+}
+
+/* --- typing a name --- */
+
+.picker-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: var(--s2);
+}
+
+.picker .ruled {
+  font-size: 17px;
+}
+
+.picks {
+  margin: var(--s2) 0 var(--s3);
+  min-height: 4px;
+}
+
+.pick {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  padding: 9px var(--s2);
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  transition: background var(--t);
+}
+
+.pick--on {
+  background: var(--bg-raise);
+  box-shadow: inset 3px 0 0 var(--flood);
+}
+
+.pick-who {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  margin-right: auto;
+}
+
+.pick-who b {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.pick-meta {
+  font-size: 11px;
+  color: var(--fg-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.picks-empty {
+  margin: 0;
+  padding: 9px var(--s2);
+  font-size: 13px;
+  color: var(--fg-3);
+}
+
+/* --- the guessing game --- */
+
+.clues {
+  margin-top: var(--s2);
+}
+
+.clue {
+  margin: 0;
+  padding: 9px 0;
+  font-size: 14px;
+  color: var(--fg-2);
+  border-bottom: 1px solid var(--line);
+}
+
+.clue:last-child {
+  border-bottom: none;
+}
+
+.guesses {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  margin-top: var(--s2);
+}
+
+.guessrow {
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line);
+  animation: moment-in 200ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.guessrow--right {
+  border-top: 2px solid var(--pitch);
+}
+
+.guessrow-who {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-bottom: var(--s2);
+}
+
+.guessrow-who b {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg);
+  margin-right: auto;
+}
+
+.chips {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 5px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: var(--bg-sunk);
+}
+
+.chip i {
+  font-size: 8.5px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.chip b {
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--fg-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chip-arrow {
+  margin-left: 2px;
+}
+
+/* lit: this is the man. warm: this is the right part of the map. */
+.chip--hit {
+  border-color: var(--pitch);
+  background: color-mix(in srgb, var(--pitch) 18%, var(--bg));
+}
+
+.chip--hit b,
+.chip--hit i {
+  color: var(--fg);
+}
+
+.chip--near {
+  border-color: var(--flood);
+  background: color-mix(in srgb, var(--flood) 14%, var(--bg));
+}
+
+.chip--near b {
+  color: var(--fg);
+}
+
+.reveal-name {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--poster);
+  font-size: 22px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+/* ============================================================== 21. phones */
 
 @media (max-width: 900px) {
   :root {
@@ -3502,4 +4041,513 @@ select.ruled option {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* --- the quizzes on a phone --- */
+
+@media (max-width: 700px) {
+  .games {
+    grid-template-columns: 1fr;
+  }
+
+  .board {
+    grid-template-columns: minmax(58px, 0.9fr) repeat(3, 1fr);
+  }
+
+  .board-corner,
+  .board-head,
+  .square {
+    min-height: 64px;
+  }
+
+  .board-head {
+    padding: 5px;
+  }
+
+  .crit-name {
+    font-size: 9.5px;
+    letter-spacing: 0;
+  }
+
+  .board-head--row .crit {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .square {
+    padding: 5px;
+  }
+
+  .square-name {
+    font-size: 10.5px;
+  }
+
+  .square-answers {
+    font-size: 9px;
+  }
+
+  /* six verdicts do not fit across a phone, so they go two rows of three */
+  .chips {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .drawer-ask .crit {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+}
+
+/* ===========================================================================
+   THE SECOND GAME
+   Rooms you can invite somebody into, squares that are worth something, and a
+   cabinet with real cups in it. Everything here obeys the three rules at the
+   top of this file: amber is an action, almost nothing is a card, and colour
+   is only ever data.
+   =========================================================================== */
+
+/* --- three front doors rather than two --- */
+.games {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+/* --- a row of choices that is allowed to wrap on a phone --- */
+.tempo--wrap {
+  flex-wrap: wrap;
+}
+
+.tempo--wrap button {
+  flex: 1 0 auto;
+}
+
+/* --- the lobby: a code, a link, and one honest line --- */
+
+.lobby {
+  display: grid;
+  gap: var(--s3);
+  padding: var(--s4);
+  border: 1px solid var(--line-2);
+  background: var(--bg-raise);
+}
+
+.lobby-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+
+.lobby-head h3 {
+  font-family: var(--poster);
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.lobby-two {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  align-items: stretch;
+}
+
+.lobby-join {
+  display: flex;
+  gap: var(--s2);
+  flex: 1 1 220px;
+}
+
+.lobby-join input {
+  flex: 1;
+  min-width: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+}
+
+.lobby-link {
+  display: flex;
+  gap: var(--s2);
+}
+
+.lobby-link input {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--fg-2);
+}
+
+/*
+ * The code is the whole point of the screen, so it is set like a scoreboard:
+ * one character per box, wide apart, readable down a phone line.
+ */
+.roomcode {
+  display: flex;
+  gap: var(--s2);
+  justify-content: center;
+  padding: var(--s2) 0;
+}
+
+.roomcode span {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 56px;
+  font-family: var(--poster);
+  font-size: 30px;
+  color: var(--flood-text);
+  background: var(--bg-sunk);
+  border: 1px solid var(--line-2);
+  transition: border-color var(--t);
+}
+
+.roomcode:hover span {
+  border-color: var(--flood);
+}
+
+/* --- what a square is worth when you are playing alone --- */
+
+.square {
+  position: relative;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.square-worth {
+  font-family: var(--poster);
+  font-size: 15px;
+  line-height: 1;
+  color: var(--flood-text);
+}
+
+.square-pool {
+  position: absolute;
+  right: 5px;
+  bottom: 4px;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+}
+
+.board-corner {
+  display: grid;
+  place-items: center;
+}
+
+.board-day {
+  font-family: var(--poster);
+  font-size: 15px;
+  color: var(--fg-3);
+}
+
+.tally-score {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.tally-score b {
+  font-family: var(--poster);
+  font-size: 20px;
+  margin-left: 6px;
+  color: var(--flood-text);
+  letter-spacing: 0;
+}
+
+/* --- a decade, drawn where a crest would be --- */
+.crit-era {
+  font-family: var(--poster);
+  font-size: 13px;
+  line-height: 1;
+  color: var(--fg-2);
+}
+
+/* --- the man himself, once he is out --- */
+
+.reveal {
+  display: grid;
+  gap: var(--s3);
+  justify-items: center;
+  width: 100%;
+}
+
+.reveal-path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s3);
+  justify-content: center;
+  align-items: center;
+}
+
+.reveal-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--fg-2);
+}
+
+.reveal-step + .reveal-step::before {
+  content: '›';
+  margin-right: 6px;
+  color: var(--fg-3);
+}
+
+.reveal-step .crest,
+.reveal-step .crest-fallback {
+  width: 18px;
+  height: 18px;
+}
+
+/* --- silverware --- */
+
+.trophy-art {
+  display: block;
+}
+
+.trophy-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  justify-content: center;
+}
+
+.trophy-slot {
+  display: grid;
+  place-items: end center;
+  padding: 4px 6px 0;
+  background: var(--bg-sunk);
+  border-bottom: 2px solid var(--line-2);
+}
+
+/* --- the cabinet --- */
+
+.cabinet {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line-2);
+}
+
+.shelf {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 5px;
+  padding: var(--s3);
+  background: var(--bg);
+  text-align: center;
+  justify-items: center;
+}
+
+.shelf-art {
+  line-height: 0;
+  filter: grayscale(1) brightness(0.55);
+  opacity: 0.6;
+  transition: filter var(--t), opacity var(--t);
+}
+
+.shelf--won .shelf-art {
+  filter: none;
+  opacity: 1;
+}
+
+.shelf-name {
+  font-family: var(--poster);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--fg-3);
+}
+
+.shelf--won .shelf-name {
+  color: var(--fg);
+}
+
+.shelf-how {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--fg-3);
+}
+
+.shelf-bar {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: var(--line-2);
+}
+
+.shelf-bar i {
+  display: block;
+  height: 100%;
+  background: var(--flood);
+}
+
+.shelf--won .shelf-bar i {
+  background: var(--pitch);
+}
+
+.shelf-count {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--fg-3);
+}
+
+/* --- everything you have played, as a column of numbers --- */
+
+.counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0 var(--s5);
+}
+
+.counts-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12.5px;
+  color: var(--fg-2);
+}
+
+.counts-row b {
+  font-family: var(--poster);
+  font-size: 19px;
+  color: var(--fg);
+}
+
+/* --- something won, said once, in the corner --- */
+
+.toast {
+  position: fixed;
+  right: var(--s3);
+  bottom: var(--s3);
+  z-index: 40;
+  display: grid;
+  gap: var(--s2);
+  padding: var(--s3);
+  background: var(--bg-raise);
+  border: 1px solid var(--flood);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 0.45);
+  animation: moment-in 320ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.toast-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  font-size: 12.5px;
+  color: var(--fg-2);
+  max-width: 260px;
+}
+
+.toast-row b {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--flood-text);
+}
+
+@media (max-width: 720px) {
+  .roomcode span {
+    width: 36px;
+    height: 46px;
+    font-size: 24px;
+  }
+
+  .cabinet {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .toast {
+    left: var(--s3);
+    right: var(--s3);
+  }
+
+  /* seven verdicts across a phone is nothing, so they go rows of three */
+  .chips {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --- the book, open: a list you can actually read down --- */
+
+.book {
+  border-top: 1px solid var(--line);
+}
+
+.entry {
+  border-bottom: 1px solid var(--line);
+}
+
+.entry-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  padding: var(--s2) 0;
+  text-align: left;
+  transition: background var(--t);
+}
+
+.entry-head:hover {
+  background: var(--bg-raise);
+}
+
+.entry-who {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.entry-who b {
+  font-size: 14px;
+  color: var(--fg);
+}
+
+.entry-meta {
+  font-size: 11px;
+  color: var(--fg-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.entry--open {
+  background: var(--bg-raise);
+}
+
+.entry-body {
+  display: grid;
+  gap: var(--s3);
+  padding: var(--s2) 0 var(--s4);
+  justify-items: start;
+}
+
+.entry-path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s3);
+  align-items: center;
+}
+
+.entry-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s4);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.entry-body .trophy-row {
+  justify-content: flex-start;
 }
