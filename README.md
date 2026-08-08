@@ -423,18 +423,38 @@ trophy, a position, a decade, or a habit like "one club his whole career" — an
 a name that belongs in both. `buildGrid()` in `src/engine/quiz.ts` draws six
 criteria from a seed, forces the three down the side to be three *different*
 kinds of question, then checks all nine intersections and throws the whole
-board away if one of them has nobody in it. Difficulty is only that floor: four
-answers a square, two, or one.
+board away if one of them cannot be answered.
+
+What makes a board easy is not how many answers it has, it is how many of them
+you have heard of. Counting bodies stopped working the day the book reached
+twenty thousand names: Pogoń Szczecin carries ninety of them and clears any
+floor you like, and a grid headed by two Polish sides and a Dutch one is not an
+easy quiz, it is a punishment with a wide answer sheet. So every floor is
+counted in *nameable* players, taken as the number of Wikipedias that wrote a
+man up.
+
+| | headers drawn from | a square must hold | alone | the computer |
+|---|---|---|---|---|
+| easy | the hundred clubs everybody knows | four names, two of them famous | 12 tries | never blocks |
+| medium | the two hundred you would know off a table | two names, one of them famous | 10 tries | blocks, no shape |
+| hard | anything in the book | one name, anybody | 9 tries | plays it properly |
+
+Easy deals Real Madrid × Flamengo × Napoli and never a square without a famous
+name in it; hard deals Tromsø × Almería × Silkeborg and four squares in ten
+have nobody in them you could name.
 
 It is played four ways.
 
-- **On your own.** Nine names, no opponent, and every square is worth the share
-  of the answer sheet you used up: one of one is a hundred, one of twenty is
-  five. The count of valid answers sits in the corner of every empty square
-  before you commit, which turns the board into a series of small bets.
-- **Against the computer.** It takes the win, blocks the loss, then takes the
-  middle. The only thing it is bad at is remembering: it draws a blank on a
-  share of its turns that the difficulty sets.
+- **On your own.** Nine squares, a budget of names, and every square is worth
+  the share of the answer sheet you used up: one of one is a hundred, one of
+  twenty is five. The count of valid answers sits in the corner of every empty
+  square before you commit, which turns the board into a series of small bets.
+- **Against the computer.** On hard it takes the win, blocks the loss, then
+  takes the middle and the corners, which is the whole game. On medium it still
+  sees both lines but has no feel for the shape of the board. On easy it will
+  finish a line of its own and never once notice yours. On top of that it draws
+  a blank on a share of its turns that the setting sets, which is the other
+  thing it is bad at.
 - **Against the person next to you**, one screen, turn about.
 - **Against a friend anywhere**, through a link.
 
@@ -442,15 +462,25 @@ A wrong answer costs the turn, not the square, so the board keeps moving; the
 same player cannot be used twice; three in a row wins, and a full board is
 decided on count.
 
-**Guess the Player** is one hidden footballer and eight guesses. Every name you
-put in is measured against him on seven counts — country, position, birth year,
-his league, his club, how many clubs, how many titles — and each comes back
-lit, warm or dead. Warm is the useful one: the same confederation, the same
-part of the pitch, a career that passed through the club he is at now, a year
-within three. Every wrong guess also buys a clue, in the order they give him
+**Guess the Player** is one hidden footballer and a handful of guesses. Every
+name you put in is measured against him on seven counts — country, position,
+birth year, his league, his club, how many clubs, how many titles — and each
+comes back lit, warm or dead. Warm is the useful one: the same confederation,
+the same part of the pitch, a career that passed through the club he is at now,
+a year within a few. Wrong guesses also buy clues, in the order they give him
 away, ending with his initials. You can narrow the book to men still playing,
 men who have finished, or men who won something. When he is out, his whole
 career path and his silverware are shown.
+
+Difficulty moves four things here, because moving one of them barely changes
+the game. How many guesses (ten, eight, six). How far down the book he can be
+hidden, read off fame: a couple of thousand men everybody has heard of, the
+sixteen thousand somebody could name, or all twenty one thousand. How soon the
+written clues start: one in hand before you have typed anything, one for every
+name you burn, or nothing until you have missed twice. And how generous amber
+is, so a year within five is warm on an easy round and only a year within two
+on a hard one, which is the difference between a chip that narrows him and a
+chip that names him.
 
 Both games have a **daily**: one board and one hidden player that everybody in
 the world gets on the same date, seeded off the day number, plus a result you

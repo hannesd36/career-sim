@@ -601,7 +601,7 @@ const en = {
   'game.grid': 'Football Tic Tac Toe',
   'game.gridBlurb': 'Three clubs across the top, three of anything down the side.',
   'game.guess': 'Guess the Player',
-  'game.guessBlurb': 'Eight guesses, and every wrong name tells you something.',
+  'game.guessBlurb': 'One hidden footballer, and every wrong name tells you something.',
   'game.play': 'Play',
   'quiz.back': 'Back',
 
@@ -614,13 +614,12 @@ const en = {
   'grid.you': 'You',
   'grid.p1': 'Player one',
   'grid.p2': 'Player two',
-  'grid.difficulty': 'How hard',
-  'grid.diff.easy': 'Kickabout',
-  'grid.diff.normal': 'Matchday',
-  'grid.diff.hard': 'Cup final',
-  'grid.diffHint.easy': 'Every square has at least four names in it.',
-  'grid.diffHint.normal': 'Two names a square, and sometimes exactly two.',
-  'grid.diffHint.hard': 'Some squares come down to one man.',
+  'grid.diffHint.easy':
+    'Kickabout. The clubs everybody knows, and never a square without a famous name in it. Twelve tries on your own, and the computer never sees your line coming.',
+  'grid.diffHint.normal':
+    'Matchday. Clubs you would know off a league table, two names a square, ten tries on your own, and the computer takes the first square it can answer.',
+  'grid.diffHint.hard':
+    'Cup final. Any club in the book, some squares down to one man, nine tries on your own, and the computer plays it properly.',
   'grid.start': 'Kick off',
   'grid.new': 'New grid',
   'grid.turn': '{who} to play. Pick a square.',
@@ -641,7 +640,13 @@ const en = {
 
   'guess.title': 'Guess the Player',
   'guess.blurb':
-    'Name anybody. Six things come back lit, warm or dead, and every wrong name is worth a clue.',
+    'Name anybody. Every count comes back lit, warm or dead, and the names you burn buy you clues.',
+  'guess.diffHint.easy':
+    'Kickabout. Ten guesses, only men everybody has heard of, and a clue in hand before you start.',
+  'guess.diffHint.normal':
+    'Matchday. Eight guesses, a clue for every name you burn, and nobody too obscure to be named.',
+  'guess.diffHint.hard':
+    'Cup final. Six guesses, anybody in the book, warm means genuinely close, and nothing said until you have missed twice.',
   'guess.who': 'Your guess',
   'guess.placeholder': 'Type a name',
   'guess.left': '{n} guesses left',
@@ -715,6 +720,10 @@ const en = {
 
   // ---- the two quizzes, the parts they share ----
   'home.bookSize': '{n} real footballers to name.',
+  'quiz.difficulty': 'How hard',
+  'quiz.diff.easy': 'Easy',
+  'quiz.diff.normal': 'Medium',
+  'quiz.diff.hard': 'Hard',
   'quiz.board': 'Which board',
   'quiz.random': 'A new one',
   'quiz.randomHint': 'A board nobody has seen before.',
@@ -728,7 +737,7 @@ const en = {
   'grid.mode.friend': 'Someone next to you',
   'grid.mode.online': 'A friend online',
   'grid.modeHint.solo': 'Nine names, and the rarer the man the more he is worth.',
-  'grid.modeHint.cpu': 'It knows the book. It just forgets sometimes.',
+  'grid.modeHint.cpu': 'It knows the book. How much of it it remembers, and how hard it plays, is up to you.',
   'grid.modeHint.friend': 'One screen, two of you, turn about.',
   'grid.modeHint.online': 'Open a room and send the link.',
   'grid.them': 'Them',
@@ -1428,7 +1437,7 @@ const de: Record<Key, string> = {
   'game.grid': 'Fußball Tic Tac Toe',
   'game.gridBlurb': 'Oben drei Vereine, an der Seite drei beliebige Fragen.',
   'game.guess': 'Errate den Spieler',
-  'game.guessBlurb': 'Acht Versuche, und jeder falsche Name verrät dir etwas.',
+  'game.guessBlurb': 'Ein versteckter Fußballer, und jeder falsche Name verrät dir etwas.',
   'game.play': 'Spielen',
   'quiz.back': 'Zurück',
 
@@ -1441,13 +1450,12 @@ const de: Record<Key, string> = {
   'grid.you': 'Du',
   'grid.p1': 'Spieler eins',
   'grid.p2': 'Spieler zwei',
-  'grid.difficulty': 'Wie schwer',
-  'grid.diff.easy': 'Bolzplatz',
-  'grid.diff.normal': 'Spieltag',
-  'grid.diff.hard': 'Pokalfinale',
-  'grid.diffHint.easy': 'In jedem Feld stehen mindestens vier Namen.',
-  'grid.diffHint.normal': 'Zwei Namen pro Feld, manchmal genau zwei.',
-  'grid.diffHint.hard': 'Manche Felder haben nur einen einzigen Mann.',
+  'grid.diffHint.easy':
+    'Bolzplatz. Nur Vereine, die jeder kennt, und in keinem Feld fehlt ein berühmter Name. Zwölf Versuche allein, und der Computer sieht deine Reihe nie kommen.',
+  'grid.diffHint.normal':
+    'Spieltag. Vereine, die man aus der Tabelle kennt, zwei Namen pro Feld, zehn Versuche allein, und der Computer nimmt das erste Feld, das er beantworten kann.',
+  'grid.diffHint.hard':
+    'Pokalfinale. Jeder Verein aus dem Buch, manche Felder nur ein einziger Mann, neun Versuche allein, und der Computer spielt richtig.',
   'grid.start': 'Anpfiff',
   'grid.new': 'Neues Raster',
   'grid.turn': '{who} ist dran. Wähl ein Feld.',
@@ -1468,7 +1476,13 @@ const de: Record<Key, string> = {
 
   'guess.title': 'Errate den Spieler',
   'guess.blurb':
-    'Nenne irgendeinen. Sechs Angaben kommen grün, gelb oder grau zurück, und jeder falsche Name bringt einen Hinweis.',
+    'Nenne irgendeinen. Jede Angabe kommt grün, gelb oder grau zurück, und die falschen Namen bringen dir Hinweise.',
+  'guess.diffHint.easy':
+    'Bolzplatz. Zehn Versuche, nur Spieler, die jeder kennt, und ein Hinweis schon vor dem ersten Namen.',
+  'guess.diffHint.normal':
+    'Spieltag. Acht Versuche, für jeden falschen Namen ein Hinweis, und niemand, auf den man nicht kommen kann.',
+  'guess.diffHint.hard':
+    'Pokalfinale. Sechs Versuche, jeder Mann aus dem Buch, Gelb heißt wirklich nah dran, und kein Wort vor dem zweiten Fehlversuch.',
   'guess.who': 'Dein Tipp',
   'guess.placeholder': 'Namen tippen',
   'guess.left': 'Noch {n} Versuche',
@@ -1537,6 +1551,10 @@ const de: Record<Key, string> = {
   'hon.goldcup': 'Gold Cup gewonnen',
 
   'home.bookSize': '{n} echte Fußballer zum Erraten.',
+  'quiz.difficulty': 'Wie schwer',
+  'quiz.diff.easy': 'Einfach',
+  'quiz.diff.normal': 'Mittel',
+  'quiz.diff.hard': 'Schwer',
   'quiz.board': 'Welches Raster',
   'quiz.random': 'Ein neues',
   'quiz.randomHint': 'Ein Raster, das noch keiner gesehen hat.',
@@ -1550,7 +1568,7 @@ const de: Record<Key, string> = {
   'grid.mode.friend': 'Jemand neben dir',
   'grid.mode.online': 'Ein Freund online',
   'grid.modeHint.solo': 'Neun Namen, und je seltener der Mann, desto mehr zählt er.',
-  'grid.modeHint.cpu': 'Er kennt das Lexikon. Ihm fällt nur nicht immer was ein.',
+  'grid.modeHint.cpu': 'Er kennt das Lexikon. Wie viel ihm davon einfällt und wie hart er spielt, bestimmst du.',
   'grid.modeHint.friend': 'Ein Bildschirm, ihr zwei, abwechselnd.',
   'grid.modeHint.online': 'Raum öffnen und den Link schicken.',
   'grid.them': 'Er',
