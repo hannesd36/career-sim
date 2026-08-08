@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { LEGEND_BY_ID, type Legend } from '../data/players'
 import { markDaily, newlyEarned, readStats, writeStats, type Award } from '../engine/awards'
 import {
+  DIFFICULTIES,
   answersForCell,
   boardPoints,
   buildGrid,
@@ -32,14 +33,20 @@ type Mode = 'solo' | 'cpu' | 'friend' | 'online'
 
 /** Turns the two of you share before the board is called as it stands. */
 const TURN_BUDGET = 16
-/** Names you get on your own before the board closes. */
-const SOLO_TRIES = 9
+/** Names you get on your own before the board closes, which is nine and a margin. */
+const SOLO_TRIES: Record<Difficulty, number> = { easy: 12, normal: 10, hard: 9 }
 
-/** How often the computer draws a blank, which is the only thing it is bad at. */
+/** How often the computer draws a blank, which is one of two things it is bad at. */
 const CPU_MISS: Record<Difficulty, number> = { easy: 0.45, normal: 0.22, hard: 0.06 }
 
-const DIFFICULTIES: Difficulty[] = ['easy', 'normal', 'hard']
 const MODES: Mode[] = ['solo', 'cpu', 'friend', 'online']
+
+/** The order the computer looks at its options in, so it is not the same board twice. */
+const shuffled = (list: number[]): number[] =>
+  list
+    .map((cell) => ({ cell, roll: Math.random() }))
+    .sort((a, b) => a.roll - b.roll)
+    .map((x) => x.cell)
 
 interface Result {
   winner: Mark | null
@@ -61,6 +68,10 @@ interface Props {
  * machine, or against somebody on the other side of the country who followed a
  * link you sent them. A wrong answer costs the turn rather than the square, so
  * the board keeps moving.
+ *
+ * One setting says how hard it is, and it moves three things: how thin a square
+ * is allowed to be, how many names you get on a board played alone, and how
+ * much of the game the computer is looking at.
  */
 export function GridGame({ onExit, invited }: Props) {
   const { t, num } = useI18n()
@@ -179,7 +190,7 @@ export function GridGame({ onExit, invited }: Props) {
 
     if (mode === 'solo') {
       const full = next.every(Boolean)
-      if (full || played >= SOLO_TRIES) {
+      if (full || played >= SOLO_TRIES[difficulty]) {
         setResult({ winner: full ? 'a' : null, line: winningLine(next, 'a') })
         settle(next, full ? 'a' : null, scores)
       }
@@ -278,7 +289,7 @@ export function GridGame({ onExit, invited }: Props) {
     const timer = setTimeout(() => {
       const open = board.map((_, i) => i).filter((i) => !board[i])
       const answerable = open.filter((i) => answers[i].some((l) => !used.includes(l.id)))
-      const cell = pickCell(board, 'b', answerable.length ? answerable : open)
+      const cell = pickCell(board, 'b', shuffled(answerable.length ? answerable : open), difficulty)
       if (cell < 0) return
       const options = answers[cell].filter((l) => !used.includes(l.id))
       if (!options.length || Math.random() < CPU_MISS[difficulty]) {
@@ -326,15 +337,15 @@ export function GridGame({ onExit, invited }: Props) {
         </section>
 
         <section className="field">
-          <label>{t('grid.difficulty')}</label>
-          <div className="tempo" role="group" aria-label={t('grid.difficulty')}>
+          <label>{t('quiz.difficulty')}</label>
+          <div className="tempo" role="group" aria-label={t('quiz.difficulty')}>
             {DIFFICULTIES.map((d) => (
               <button
                 key={d}
                 className={d === difficulty ? 'on' : undefined}
                 onClick={() => setDifficulty(d)}
               >
-                {t(`grid.diff.${d}` as StringKey)}
+                {t(`quiz.diff.${d}` as StringKey)}
               </button>
             ))}
           </div>
@@ -387,7 +398,7 @@ export function GridGame({ onExit, invited }: Props) {
       {mode === 'solo' ? (
         <div className="tally">
           <span className="tally-turns">
-            {t('grid.triesLeft', { n: Math.max(0, SOLO_TRIES - turns) })}
+            {t('grid.triesLeft', { n: Math.max(0, SOLO_TRIES[difficulty] - turns) })}
           </span>
           <span className="tally-score">
             {t('grid.points')} <b>{num(total)}</b>

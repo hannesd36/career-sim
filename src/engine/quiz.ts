@@ -222,24 +222,39 @@ export function answersForCell(a: Criterion, b: Criterion): Legend[] {
 
 export type Difficulty = 'easy' | 'normal' | 'hard'
 
-/** How many valid answers a square must have before it is allowed on the board. */
-const CELL_FLOOR: Record<Difficulty, number> = { easy: 4, normal: 2, hard: 1 }
-/** How many players a criterion must cover before it is allowed to be a header. */
-const HEADER_FLOOR: Record<Difficulty, number> = { easy: 12, normal: 7, hard: 4 }
+/**
+ * Both games are played at one of three settings, and the word means the same
+ * thing in each: how much of the book is fair game, and how much help you get.
+ */
+export const DIFFICULTIES: Difficulty[] = ['easy', 'normal', 'hard']
 
 /**
- * A header has to be a thing people have heard of.
+ * What makes a board easy is not how many answers it has, it is how many of
+ * them you have heard of.
  *
- * Once the book runs to twenty thousand names, plenty of clubs clear any floor
- * you like on numbers alone, and a board headed by two Greek second division
- * sides is not a quiz, it is a punishment. So a header also has to carry a few
- * players somebody could actually name.
+ * Counting bodies does not work once the book runs to twenty thousand names.
+ * Pogon Szczecin has ninety men in it and clears any floor you like, and a
+ * board headed by two Polish sides and a Dutch one is not an easy quiz, it is a
+ * punishment with a wide answer sheet. So everything is counted in *nameable*
+ * players instead: men a person could actually produce, taken as the number of
+ * Wikipedias that wrote them up.
+ *
+ * At the easiest that bar is high and the floors are steep, which leaves the
+ * hundred or so clubs everybody knows. At the hardest the bar is zero, every
+ * name in the book counts for as much as any other, and the board is drawn from
+ * all of it.
  */
-const KNOWN = 30
-const NOTABLE: Record<Difficulty, number> = { easy: 6, normal: 4, hard: 3 }
+const KNOWN: Record<Difficulty, number> = { easy: 45, normal: 45, hard: 0 }
 
-const notable = (answers: Legend[], d: Difficulty) =>
-  answers.reduce((n, l) => (l.fame >= KNOWN ? n + 1 : n), 0) >= NOTABLE[d]
+/** How many nameable players a criterion must carry before it can head a line. */
+const HEADER_FLOOR: Record<Difficulty, number> = { easy: 20, normal: 8, hard: 4 }
+/** How many answers a square must have at all. */
+const CELL_FLOOR: Record<Difficulty, number> = { easy: 4, normal: 2, hard: 1 }
+/** And how many of those the reader is expected to be able to name. */
+const CELL_KNOWN: Record<Difficulty, number> = { easy: 2, normal: 1, hard: 1 }
+
+const nameable = (answers: Legend[], d: Difficulty) =>
+  answers.reduce((n, l) => (l.fame >= KNOWN[d] ? n + 1 : n), 0)
 
 export interface Grid {
   seed: number
@@ -303,20 +318,20 @@ function redundant(a: Criterion, b: Criterion): boolean {
  * The top of the grid is always three clubs, because a crest is the fastest
  * thing on the board to read and it is what these grids are for. Down the side
  * anything goes: another club, a country, a trophy, a position, a habit. Then
- * every one of the nine squares is checked to make sure somebody actually
- * answers it, and the whole thing is thrown away and redrawn if one does not.
+ * every one of the nine squares is checked to make sure somebody a person could
+ * name answers it, and the whole thing is thrown away and redrawn if one does
+ * not. That check is the difficulty: the same code deals a board of the clubs
+ * everybody knows or a board of the ones only you do.
  */
 export function buildGrid(seed: number, difficulty: Difficulty = 'normal'): Grid {
   const rng = new Rng(seed)
   const floor = CELL_FLOOR[difficulty]
+  const cellKnown = CELL_KNOWN[difficulty]
   const headerFloor = HEADER_FLOOR[difficulty]
 
-  const clubs = poolOf(clubCriteria()).filter(
-    (p) => p.answers.length >= headerFloor && notable(p.answers, difficulty),
-  )
-  const wide = poolOf(allCriteria()).filter(
-    (p) => p.answers.length >= headerFloor && notable(p.answers, difficulty),
-  )
+  const worthAsking = (p: Pool) => nameable(p.answers, difficulty) >= headerFloor
+  const clubs = poolOf(clubCriteria()).filter(worthAsking)
+  const wide = poolOf(allCriteria()).filter(worthAsking)
   // one bucket per flavour of question, so the side of the board can be made
   // of three different kinds of thing rather than three trophies in a row
   const buckets = new Map<Criterion['kind'], Pool[]>()
@@ -348,7 +363,7 @@ export function buildGrid(seed: number, difficulty: Difficulty = 'normal'): Grid
           break
         }
         const both = row.answers.filter((l) => matches(col.criterion, l))
-        if (both.length < floor) {
+        if (both.length < floor || nameable(both, difficulty) < cellKnown) {
           ok = false
           break
         }
@@ -411,12 +426,33 @@ export function countFor(board: Board, mark: Mark): number {
   return board.filter((c) => c?.by === mark).length
 }
 
+/** How much of the game the computer is looking at when it chooses a square. */
+const CPU_SIGHT: Record<Difficulty, { blocks: boolean; shape: boolean }> = {
+  easy: { blocks: false, shape: false },
+  normal: { blocks: true, shape: false },
+  hard: { blocks: true, shape: true },
+}
+
 /**
- * Where the computer plays. It is not trying to be unbeatable, it is trying to
- * play like somebody who knows the game: take the win, block the loss, take
- * the middle, take a corner, and otherwise take whatever it can answer.
+ * Where the computer plays.
+ *
+ * It is not trying to be unbeatable, it is trying to play like somebody at the
+ * setting you asked for. On a cup final board it takes the win, blocks the
+ * loss, then takes the middle and the corners, which is the whole game. On a
+ * matchday board it still sees both lines but has no feel for the shape of the
+ * board, so it plays wherever it can answer. On a kickabout it will finish a
+ * line of its own and never once notice yours.
+ *
+ * Squares are considered in the order they are handed over, so a caller who
+ * wants the choice to vary shuffles the list first. Nothing in here rolls a die.
  */
-export function pickCell(board: Board, mark: Mark, playable: number[]): number {
+export function pickCell(
+  board: Board,
+  mark: Mark,
+  playable: number[],
+  skill: Difficulty = 'hard',
+): number {
+  const sight = CPU_SIGHT[skill]
   const other: Mark = mark === 'a' ? 'b' : 'a'
   const open = playable.filter((i) => !board[i])
   if (!open.length) return -1
@@ -430,9 +466,9 @@ export function pickCell(board: Board, mark: Mark, playable: number[]): number {
 
   return (
     finisher(mark) ??
-    finisher(other) ??
-    (open.includes(4) ? 4 : undefined) ??
-    open.find((i) => [0, 2, 6, 8].includes(i)) ??
+    (sight.blocks ? finisher(other) : undefined) ??
+    (sight.shape && open.includes(4) ? 4 : undefined) ??
+    (sight.shape ? open.find((i) => [0, 2, 6, 8].includes(i)) : undefined) ??
     open[0]
   )
 }
@@ -454,7 +490,66 @@ export interface GuessRow {
   correct: boolean
 }
 
-export const GUESS_LIMIT = 8
+/**
+ * A grid will take any name in the book, because a square with fifteen possible
+ * answers is a better square. A hidden player will not: being asked to guess a
+ * man three Wikipedias have heard of is not a game, it is a lottery. So a round
+ * is drawn from the part of the book somebody could plausibly name, and how far
+ * down that goes is what the difficulty mostly is.
+ */
+const GUESSABLE = 14
+const WELL_KNOWN = 45
+/**
+ * The deep end. The generated half is already cut off at a handful of
+ * Wikipedias when it is built, so the hardest setting is the one that does not
+ * cut it a second time: roughly twenty thousand men rather than the couple of
+ * thousand a kickabout hides, and some of them are a Ligue 2 left back.
+ */
+const ANYBODY = 5
+
+export interface GuessRules {
+  /** names you get before the man is gone */
+  guesses: number
+  /** how well known he has to be, as the number of Wikipedias that wrote him up */
+  fame: number
+  /** written clues in hand before your first guess; below zero, wrong names owed */
+  clues: number
+  /** how far off a count can be and still come back warm */
+  near: { born: number; clubs: number; titles: number }
+}
+
+/**
+ * How hard the man is to find.
+ *
+ * Four things move together, because moving one of them on its own barely
+ * changes the game. How many names you get. How far down the book he can be
+ * hidden. How soon the written clues start. And how generous amber is: a year
+ * within five is warm on a kickabout and only a year within two on a cup final,
+ * which is the difference between a chip that narrows him and a chip that names
+ * him.
+ */
+export const GUESS_RULES: Record<Difficulty, GuessRules> = {
+  easy: {
+    guesses: 10,
+    fame: WELL_KNOWN,
+    clues: 1,
+    near: { born: 5, clubs: 2, titles: 3 },
+  },
+  normal: {
+    guesses: 8,
+    fame: GUESSABLE,
+    clues: 0,
+    near: { born: 3, clubs: 1, titles: 2 },
+  },
+  hard: {
+    guesses: 6,
+    fame: ANYBODY,
+    clues: -2,
+    near: { born: 2, clubs: 1, titles: 1 },
+  },
+}
+
+export const guessLimit = (d: Difficulty) => GUESS_RULES[d].guesses
 
 const titlesOf = (l: Legend) => l.honours.length
 
@@ -463,10 +558,15 @@ const titlesOf = (l: Legend) => l.honours.length
  *
  * Green is right. Amber is warm in a way that is worth something: the same
  * confederation, the same part of the pitch, the same country's league, a
- * career that passed through the club he is at now, an age within three years.
+ * career that passed through the club he is at now, an age within a few years.
  * Grey is nothing.
+ *
+ * The three counted clues read the year, the clubs and the cabinet against a
+ * band the difficulty sets, so the same guess against the same man says more on
+ * an easy round than on a hard one.
  */
-export function judge(guess: Legend, target: Legend): GuessRow {
+export function judge(guess: Legend, target: Legend, difficulty: Difficulty = 'normal'): GuessRow {
+  const near = GUESS_RULES[difficulty].near
   const clues: Clue[] = []
 
   const gConf = confOf(guess.nation)
@@ -497,7 +597,7 @@ export function judge(guess: Legend, target: Legend): GuessRow {
   const yearGap = target.born - guess.born
   clues.push({
     key: 'born',
-    verdict: yearGap === 0 ? 'hit' : Math.abs(yearGap) <= 3 ? 'near' : 'miss',
+    verdict: yearGap === 0 ? 'hit' : Math.abs(yearGap) <= near.born ? 'near' : 'miss',
     arrow: yearGap === 0 ? null : yearGap > 0 ? 'up' : 'down',
   })
 
@@ -530,14 +630,14 @@ export function judge(guess: Legend, target: Legend): GuessRow {
   const clubGap = target.careerClubs.length - guess.careerClubs.length
   clues.push({
     key: 'clubs',
-    verdict: clubGap === 0 ? 'hit' : Math.abs(clubGap) <= 1 ? 'near' : 'miss',
+    verdict: clubGap === 0 ? 'hit' : Math.abs(clubGap) <= near.clubs ? 'near' : 'miss',
     arrow: clubGap === 0 ? null : clubGap > 0 ? 'up' : 'down',
   })
 
   const gap = titlesOf(target) - titlesOf(guess)
   clues.push({
     key: 'titles',
-    verdict: gap === 0 ? 'hit' : Math.abs(gap) <= 2 ? 'near' : 'miss',
+    verdict: gap === 0 ? 'hit' : Math.abs(gap) <= near.titles ? 'near' : 'miss',
     arrow: gap === 0 ? null : gap > 0 ? 'up' : 'down',
   })
 
@@ -567,6 +667,18 @@ export function initialsOf(name: string): string {
 }
 
 /**
+ * The clues that are on the table after so many wrong names.
+ *
+ * A kickabout hands one over before you have typed anything, a matchday pays a
+ * clue for every name you burn, and a cup final owes you two misses before it
+ * says a word.
+ */
+export function cluesEarned(wrong: number, difficulty: Difficulty = 'normal'): HintKind[] {
+  const earned = wrong + GUESS_RULES[difficulty].clues
+  return HINT_ORDER.slice(0, Math.max(0, Math.min(earned, HINT_ORDER.length)))
+}
+
+/**
  * Which half of the book a round is drawn from.
  *
  * The whole book has a fifteen year old at Barcelona and a man who last kicked
@@ -577,32 +689,36 @@ export function initialsOf(name: string): string {
 export type Pond = 'all' | 'playing' | 'legends' | 'famous'
 
 /**
- * A grid will take any name in the book, because a square with fifteen possible
- * answers is a better square. A hidden player will not: being asked to guess a
- * man three Wikipedias have heard of is not a game, it is a lottery. So the
- * guessing game draws from the part of the book somebody could plausibly name.
+ * Which men can be hidden: the half of the book you asked for, cut off at the
+ * fame the difficulty sets. The two choices are different questions, so they
+ * stack. "Still playing" on a cup final board is every current professional the
+ * book has heard of; the same choice on a kickabout is the ones on television.
  */
-const GUESSABLE = 14
-const WELL_KNOWN = 45
-
-export function pondOf(pond: Pond): Legend[] {
+export function pondOf(pond: Pond, difficulty: Difficulty = 'normal'): Legend[] {
+  const floor = GUESS_RULES[difficulty].fame
   switch (pond) {
     case 'playing':
-      return LEGENDS.filter((l) => !l.retired && l.fame >= GUESSABLE)
+      return LEGENDS.filter((l) => !l.retired && l.fame >= floor)
     case 'legends':
-      return LEGENDS.filter((l) => l.retired && l.fame >= GUESSABLE)
+      return LEGENDS.filter((l) => l.retired && l.fame >= floor)
     case 'famous':
-      return LEGENDS.filter((l) => l.honours.length >= 2 || l.fame >= WELL_KNOWN)
+      // a cabinet is its own kind of fame, so it lets a man in on its own
+      return LEGENDS.filter((l) => l.honours.length >= 2 || l.fame >= Math.max(floor, WELL_KNOWN))
     default:
-      return LEGENDS.filter((l) => l.fame >= GUESSABLE)
+      return LEGENDS.filter((l) => l.fame >= floor)
   }
 }
 
 /** A target worth guessing: seeded, so a shared seed is a shared puzzle. */
-export function pickTarget(seed: number, exclude: string[] = [], pond: Pond = 'all'): Legend {
+export function pickTarget(
+  seed: number,
+  exclude: string[] = [],
+  pond: Pond = 'all',
+  difficulty: Difficulty = 'normal',
+): Legend {
   const rng = new Rng(seed)
   const skip = new Set(exclude)
-  const pool = pondOf(pond).filter((l) => !skip.has(l.id))
+  const pool = pondOf(pond, difficulty).filter((l) => !skip.has(l.id))
   return rng.pick(pool.length ? pool : LEGENDS)
 }
 
@@ -678,10 +794,10 @@ const DOT = { hit: '🟩', near: '🟨', miss: '⬛' } as const
 /** The same idea for the guessing game: one line per name you burned. */
 export function shareGuess(
   rows: GuessRow[],
-  opts: { title: string; day?: number; won: boolean },
+  opts: { title: string; day?: number; won: boolean; limit: number },
 ): string {
   const head = opts.day !== undefined ? `${opts.title} #${opts.day}` : opts.title
-  const count = opts.won ? `${rows.length}/${GUESS_LIMIT}` : `X/${GUESS_LIMIT}`
+  const count = opts.won ? `${rows.length}/${opts.limit}` : `X/${opts.limit}`
   const lines = [...rows]
     .reverse()
     .map((r) => r.clues.map((c) => DOT[c.verdict]).join(''))

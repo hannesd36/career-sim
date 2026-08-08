@@ -4,8 +4,9 @@ import { LEAGUE_BY_ID } from '../data/leagues'
 import { clubName, confOf, flagOf, type Legend } from '../data/players'
 import { markDaily, newlyEarned, readStats, writeStats, type Award } from '../engine/awards'
 import {
-  GUESS_LIMIT,
-  HINT_ORDER,
+  DIFFICULTIES,
+  GUESS_RULES,
+  cluesEarned,
   copyText,
   dailySeed,
   dayKey,
@@ -15,6 +16,7 @@ import {
   pickTarget,
   shareGuess,
   type Clue,
+  type Difficulty,
   type GuessRow,
   type HintKind,
   type Pond,
@@ -67,13 +69,18 @@ interface Props {
 }
 
 /**
- * One player, eight guesses, and every wrong name tells you something.
+ * One player, a handful of guesses, and every wrong name tells you something.
  *
  * Guessing here is not a coin flip. Each name you put in is measured against
  * the one being hidden on seven counts, and each count comes back lit, warm or
  * dead. Warm is the useful one: the same confederation, the same part of the
  * pitch, a career that passed through the club he is at now. Name four men and
  * the fifth is usually obvious, which is the whole game.
+ *
+ * How hard that is comes down to one setting: ten guesses at a man everybody
+ * has heard of with a clue in hand before you start, or six at anybody in the
+ * book with the warm chips pulled in tight and nothing said until you have
+ * missed twice.
  *
  * It can be played against the day, against the book, or against one other
  * person who gets the same man and a race to find him.
@@ -83,6 +90,7 @@ export function GuessGame({ onExit, invited }: Props) {
   const book = useBook()
   const [mode, setMode] = useState<Mode>(invited ? 'online' : 'random')
   const [pond, setPond] = useState<Pond>('all')
+  const [difficulty, setDifficulty] = useState<Difficulty>('normal')
   const [seed, setSeed] = useState(randomSeed)
   const [rows, setRows] = useState<GuessRow[]>([])
   const [done, setDone] = useState<'won' | 'lost' | null>(null)
@@ -102,8 +110,9 @@ export function GuessGame({ onExit, invited }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const target = useMemo(() => pickTarget(seed, [], pond), [seed, pond])
-  const left = GUESS_LIMIT - rows.length
+  const rules = GUESS_RULES[difficulty]
+  const target = useMemo(() => pickTarget(seed, [], pond, difficulty), [seed, pond, difficulty])
+  const left = rules.guesses - rows.length
 
   const settle = (outcome: 'won' | 'lost', count: number) => {
     setDone(outcome)
@@ -136,12 +145,12 @@ export function GuessGame({ onExit, invited }: Props) {
 
   const guess = (legend: Legend) => {
     if (done) return
-    const row = judge(legend, target)
+    const row = judge(legend, target, difficulty)
     const next = [row, ...rows]
     setRows(next)
     if (online) lobby.send({ t: 'progress', n: next.length })
     if (row.correct) settle('won', next.length)
-    else if (next.length >= GUESS_LIMIT) settle('lost', next.length)
+    else if (next.length >= rules.guesses) settle('lost', next.length)
   }
 
   const restart = (nextSeed: number, tell = true) => {
@@ -151,15 +160,23 @@ export function GuessGame({ onExit, invited }: Props) {
     setShared(false)
     setAwards([])
     setRival(online ? { guesses: 0 } : null)
-    if (tell && online && lobby.isHost) lobby.send({ t: 'setup', seed: nextSeed, pond })
+    if (tell && online && lobby.isHost)
+      lobby.send({ t: 'setup', seed: nextSeed, pond, difficulty })
   }
 
-  const again = () => restart(mode === 'daily' ? dailySeed('guess') : randomSeed())
+  /**
+   * The next man: today's if you are playing the day, anybody if you are not.
+   * Changing the terms deals one too, because different terms are a different
+   * puzzle, and that one is nobody else's business.
+   */
+  const deal = (tell = true) => restart(mode === 'daily' ? dailySeed('guess') : randomSeed(), tell)
 
   remote.current = (msg) => {
     switch (msg.t) {
       case 'setup':
         setPond(String(msg.pond) as Pond)
+        // both of you are hunting the same man on the same terms
+        setDifficulty(String(msg.difficulty ?? 'normal') as Difficulty)
         restart(Number(msg.seed), false)
         break
       case 'progress':
@@ -173,8 +190,8 @@ export function GuessGame({ onExit, invited }: Props) {
     }
   }
 
-  // A clue for every wrong name, in the order they give the most away.
-  const hints = HINT_ORDER.slice(0, Math.min(rows.length, HINT_ORDER.length))
+  // Clues in the order they give the most away, at the pace the setting allows.
+  const hints = cluesEarned(rows.length, difficulty)
 
   const hintText = (kind: HintKind): string => {
     switch (kind) {
@@ -219,6 +236,31 @@ export function GuessGame({ onExit, invited }: Props) {
         ))}
       </div>
 
+      {/*
+       * In a duel the terms are the host's to set, and only before the man is
+       * dealt: changing them halfway would leave the two of you hunting
+       * different people. The guest is never asked, and takes what arrives.
+       */}
+      {(!online || (lobby.isHost && !rows.length)) && (
+        <>
+          <div className="tempo" role="group" aria-label={t('quiz.difficulty')}>
+            {DIFFICULTIES.map((d) => (
+              <button
+                key={d}
+                className={d === difficulty ? 'on' : undefined}
+                onClick={() => {
+                  setDifficulty(d)
+                  deal(false)
+                }}
+              >
+                {t(`quiz.diff.${d}` as StringKey)}
+              </button>
+            ))}
+          </div>
+          <p className="hint">{t(`guess.diffHint.${difficulty}` as StringKey)}</p>
+        </>
+      )}
+
       {!online && (
         <div className="tempo tempo--wrap" role="group" aria-label={t('guess.pond')}>
           {PONDS.map((pd) => (
@@ -227,7 +269,7 @@ export function GuessGame({ onExit, invited }: Props) {
               className={pd === pond ? 'on' : undefined}
               onClick={() => {
                 setPond(pd)
-                restart(mode === 'daily' ? dailySeed('guess') : randomSeed(), false)
+                deal(false)
               }}
             >
               {t(`guess.pond.${pd}` as StringKey)}
@@ -278,7 +320,7 @@ export function GuessGame({ onExit, invited }: Props) {
           <strong>{done === 'won' ? t('guess.won', { n: rows.length }) : t('guess.lost')}</strong>
           <Reveal legend={target} />
           <div className="act-row">
-            <button className="act act--primary" onClick={again}>
+            <button className="act act--primary" onClick={() => deal()}>
               {t('guess.again')}
             </button>
             <button
@@ -288,6 +330,7 @@ export function GuessGame({ onExit, invited }: Props) {
                   title: t('guess.title'),
                   day: mode === 'daily' ? dayNumber() : undefined,
                   won: done === 'won',
+                  limit: rules.guesses,
                 })
                 if (await copyText(text)) setShared(true)
               }}
