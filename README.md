@@ -456,6 +456,63 @@ Both games have a **daily**: one board and one hidden player that everybody in
 the world gets on the same date, seeded off the day number, plus a result you
 can copy into a group chat as squares without giving the answers away.
 
+## Where the players come from
+
+The book has two halves and they are maintained completely differently.
+
+**The hand-written half** is `src/data/players.ts` and `src/data/legends2.ts`:
+a thousand and one footballers typed out by a person, which is why it knows
+that Ronaldinho is also Dinho, that Cafu won a World Cup and that Pelé only
+ever played for Santos. Honours, nicknames and the men everybody names first
+live here, and nothing automated ever touches it.
+
+**The generated half** is `public/players.json`, and it is pulled out of
+Wikidata by `scripts/fetch-players.mjs`. Wikidata is free, needs no API key,
+and models a career exactly the way a grid needs it: every club a man was ever
+registered at, with the year he joined. The script sweeps every club in
+`clubs.json`, collects everybody who ever played for one, then asks for their
+birth year, their country, their position and their whole career, and writes
+the lot out as one compact file.
+
+Two things make that usable rather than merely large.
+
+The first is **fame**, taken to be how many language Wikipedias have written a
+man up. It is blunt and it works: it sorts Zidane above a Ligue 2 left back
+without anybody having to have an opinion. A grid will accept any name in the
+book, because a square with fifteen possible answers is a better square, but
+the guessing game only ever hides somebody a person could plausibly name.
+
+The second is that **the hand-written entry always wins**. A generated Messi
+with no nickname and no honours never replaces the real one.
+
+The file is fetched after the page is up rather than compiled into it, so the
+site opens on the hand-written book and the rest lands a moment later. Both
+games wait for it before dealing a board, because a daily puzzle has to be the
+same puzzle for everybody and two people in one room have to be holding the
+same names.
+
+## Keeping it up to date on its own
+
+`.github/workflows/refresh-players.yml` runs on the first of January, April,
+July and October, whenever the scripts that build the book change, and by hand
+from the Actions tab. Wikidata throttles hard by address, so a runner with
+nobody else's day behind it does this far better than a laptop can. It maps any club
+added since last time, pulls the players again, refuses the result if fewer
+than three thousand came back or the build breaks, commits `public/players.json`
+only if it actually changed, and hands the deploy over to the Pages workflow.
+
+Which Wikidata item each of our clubs is, is worked out once by
+`scripts/map-clubs.mjs` and committed as `scripts/wikidata-clubs.json`, so a
+refresh never has to solve it again and can never quietly drift onto a
+different Chelsea. That script is four passes deep because club names are a
+mess: an exact label or alias catches most of them, Wikidata's own search box
+forgives "Atletico Madrid" for "Atlético Madrid", a country-wide sweep gets the
+ones whose real label is "AS Roma" or "KRC Genk", and every candidate has to
+prove it has a squad of real people behind it — which is what throws out the
+women's side, the reserves and the futsal team. Half of South America and most
+of Greece is filed as a multi-sport club rather than a football club, so both
+count.
+
 ## Playing a friend through a link
 
 Both games can be played against somebody who is not in the room, and nothing

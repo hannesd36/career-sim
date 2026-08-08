@@ -8,6 +8,36 @@ import type { StringKey } from '../i18n/strings'
 import { Crest, Flag } from './bits'
 import { HonourTrophy } from './trophies'
 
+/** The head of a game screen: what it is, and the way out of it. */
+export function GameTop({ title, onExit }: { title: string; onExit: () => void }) {
+  const { t } = useI18n()
+  return (
+    <div className="rule-head">
+      <h2>{title}</h2>
+      <button className="act act--quiet" onClick={onExit}>
+        {t('quiz.back')}
+      </button>
+    </div>
+  )
+}
+
+/**
+ * The moment between opening a game and the generated half of the book landing.
+ *
+ * It matters more than a spinner usually does: a daily puzzle has to be the
+ * same puzzle for everybody, and two people in the same room have to be holding
+ * the same book, so no board is dealt until the whole thing is here.
+ */
+export function BookWait({ title, onExit }: { title: string; onExit: () => void }) {
+  const { t } = useI18n()
+  return (
+    <div className="flow game">
+      <GameTop title={title} onExit={onExit} />
+      <p className="note">{t('quiz.bookLoading')}</p>
+    </div>
+  )
+}
+
 /** What a criterion is called, in the reader's language. */
 export function useCriterionName() {
   const { t, country } = useI18n()

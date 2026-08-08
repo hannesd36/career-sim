@@ -5,6 +5,7 @@ import { NOW, posGroup, type PosGroup } from '../engine/quiz'
 import { useI18n } from '../i18n'
 import type { StringKey } from '../i18n/strings'
 import { Crest, Flag } from './bits'
+import { useBook } from './useBook'
 import { TrophyRow } from './trophies'
 
 type Sort = 'name' | 'clubs' | 'honours' | 'young'
@@ -31,6 +32,7 @@ export function Book({ onExit }: { onExit: () => void }) {
   const [sort, setSort] = useState<Sort>('name')
   const [filter, setFilter] = useState<Filter>('all')
   const [open, setOpen] = useState<string | null>(null)
+  const book = useBook()
 
   const list = useMemo(() => {
     const base = query.trim() ? searchLegends(query, 200) : LEGENDS
@@ -41,7 +43,7 @@ export function Book({ onExit }: { onExit: () => void }) {
     if (sort === 'honours') sorted.sort((a, b) => b.honours.length - a.honours.length)
     if (sort === 'young') sorted.sort((a, b) => b.born - a.born)
     return sorted
-  }, [query, sort, filter])
+  }, [query, sort, filter, book.count])
 
   const shown = list.slice(0, PAGE)
 
@@ -54,7 +56,11 @@ export function Book({ onExit }: { onExit: () => void }) {
         </button>
       </div>
 
-      <p className="kicker kicker--loud">{t('book.blurb', { n: num(LEGENDS.length) })}</p>
+      <p className="kicker kicker--loud">{t('book.blurb', { n: num(book.count) })}</p>
+      <p className="hint">
+        {t('book.source')}{' '}
+        {book.built ? t('book.built', { date: book.built }) : t('book.builtNever')}
+      </p>
 
       <input
         className="ruled"

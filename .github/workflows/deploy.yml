@@ -6,6 +6,11 @@ name: Deploy
 on:
   push:
     branches: [main]
+  # A push made by a workflow does not start another workflow, so the quarterly
+  # player refresh has to hand the deploy over itself.
+  workflow_run:
+    workflows: ['Refresh players']
+    types: [completed]
   # lets you re-publish by hand from the Actions tab without a new commit
   workflow_dispatch:
 
@@ -23,6 +28,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # a refresh that failed has nothing worth publishing
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     steps:
       - uses: actions/checkout@v4
 

@@ -345,6 +345,37 @@ export const LEGEND_BY_ID: Record<string, Legend> = Object.fromEntries(
 )
 
 /**
+ * Everybody else.
+ *
+ * The list above is written by hand, which is why it knows that Ronaldinho is
+ * also Dinho and that Cafu won a World Cup. It is also, unavoidably, a rounding
+ * error against the number of men who have actually played: the quarterly job
+ * in `scripts/fetch-players.mjs` pulls the rest out of Wikidata and hands them
+ * over here once the page is up.
+ *
+ * The hand-written entry always wins. A generated Messi with no nickname and no
+ * honours never gets to replace the real one.
+ */
+export function addLegends(more: Legend[]): number {
+  let added = 0
+  for (const legend of more) {
+    if (LEGEND_BY_ID[legend.id]) continue
+    LEGEND_BY_ID[legend.id] = legend
+    LEGENDS.push(legend)
+    added++
+  }
+  return added
+}
+
+/** Countries that arrive with the generated half, with their flag and their confederation. */
+const RUNTIME_NATIONS: Record<string, { flag: string; conf: Confederation }> = {}
+
+export function registerNation(name: string, flag: string, conf: Confederation) {
+  if (!NATION_BY_NAME[name] && !EXTRA_NATIONS[name] && !RUNTIME_NATIONS[name])
+    RUNTIME_NATIONS[name] = { flag, conf }
+}
+
+/**
  * Countries the quiz needs that nobody in the career game plays for.
  *
  * The career simulator only ever needed the sixty odd nations it can hand you
@@ -421,11 +452,15 @@ const EXTRA_NATIONS: Record<string, { flag: string; conf: Confederation }> = {
 }
 
 export function flagOf(nation: string): string {
-  return NATION_BY_NAME[nation]?.flag ?? EXTRA_NATIONS[nation]?.flag ?? 'un'
+  return (
+    NATION_BY_NAME[nation]?.flag ?? EXTRA_NATIONS[nation]?.flag ?? RUNTIME_NATIONS[nation]?.flag ?? 'un'
+  )
 }
 
 export function confOf(nation: string): Confederation | null {
-  return NATION_BY_NAME[nation]?.conf ?? EXTRA_NATIONS[nation]?.conf ?? null
+  return (
+    NATION_BY_NAME[nation]?.conf ?? EXTRA_NATIONS[nation]?.conf ?? RUNTIME_NATIONS[nation]?.conf ?? null
+  )
 }
 
 export function clubName(id: string): string {
@@ -480,10 +515,13 @@ export function searchLegends(query: string, limit = 8, exclude: string[] = []):
     if (best) hits.push({ legend, score: best })
   }
 
+  // With twenty thousand names in the book, "mar" has to offer Marquinhos
+  // before it offers a Uruguayan third choice keeper, so fame breaks the tie.
   return hits
     .sort(
       (a, b) =>
         b.score - a.score ||
+        b.legend.fame - a.legend.fame ||
         a.legend.name.length - b.legend.name.length ||
         a.legend.name.localeCompare(b.legend.name),
     )

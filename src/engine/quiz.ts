@@ -1,4 +1,5 @@
 import { CLUB_BY_ID } from '../data/clubs'
+import { NOW_YEAR } from '../data/legend'
 import { LEAGUE_BY_ID } from '../data/leagues'
 import { HONOURS, LEGENDS, confOf, type Honour, type Legend } from '../data/players'
 import { Rng } from './rng'
@@ -88,7 +89,7 @@ export type Criterion =
 export const criterionKey = (c: Criterion) => `${c.kind}:${c.id}`
 
 /** The year everything about an age is measured against. */
-export const NOW = 2026
+export const NOW = NOW_YEAR
 
 export function matches(c: Criterion, l: Legend): boolean {
   switch (c.kind) {
@@ -109,7 +110,9 @@ export function matches(c: Criterion, l: Legend): boolean {
     case 'trait':
       switch (c.id) {
         case 'oneclub':
-          return l.careerClubs.length === 1
+          // a generated career only lists the clubs this game has heard of, so
+          // it can never prove that a man never played anywhere else
+          return l.totalClubs === 1
         case 'globetrotter':
           return l.careerClubs.length >= 6
         case 'journeyman':
@@ -119,7 +122,7 @@ export function matches(c: Criterion, l: Legend): boolean {
         case 'fourcountries':
           return l.countries.length >= 4
         case 'onecountry':
-          return l.countries.length === 1 && l.careerClubs.length >= 2
+          return l.totalClubs > 1 && l.totalClubs === l.careerClubs.length && l.countries.length === 1
         case 'retired':
           return l.retired
         case 'playing':
@@ -134,14 +137,85 @@ export function matches(c: Criterion, l: Legend): boolean {
   }
 }
 
-/** Everyone in the book who satisfies a criterion. */
-export function answersFor(c: Criterion): Legend[] {
-  return LEGENDS.filter((l) => matches(c, l))
+/**
+ * The book, filed by every question it can be asked.
+ *
+ * With a thousand names you can afford to walk the whole list for every one of
+ * the eight hundred criteria a board considers. With twenty thousand you
+ * cannot: that is twenty million comparisons and a second of a frozen page. So
+ * the book is indexed once, and rebuilt only when it grows — which happens
+ * exactly once, when the generated half lands.
+ */
+type Index = Map<string, Legend[]>
+
+let indexedAt = -1
+const byClub: Index = new Map()
+const byNation: Index = new Map()
+const byLeague: Index = new Map()
+const byPos: Index = new Map()
+const byHonour: Index = new Map()
+const byEra: Index = new Map()
+const byTrait: Index = new Map()
+
+const file = (index: Index, key: string, legend: Legend) => {
+  const list = index.get(key)
+  if (list) list.push(legend)
+  else index.set(key, [legend])
 }
 
-/** Everyone who satisfies both, which is what a square on the grid asks for. */
+function ensureIndex() {
+  if (indexedAt === LEGENDS.length) return
+  for (const index of [byClub, byNation, byLeague, byPos, byHonour, byEra, byTrait]) index.clear()
+
+  for (const legend of LEGENDS) {
+    for (const club of legend.careerClubs) file(byClub, club, legend)
+    file(byNation, legend.nation, legend)
+    for (const league of legend.leagueIds) file(byLeague, league, legend)
+    file(byPos, posGroup(legend.position), legend)
+    for (const honour of legend.honours) file(byHonour, honour, legend)
+    for (const era of ERAS) if (matches({ kind: 'era', id: era }, legend)) file(byEra, era, legend)
+    for (const trait of TRAITS)
+      if (matches({ kind: 'trait', id: trait }, legend)) file(byTrait, trait, legend)
+  }
+  indexedAt = LEGENDS.length
+}
+
+const indexFor = (kind: Criterion['kind']): Index => {
+  switch (kind) {
+    case 'club':
+      return byClub
+    case 'nation':
+      return byNation
+    case 'league':
+      return byLeague
+    case 'pos':
+      return byPos
+    case 'honour':
+      return byHonour
+    case 'era':
+      return byEra
+    case 'trait':
+      return byTrait
+  }
+}
+
+/** Everyone in the book who satisfies a criterion. */
+export function answersFor(c: Criterion): Legend[] {
+  ensureIndex()
+  return indexFor(c.kind).get(c.id) ?? []
+}
+
+/**
+ * Everyone who satisfies both, which is what a square on the grid asks for.
+ * Walk the shorter of the two lists: a square is usually one narrow question
+ * against one wide one, and the narrow one is a tenth the length.
+ */
 export function answersForCell(a: Criterion, b: Criterion): Legend[] {
-  return LEGENDS.filter((l) => matches(a, l) && matches(b, l))
+  const first = answersFor(a)
+  const second = answersFor(b)
+  return first.length <= second.length
+    ? first.filter((l) => matches(b, l))
+    : second.filter((l) => matches(a, l))
 }
 
 // ------------------------------------------------------------- the grid game
@@ -152,6 +226,20 @@ export type Difficulty = 'easy' | 'normal' | 'hard'
 const CELL_FLOOR: Record<Difficulty, number> = { easy: 4, normal: 2, hard: 1 }
 /** How many players a criterion must cover before it is allowed to be a header. */
 const HEADER_FLOOR: Record<Difficulty, number> = { easy: 12, normal: 7, hard: 4 }
+
+/**
+ * A header has to be a thing people have heard of.
+ *
+ * Once the book runs to twenty thousand names, plenty of clubs clear any floor
+ * you like on numbers alone, and a board headed by two Greek second division
+ * sides is not a quiz, it is a punishment. So a header also has to carry a few
+ * players somebody could actually name.
+ */
+const KNOWN = 30
+const NOTABLE: Record<Difficulty, number> = { easy: 6, normal: 4, hard: 3 }
+
+const notable = (answers: Legend[], d: Difficulty) =>
+  answers.reduce((n, l) => (l.fame >= KNOWN ? n + 1 : n), 0) >= NOTABLE[d]
 
 export interface Grid {
   seed: number
@@ -175,14 +263,14 @@ function poolOf(kinds: Criterion[]): Pool[] {
 
 /** Every club anybody in the book has played for. */
 function clubCriteria(): Criterion[] {
-  const seen = new Set<string>()
-  for (const l of LEGENDS) for (const c of l.careerClubs) seen.add(c)
-  return [...seen].map((id) => ({ kind: 'club', id }) as Criterion)
+  ensureIndex()
+  return [...byClub.keys()].map((id) => ({ kind: 'club', id }) as Criterion)
 }
 
 function allCriteria(): Criterion[] {
-  const nations = new Set(LEGENDS.map((l) => l.nation))
-  const leagues = new Set(LEGENDS.flatMap((l) => l.leagueIds))
+  ensureIndex()
+  const nations = byNation.keys()
+  const leagues = byLeague.keys()
   return [
     ...clubCriteria(),
     ...[...nations].map((id) => ({ kind: 'nation', id }) as Criterion),
@@ -223,8 +311,12 @@ export function buildGrid(seed: number, difficulty: Difficulty = 'normal'): Grid
   const floor = CELL_FLOOR[difficulty]
   const headerFloor = HEADER_FLOOR[difficulty]
 
-  const clubs = poolOf(clubCriteria()).filter((p) => p.answers.length >= headerFloor)
-  const wide = poolOf(allCriteria()).filter((p) => p.answers.length >= headerFloor)
+  const clubs = poolOf(clubCriteria()).filter(
+    (p) => p.answers.length >= headerFloor && notable(p.answers, difficulty),
+  )
+  const wide = poolOf(allCriteria()).filter(
+    (p) => p.answers.length >= headerFloor && notable(p.answers, difficulty),
+  )
   // one bucket per flavour of question, so the side of the board can be made
   // of three different kinds of thing rather than three trophies in a row
   const buckets = new Map<Criterion['kind'], Pool[]>()
@@ -484,16 +576,25 @@ export function initialsOf(name: string): string {
  */
 export type Pond = 'all' | 'playing' | 'legends' | 'famous'
 
+/**
+ * A grid will take any name in the book, because a square with fifteen possible
+ * answers is a better square. A hidden player will not: being asked to guess a
+ * man three Wikipedias have heard of is not a game, it is a lottery. So the
+ * guessing game draws from the part of the book somebody could plausibly name.
+ */
+const GUESSABLE = 14
+const WELL_KNOWN = 45
+
 export function pondOf(pond: Pond): Legend[] {
   switch (pond) {
     case 'playing':
-      return LEGENDS.filter((l) => !l.retired)
+      return LEGENDS.filter((l) => !l.retired && l.fame >= GUESSABLE)
     case 'legends':
-      return LEGENDS.filter((l) => l.retired)
+      return LEGENDS.filter((l) => l.retired && l.fame >= GUESSABLE)
     case 'famous':
-      return LEGENDS.filter((l) => l.honours.length >= 2)
+      return LEGENDS.filter((l) => l.honours.length >= 2 || l.fame >= WELL_KNOWN)
     default:
-      return LEGENDS
+      return LEGENDS.filter((l) => l.fame >= GUESSABLE)
   }
 }
 
