@@ -4,6 +4,13 @@ A browser football career simulator. You start at sixteen with a rating and a
 vague idea of how good you might become, then pick a club every summer until you
 retire. Runs entirely client-side — no backend, no accounts.
 
+Two quizzes about real footballers sit alongside it: a tic tac toe grid of
+clubs, countries and trophies, and a guess-the-player game. Both are played out
+of a book of 849 real footballers, both have a daily puzzle everybody in the
+world shares, and both can be played against a friend anywhere through an
+invite link. Neither needs a save, and there is still no backend: two browsers
+talk to each other directly.
+
 ```bash
 npm install
 npm run dev        # http://localhost:5173
@@ -390,6 +397,108 @@ Each is a *type* of trophy rather than a copy of a real one, drawn as a
 silhouette plus one detail path at low opacity, in the current text colour — so
 they work at 13px in a rail row and at any size in the cabinet, on all four
 grounds, without needing a colour the palette does not have.
+
+## Four things under the career
+
+Under the career on the home screen sit two games, a cabinet and the book they
+are all played out of. They share nothing with the simulation except the
+ground, the type and the crests.
+
+The book is `src/data/players.ts` and `src/data/legends2.ts` — **849 real
+players**, each with the senior clubs he played for in order, a country, a
+position, a birth year and the honours that are unambiguous enough to ask
+about. It runs from Pelé and Puskás to a seventeen year old at Porto, and it
+covers current squads deep enough that a bench is answerable. No API supplies
+it; a club id that is not in `clubs.json` will not compile, and
+`npm run check:players` refuses a duplicate, a missing flag or a question
+nobody in the book answers.
+
+Honours that arrived after a career was first written down (a Club World Cup,
+an Olympic gold, a Nations League) are patched on by id in `HONOUR_PATCH`
+rather than by editing three hundred lines by hand.
+
+**Football Tic Tac Toe** is the grid everyone knows. Three clubs along the top,
+three of anything down the side — another club, a country, a division, a
+trophy, a position, a decade, or a habit like "one club his whole career" — and
+a name that belongs in both. `buildGrid()` in `src/engine/quiz.ts` draws six
+criteria from a seed, forces the three down the side to be three *different*
+kinds of question, then checks all nine intersections and throws the whole
+board away if one of them has nobody in it. Difficulty is only that floor: four
+answers a square, two, or one.
+
+It is played four ways.
+
+- **On your own.** Nine names, no opponent, and every square is worth the share
+  of the answer sheet you used up: one of one is a hundred, one of twenty is
+  five. The count of valid answers sits in the corner of every empty square
+  before you commit, which turns the board into a series of small bets.
+- **Against the computer.** It takes the win, blocks the loss, then takes the
+  middle. The only thing it is bad at is remembering: it draws a blank on a
+  share of its turns that the difficulty sets.
+- **Against the person next to you**, one screen, turn about.
+- **Against a friend anywhere**, through a link.
+
+A wrong answer costs the turn, not the square, so the board keeps moving; the
+same player cannot be used twice; three in a row wins, and a full board is
+decided on count.
+
+**Guess the Player** is one hidden footballer and eight guesses. Every name you
+put in is measured against him on seven counts — country, position, birth year,
+his league, his club, how many clubs, how many titles — and each comes back
+lit, warm or dead. Warm is the useful one: the same confederation, the same
+part of the pitch, a career that passed through the club he is at now, a year
+within three. Every wrong guess also buys a clue, in the order they give him
+away, ending with his initials. You can narrow the book to men still playing,
+men who have finished, or men who won something. When he is out, his whole
+career path and his silverware are shown.
+
+Both games have a **daily**: one board and one hidden player that everybody in
+the world gets on the same date, seeded off the day number, plus a result you
+can copy into a group chat as squares without giving the answers away.
+
+## Playing a friend through a link
+
+Both games can be played against somebody who is not in the room, and nothing
+of ours sits in the middle. Opening a room creates a WebRTC peer with a
+five-character code; the other side pastes the code or follows a link with the
+code already in it (`?room=ABCDE&game=grid`), and after a public broker has
+introduced the two browsers every move travels directly between them.
+
+`src/net/peer.ts` holds the connection and `src/net/useLobby.ts` holds it
+steady across renders — a game cannot survive its socket being rebuilt
+mid-turn. The signalling library is a hundred kilobytes, so it is fetched the
+first time somebody actually opens a room and never on a first paint.
+
+The side that opened the room owns the seed: it sends the board, and both
+browsers build the identical grid from it. In the grid game turns alternate and
+every move is a message; in the guessing game both of you get the same hidden
+man and race, with the other one's guess count updating live.
+
+## The cabinet
+
+Fifteen things worth doing across the two games, each drawn as the trophy it
+borrows its shape from — the European Cup with its ears, the World Cup as the
+earth held up by two figures, a Ballon d'Or, an Olympic medal, a golden boot.
+They are inline SVG with a metal gradient rather than photographs, so they
+weigh nothing, never fail to load and print the same at thirteen pixels and at
+a hundred. The same drawings label the honour rows on a grid, so "won the
+Champions League" is a cup rather than a word. A locked award still shows its
+drawing, greyed, because an empty shelf is the point of a cabinet.
+
+Progress lives in this browser only, in a dozen numbers rather than a history.
+
+## The book, open
+
+There is no reason to keep the list shut, so `Das Lexikon` opens it: search a
+name, filter by where he plays, sort by most clubs, most won or youngest, and
+open anybody to see every club in order with its crest and every trophy he has.
+It is also the fastest way to find out that the man you were sure about never
+played there.
+
+Typing is forgiving by design everywhere. `fold()` strips accents, apostrophes
+and the Turkish dotless i, nicknames are searchable, and the only thing that
+can ever be submitted is a player picked off the list — so a game is never lost
+to a keyboard.
 
 ## Adding a language
 

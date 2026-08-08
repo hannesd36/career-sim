@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CLUB_BY_ID } from './data/clubs'
+import { LEGENDS } from './data/players'
+import { AWARDS, earnedCount, readStats } from './engine/awards'
 import {
   acceptOffer,
   closeEvent,
@@ -15,8 +17,13 @@ import { MODE_CONFIG, type Career, type Offer, type PenaltyCorner } from './engi
 import { rarityClass } from './engine/rarity'
 import { useI18n } from './i18n'
 import type { StringKey } from './i18n/strings'
+import { roomFromUrl } from './net/peer'
+import { AwardsScreen } from './ui/Awards'
+import { Book } from './ui/Book'
 import { CreateScreen } from './ui/CreateScreen'
 import { EventScreen } from './ui/EventScreen'
+import { GridGame } from './ui/GridGame'
+import { GuessGame } from './ui/GuessGame'
 import { Identity } from './ui/Identity'
 import { LangSwitch } from './ui/LangSwitch'
 import { LeagueTable } from './ui/LeagueTable'
@@ -29,15 +36,18 @@ import { SummaryScreen } from './ui/SummaryScreen'
 import { Crest, careerStage, formatValue, seasonLabel, type Stage } from './ui/bits'
 import { useTheme, type Theme } from './ui/useSettings'
 
-type View = 'home' | 'create' | 'career'
+type View = 'home' | 'create' | 'career' | 'grid' | 'guess' | 'awards' | 'book'
 type Standings = { clubId: string; season?: number }
 
 const STEPS = [1, 3, 5]
 
+/** A link with a room in it is somebody waiting, so it opens its game at once. */
+const invite = roomFromUrl()
+
 export default function App() {
   const { t } = useI18n()
   const { theme, next, cycle, setTheme } = useTheme()
-  const [view, setView] = useState<View>('home')
+  const [view, setView] = useState<View>(invite ? invite.game : 'home')
   const [career, setCareer] = useState<Career | null>(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [standings, setStandings] = useState<Standings | null>(null)
@@ -112,6 +122,44 @@ export default function App() {
     )
   }
 
+  // The two quizzes are their own thing. They share the ground, the type and
+  // the crests, and nothing else — no career, no save, no season.
+  if (view === 'grid') {
+    return (
+      <Frame label={t('game.grid')}>
+        <Topbar next={next} onTheme={cycle} />
+        <GridGame onExit={() => setView('home')} invited={invite?.game === 'grid'} />
+      </Frame>
+    )
+  }
+
+  if (view === 'guess') {
+    return (
+      <Frame label={t('game.guess')}>
+        <Topbar next={next} onTheme={cycle} />
+        <GuessGame onExit={() => setView('home')} invited={invite?.game === 'guess'} />
+      </Frame>
+    )
+  }
+
+  if (view === 'book') {
+    return (
+      <Frame label={t('book.title')}>
+        <Topbar next={next} onTheme={cycle} />
+        <Book onExit={() => setView('home')} />
+      </Frame>
+    )
+  }
+
+  if (view === 'awards') {
+    return (
+      <Frame label={t('award.title')}>
+        <Topbar next={next} onTheme={cycle} />
+        <AwardsScreen onExit={() => setView('home')} />
+      </Frame>
+    )
+  }
+
   if (view === 'home' || !career) {
     return (
       <Frame label={t('app.name')}>
@@ -125,6 +173,7 @@ export default function App() {
             setSaves(listCareers())
           }}
           onImport={() => fileInput.current?.click()}
+          onGame={(game) => setView(game)}
         />
         <input
           ref={fileInput}
@@ -407,20 +456,62 @@ function Topbar({
   )
 }
 
+/** A cup on a plinth, for the cabinet the two quizzes fill. */
+function CabinetMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M8 3h8v5.5a4 4 0 0 1-8 0zM8 4.5H5.4v1.6a3 3 0 0 0 2.6 3M16 4.5h2.6v1.6a3 3 0 0 1-2.6 3" />
+      <path d="M12 12.5V16M8.5 19.5h7l.8 1.8H7.7z" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+/** An open book, which is what the two quizzes are played out of. */
+function BookMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M12 6.5C10.4 5.2 8.2 4.5 4 4.5v13c4.2 0 6.4.7 8 2 1.6-1.3 3.8-2 8-2v-13c-4.2 0-6.4.7-8 2z" strokeLinejoin="round" />
+      <path d="M12 6.5v12" />
+    </svg>
+  )
+}
+
+/** Nine squares with a line through three of them. */
+function GridMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M3 3h18v18H3zM9 3v18M15 3v18M3 9h18M3 15h18" opacity="0.55" />
+      <path d="M4.5 4.5 19.5 19.5" strokeWidth="2.2" />
+    </svg>
+  )
+}
+
+/** A shirt with nobody's name on it. */
+function GuessMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M9 3 4 5.5 5.6 10l2-.6V21h8.8V9.4l2 .6L20 5.5 15 3a3 3 0 0 1-6 0z" />
+      <path d="M12 12.4v3.2M12 17.8v.2" strokeWidth="2.2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 interface HomeProps {
   saves: Career[]
   onNew: () => void
   onOpen: (c: Career) => void
   onDelete: (id: string) => void
   onImport: () => void
+  onGame: (game: 'grid' | 'guess' | 'awards' | 'book') => void
 }
 
-function Home({ saves, onNew, onOpen, onDelete, onImport }: HomeProps) {
+function Home({ saves, onNew, onOpen, onDelete, onImport, onGame }: HomeProps) {
   const { t } = useI18n()
   const rows = useMemo(
     () => saves.map((c) => ({ career: c, stats: totals(c), club: CLUB_BY_ID[c.player.clubId] })),
     [saves],
   )
+  const cabinet = useMemo(() => earnedCount(readStats()), [])
 
   return (
     <div className="flow">
@@ -434,6 +525,60 @@ function Home({ saves, onNew, onOpen, onDelete, onImport }: HomeProps) {
           <button className="act act--quiet" onClick={onImport}>
             {t('home.import')}
           </button>
+        </div>
+      </section>
+
+      {/*
+       * The career is the point of the place, so it keeps the top of the page.
+       * Underneath it are two games that need no save and no commitment: one
+       * grid, one player to name, both played out of the same book.
+       */}
+      <section>
+        <div className="rule-head">
+          <h2>{t('home.games')}</h2>
+          <span className="aside">{t('home.bookSize', { n: LEGENDS.length })}</span>
+        </div>
+        <div className="games">
+          {(
+            [
+              { id: 'grid', title: t('game.grid'), blurb: t('game.gridBlurb'), go: t('game.play') },
+              {
+                id: 'guess',
+                title: t('game.guess'),
+                blurb: t('game.guessBlurb'),
+                go: t('game.play'),
+              },
+              {
+                id: 'awards',
+                title: t('award.title'),
+                blurb: t('award.blurb', { n: cabinet, of: AWARDS.length }),
+                go: t('award.open'),
+              },
+              {
+                id: 'book',
+                title: t('book.title'),
+                blurb: t('book.cardBlurb'),
+                go: t('book.open'),
+              },
+            ] as const
+          ).map((g) => (
+            <button key={g.id} className="gamecard" onClick={() => onGame(g.id)}>
+              <span className="gamecard-mark" aria-hidden="true">
+                {g.id === 'grid' ? (
+                  <GridMark />
+                ) : g.id === 'guess' ? (
+                  <GuessMark />
+                ) : g.id === 'awards' ? (
+                  <CabinetMark />
+                ) : (
+                  <BookMark />
+                )}
+              </span>
+              <span className="gamecard-title">{g.title}</span>
+              <span className="gamecard-blurb">{g.blurb}</span>
+              <span className="gamecard-go">{g.go} →</span>
+            </button>
+          ))}
         </div>
       </section>
 
