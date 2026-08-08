@@ -31,6 +31,19 @@ const LEAGUES = resolve(here, '../src/data/leagues.ts')
 
 const fresh = process.argv.includes('--all')
 
+/**
+ * How long this is allowed to take, in minutes.
+ *
+ * Mapping is a nicety: a club nobody has matched yet simply has no generated
+ * players, and next quarter it gets another go. Pulling the players is the
+ * actual job, so this stops itself rather than eating the hour that belongs to
+ * the harvest.
+ */
+const budgetArg = process.argv.indexOf('--budget')
+const BUDGET_MS = (budgetArg > -1 ? Number(process.argv[budgetArg + 1]) : 30) * 60_000
+const startedAt = Date.now()
+const outOfTime = () => Date.now() - startedAt > BUDGET_MS
+
 /** Country each league is played in, read off leagues.ts so it cannot drift. */
 function leagueCountries() {
   const src = readFileSync(LEAGUES, 'utf8')
@@ -121,6 +134,10 @@ console.log(`${stillMissing.length} left for the search box`)
 const REJECT = /\b(women|femin|feminine|damen|reserves?|academy|youth|futsal|II|B team|under-\d+)\b/i
 
 for (const club of stillMissing) {
+  if (outOfTime()) {
+    console.log('  (out of time, the rest can wait for next quarter)')
+    break
+  }
   const want = COUNTRY_ALIASES[countryOf[club.leagueId]] ?? [countryOf[club.leagueId]]
   const seen = new Set()
   const candidates = []
@@ -218,6 +235,10 @@ for (const club of left) {
 }
 
 for (const [country, list] of byCountry) {
+  if (outOfTime()) {
+    console.log('  (out of time, the rest can wait for next quarter)')
+    break
+  }
   const cq = COUNTRY_Q[country]
   if (!cq) {
     console.log(`  ? no Wikidata country for ${country}`)
@@ -311,6 +332,10 @@ const ADJECTIVE = {
 }
 
 for (const club of clubs.filter((c) => !map[c.id])) {
+  if (outOfTime()) {
+    console.log('  (out of time, the rest can wait for next quarter)')
+    break
+  }
   const country = countryOf[club.leagueId]
   const adj = ADJECTIVE[country]
   const want = COUNTRY_ALIASES[country] ?? [country]
