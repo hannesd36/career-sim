@@ -496,10 +496,12 @@ same names.
 `.github/workflows/refresh-players.yml` runs on the first of January, April,
 July and October, whenever the scripts that build the book change, and by hand
 from the Actions tab. Wikidata throttles hard by address, so a runner with
-nobody else's day behind it does this far better than a laptop can. It maps any club
-added since last time, pulls the players again, refuses the result if fewer
-than three thousand came back or the build breaks, commits `public/players.json`
-only if it actually changed, and hands the deploy over to the Pages workflow.
+nobody else's day behind it does this far better than a laptop can.
+
+It maps any club added since last time, pulls the players again, refuses the
+result if fewer than three thousand came back or the build breaks, commits
+`public/players.json` only if it actually changed, and hands the deploy over to
+the Pages workflow.
 
 Which Wikidata item each of our clubs is, is worked out once by
 `scripts/map-clubs.mjs` and committed as `scripts/wikidata-clubs.json`, so a

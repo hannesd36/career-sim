@@ -39,7 +39,8 @@ permissions:
 
 concurrency:
   group: refresh-players
-  cancel-in-progress: false
+  # a newer refresh always knows more than the one it replaces
+  cancel-in-progress: true
 
 jobs:
   refresh:
@@ -61,7 +62,7 @@ jobs:
       # yet, so look those up first. The map is committed, so this is usually
       # a no-op that finishes in seconds.
       - name: Map any new clubs
-        run: node scripts/map-clubs.mjs
+        run: node scripts/map-clubs.mjs --budget 20
 
       - name: Pull the players
         run: >
@@ -93,4 +94,6 @@ jobs:
           fi
           COUNT=$(node -e "console.log(require('./public/players.json').rows.length)")
           git commit -m "Refresh the book from Wikidata: $COUNT players"
+          # a couple of hours is long enough for somebody to have pushed
+          git pull --rebase origin main
           git push

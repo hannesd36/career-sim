@@ -8,10 +8,10 @@ import { Crest, Flag } from './bits'
 import { useBook } from './useBook'
 import { TrophyRow } from './trophies'
 
-type Sort = 'name' | 'clubs' | 'honours' | 'young'
+type Sort = 'famous' | 'name' | 'clubs' | 'honours' | 'young'
 type Filter = 'all' | PosGroup
 
-const SORTS: Sort[] = ['name', 'clubs', 'honours', 'young']
+const SORTS: Sort[] = ['famous', 'name', 'clubs', 'honours', 'young']
 const FILTERS: Filter[] = ['all', 'GK', 'DEF', 'MID', 'ATT']
 
 /** How many are drawn before the list asks you to be more specific. */
@@ -29,7 +29,7 @@ const PAGE = 60
 export function Book({ onExit }: { onExit: () => void }) {
   const { t, country, position, num } = useI18n()
   const [query, setQuery] = useState('')
-  const [sort, setSort] = useState<Sort>('name')
+  const [sort, setSort] = useState<Sort>('famous')
   const [filter, setFilter] = useState<Filter>('all')
   const [open, setOpen] = useState<string | null>(null)
   const book = useBook()
@@ -38,6 +38,9 @@ export function Book({ onExit }: { onExit: () => void }) {
     const base = query.trim() ? searchLegends(query, 200) : LEGENDS
     const kept = filter === 'all' ? base : base.filter((l) => posGroup(l.position) === filter)
     const sorted = [...kept]
+    // twenty thousand names sorted alphabetically opens on somebody nobody has
+    // heard of, so the book opens on the men it is worth opening on
+    if (sort === 'famous') sorted.sort((a, b) => b.fame - a.fame || a.name.localeCompare(b.name))
     if (sort === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name))
     if (sort === 'clubs') sorted.sort((a, b) => b.careerClubs.length - a.careerClubs.length)
     if (sort === 'honours') sorted.sort((a, b) => b.honours.length - a.honours.length)
