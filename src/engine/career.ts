@@ -298,7 +298,14 @@ function runBatch(start: Career): Career {
     const event = record.banned
       ? null
       : rollEvent(
-          { player: next.player, club, last: record, season: next.season, seasonsPlayed: next.history.length },
+          {
+            player: next.player,
+            club,
+            last: record,
+            season: next.season,
+            seasonsPlayed: next.history.length,
+            decided: new Set(next.eventLog.map((e) => e.id)),
+          },
           pressure,
           rng,
         )

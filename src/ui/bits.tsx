@@ -199,12 +199,22 @@ export type Stage = 'unknown' | 'emerging' | 'established' | 'prime' | 'veteran'
  */
 export function careerStage(career: Career): Stage {
   if (career.player.retired || career.phase === 'retired') return 'legacy'
-  const age = career.player.age
-  if (age < 18) return 'unknown'
-  if (age < 21) return 'emerging'
-  if (age < 25) return 'established'
-  if (age < 30) return 'prime'
-  return 'veteran'
+  return stageAt(career.player.age)
+}
+
+/** The ages a career changes character at, and what it is called after each. */
+export const STAGE_AT: { age: number; stage: Stage }[] = [
+  { age: 16, stage: 'unknown' },
+  { age: 18, stage: 'emerging' },
+  { age: 21, stage: 'established' },
+  { age: 25, stage: 'prime' },
+  { age: 30, stage: 'veteran' },
+]
+
+export function stageAt(age: number): Stage {
+  let stage: Stage = 'unknown'
+  for (const s of STAGE_AT) if (age >= s.age) stage = s.stage
+  return stage
 }
 
 export function roleClass(role: SquadRole): string {
@@ -228,32 +238,95 @@ export function formatValue(v: number, lang: 'en' | 'de' = 'en'): string {
   return `${v} €`
 }
 
-/** The shape of a career, which the ledger answers slowly and a line answers at once. */
-export function Arc({ values, height = 68 }: { values: number[]; height?: number }) {
-  if (values.length < 2) return null
-  const W = 600
-  const pad = 5
-  const min = Math.min(...values)
-  const max = Math.max(...values)
-  const span = Math.max(max - min, 1)
-  const x = (i: number) => (i / (values.length - 1)) * (W - pad * 2) + pad
-  const y = (v: number) => height - pad - ((v - min) / span) * (height - pad * 2)
-  const line = values
-    .map((v, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(v).toFixed(1)}`)
-    .join(' ')
-  const peak = values.indexOf(max)
+// -------------------------------------------------------------- the arc
+
+/** A career is played between these two ages, whether you last that long or not. */
+export const FIRST_AGE = 16
+export const LAST_AGE = 40
+
+/** The ages a career is talked about in, and the ticks under the arc. */
+const MILESTONES = [16, 18, 21, 25, 30, 40]
+
+/**
+ * The whole career as one line: every rating you have held, plotted against the
+ * only axis that matters, and then the part you have not played yet.
+ *
+ * It replaces reading a number and a range separately. Where the line has been
+ * is the story so far; the wedge past today is what the game still thinks you
+ * could become, narrowing every season as the ceiling narrows; and the empty
+ * stretch to forty is the time left to do it in. A sixteen year old is nearly
+ * all wedge. A thirty-four year old is nearly all line.
+ */
+export function Trajectory({ career, height = 96 }: { career: Career; height?: number }) {
+  const { player } = career
+  const done = career.history
+
+  const points: { age: number; ovr: number }[] = done.length
+    ? [
+        { age: done[0].age, ovr: done[0].ovrStart },
+        ...done.map((s) => ({ age: s.age + 1, ovr: s.ovrEnd })),
+      ]
+    : [{ age: player.age, ovr: player.ovr }]
+
+  const over = player.retired || career.phase === 'retired'
+  // How far out the game is still willing to guess. Potential lands somewhere
+  // around the end of the twenties, so that is where the wedge closes.
+  const horizon = over ? points[points.length - 1].age : Math.min(LAST_AGE, Math.max(player.age + 2, 29))
+
+  const rated = points.map((p) => p.ovr)
+  const lo = Math.max(30, Math.min(...rated, over ? 99 : player.potMin) - 6)
+  const hi = Math.min(99, Math.max(...rated, over ? 0 : player.potMax) + 6)
+
+  const px = (age: number) => ((age - FIRST_AGE) / (LAST_AGE - FIRST_AGE)) * 100
+  const py = (ovr: number) => (1 - (ovr - lo) / Math.max(hi - lo, 1)) * 100
+
+  const line = points.map((p) => `${px(p.age).toFixed(2)},${py(p.ovr).toFixed(2)}`).join(' ')
+  const peak = points.reduce((best, p) => (p.ovr > best.ovr ? p : best), points[0])
+  const now = points[points.length - 1]
+  const showPeak = peak.age !== now.age && peak.ovr > now.ovr
 
   return (
-    <svg viewBox={`0 0 ${W} ${height}`} preserveAspectRatio="none" aria-hidden="true">
-      <path
-        d={line}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        vectorEffect="non-scaling-stroke"
-      />
-      <circle cx={x(peak)} cy={y(max)} r="4" fill="var(--flood)" />
-    </svg>
+    <div className="arc" style={{ height }}>
+      <svg
+        className="arc-plot"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        {!over && (
+          /* what you could still be: an opening range, not a promise */
+          <polygon
+            className="arc-ahead"
+            vectorEffect="non-scaling-stroke"
+            points={`${px(player.age)},${py(player.ovr)} ${px(horizon)},${py(player.potMax)} ${px(horizon)},${py(player.potMin)}`}
+          />
+        )}
+        <polyline
+          className="arc-line"
+          points={line}
+          vectorEffect="non-scaling-stroke"
+          fill="none"
+        />
+      </svg>
+
+      {/* markers ride on top in HTML, so a stretched viewBox cannot squash them */}
+      <div className="arc-marks" aria-hidden="true">
+        {showPeak && (
+          <span className="arc-peak" style={{ left: `${px(peak.age)}%`, top: `${py(peak.ovr)}%` }}>
+            {peak.ovr}
+          </span>
+        )}
+        <span className="arc-now" style={{ left: `${px(now.age)}%`, top: `${py(now.ovr)}%` }} />
+      </div>
+
+      <div className="arc-axis" aria-hidden="true">
+        {MILESTONES.map((age) => (
+          <span key={age} style={{ left: `${px(age)}%` }} className={age <= player.age ? 'on' : undefined}>
+            {age}
+          </span>
+        ))}
+      </div>
+    </div>
   )
 }
 
