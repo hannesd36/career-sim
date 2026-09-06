@@ -1,6 +1,7 @@
 import { flagUrl } from '../data/nations'
 import { RARITY_ORDER, rarityClass, rarityOf } from '../engine/rarity'
-import type { Career, Club, SquadRole, TrophyId } from '../engine/types'
+import { isKeeper } from '../engine/sim'
+import type { Career, Club, SeasonRecord, SquadRole, TrophyId } from '../engine/types'
 import { useI18n } from '../i18n'
 import type { StringKey } from '../i18n/strings'
 
@@ -326,6 +327,40 @@ export function Trajectory({ career, height = 96 }: { career: Career; height?: n
           </span>
         ))}
       </div>
+    </div>
+  )
+}
+
+/**
+ * What the arc leaves out: not how good you were, but what you actually did
+ * with a season. One stacked bar per season played, goals (or clean sheets,
+ * for a keeper) under assists, so a career reads as a skyline rather than a
+ * table you have to add up yourself.
+ */
+export function OutputBars({ career, height = 96 }: { career: Career; height?: number }) {
+  const keeper = isKeeper(career.player.position)
+  const seasons = career.history.filter((s) => !s.banned)
+  if (seasons.length === 0) return null
+
+  const primary = (s: SeasonRecord) => (keeper ? s.cleanSheets : s.goals)
+  const secondary = (s: SeasonRecord) => s.assists
+  const max = Math.max(1, ...seasons.map((s) => primary(s) + secondary(s)))
+
+  return (
+    <div className="outbars" style={{ height }}>
+      {seasons.map((s) => {
+        const p = primary(s)
+        const a = secondary(s)
+        return (
+          <div className="outbars-col" key={s.season} title={`${seasonLabel(s.season)} · ${p + a}`}>
+            <div className="outbars-stack">
+              <span className="outbars-a" style={{ height: `${(a / max) * 100}%` }} />
+              <span className="outbars-p" style={{ height: `${(p / max) * 100}%` }} />
+            </div>
+            <span className="outbars-age">{s.age}</span>
+          </div>
+        )
+      })}
     </div>
   )
 }

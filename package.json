@@ -8,6 +8,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "share": "vite build && vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "fetch:badges": "node scripts/fetch-badges.mjs",
     "check:players": "tsx scripts/check-players.ts",
     "map:clubs": "node scripts/map-clubs.mjs",
@@ -24,6 +26,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "tsx": "^4.23.9",
     "typescript": "^5.6.3",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "vitest": "^5.0.0"
   }
 }

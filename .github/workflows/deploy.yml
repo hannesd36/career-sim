@@ -41,6 +41,8 @@ jobs:
       # `npm ci` installs exactly what package-lock.json pins, so the build on
       # the server is the build you tested.
       - run: npm ci
+      # A broken engine has nothing worth publishing either.
+      - run: npm test
       - run: npm run build
 
       - uses: actions/upload-pages-artifact@v3

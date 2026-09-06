@@ -51,6 +51,10 @@ export type EventId =
   // --- the shirt with the badge on it ---
   | 'nation-switch'
   | 'country-armband'
+  | 'international-retirement'
+  // --- what people want from you ---
+  | 'rival-approach'
+  | 'testimonial'
   // --- the end of it ---
   | 'youth-mentor'
   | 'coaching-badges'
@@ -697,6 +701,63 @@ export const EVENTS: GameEvent[] = [
       {
         key: 'just-play',
         outcomes: [{ weight: 1, result: 'just-played', tone: 'neutral', effect: {} }],
+      },
+    ],
+  },
+
+  {
+    id: 'international-retirement',
+    once: true,
+    weight: ({ player, last }) => (player.natCapped && player.age >= 31 && last.natApps >= 1 ? 1.6 : 0),
+    choices: [
+      {
+        key: 'step-back',
+        outcomes: [{ weight: 1, result: 'fresher-legs', tone: 'neutral', effect: { ovr: 2 } }],
+      },
+      {
+        key: 'keep-both',
+        outcomes: [
+          { weight: 55, result: 'still-has-it', tone: 'good', effect: { ovr: 2 } },
+          { weight: 45, result: 'ran-you-down', tone: 'bad', effect: { ovr: -4 } },
+        ],
+      },
+    ],
+  },
+
+  // ------------------------------------------------------ what people want from you
+  {
+    id: 'rival-approach',
+    weight: ({ player, club, last }) =>
+      last.rating >= 7.2 && player.ovr >= club.strength + 4 && player.age <= 30 ? 1.8 : 0,
+    choices: [
+      {
+        key: 'let-it-run',
+        outcomes: [
+          { weight: 50, result: 'played-lighter', tone: 'good', effect: { ovr: 3, reputation: 2 } },
+          { weight: 50, result: 'weighed-you-down', tone: 'bad', effect: { ovr: -3 } },
+        ],
+      },
+      {
+        key: 'shut-it-down',
+        outcomes: [{ weight: 1, result: 'stayed-professional', tone: 'neutral', effect: { ovr: 1 } }],
+      },
+    ],
+  },
+  {
+    id: 'testimonial',
+    once: true,
+    weight: ({ player, seasonsPlayed }) => (player.age >= 33 && seasonsPlayed >= 10 ? 1.6 : 0),
+    choices: [
+      {
+        key: 'give-them-a-show',
+        outcomes: [
+          { weight: 50, result: 'the-old-magic', tone: 'good', effect: { ovr: 2 } },
+          { weight: 50, result: 'costly-knock', tone: 'bad', effect: { ovr: -4 } },
+        ],
+      },
+      {
+        key: 'take-it-easy',
+        outcomes: [{ weight: 1, result: 'gentle-lap', tone: 'neutral', effect: {} }],
       },
     ],
   },

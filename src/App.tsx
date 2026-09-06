@@ -11,8 +11,23 @@ import {
   takePenalty,
   totals,
 } from './engine/career'
-import { deleteCareer, exportCareer, importCareer, listCareers, saveCareer } from './engine/storage'
-import { MODE_CONFIG, type Career, type Offer, type PenaltyCorner } from './engine/types'
+import {
+  CAREER_AWARDS,
+  careerAwardsEarned,
+  type CareerAward,
+  computeCabinetStats,
+  newlyEarnedCareerAwards,
+} from './engine/careerAwards'
+import { detectMilestonesForRun, type MilestoneId } from './engine/milestones'
+import {
+  deleteCareer,
+  exportCareer,
+  importCareer,
+  listCareers,
+  renameCareer,
+  saveCareer,
+} from './engine/storage'
+import { MODE_CONFIG, type Career, type Offer, type PenaltyCorner, type Phase } from './engine/types'
 import { rarityClass } from './engine/rarity'
 import { useI18n } from './i18n'
 import type { StringKey } from './i18n/strings'
@@ -20,9 +35,11 @@ import { roomFromUrl } from './net/peer'
 import { AwardsScreen } from './ui/Awards'
 import { Book } from './ui/Book'
 import { CreateScreen } from './ui/CreateScreen'
+import { CrestGame } from './ui/CrestGame'
 import { EventScreen } from './ui/EventScreen'
 import { GridGame } from './ui/GridGame'
 import { GuessGame } from './ui/GuessGame'
+import { CareerAwardToast, HallOfFameScreen, MilestoneToast } from './ui/HallOfFame'
 import { Identity } from './ui/Identity'
 import { LangSwitch } from './ui/LangSwitch'
 import { LeagueTable } from './ui/LeagueTable'
@@ -36,7 +53,7 @@ import { Crest, careerStage, formatValue, seasonLabel, type Stage } from './ui/b
 import { useBook } from './ui/useBook'
 import { useTheme, type Theme } from './ui/useSettings'
 
-type View = 'home' | 'create' | 'career' | 'grid' | 'guess' | 'awards' | 'book'
+type View = 'home' | 'create' | 'career' | 'grid' | 'guess' | 'crest' | 'awards' | 'book' | 'hof'
 type Standings = { clubId: string; season?: number }
 
 const STEPS = [1, 3, 5]
@@ -58,12 +75,37 @@ export default function App() {
   const [reading, setReading] = useState<number | null>(null)
   /** true once the player card has scrolled off the top of the window */
   const [perched, setPerched] = useState(false)
+  const [milestoneToast, setMilestoneToast] = useState<MilestoneId[]>([])
+  const [careerAwardToast, setCareerAwardToast] = useState<CareerAward[]>([])
   const fileInput = useRef<HTMLInputElement>(null)
   const nowRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
+  const prevPhase = useRef<Phase | undefined>(undefined)
 
   useEffect(() => {
     if (career) saveCareer(career)
+  }, [career])
+
+  // A blitz click can settle a whole batch behind one or two decisions before
+  // it lands, so the moment to say what just happened is the phase actually
+  // arriving at rest, not any one of the seasons along the way. Retiring gets
+  // priority over the run's own milestones: it is the bigger thing that day.
+  useEffect(() => {
+    const prev = prevPhase.current
+    const now = career?.phase
+    if (career && now !== prev) {
+      if (now === 'retired' && prev !== 'retired') {
+        const others = listCareers().filter((c) => c.id !== career.id)
+        const before = computeCabinetStats(others)
+        const after = computeCabinetStats([...others, career])
+        const newly = newlyEarnedCareerAwards(before, after)
+        if (newly.length) setCareerAwardToast(newly)
+      } else if (now === 'offers' && prev !== 'offers') {
+        const hits = detectMilestonesForRun(career)
+        if (hits.length) setMilestoneToast(hits)
+      }
+    }
+    prevPhase.current = now
   }, [career])
 
   // The bar takes the player over the moment the card leaves the window, and
@@ -96,6 +138,12 @@ export default function App() {
     setSettingsOpen(false)
     setReading(null)
     setView('career')
+    // Opening a career (including an already-retired one, from the hall of
+    // fame) is not a phase transition — without this, merely viewing a
+    // finished career would look like the moment it just retired.
+    prevPhase.current = c.phase
+    setMilestoneToast([])
+    setCareerAwardToast([])
   }
 
   const play = (seasons: number) => {
@@ -144,6 +192,15 @@ export default function App() {
     )
   }
 
+  if (view === 'crest') {
+    return (
+      <Frame label={t('crest.title')}>
+        <Topbar next={next} onTheme={cycle} />
+        <CrestGame onExit={() => setView('home')} />
+      </Frame>
+    )
+  }
+
   if (view === 'book') {
     return (
       <Frame label={t('book.title')}>
@@ -162,6 +219,15 @@ export default function App() {
     )
   }
 
+  if (view === 'hof') {
+    return (
+      <Frame label={t('hof.title')}>
+        <Topbar next={next} onTheme={cycle} />
+        <HallOfFameScreen onExit={() => setView('home')} onOpen={open} />
+      </Frame>
+    )
+  }
+
   if (view === 'home' || !career) {
     return (
       <Frame label={t('app.name')}>
@@ -174,6 +240,11 @@ export default function App() {
             deleteCareer(id)
             setSaves(listCareers())
           }}
+          onRename={(id, name) => {
+            renameCareer(id, name)
+            setSaves(listCareers())
+          }}
+          onExport={exportCareer}
           onImport={() => fileInput.current?.click()}
           onGame={(game) => setView(game)}
         />
@@ -307,6 +378,9 @@ export default function App() {
           onClose={() => setSettingsOpen(false)}
         />
       )}
+
+      <MilestoneToast milestones={milestoneToast} onDone={() => setMilestoneToast([])} />
+      <CareerAwardToast awards={careerAwardToast} onDone={() => setCareerAwardToast([])} />
 
       {career.phase === 'retired' ? (
         <SummaryScreen
@@ -498,23 +572,69 @@ function GuessMark() {
   )
 }
 
+/** A shield with nothing drawn on it, standing in for a crest not yet named. */
+function CrestMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M12 3.5 19 6v6c0 4.4-3 7.4-7 8.5-4-1.1-7-4.1-7-8.5V6z" strokeLinejoin="round" />
+      <path d="M12 3.5v17" opacity="0.55" />
+    </svg>
+  )
+}
+
+/** A star, for the careers that are over and worth remembering. */
+function HofMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path
+        d="M12 3.4 14.8 9l6.2.9-4.5 4.3 1.1 6.1L12 17.3l-5.6 3 1.1-6.1L3 9.9 9.2 9z"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+type SortMode = 'recent' | 'rating' | 'name'
+const SORTS: SortMode[] = ['recent', 'rating', 'name']
+
 interface HomeProps {
   saves: Career[]
   onNew: () => void
   onOpen: (c: Career) => void
   onDelete: (id: string) => void
+  onRename: (id: string, name: string) => void
+  onExport: (c: Career) => void
   onImport: () => void
-  onGame: (game: 'grid' | 'guess' | 'awards' | 'book') => void
+  onGame: (game: 'grid' | 'guess' | 'crest' | 'awards' | 'book' | 'hof') => void
 }
 
-function Home({ saves, onNew, onOpen, onDelete, onImport, onGame }: HomeProps) {
+function Home({ saves, onNew, onOpen, onDelete, onRename, onExport, onImport, onGame }: HomeProps) {
   const { t, num } = useI18n()
   const book = useBook()
-  const rows = useMemo(
-    () => saves.map((c) => ({ career: c, stats: totals(c), club: CLUB_BY_ID[c.player.clubId] })),
-    [saves],
-  )
+  const [sort, setSort] = useState<SortMode>('recent')
+  const [renaming, setRenaming] = useState<string | null>(null)
+  const [draftName, setDraftName] = useState('')
+  const rows = useMemo(() => {
+    const built = saves.map((c) => ({ career: c, stats: totals(c), club: CLUB_BY_ID[c.player.clubId] }))
+    // `saves` already arrives sorted by creation date, so 'recent' is a no-op sort.
+    if (sort === 'rating') return [...built].sort((a, b) => b.career.player.ovr - a.career.player.ovr)
+    if (sort === 'name') {
+      return [...built].sort((a, b) => a.career.player.name.localeCompare(b.career.player.name))
+    }
+    return built
+  }, [saves, sort])
   const cabinet = useMemo(() => earnedCount(readStats()), [])
+  const hofCabinet = useMemo(() => careerAwardsEarned(computeCabinetStats(saves)), [saves])
+
+  const startRename = (career: Career) => {
+    setRenaming(career.id)
+    setDraftName(career.player.name)
+  }
+  const commitRename = () => {
+    const name = draftName.trim()
+    if (renaming && name) onRename(renaming, name)
+    setRenaming(null)
+  }
 
   return (
     <div className="flow">
@@ -552,9 +672,21 @@ function Home({ saves, onNew, onOpen, onDelete, onImport, onGame }: HomeProps) {
                 go: t('game.play'),
               },
               {
+                id: 'crest',
+                title: t('game.crest'),
+                blurb: t('game.crestBlurb'),
+                go: t('game.play'),
+              },
+              {
                 id: 'awards',
                 title: t('award.title'),
                 blurb: t('award.blurb', { n: cabinet, of: AWARDS.length }),
+                go: t('award.open'),
+              },
+              {
+                id: 'hof',
+                title: t('game.hof'),
+                blurb: t('award.blurb', { n: hofCabinet, of: CAREER_AWARDS.length }),
                 go: t('award.open'),
               },
               {
@@ -571,8 +703,12 @@ function Home({ saves, onNew, onOpen, onDelete, onImport, onGame }: HomeProps) {
                   <GridMark />
                 ) : g.id === 'guess' ? (
                   <GuessMark />
+                ) : g.id === 'crest' ? (
+                  <CrestMark />
                 ) : g.id === 'awards' ? (
                   <CabinetMark />
+                ) : g.id === 'hof' ? (
+                  <HofMark />
                 ) : (
                   <BookMark />
                 )}
@@ -591,11 +727,43 @@ function Home({ saves, onNew, onOpen, onDelete, onImport, onGame }: HomeProps) {
             <h2>{t('home.saved')}</h2>
             <span className="aside">{rows.length}</span>
           </div>
+          <p className="hint" style={{ marginTop: 0 }}>
+            {t('home.localOnly')}
+          </p>
+          {rows.length > 1 && (
+            <div className="tempo" style={{ marginBottom: 'var(--s3)' }} role="group">
+              {SORTS.map((s) => (
+                <button
+                  key={s}
+                  className={s === sort ? 'on' : undefined}
+                  onClick={() => setSort(s)}
+                >
+                  {t(`home.sort${s === 'recent' ? 'Recent' : s === 'rating' ? 'Rating' : 'Name'}` as StringKey)}
+                </button>
+              ))}
+            </div>
+          )}
           {rows.map(({ career, stats, club }) => (
             <div className="roster-row" key={career.id}>
               {club && <Crest club={club} />}
-              <div style={{ minWidth: 0 }}>
-                <div className="roster-who">{career.player.name}</div>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                {renaming === career.id ? (
+                  <input
+                    className="ruled"
+                    style={{ fontFamily: 'var(--poster)', fontSize: '19px', textTransform: 'uppercase' }}
+                    value={draftName}
+                    autoFocus
+                    maxLength={28}
+                    onChange={(e) => setDraftName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') commitRename()
+                      if (e.key === 'Escape') setRenaming(null)
+                    }}
+                    onBlur={commitRename}
+                  />
+                ) : (
+                  <div className="roster-who">{career.player.name}</div>
+                )}
                 <div className="roster-meta">
                   {career.phase === 'retired'
                     ? t('home.retiredMeta', { ovr: stats.peakOvr, apps: stats.apps })
@@ -607,21 +775,40 @@ function Home({ saves, onNew, onOpen, onDelete, onImport, onGame }: HomeProps) {
                       })}
                 </div>
               </div>
-              <div className="spacer" />
-              <button className="act" onClick={() => onOpen(career)}>
-                {career.phase === 'retired' ? t('home.view') : t('home.continue')}
-              </button>
-              <button
-                className="act act--quiet act--icon"
-                aria-label={t('home.delete')}
-                title={t('home.delete')}
-                onClick={() => {
-                  if (confirm(t('home.deleteConfirm', { name: career.player.name })))
-                    onDelete(career.id)
-                }}
-              >
-                ✕
-              </button>
+              {renaming !== career.id && (
+                <>
+                  <button className="act" onClick={() => onOpen(career)}>
+                    {career.phase === 'retired' ? t('home.view') : t('home.continue')}
+                  </button>
+                  <button
+                    className="act act--quiet act--icon"
+                    aria-label={t('home.rename')}
+                    title={t('home.rename')}
+                    onClick={() => startRename(career)}
+                  >
+                    ✎
+                  </button>
+                  <button
+                    className="act act--quiet act--icon"
+                    aria-label={t('home.export')}
+                    title={t('home.export')}
+                    onClick={() => onExport(career)}
+                  >
+                    ⇩
+                  </button>
+                  <button
+                    className="act act--quiet act--icon"
+                    aria-label={t('home.delete')}
+                    title={t('home.delete')}
+                    onClick={() => {
+                      if (confirm(t('home.deleteConfirm', { name: career.player.name })))
+                        onDelete(career.id)
+                    }}
+                  >
+                    ✕
+                  </button>
+                </>
+              )}
             </div>
           ))}
         </section>
