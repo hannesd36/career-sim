@@ -1,4 +1,5 @@
 import { LEAGUE_BY_ID } from '../data/leagues'
+import { detectMilestones, isTierMilestone } from '../engine/milestones'
 import { rarityClass, rarityOf } from '../engine/rarity'
 import { isDefender, isKeeper } from '../engine/sim'
 import type { Career, SeasonRecord } from '../engine/types'
@@ -29,6 +30,14 @@ export function SeasonPanel({ career, record, onClub, onBack }: Props) {
   const delta = record.ovrEnd - record.ovrStart
   const crossed =
     rarityOf(record.ovrEnd) !== rarityOf(record.ovrStart) && record.ovrEnd > record.ovrStart
+
+  // A tier crossing already gets the promotion banner below; this row is for
+  // everything else worth stopping on, the season it actually happened.
+  const seasonIndex = career.history.indexOf(record)
+  const milestones =
+    seasonIndex >= 0
+      ? detectMilestones(career, seasonIndex).filter((m) => !isTierMilestone(m))
+      : []
 
   const stats = keeper
     ? [
@@ -102,6 +111,16 @@ export function SeasonPanel({ career, record, onClub, onBack }: Props) {
         <div className={`promotion ${rarityClass(record.ovrEnd)}`}>
           <strong>{t(`rar.${rarityOf(record.ovrEnd)}` as StringKey)}</strong>
           <span>{t('rar.promotedSub', { ovr: record.ovrEnd })}</span>
+        </div>
+      )}
+
+      {milestones.length > 0 && (
+        <div className="milestones">
+          {milestones.map((m) => (
+            <span className="milestone-chip" key={m}>
+              {t(`milestone.${m}` as StringKey)}
+            </span>
+          ))}
         </div>
       )}
 

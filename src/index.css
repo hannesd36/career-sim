@@ -1320,6 +1320,59 @@ h3 {
   transform: translateX(-100%);
 }
 
+/*
+ * A skyline of what a career actually produced, one bar per season. Goals (or
+ * clean sheets, for a keeper) sit under assists in the same bar, so the two
+ * read as one season's output rather than two separate charts.
+ */
+.outbars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.outbars-col {
+  flex: 1;
+  min-width: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.outbars-stack {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.outbars-p,
+.outbars-a {
+  width: 100%;
+  display: block;
+}
+
+.outbars-p {
+  background: var(--fg);
+}
+
+.outbars-a {
+  background: var(--fg-3);
+}
+
+.outbars-age {
+  margin-top: 4px;
+  font-size: 8.5px;
+  font-weight: 600;
+  color: var(--fg-3);
+  opacity: 0.7;
+}
+
 /* ============================================================= 8. kick off */
 
 /*
@@ -1768,6 +1821,24 @@ button.yr:hover .yr-age,
 
 .promotion span {
   font-size: 12.5px;
+  color: var(--fg-2);
+}
+
+/* --- the other kind of moment: a number that just meant something --- */
+.milestones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin-top: var(--s4);
+}
+
+.milestone-chip {
+  padding: 5px var(--s3);
+  border: 1px solid color-mix(in srgb, var(--flood) 45%, var(--line-2));
+  background: color-mix(in srgb, var(--flood) 10%, var(--bg));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--fg-2);
 }
 
@@ -3737,6 +3808,84 @@ select.ruled option {
   color: var(--fg);
 }
 
+/* --- the crest quiz: one image, four names --- */
+
+.crestq {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s5);
+}
+
+.crestq-badge {
+  display: grid;
+  place-items: center;
+  width: 128px;
+  height: 128px;
+  padding: var(--s4);
+  border: 1px solid var(--line);
+  background: var(--bg-raise);
+}
+
+.crestq-badge .crest,
+.crestq-badge .crest-fallback {
+  width: 96px;
+  height: 96px;
+}
+
+.crestq-badge .crest-fallback {
+  font-size: 26px;
+}
+
+.crestq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s3);
+  width: 100%;
+}
+
+.crestq-opt {
+  padding: var(--s3) var(--s3);
+  border: 1px solid var(--line-2);
+  background: var(--bg);
+  font-family: var(--doc);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  transition: border-color var(--t), background var(--t), color var(--t);
+}
+
+.crestq-opt:hover:not(:disabled) {
+  border-color: var(--fg-3);
+  background: var(--bg-raise);
+}
+
+.crestq-opt:disabled {
+  opacity: 0.55;
+}
+
+.crestq-opt--right {
+  opacity: 1;
+  border-color: var(--pitch);
+  background: color-mix(in srgb, var(--pitch) 16%, var(--bg));
+  color: var(--fg);
+}
+
+.crestq-opt--wrong {
+  opacity: 1;
+  border-color: var(--down);
+  background: color-mix(in srgb, var(--down) 14%, var(--bg));
+  color: var(--fg);
+}
+
+.crestq-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s3);
+  text-align: center;
+}
+
 /* ============================================================== 21. phones */
 
 @media (max-width: 900px) {
@@ -4550,4 +4699,80 @@ select.ruled option {
 
 .entry-body .trophy-row {
   justify-content: flex-start;
+}
+
+/* ===========================================================================
+   THE HALL OF FAME
+   Every career you have retired, ranked by the same score the retirement
+   screen already shows, plus a second cabinet in the same shape as the
+   quizzes'. Reuses .cabinet, .shelf and .counts wholesale.
+   =========================================================================== */
+
+.legends {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  padding: var(--s3) var(--s2);
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  transition: background var(--t), box-shadow var(--t), padding-left var(--t);
+}
+
+.legend-row:hover {
+  background: var(--bg-raise);
+  box-shadow: inset 3px 0 0 var(--flood);
+  padding-left: var(--s4);
+}
+
+.legend-rank {
+  flex: none;
+  width: 2.4em;
+  font-family: var(--poster);
+  font-size: 15px;
+  color: var(--fg-3);
+  text-align: right;
+}
+
+.legend-who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.legend-name {
+  font-family: var(--poster);
+  font-size: 17px;
+  text-transform: uppercase;
+  line-height: 1.15;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.legend-meta {
+  font-size: 11px;
+  color: var(--fg-3);
+}
+
+.legend-nums {
+  display: flex;
+  gap: var(--s4);
+  flex: none;
+}
+
+.legend-nums b {
+  display: inline-block;
+  min-width: 2.4em;
+  font-family: var(--poster);
+  font-size: 15px;
+  text-align: right;
+  color: var(--fg-2);
 }

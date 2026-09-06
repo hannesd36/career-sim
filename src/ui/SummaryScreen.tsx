@@ -1,10 +1,10 @@
 import { NATION_BY_NAME } from '../data/nations'
-import { clubSpells, totals } from '../engine/career'
+import { careerScore, clubSpells, totals } from '../engine/career'
 import { isKeeper } from '../engine/sim'
 import type { Career, TrophyId } from '../engine/types'
 import { useI18n } from '../i18n'
 import type { StringKey } from '../i18n/strings'
-import { Crest, Flag, Grade, Trajectory, TrophyIcon, formatValue, seasonLabel } from './bits'
+import { Crest, Flag, Grade, OutputBars, Trajectory, TrophyIcon, formatValue, seasonLabel } from './bits'
 import { CareerTable } from './CareerTable'
 
 interface Props {
@@ -70,15 +70,7 @@ export function SummaryScreen({ career, onPlayAgain, onBack, onClub }: Props) {
     return acc
   }, [])
 
-  const score = Math.round(
-    stats.peakOvr * 6 +
-      majors * 22 +
-      (counts.get('ballondor') ?? 0) * 90 +
-      (counts.get('worldcup') ?? 0) * 60 +
-      stats.goals * 1.2 +
-      stats.assists * 0.8 +
-      stats.apps * 0.35,
-  )
+  const score = careerScore(career)
 
   const verdict: StringKey =
     stats.peakOvr >= 88 && majors >= 5
@@ -146,6 +138,14 @@ export function SummaryScreen({ career, onPlayAgain, onBack, onClub }: Props) {
           </div>
         </div>
 
+        {career.history.length >= 2 && (
+          <div style={{ marginTop: 'var(--s5)' }}>
+            <p className="hint" style={{ marginTop: 0, marginBottom: 'var(--s2)' }}>
+              {t('summary.output')}
+            </p>
+            <OutputBars career={career} height={72} />
+          </div>
+        )}
       </section>
 
       <section>

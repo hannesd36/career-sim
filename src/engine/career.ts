@@ -20,6 +20,7 @@ import {
   simulateSeason,
 } from './sim'
 import {
+  MAJOR_TROPHIES,
   MODE_CONFIG,
   type Career,
   type Club,
@@ -32,6 +33,7 @@ import {
   type Position,
   type RetirementReason,
   type SeasonRecord,
+  type TrophyId,
 } from './types'
 
 export interface CreateOptions {
@@ -693,6 +695,28 @@ export function totals(career: Career): CareerTotals {
   }
   t.clubs = clubIds.size
   return t
+}
+
+/**
+ * One number for a whole career, so two of them can be put in an order. Peak
+ * rating carries most of it; trophies and a couple of individual honours are
+ * worth a jump on top of that, and appearances are the only thing that never
+ * stops accumulating.
+ */
+export function careerScore(career: Career): number {
+  const stats = totals(career)
+  const counts = new Map<TrophyId, number>()
+  for (const tr of career.trophies) counts.set(tr.id, (counts.get(tr.id) ?? 0) + 1)
+  const majors = MAJOR_TROPHIES.reduce((s, id) => s + (counts.get(id) ?? 0), 0)
+  return Math.round(
+    stats.peakOvr * 6 +
+      majors * 22 +
+      (counts.get('ballondor') ?? 0) * 90 +
+      (counts.get('worldcup') ?? 0) * 60 +
+      stats.goals * 1.2 +
+      stats.assists * 0.8 +
+      stats.apps * 0.35,
+  )
 }
 
 /** Per-club breakdown for the end-of-career screen. */

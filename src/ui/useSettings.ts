@@ -26,6 +26,11 @@ export function useTheme() {
   useEffect(() => {
     document.documentElement.dataset.theme = theme
     localStorage.setItem(KEY, theme)
+
+    // The browser chrome, and an installed app's own title bar, follows the
+    // ground rather than staying fixed to whatever Floodlights happens to be.
+    const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()
+    if (bg) document.querySelector('meta[name="theme-color"]')?.setAttribute('content', bg)
   }, [theme])
 
   const next = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length]
