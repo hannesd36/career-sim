@@ -16,7 +16,7 @@ interface Profile {
   cards: number
 }
 
-const PROFILE: Record<Position, Profile> = {
+export const PROFILE: Record<Position, Profile> = {
   GK: { goals: 0.0, assists: 0.01, keyPasses: 0.05, tackles: 0.05, cards: 0.03 },
   CB: { goals: 0.055, assists: 0.03, keyPasses: 0.25, tackles: 2.6, cards: 0.2 },
   LB: { goals: 0.035, assists: 0.13, keyPasses: 0.9, tackles: 2.4, cards: 0.16 },
@@ -162,6 +162,8 @@ export interface SeasonContext {
   rng: Rng
   /** the career seed, so the league table can be rebuilt later */
   tableSeed: number
+  /** a start modifier's multiplier on how often the body gives out */
+  injuryScale?: number
 }
 
 /** Somebody has to be standing in the other half on the night. */
@@ -196,7 +198,7 @@ export function simulateSeason(ctx: SeasonContext): SeasonRecord {
   const role = projectRole(ovr, club.strength, player.age)
   const share = roleShare(role, player.age)
 
-  const injuryRisk = 0.2 + Math.max(0, player.age - 29) * 0.035
+  const injuryRisk = (0.2 + Math.max(0, player.age - 29) * 0.035) * (ctx.injuryScale ?? 1)
   let gamesMissedInjured = 0
   if (rng.chance(injuryRisk)) gamesMissedInjured += rng.int(3, player.age >= 32 ? 24 : 18)
   const available = Math.max(0, totalGames - gamesMissedInjured)

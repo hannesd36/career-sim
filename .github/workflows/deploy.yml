@@ -43,7 +43,11 @@ jobs:
       - run: npm ci
       # A broken engine has nothing worth publishing either.
       - run: npm test
+      # The leaderboard is optional: with the secret unset the build simply
+      # ships without boards, exactly as it did before the worker existed.
       - run: npm run build
+        env:
+          VITE_LEADERBOARD_URL: ${{ secrets.VITE_LEADERBOARD_URL }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

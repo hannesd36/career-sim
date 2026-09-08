@@ -11,3 +11,6 @@ Thumbs.db
 # never commit an API key
 .env
 .env.local
+
+# wrangler's local dev state: a miniflare sqlite db and temp build bundles
+server/.wrangler/
