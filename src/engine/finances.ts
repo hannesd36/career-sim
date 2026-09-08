@@ -52,9 +52,7 @@ export function has(finances: Finances | undefined, id: SpendId): boolean {
 
 /** Turning something on, if it can be afforded. */
 export function toggle(finances: Finances, id: SpendId): Finances {
-  const on = finances.on.includes(id)
-    ? finances.on.filter((s) => s !== id)
-    : [...finances.on, id]
+  const on = finances.on.includes(id) ? finances.on.filter((s) => s !== id) : [...finances.on, id]
   return { ...finances, on }
 }
 

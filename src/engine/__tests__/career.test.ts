@@ -4,7 +4,12 @@ import { LEAGUE_BY_ID } from '../../data/leagues'
 import { createCareer, playSeasons, transferAffinity } from '../career'
 import type { Club } from '../types'
 
-const opts = { name: 'Test Player', nation: 'Germany', position: 'ST' as const, foot: 'Right' as const }
+const opts = {
+  name: 'Test Player',
+  nation: 'Germany',
+  position: 'ST' as const,
+  foot: 'Right' as const,
+}
 
 describe('createCareer', () => {
   it('starts a sixteen year old at a real club with a sane potential range', () => {

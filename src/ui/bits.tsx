@@ -175,7 +175,8 @@ const TROPHY_ART: Record<TrophyId, Art> = {
   // a shield with eleven: the team of the season
   tots: {
     d: 'M12 1.8 21 4v7.4c0 5-3.6 9.2-9 10.8-5.4-1.6-9-5.8-9-10.8V4zm0 2.1L5 5.6v5.8c0 3.9 2.7 7.2 7 8.7 4.3-1.5 7-4.8 7-8.7V5.6z',
-    detail: 'M9.2 8.4h1.6v7.2H9.2zM12.8 8.4h1.6v7.2h-1.6zM7.8 8.4h1.4v1.4H7.8zM11.4 8.4h1.4v1.4h-1.4z',
+    detail:
+      'M9.2 8.4h1.6v7.2H9.2zM12.8 8.4h1.6v7.2h-1.6zM7.8 8.4h1.4v1.4H7.8zM11.4 8.4h1.4v1.4h-1.4z',
   },
 }
 
@@ -272,7 +273,9 @@ export function Trajectory({ career, height = 96 }: { career: Career; height?: n
   const over = player.retired || career.phase === 'retired'
   // How far out the game is still willing to guess. Potential lands somewhere
   // around the end of the twenties, so that is where the wedge closes.
-  const horizon = over ? points[points.length - 1].age : Math.min(LAST_AGE, Math.max(player.age + 2, 29))
+  const horizon = over
+    ? points[points.length - 1].age
+    : Math.min(LAST_AGE, Math.max(player.age + 2, 29))
 
   const rated = points.map((p) => p.ovr)
   const lo = Math.max(30, Math.min(...rated, over ? 99 : player.potMin) - 6)
@@ -288,12 +291,7 @@ export function Trajectory({ career, height = 96 }: { career: Career; height?: n
 
   return (
     <div className="arc" style={{ height }}>
-      <svg
-        className="arc-plot"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
+      <svg className="arc-plot" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         {!over && (
           /* what you could still be: an opening range, not a promise */
           <polygon
@@ -322,7 +320,11 @@ export function Trajectory({ career, height = 96 }: { career: Career; height?: n
 
       <div className="arc-axis" aria-hidden="true">
         {MILESTONES.map((age) => (
-          <span key={age} style={{ left: `${px(age)}%` }} className={age <= player.age ? 'on' : undefined}>
+          <span
+            key={age}
+            style={{ left: `${px(age)}%` }}
+            className={age <= player.age ? 'on' : undefined}
+          >
             {age}
           </span>
         ))}

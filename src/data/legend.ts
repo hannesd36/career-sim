@@ -92,19 +92,21 @@ export const NOW_YEAR = 2026
 
 /** Lowercase, strip accents and anything that is not a letter or a digit. */
 export function fold(s: string): string {
-  return s
-    .normalize('NFD')
-    // combining marks, so "Özil" and "Ozil" are the same word to type
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[øØ]/g, 'o')
-    .replace(/[đĐ]/g, 'd')
-    .replace(/[ıİ]/g, 'i')
-    .replace(/[ł]/g, 'l')
-    .replace(/[ß]/g, 'ss')
-    .replace(/[^a-z0-9 ]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
+  return (
+    s
+      .normalize('NFD')
+      // combining marks, so "Özil" and "Ozil" are the same word to type
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[øØ]/g, 'o')
+      .replace(/[đĐ]/g, 'd')
+      .replace(/[ıİ]/g, 'i')
+      .replace(/[ł]/g, 'l')
+      .replace(/[ß]/g, 'ss')
+      .replace(/[^a-z0-9 ]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+  )
 }
 
 const slug = (name: string) => fold(name).replace(/ /g, '-')
@@ -188,8 +190,7 @@ export function fromParts(
     // his last move say it for him: past forty, or past thirty three and
     // nobody has signed him in four years.
     retired:
-      NOW_YEAR - born >= 40 ||
-      (NOW_YEAR - born >= 33 && lastMove > 0 && NOW_YEAR - lastMove >= 4),
+      NOW_YEAR - born >= 40 || (NOW_YEAR - born >= 33 && lastMove > 0 && NOW_YEAR - lastMove >= 4),
     alt: [],
     keys: [fold(name)],
     fame,

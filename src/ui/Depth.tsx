@@ -1,11 +1,6 @@
 import { useState } from 'react'
 import { CLUB_BY_ID } from '../data/clubs'
-import {
-  isExpiring,
-  yearsLeft,
-  type Bonus,
-  type Terms,
-} from '../engine/contracts'
+import { isExpiring, yearsLeft, type Bonus, type Terms } from '../engine/contracts'
 import { SPENDS, money, perksOf, upkeep, type SpendId } from '../engine/finances'
 import { glassLevel, worstInjury } from '../engine/injuries'
 import { moodOf, sortedMates, styleFit } from '../engine/staff'
@@ -167,16 +162,16 @@ export function RoomPanel({ career }: { career: Career }) {
         <b className="room-name">{manager.name}</b>
         <span className="room-style">{t(`style.${manager.style}` as StringKey)}</span>
         <span className="room-since">
-          {manager.since >= career.season ? t('room.new') : t('room.since', { season: manager.since })}
+          {manager.since >= career.season
+            ? t('room.new')
+            : t('room.since', { season: manager.since })}
         </span>
       </div>
 
       <p className={`room-mood room-mood--${moodOf(manager.opinion)}`}>
         {t(`mood.${moodOf(manager.opinion)}` as StringKey)}
       </p>
-      {fit !== 0 && (
-        <p className="hint">{fit > 0 ? t('style.fits') : t('style.against')}</p>
-      )}
+      {fit !== 0 && <p className="hint">{fit > 0 ? t('style.fits') : t('style.against')}</p>}
 
       <div className="room-standing">
         <span>{t('room.standing')}</span>
@@ -235,20 +230,23 @@ export function BodyPanel({ career }: { career: Career }) {
         <>
           <p className="hint">{t('inj.worst', { what: t(`inj.${worst!.id}` as StringKey) })}</p>
           <div className="injury-list">
-            {[...body.history].reverse().slice(0, 8).map((injury, i) => (
-              <div key={`${injury.season}-${injury.id}-${i}`} className="injury">
-                <span className="injury-season">{injury.season}</span>
-                <span className="injury-what">
-                  {injury.games === 1
-                    ? t('inj.season_one', { what: t(`inj.${injury.id}` as StringKey) })
-                    : t('inj.season', {
-                        what: t(`inj.${injury.id}` as StringKey),
-                        n: num(injury.games),
-                      })}
-                </span>
-                {injury.lasting && <span className="injury-lasting">{t('inj.lasting')}</span>}
-              </div>
-            ))}
+            {[...body.history]
+              .reverse()
+              .slice(0, 8)
+              .map((injury, i) => (
+                <div key={`${injury.season}-${injury.id}-${i}`} className="injury">
+                  <span className="injury-season">{injury.season}</span>
+                  <span className="injury-what">
+                    {injury.games === 1
+                      ? t('inj.season_one', { what: t(`inj.${injury.id}` as StringKey) })
+                      : t('inj.season', {
+                          what: t(`inj.${injury.id}` as StringKey),
+                          n: num(injury.games),
+                        })}
+                  </span>
+                  {injury.lasting && <span className="injury-lasting">{t('inj.lasting')}</span>}
+                </div>
+              ))}
           </div>
         </>
       )}
@@ -288,19 +286,27 @@ export function LifeScreen({
       <div className="life-figures">
         <div>
           <span>{t('life.earned')}</span>
-          <b><Money thousands={f.earned} /></b>
+          <b>
+            <Money thousands={f.earned} />
+          </b>
         </div>
         <div>
           <span>{t('life.balance')}</span>
-          <b><Money thousands={f.balance} /></b>
+          <b>
+            <Money thousands={f.balance} />
+          </b>
         </div>
         <div>
           <span>{t('life.upkeep')}</span>
-          <b><Money thousands={out} /></b>
+          <b>
+            <Money thousands={out} />
+          </b>
         </div>
         <div>
           <span>{t('life.invested')}</span>
-          <b><Money thousands={f.invested} /></b>
+          <b>
+            <Money thousands={f.invested} />
+          </b>
         </div>
         <div>
           <span>{t('life.returns')}</span>

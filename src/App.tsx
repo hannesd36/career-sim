@@ -23,13 +23,7 @@ import {
   computeCabinetStats,
   newlyEarnedCareerAwards,
 } from './engine/careerAwards'
-import {
-  dailyBrief,
-  dailyKey,
-  dailyRecordFor,
-  rememberDaily,
-  untilNextDaily,
-} from './engine/daily'
+import { dailyBrief, dailyKey, dailyRecordFor, rememberDaily, untilNextDaily } from './engine/daily'
 import { detectMilestonesForRun, type MilestoneId } from './engine/milestones'
 import {
   deleteCareer,
@@ -562,11 +556,7 @@ export default function App() {
         <div className="spread">
           <div className="now">
             <div ref={cardRef}>
-              <Identity
-                career={career}
-                onClub={openClub}
-                variant={waiting ? 'strip' : 'full'}
-              />
+              <Identity career={career} onClub={openClub} variant={waiting ? 'strip' : 'full'} />
             </div>
 
             {waiting && ask}
@@ -735,7 +725,14 @@ function Topbar({
 /** A cup on a plinth, for the cabinet the two quizzes fill. */
 function CabinetMark() {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
       <path d="M8 3h8v5.5a4 4 0 0 1-8 0zM8 4.5H5.4v1.6a3 3 0 0 0 2.6 3M16 4.5h2.6v1.6a3 3 0 0 1-2.6 3" />
       <path d="M12 12.5V16M8.5 19.5h7l.8 1.8H7.7z" strokeLinejoin="round" />
     </svg>
@@ -745,8 +742,18 @@ function CabinetMark() {
 /** An open book, which is what the two quizzes are played out of. */
 function BookMark() {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <path d="M12 6.5C10.4 5.2 8.2 4.5 4 4.5v13c4.2 0 6.4.7 8 2 1.6-1.3 3.8-2 8-2v-13c-4.2 0-6.4.7-8 2z" strokeLinejoin="round" />
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
+      <path
+        d="M12 6.5C10.4 5.2 8.2 4.5 4 4.5v13c4.2 0 6.4.7 8 2 1.6-1.3 3.8-2 8-2v-13c-4.2 0-6.4.7-8 2z"
+        strokeLinejoin="round"
+      />
       <path d="M12 6.5v12" />
     </svg>
   )
@@ -755,7 +762,14 @@ function BookMark() {
 /** Nine squares with a line through three of them. */
 function GridMark() {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
       <path d="M3 3h18v18H3zM9 3v18M15 3v18M3 9h18M3 15h18" opacity="0.55" />
       <path d="M4.5 4.5 19.5 19.5" strokeWidth="2.2" />
     </svg>
@@ -765,7 +779,14 @@ function GridMark() {
 /** A shirt with nobody's name on it. */
 function GuessMark() {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
       <path d="M9 3 4 5.5 5.6 10l2-.6V21h8.8V9.4l2 .6L20 5.5 15 3a3 3 0 0 1-6 0z" />
       <path d="M12 12.4v3.2M12 17.8v.2" strokeWidth="2.2" strokeLinecap="round" />
     </svg>
@@ -775,7 +796,14 @@ function GuessMark() {
 /** A shield with nothing drawn on it, standing in for a crest not yet named. */
 function CrestMark() {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
       <path d="M12 3.5 19 6v6c0 4.4-3 7.4-7 8.5-4-1.1-7-4.1-7-8.5V6z" strokeLinejoin="round" />
       <path d="M12 3.5v17" opacity="0.55" />
     </svg>
@@ -785,7 +813,14 @@ function CrestMark() {
 /** A star, for the careers that are over and worth remembering. */
 function HofMark() {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
       <path
         d="M12 3.4 14.8 9l6.2.9-4.5 4.3 1.1 6.1L12 17.3l-5.6 3 1.1-6.1L3 9.9 9.2 9z"
         strokeLinejoin="round"
@@ -862,7 +897,9 @@ function StreakStrip({ streak }: { streak: Streak }) {
     <div className="streak">
       <div className="streak-top">
         <span className="streak-k">{t('streak.title')}</span>
-        {streak.best > 0 && <span className="streak-best">{t('streak.best', { n: streak.best })}</span>}
+        {streak.best > 0 && (
+          <span className="streak-best">{t('streak.best', { n: streak.best })}</span>
+        )}
       </div>
       <div className="streak-num">
         {streak.current > 0 ? t('streak.days', { n: streak.current }) : t('streak.none')}
@@ -879,7 +916,14 @@ function StreakStrip({ streak }: { streak: Streak }) {
 /** A column chart with a rule across it, for the boards. */
 function BoardMark() {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
       <path d="M4 20h16" />
       <path d="M7 20v-6M12 20V5M17 20v-9" strokeLinecap="round" />
     </svg>
@@ -917,9 +961,14 @@ function Home({
   const [renaming, setRenaming] = useState<string | null>(null)
   const [draftName, setDraftName] = useState('')
   const rows = useMemo(() => {
-    const built = saves.map((c) => ({ career: c, stats: totals(c), club: CLUB_BY_ID[c.player.clubId] }))
+    const built = saves.map((c) => ({
+      career: c,
+      stats: totals(c),
+      club: CLUB_BY_ID[c.player.clubId],
+    }))
     // `saves` already arrives sorted by creation date, so 'recent' is a no-op sort.
-    if (sort === 'rating') return [...built].sort((a, b) => b.career.player.ovr - a.career.player.ovr)
+    if (sort === 'rating')
+      return [...built].sort((a, b) => b.career.player.ovr - a.career.player.ovr)
     if (sort === 'name') {
       return [...built].sort((a, b) => a.career.player.name.localeCompare(b.career.player.name))
     }
@@ -931,9 +980,7 @@ function Home({
   // progress that has already beaten everything before it is the story now.
   const best = useMemo(
     () =>
-      saves.length
-        ? saves.reduce((top, c) => (careerScore(c) > careerScore(top) ? c : top))
-        : null,
+      saves.length ? saves.reduce((top, c) => (careerScore(c) > careerScore(top) ? c : top)) : null,
     [saves],
   )
 
@@ -1072,7 +1119,9 @@ function Home({
                   className={s === sort ? 'on' : undefined}
                   onClick={() => setSort(s)}
                 >
-                  {t(`home.sort${s === 'recent' ? 'Recent' : s === 'rating' ? 'Rating' : 'Name'}` as StringKey)}
+                  {t(
+                    `home.sort${s === 'recent' ? 'Recent' : s === 'rating' ? 'Rating' : 'Name'}` as StringKey,
+                  )}
                 </button>
               ))}
             </div>
@@ -1084,7 +1133,11 @@ function Home({
                 {renaming === career.id ? (
                   <input
                     className="ruled"
-                    style={{ fontFamily: 'var(--poster)', fontSize: '19px', textTransform: 'uppercase' }}
+                    style={{
+                      fontFamily: 'var(--poster)',
+                      fontSize: '19px',
+                      textTransform: 'uppercase',
+                    }}
                     value={draftName}
                     autoFocus
                     maxLength={28}

@@ -150,7 +150,8 @@ describe('advance', () => {
         attrs = advance(attrs, {
           position: pos,
           age,
-          ovrAfter: age < 28 ? Math.min(92, 52 + (age - 16) * 3) : Math.max(45, 92 - (age - 27) * 4),
+          ovrAfter:
+            age < 28 ? Math.min(92, 52 + (age - 16) * 3) : Math.max(45, 92 - (age - 27) * 4),
           training: 'physical',
           rng,
         })

@@ -19,9 +19,22 @@ function probe(label: string, clubId: string, ovr: number, age: number, nation =
   const runs = 600
   for (let i = 0; i < runs; i++) {
     const player: Player = {
-      name: 'Probe', nation, position: 'ST', foot: 'Right', age, ovr,
-      hiddenPotential: ovr + 8, potMin: ovr, potMax: ovr + 10, archetype: 'normal',
-      value: 0, clubId, onLoan: false, parentClubId: null, retired: false, natCapped: false,
+      name: 'Probe',
+      nation,
+      position: 'ST',
+      foot: 'Right',
+      age,
+      ovr,
+      hiddenPotential: ovr + 8,
+      potMin: ovr,
+      potMax: ovr + 10,
+      archetype: 'normal',
+      value: 0,
+      clubId,
+      onLoan: false,
+      parentClubId: null,
+      retired: false,
+      natCapped: false,
     }
     for (const offer of generateOffers(player, null, new Rng(i * 7919 + 13))) {
       const l = LEAGUE_BY_ID[offer.club.leagueId]
@@ -32,7 +45,9 @@ function probe(label: string, clubId: string, ovr: number, age: number, nation =
 
   const total = [...counts.values()].reduce((a, b) => a + b, 0)
   const top = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 7)
-  console.log(`\n${label}  —  ${club.name}, ${LEAGUE_BY_ID[club.leagueId].name}, OVR ${ovr}, age ${age}`)
+  console.log(
+    `\n${label}  —  ${club.name}, ${LEAGUE_BY_ID[club.leagueId].name}, OVR ${ovr}, age ${age}`,
+  )
   for (const [league, n] of top) {
     const pct = ((n / total) * 100).toFixed(1)
     console.log(`   ${pct.padStart(5)}%  ${'█'.repeat(Math.round(Number(pct) / 2))} ${league}`)

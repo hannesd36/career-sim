@@ -162,8 +162,14 @@ function drawCard(canvas: HTMLCanvasElement, career: Career, labels: CardLabels)
   const cells: [string, string][] = [
     [labels.age, String(player.age)],
     [labels.apps, String(stats.apps + stats.natApps)],
-    [keeper ? labels.cleanSheets : labels.goals, String(keeper ? stats.cleanSheets : stats.goals + stats.natGoals)],
-    [labels.trophies, String(career.trophies.filter((tr) => MAJOR_TROPHIES.includes(tr.id)).length)],
+    [
+      keeper ? labels.cleanSheets : labels.goals,
+      String(keeper ? stats.cleanSheets : stats.goals + stats.natGoals),
+    ],
+    [
+      labels.trophies,
+      String(career.trophies.filter((tr) => MAJOR_TROPHIES.includes(tr.id)).length),
+    ],
   ]
   const colW = (W - 120) / cells.length
   cells.forEach(([key, value], i) => {
@@ -256,7 +262,11 @@ export function ShareCard({ career, onClose }: { career: Career; onClose: () => 
       <div className="cardsheet-box">
         <div className="cardsheet-head">
           <h2>{t('share.title')}</h2>
-          <button className="act act--quiet act--icon" onClick={onClose} aria-label={t('app.close')}>
+          <button
+            className="act act--quiet act--icon"
+            onClick={onClose}
+            aria-label={t('app.close')}
+          >
             ✕
           </button>
         </div>

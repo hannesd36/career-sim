@@ -3,7 +3,12 @@ import { createCareer, playSeasons } from '../career'
 import { detectMilestones, detectMilestonesForRun } from '../milestones'
 import type { Career, SeasonRecord } from '../types'
 
-const opts = { name: 'Milestone Test', nation: 'Germany', position: 'ST' as const, foot: 'Right' as const }
+const opts = {
+  name: 'Milestone Test',
+  nation: 'Germany',
+  position: 'ST' as const,
+  foot: 'Right' as const,
+}
 
 /** A bare-bones season record so milestone math can be tested in isolation. */
 function record(overrides: Partial<SeasonRecord> = {}): SeasonRecord {
@@ -64,7 +69,10 @@ describe('detectMilestones', () => {
   })
 
   it('fires a rating tier only on the season that actually crosses it', () => {
-    const career = careerWith([record({ ovrStart: 60, ovrEnd: 68 }), record({ ovrStart: 68, ovrEnd: 70 })])
+    const career = careerWith([
+      record({ ovrStart: 60, ovrEnd: 68 }),
+      record({ ovrStart: 68, ovrEnd: 70 }),
+    ])
     expect(detectMilestones(career, 0)).toContain('silver')
     expect(detectMilestones(career, 1)).not.toContain('silver')
   })

@@ -95,7 +95,9 @@ export async function ask(query, { tries = 4, label = '' } = {}) {
     try {
       return await run(endpoint, query)
     } catch (err) {
-      if (attempt === tries) throw new Error(`${label || 'query'} failed: ${err.message}`)
+      if (attempt === tries) {
+        throw new Error(`${label || 'query'} failed: ${err.message}`, { cause: err })
+      }
       await sleep(wait)
       wait = Math.min(wait * 2, 60_000)
     }
@@ -121,7 +123,11 @@ export async function search(term, limit = 8) {
       const res = await fetch(url, { headers: { 'User-Agent': UA } })
       if (!res.ok) throw new Error(`http ${res.status}`)
       const json = await res.json()
-      return (json.search ?? []).map((s) => ({ id: s.id, label: s.label, desc: s.description ?? '' }))
+      return (json.search ?? []).map((s) => ({
+        id: s.id,
+        label: s.label,
+        desc: s.description ?? '',
+      }))
     } catch {
       await sleep(1500 * attempt)
     }

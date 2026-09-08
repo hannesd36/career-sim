@@ -18,14 +18,7 @@ interface SettingsProps {
  * How fast the career runs, what it is played on, and the way out of it.
  * Nothing else belongs here.
  */
-export function SettingsPanel({
-  mode,
-  onMode,
-  theme,
-  onTheme,
-  onExport,
-  onClose,
-}: SettingsProps) {
+export function SettingsPanel({ mode, onMode, theme, onTheme, onExport, onClose }: SettingsProps) {
   const { t } = useI18n()
   return (
     <div className="settings">

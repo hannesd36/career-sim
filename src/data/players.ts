@@ -453,13 +453,19 @@ const EXTRA_NATIONS: Record<string, { flag: string; conf: Confederation }> = {
 
 export function flagOf(nation: string): string {
   return (
-    NATION_BY_NAME[nation]?.flag ?? EXTRA_NATIONS[nation]?.flag ?? RUNTIME_NATIONS[nation]?.flag ?? 'un'
+    NATION_BY_NAME[nation]?.flag ??
+    EXTRA_NATIONS[nation]?.flag ??
+    RUNTIME_NATIONS[nation]?.flag ??
+    'un'
   )
 }
 
 export function confOf(nation: string): Confederation | null {
   return (
-    NATION_BY_NAME[nation]?.conf ?? EXTRA_NATIONS[nation]?.conf ?? RUNTIME_NATIONS[nation]?.conf ?? null
+    NATION_BY_NAME[nation]?.conf ??
+    EXTRA_NATIONS[nation]?.conf ??
+    RUNTIME_NATIONS[nation]?.conf ??
+    null
   )
 }
 

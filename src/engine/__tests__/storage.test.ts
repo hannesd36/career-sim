@@ -33,7 +33,12 @@ beforeEach(() => {
   })
 })
 
-const opts = { name: 'Storage Test', nation: 'Germany', position: 'ST' as const, foot: 'Right' as const }
+const opts = {
+  name: 'Storage Test',
+  nation: 'Germany',
+  position: 'ST' as const,
+  foot: 'Right' as const,
+}
 
 describe('storage', () => {
   it('round-trips a career through save, list and delete', () => {

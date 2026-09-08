@@ -66,7 +66,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
         league: league?.name ?? '',
         country: league
           ? lang === 'de'
-            ? COUNTRY_DE[league.country] ?? league.country
+            ? (COUNTRY_DE[league.country] ?? league.country)
             : league.country
           : '',
         competition:
@@ -82,7 +82,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
       lang,
       setLang,
       t,
-      country: (name) => (lang === 'de' ? COUNTRY_DE[name] ?? name : name),
+      country: (name) => (lang === 'de' ? (COUNTRY_DE[name] ?? name) : name),
       position: (p) => t(`pos.${p}` as StringKey),
       role: (r) => t(`role.${r}` as StringKey),
       competition,

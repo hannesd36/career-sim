@@ -131,11 +131,7 @@ export function rollInjury(
   opts: { age: number; season: number; risk: number; recovery: number; rng: Rng },
 ): Injury | null {
   const { age, season, risk, recovery, rng } = opts
-  const chance = clamp(
-    (0.2 + Math.max(0, age - 29) * 0.035) * body.proneness * risk,
-    0.02,
-    0.85,
-  )
+  const chance = clamp((0.2 + Math.max(0, age - 29) * 0.035) * body.proneness * risk, 0.02, 0.85)
   if (!rng.chance(chance)) return null
 
   // Weight the draw, then lean it towards anything already in the history.

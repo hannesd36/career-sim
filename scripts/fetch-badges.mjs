@@ -27,16 +27,36 @@ const DELAY = Number(process.env.DELAY_MS || 2200)
 
 /** Country each league sits in, so we can disambiguate same-named clubs. */
 const LEAGUE_COUNTRY = {
-  eng1: 'England', eng2: 'England', eng3: 'England',
-  esp1: 'Spain', esp2: 'Spain',
-  ger1: 'Germany', ger2: 'Germany', ger3: 'Germany',
-  ita1: 'Italy', ita2: 'Italy',
-  fra1: 'France', fra2: 'France',
-  por1: 'Portugal', tur1: 'Turkey', ned1: 'Netherlands', bel1: 'Belgium',
-  gre1: 'Greece', sco1: 'Scotland', aut1: 'Austria', sui1: 'Switzerland',
-  den1: 'Denmark', cze1: 'Czech Republic', cro1: 'Croatia', pol1: 'Poland',
-  nor1: 'Norway', bra1: 'Brazil', ksa1: 'Saudi Arabia', mex1: 'Mexico',
-  arg1: 'Argentina', usa1: 'United States',
+  eng1: 'England',
+  eng2: 'England',
+  eng3: 'England',
+  esp1: 'Spain',
+  esp2: 'Spain',
+  ger1: 'Germany',
+  ger2: 'Germany',
+  ger3: 'Germany',
+  ita1: 'Italy',
+  ita2: 'Italy',
+  fra1: 'France',
+  fra2: 'France',
+  por1: 'Portugal',
+  tur1: 'Turkey',
+  ned1: 'Netherlands',
+  bel1: 'Belgium',
+  gre1: 'Greece',
+  sco1: 'Scotland',
+  aut1: 'Austria',
+  sui1: 'Switzerland',
+  den1: 'Denmark',
+  cze1: 'Czech Republic',
+  cro1: 'Croatia',
+  pol1: 'Poland',
+  nor1: 'Norway',
+  bra1: 'Brazil',
+  ksa1: 'Saudi Arabia',
+  mex1: 'Mexico',
+  arg1: 'Argentina',
+  usa1: 'United States',
 }
 
 /** Names TheSportsDB spells differently than we do. */
@@ -45,13 +65,13 @@ const ALIASES = {
   'Queens Park Rangers': 'QPR',
   'Borussia Monchengladbach': 'Borussia Moenchengladbach',
   'FC Koln': 'FC Cologne',
-  'Nurnberg': 'Nuernberg',
+  Nurnberg: 'Nuernberg',
   'Greuther Furth': 'Greuther Fuerth',
   'Fortuna Dusseldorf': 'Fortuna Duesseldorf',
   'Preussen Munster': 'Preussen Muenster',
-  'Saarbrucken': 'Saarbruecken',
+  Saarbrucken: 'Saarbruecken',
   'Munchen 1860': '1860 Munich',
-  'Osnabruck': 'Osnabrueck',
+  Osnabruck: 'Osnabrueck',
   'Newells Old Boys': "Newell's Old Boys",
   'Club America': 'America',
   'Los Angeles FC': 'Los Angeles FC',
@@ -63,13 +83,20 @@ const ALIASES = {
 }
 
 const slug = (s) =>
-  s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 const norm = (s) =>
-  s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+  s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
     .replace(/\b(fc|cf|sc|ac|as|ss|afc|cd|ud|sv|vfb|vfl|tsv|fsv|1899|club|de|the)\b/g, '')
     .replace(/[^a-z0-9]/g, '')
 

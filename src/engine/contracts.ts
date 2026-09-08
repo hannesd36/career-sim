@@ -74,12 +74,7 @@ export function baseWage(player: Player, club: Club, role: SquadRole): number {
  * but for longer, and the incentivised one can beat everything or nothing. The
  * player is choosing a shape, not a number.
  */
-export function offerTerms(
-  player: Player,
-  club: Club,
-  role: SquadRole,
-  rng: Rng,
-): Terms[] {
+export function offerTerms(player: Player, club: Club, role: SquadRole, rng: Rng): Terms[] {
   const base = baseWage(player, club, role)
   const keen = clamp((club.strength - player.ovr) / 20, -0.5, 0.5)
 
@@ -188,13 +183,7 @@ export function isExpiring(contract: Contract | null, season: number): boolean {
  * promised a starting shirt is the case this exists for; a key player who was
  * promised a start has nothing to complain about.
  */
-const ROLE_RANK: SquadRole[] = [
-  'Benchwarmer',
-  'Squad player',
-  'Rotation',
-  'Starter',
-  'Key player',
-]
+const ROLE_RANK: SquadRole[] = ['Benchwarmer', 'Squad player', 'Rotation', 'Starter', 'Key player']
 
 export function promiseBroken(contract: Contract | null, record: SeasonRecord): boolean {
   if (!contract?.promised) return false

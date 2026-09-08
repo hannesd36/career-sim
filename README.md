@@ -53,14 +53,14 @@ config keeps the asset paths relative, so it works from a subfolder too.
 The rating is a material, not just a number, and the thresholds are hard edges
 so that crossing one is an event:
 
-| tier | rating |
-|---|---|
-| Bronze | up to 64 |
-| Silver | 65 – 74 |
-| Gold | 75 – 84 |
-| Rare Gold | 85 – 89 |
-| Platinum | 90 – 98 |
-| Icon | 99 |
+| tier      | rating   |
+| --------- | -------- |
+| Bronze    | up to 64 |
+| Silver    | 65 – 74  |
+| Gold      | 75 – 84  |
+| Rare Gold | 85 – 89  |
+| Platinum  | 90 – 98  |
+| Icon      | 99       |
 
 Each tier is a flat metallic fill rather than a glow, and the player block
 always shows how many points are left to the next one, because that is the
@@ -69,16 +69,16 @@ number people actually play for.
 ## Pace
 
 The `1× 3× 5×` selector next to the play button decides how many seasons a
-click covers, and the button spells out the consequence: *Play 5 seasons at
-Werder Bremen*. Four modes in the gear menu set the default and how often life
+click covers, and the button spells out the consequence: _Play 5 seasons at
+Werder Bremen_. Four modes in the gear menu set the default and how often life
 gets in the way:
 
-| mode | seasons per click | decisions |
-|---|---|---|
-| Blitz | 5 | rare |
-| Quick | 3 | occasional |
-| Normal | 1 | now and then |
-| Story | 1 | almost every summer |
+| mode   | seasons per click | decisions           |
+| ------ | ----------------- | ------------------- |
+| Blitz  | 5                 | rare                |
+| Quick  | 3                 | occasional          |
+| Normal | 1                 | now and then        |
+| Story  | 1                 | almost every summer |
 
 Three rules keep a fast-forward honest:
 
@@ -190,15 +190,15 @@ because finding out by simply having no season next year is not a mechanic.
 Measured over 200 careers with `scripts/balance.ts ST 200 reckless`, against a
 bot that always declines:
 
-| | never gambles | always gambles |
-|---|---|---|
-| peak rating (median) | 75 | **83** |
-| 90th percentile | 92 | **97** |
-| seasons played | 22.1 | 18.6 |
-| career goals | 334 | 253 |
-| major honours | 5.7 | 3.6 |
-| Ballon d'Or in | 14.7% | **27.0%** |
-| banned at some point | — | **98.0%** |
+|                      | never gambles | always gambles |
+| -------------------- | ------------- | -------------- |
+| peak rating (median) | 75            | **83**         |
+| 90th percentile      | 92            | **97**         |
+| seasons played       | 22.1          | 18.6           |
+| career goals         | 334           | 253            |
+| major honours        | 5.7           | 3.6            |
+| Ballon d'Or in       | 14.7%         | **27.0%**      |
+| banned at some point | —             | **98.0%**      |
 
 That is the shape the mechanic wants: it makes you a better player and gives you
 a worse career. Knowing when to come off it is the actual skill.
@@ -222,12 +222,12 @@ loosen that geography:
 
 The effect, measured over 600 windows per case with `scripts/transfers.ts`:
 
-| starting point | most likely destination | offers from abroad |
-|---|---|---|
-| 20-year-old, 3. Liga, OVR 62 | 2. Bundesliga (32%) | 33% |
-| 24-year-old, 2. Bundesliga, OVR 70 | 2. Bundesliga / Bundesliga | 35% |
-| 26-year-old, Bundesliga, OVR 79 | Bundesliga (49%), then Serie A / PL / La Liga | 47% |
-| 28-year-old, Bayern, OVR 89 | spread across the top five leagues | 55% |
+| starting point                     | most likely destination                       | offers from abroad |
+| ---------------------------------- | --------------------------------------------- | ------------------ |
+| 20-year-old, 3. Liga, OVR 62       | 2. Bundesliga (32%)                           | 33%                |
+| 24-year-old, 2. Bundesliga, OVR 70 | 2. Bundesliga / Bundesliga                    | 35%                |
+| 26-year-old, Bundesliga, OVR 79    | Bundesliga (49%), then Serie A / PL / La Liga | 47%                |
+| 28-year-old, Bayern, OVR 89        | spread across the top five leagues            | 55%                |
 
 ## Layout
 
@@ -351,12 +351,12 @@ The same design on four surfaces, cycled from the button in the bar and named
 in the gear menu. Floodlights is the house style; the other three are
 preferences, remembered per browser.
 
-| ground | what it is | the loud colour |
-|---|---|---|
-| Floodlights | olive-black, a pitch at night | amber |
-| Daylight | warm paper | amber, darkened |
-| The pitch | deep grass | touchline white-green |
-| The press | newsprint, the sports section | match-report red |
+| ground      | what it is                    | the loud colour       |
+| ----------- | ----------------------------- | --------------------- |
+| Floodlights | olive-black, a pitch at night | amber                 |
+| Daylight    | warm paper                    | amber, darkened       |
+| The pitch   | deep grass                    | touchline white-green |
+| The press   | newsprint, the sports section | match-report red      |
 
 Each is nothing but a block of surface variables on `:root[data-theme='…']`.
 No component knows which one is on, with two exceptions, both because contrast
@@ -393,7 +393,7 @@ holding a globe for the World Cup, a boot, a glove, a ball on a plinth, a
 shield for the team of the season. They used to share five silhouettes, which
 meant the cabinet said how much you had won but never what.
 
-Each is a *type* of trophy rather than a copy of a real one, drawn as a
+Each is a _type_ of trophy rather than a copy of a real one, drawn as a
 silhouette plus one detail path at low opacity, in the current text colour — so
 they work at 13px in a rail row and at any size in the cabinet, on all four
 grounds, without needing a colour the palette does not have.
@@ -421,7 +421,7 @@ rather than by editing three hundred lines by hand.
 three of anything down the side — another club, a country, a division, a
 trophy, a position, a decade, or a habit like "one club his whole career" — and
 a name that belongs in both. `buildGrid()` in `src/engine/quiz.ts` draws six
-criteria from a seed, forces the three down the side to be three *different*
+criteria from a seed, forces the three down the side to be three _different_
 kinds of question, then checks all nine intersections and throws the whole
 board away if one of them cannot be answered.
 
@@ -430,14 +430,14 @@ you have heard of. Counting bodies stopped working the day the book reached
 twenty thousand names: Pogoń Szczecin carries ninety of them and clears any
 floor you like, and a grid headed by two Polish sides and a Dutch one is not an
 easy quiz, it is a punishment with a wide answer sheet. So every floor is
-counted in *nameable* players, taken as the number of Wikipedias that wrote a
+counted in _nameable_ players, taken as the number of Wikipedias that wrote a
 man up.
 
-| | headers drawn from | a square must hold | alone | the computer |
-|---|---|---|---|---|
-| easy | the hundred clubs everybody knows | four names, two of them famous | 12 tries | never blocks |
-| medium | the two hundred you would know off a table | two names, one of them famous | 10 tries | blocks, no shape |
-| hard | anything in the book | one name, anybody | 9 tries | plays it properly |
+|        | headers drawn from                         | a square must hold             | alone    | the computer      |
+| ------ | ------------------------------------------ | ------------------------------ | -------- | ----------------- |
+| easy   | the hundred clubs everybody knows          | four names, two of them famous | 12 tries | never blocks      |
+| medium | the two hundred you would know off a table | two names, one of them famous  | 10 tries | blocks, no shape  |
+| hard   | anything in the book                       | one name, anybody              | 9 tries  | plays it properly |
 
 Easy deals Real Madrid × Flamengo × Napoli and never a square without a famous
 name in it; hard deals Tromsø × Almería × Silkeborg and four squares in ten
@@ -520,6 +520,50 @@ site opens on the hand-written book and the rest lands a moment later. Both
 games wait for it before dealing a board, because a daily puzzle has to be the
 same puzzle for everybody and two people in one room have to be holding the
 same names.
+
+## What has to pass before anything ships
+
+`npm run verify` runs the whole gate locally in the order CI runs it, so a
+failure is found on the laptop rather than three minutes into a pull request:
+
+```sh
+npm run verify        # format, lint, types, tests
+npm run format        # rewrite anything Prettier disagrees with
+npm run lint:fix      # apply the lint fixes that are safe to apply
+npm run test:coverage # the same tests, with a coverage table
+```
+
+Formatting is Prettier's job and linting is ESLint's, with
+`eslint-config-prettier` last in the chain so exactly one of the two has an
+opinion about where a line breaks. The lint config is deliberately not
+type-aware: that would run TypeScript a second time on every pass, and
+`npm run typecheck` already does it properly in a step of its own.
+
+`.github/workflows/ci.yml` runs on every push and every pull request, as six
+jobs in parallel rather than one long one — formatting, lint, types, tests,
+build and a dependency audit. Four short verdicts at once beat one that says
+only "it failed", and a newer push cancels an older run.
+
+Two things it does on purpose. The build step runs _without_ the leaderboard
+secret, which proves the site still builds and works when the worker is not
+configured — the state anybody cloning this starts in. And lint warnings are
+allowed through while errors are not: the older game screens carry a handful of
+known React-hooks findings, and those stay visible in every run rather than
+being buried under a disable comment.
+
+`.github/workflows/codeql.yml` is GitHub's own static analysis, looking for the
+class of thing a linter does not: injection, unsafe URLs, prototype pollution.
+It reports into the Security tab and never blocks a release.
+
+Dependencies are tracked by `.github/dependabot.yml`, weekly and **grouped**.
+Twenty separate version bumps a week is how people learn to ignore Dependabot,
+so patches and minors arrive as one pull request that CI either passes or does
+not, and only a major gets a pull request of its own. The worker in `server/`
+has its own lockfile and is tracked separately, as are the actions the pipeline
+itself runs on.
+
+The deploy is still its own workflow and repeats the tests and the build, so a
+green CI run is never the only thing between a bad commit and the live site.
 
 ## Keeping it up to date on its own
 

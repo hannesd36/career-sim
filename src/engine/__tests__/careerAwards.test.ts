@@ -1,9 +1,19 @@
 import { describe, expect, it } from 'vitest'
-import { computeCabinetStats, isCareerAwardEarned, newlyEarnedCareerAwards, CAREER_AWARDS } from '../careerAwards'
+import {
+  computeCabinetStats,
+  isCareerAwardEarned,
+  newlyEarnedCareerAwards,
+  CAREER_AWARDS,
+} from '../careerAwards'
 import { createCareer } from '../career'
 import type { Career } from '../types'
 
-const opts = { name: 'Cabinet Test', nation: 'Germany', position: 'ST' as const, foot: 'Right' as const }
+const opts = {
+  name: 'Cabinet Test',
+  nation: 'Germany',
+  position: 'ST' as const,
+  foot: 'Right' as const,
+}
 
 function retiredCareer(overrides: Partial<Career> = {}): Career {
   const base = createCareer({ ...opts, seed: 1 })
@@ -81,7 +91,10 @@ describe('newlyEarnedCareerAwards', () => {
 
   it('never reports the same award twice once it is already earned', () => {
     const oneRetired = computeCabinetStats([retiredCareer({ seed: 9 })])
-    const twoRetired = computeCabinetStats([retiredCareer({ seed: 9 }), retiredCareer({ seed: 10 })])
+    const twoRetired = computeCabinetStats([
+      retiredCareer({ seed: 9 }),
+      retiredCareer({ seed: 10 }),
+    ])
     const newly = newlyEarnedCareerAwards(oneRetired, twoRetired)
     expect(newly.map((a) => a.id)).not.toContain('first-retirement')
   })

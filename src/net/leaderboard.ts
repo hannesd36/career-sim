@@ -78,7 +78,11 @@ export function groupCode(): string {
 
 export function setGroupCode(code: string) {
   try {
-    const clean = code.trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8)
+    const clean = code
+      .trim()
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, '')
+      .slice(0, 8)
     if (clean) localStorage.setItem(GROUP_KEY, clean)
     else localStorage.removeItem(GROUP_KEY)
   } catch {
@@ -119,7 +123,9 @@ export interface SubmitInput {
 }
 
 /** Posts a score. Returns the placing, or null when the board is unavailable. */
-export async function submitScore(input: SubmitInput): Promise<{ rank: number; of: number } | null> {
+export async function submitScore(
+  input: SubmitInput,
+): Promise<{ rank: number; of: number } | null> {
   const name = playerName().trim()
   if (!name) return null
   return call<{ rank: number; of: number }>('/score', {

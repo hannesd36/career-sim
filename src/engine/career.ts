@@ -88,7 +88,11 @@ export function createCareer(opts: CreateOptions): Career {
 
   // Start close enough to the bottom of the pyramid that the first transfer
   // window is a real choice rather than five variations on "you won't play".
-  const ovr = clamp(rng.int(50, 58) + (archetype === 'wonderkid' ? 2 : 0) + effects.startOvr, 42, 70)
+  const ovr = clamp(
+    rng.int(50, 58) + (archetype === 'wonderkid' ? 2 : 0) + effects.startOvr,
+    42,
+    70,
+  )
   const potentialBoost = archetype === 'wonderkid' ? 7 : archetype === 'late' ? 3 : 0
   const hiddenPotential = clamp(
     ovr + rng.gauss(21, 9) + potentialBoost + effects.startPotential,
@@ -405,7 +409,10 @@ function runOneSeason(career: Career, rng: Rng): SeasonRecord {
       // with an opinion of his own. This is the moment a career can turn.
       if (!staff.managerSurvives(room.manager, record.leaguePosition, career.season, rng)) {
         const nation = NATIONS_BY_NAME[player.nation] ?? NATIONS_BY_NAME.Germany
-        room = { ...room, manager: staff.newManager(career.season + 1, rng, nation.name, nation.conf) }
+        room = {
+          ...room,
+          manager: staff.newManager(career.season + 1, rng, nation.name, nation.conf),
+        }
       }
       career.room = room
       record.managerOpinion = room.manager.opinion
@@ -648,7 +655,7 @@ export function resolveEvent(career: Career, choiceKey: string): Career {
 
   // Seeded on the event itself, so the same decision in the same career always
   // rolls the same way — no reloading your way to a better outcome.
-  const rng = new Rng(career.seed ^ (pending.season * 40503) ^ choiceKey.length * 7919)
+  const rng = new Rng(career.seed ^ (pending.season * 40503) ^ (choiceKey.length * 7919))
   const outcome = rollOutcome(choice, rng)
 
   const player = { ...career.player }
@@ -657,10 +664,20 @@ export function resolveEvent(career: Career, choiceKey: string): Career {
   const next: Career = {
     ...career,
     player,
-    pendingEvent: { ...pending, chosen: choiceKey, outcome: { result: outcome.result, tone: outcome.tone } },
+    pendingEvent: {
+      ...pending,
+      chosen: choiceKey,
+      outcome: { result: outcome.result, tone: outcome.tone },
+    },
     eventLog: [
       ...career.eventLog,
-      { season: pending.season, id: pending.id, choice: choiceKey, result: outcome.result, tone: outcome.tone },
+      {
+        season: pending.season,
+        id: pending.id,
+        choice: choiceKey,
+        result: outcome.result,
+        tone: outcome.tone,
+      },
     ],
   }
   return next
@@ -831,7 +848,8 @@ export function generateOffers(
     offers.unshift(offerFor(current, player, false, rng))
   }
 
-  const wastingAway = player.age <= 21 && (stayRole === 'Squad player' || stayRole === 'Benchwarmer')
+  const wastingAway =
+    player.age <= 21 && (stayRole === 'Squad player' || stayRole === 'Benchwarmer')
   if (wastingAway) {
     const loanPool = candidates.filter((c) => c.dist < -2 && c.dist > -14)
     for (const club of sample(loanPool, 2, taken)) {
@@ -942,9 +960,15 @@ export interface CareerTotals {
 
 export function totals(career: Career): CareerTotals {
   const t: CareerTotals = {
-    apps: 0, goals: 0, assists: 0, cleanSheets: 0,
-    natApps: 0, natGoals: 0, natAssists: 0,
-    peakOvr: 0, clubs: 0,
+    apps: 0,
+    goals: 0,
+    assists: 0,
+    cleanSheets: 0,
+    natApps: 0,
+    natGoals: 0,
+    natAssists: 0,
+    peakOvr: 0,
+    clubs: 0,
   }
   const clubIds = new Set<string>()
   for (const s of career.history) {
@@ -1002,7 +1026,13 @@ export function clubSpells(career: Career): ClubSpell[] {
     const club = CLUB_BY_ID[s.clubId]
     if (!club) continue
     const spell = map.get(s.clubId) ?? {
-      club, apps: 0, goals: 0, assists: 0, cleanSheets: 0, trophies: 0, seasons: 0,
+      club,
+      apps: 0,
+      goals: 0,
+      assists: 0,
+      cleanSheets: 0,
+      trophies: 0,
+      seasons: 0,
     }
     spell.apps += s.apps
     spell.goals += s.goals

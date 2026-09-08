@@ -3,7 +3,12 @@ import { createCareer } from '../career'
 import { cohortOf, cohortRank, cohortTable, peerGoalsBy, peerOvrAt } from '../cohort'
 import { isKeeper } from '../sim'
 
-const opts = { name: 'Cohort Test', nation: 'Germany', position: 'ST' as const, foot: 'Right' as const }
+const opts = {
+  name: 'Cohort Test',
+  nation: 'Germany',
+  position: 'ST' as const,
+  foot: 'Right' as const,
+}
 
 describe('the year group', () => {
   it('draws the same nine for the same career', () => {
@@ -13,8 +18,12 @@ describe('the year group', () => {
   })
 
   it('draws a different nine for a different career', () => {
-    const a = cohortOf(createCareer({ ...opts, seed: 1 })).map((p) => p.name).join()
-    const b = cohortOf(createCareer({ ...opts, seed: 2 })).map((p) => p.name).join()
+    const a = cohortOf(createCareer({ ...opts, seed: 1 }))
+      .map((p) => p.name)
+      .join()
+    const b = cohortOf(createCareer({ ...opts, seed: 2 }))
+      .map((p) => p.name)
+      .join()
     expect(a).not.toBe(b)
   })
 
@@ -69,7 +78,8 @@ describe('the year group', () => {
     expect(rows.filter((r) => r.you)).toHaveLength(1)
     expect(rows.map((r) => r.rank)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     // ranked on rating, best first
-    for (let i = 1; i < rows.length; i++) expect(rows[i - 1].ovr).toBeGreaterThanOrEqual(rows[i].ovr)
+    for (let i = 1; i < rows.length; i++)
+      expect(rows[i - 1].ovr).toBeGreaterThanOrEqual(rows[i].ovr)
   })
 
   it('agrees with itself about where the career stands', () => {

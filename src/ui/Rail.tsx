@@ -136,72 +136,75 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
       {spells.map((spell, i) => {
         const move = i > 0 ? stepBetween(spells[i - 1], spell) : null
         return (
-        <div key={spell.key}>
-          <button
-            className={`yr yr--spell${open === spell.key ? ' yr--open' : ''}`}
-            onClick={() => setOpen(open === spell.key ? null : spell.key)}
-            aria-expanded={open === spell.key}
-            title={t(open === spell.key ? 'rail.collapse' : 'rail.expand')}
-          >
-            <span className="yr-age">{spell.age}</span>
-            <span className="yr-who">
-              {/* a move up or down the pyramid is the loudest thing a career
+          <div key={spell.key}>
+            <button
+              className={`yr yr--spell${open === spell.key ? ' yr--open' : ''}`}
+              onClick={() => setOpen(open === spell.key ? null : spell.key)}
+              aria-expanded={open === spell.key}
+              title={t(open === spell.key ? 'rail.collapse' : 'rail.expand')}
+            >
+              <span className="yr-age">{spell.age}</span>
+              <span className="yr-who">
+                {/* a move up or down the pyramid is the loudest thing a career
                   does, and it is invisible if every club reads the same */}
-              {move && (
-                <span className={`yr-move yr-move--${move.dir}`} title={move.title}>
-                  {move.dir === 'up' ? '↑' : '↓'}
-                </span>
-              )}
-              {spell.onLoan && (
-                <span className="yr-loan" title={t('card.loan')} aria-hidden="true">
-                  ↩
-                </span>
-              )}
-              <Crest club={{ name: spell.clubName, badge: spell.badge }} />
-              <span className="nm">{spell.clubName}</span>
-              {spell.trophies.length > 0 && (
-                <span className="yr-cup" title={spell.trophies.map((id) => trophyShort(id)).join(', ')}>
-                  {/* two at most, then a count: a shelf, not a parade */}
-                  {spell.trophies.slice(0, 2).map((id, i) => (
-                    <TrophyIcon id={id} size={13} key={i} />
-                  ))}
-                  {spell.trophies.length > 2 && <b>{spell.trophies.length}</b>}
-                </span>
-              )}
-            </span>
-            <span className="yr-n">{spell.apps}</span>
-            <span className="yr-n">{keeper ? spell.cleanSheets : spell.goals}</span>
-            <span className={`yr-ovr ovr ${rarityClass(spell.ovrEnd)}`}>{spell.ovrEnd}</span>
-          </button>
+                {move && (
+                  <span className={`yr-move yr-move--${move.dir}`} title={move.title}>
+                    {move.dir === 'up' ? '↑' : '↓'}
+                  </span>
+                )}
+                {spell.onLoan && (
+                  <span className="yr-loan" title={t('card.loan')} aria-hidden="true">
+                    ↩
+                  </span>
+                )}
+                <Crest club={{ name: spell.clubName, badge: spell.badge }} />
+                <span className="nm">{spell.clubName}</span>
+                {spell.trophies.length > 0 && (
+                  <span
+                    className="yr-cup"
+                    title={spell.trophies.map((id) => trophyShort(id)).join(', ')}
+                  >
+                    {/* two at most, then a count: a shelf, not a parade */}
+                    {spell.trophies.slice(0, 2).map((id, i) => (
+                      <TrophyIcon id={id} size={13} key={i} />
+                    ))}
+                    {spell.trophies.length > 2 && <b>{spell.trophies.length}</b>}
+                  </span>
+                )}
+              </span>
+              <span className="yr-n">{spell.apps}</span>
+              <span className="yr-n">{keeper ? spell.cleanSheets : spell.goals}</span>
+              <span className={`yr-ovr ovr ${rarityClass(spell.ovrEnd)}`}>{spell.ovrEnd}</span>
+            </button>
 
-          {open === spell.key &&
-            spell.seasons.map((s) => {
-              const delta = s.ovrEnd - s.ovrStart
-              return (
-                <button
-                  className={`sub${reading === s.season ? ' sub--on' : ''}`}
-                  key={s.season}
-                  onClick={() => onRead(s.season)}
-                >
-                  <span className="sub-yr">{seasonLabel(s.season)}</span>
-                  <span className="sub-what">
-                    {s.banned ? (
-                      <span className="sub-out">{t('table.banned')}</span>
-                    ) : (
-                      <>
-                        {s.apps} {t('table.apps')} · {keeper ? s.cleanSheets : s.goals}{' '}
-                        {keeper ? t('table.cleanSheets') : t('table.goals')}
-                      </>
-                    )}
-                  </span>
-                  <span className="sub-num">
-                    {s.ovrEnd}
-                    {delta !== 0 && <Delta value={delta} />}
-                  </span>
-                </button>
-              )
-            })}
-        </div>
+            {open === spell.key &&
+              spell.seasons.map((s) => {
+                const delta = s.ovrEnd - s.ovrStart
+                return (
+                  <button
+                    className={`sub${reading === s.season ? ' sub--on' : ''}`}
+                    key={s.season}
+                    onClick={() => onRead(s.season)}
+                  >
+                    <span className="sub-yr">{seasonLabel(s.season)}</span>
+                    <span className="sub-what">
+                      {s.banned ? (
+                        <span className="sub-out">{t('table.banned')}</span>
+                      ) : (
+                        <>
+                          {s.apps} {t('table.apps')} · {keeper ? s.cleanSheets : s.goals}{' '}
+                          {keeper ? t('table.cleanSheets') : t('table.goals')}
+                        </>
+                      )}
+                    </span>
+                    <span className="sub-num">
+                      {s.ovrEnd}
+                      {delta !== 0 && <Delta value={delta} />}
+                    </span>
+                  </button>
+                )
+              })}
+          </div>
         )
       })}
 

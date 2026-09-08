@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { LEAGUE_BY_ID } from '../data/leagues'
-import { CREST_DIFFICULTIES, buildCrestRound, type CrestDifficulty, type CrestRound } from '../engine/crestQuiz'
+import {
+  CREST_DIFFICULTIES,
+  buildCrestRound,
+  type CrestDifficulty,
+  type CrestRound,
+} from '../engine/crestQuiz'
 import { Rng, randomSeed } from '../engine/rng'
 import { useI18n } from '../i18n'
 import type { StringKey } from '../i18n/strings'

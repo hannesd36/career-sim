@@ -172,7 +172,10 @@ export function BoardsScreen({ onExit }: { onExit: () => void }) {
       {!loading && entries && entries.length > 0 && (
         <div className="board-rows">
           {entries.map((entry) => (
-            <div className={`board-row${entry.you ? ' board-row--you' : ''}`} key={`${entry.rank}-${entry.name}`}>
+            <div
+              className={`board-row${entry.you ? ' board-row--you' : ''}`}
+              key={`${entry.rank}-${entry.name}`}
+            >
               <span className="board-rank">{entry.rank}</span>
               <span className="board-name">{entry.name}</span>
               <span className="board-detail">{entry.detail}</span>

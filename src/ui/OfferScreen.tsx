@@ -17,7 +17,9 @@ function Standing({ club }: { club: Club }) {
   // nobody in the third division is chasing Europe; they are chasing the way out
   const chasingEurope = league.euroSpots > 0
   const key: StringKey =
-    club.tier === 2 && !chasingEurope ? 'standing.promotion' : (`standing.${club.tier}` as StringKey)
+    club.tier === 2 && !chasingEurope
+      ? 'standing.promotion'
+      : (`standing.${club.tier}` as StringKey)
 
   return (
     <span className="approach-where">
@@ -167,7 +169,10 @@ function Lead({
           </span>
           <span className="approach-name">{offer.club.name}</span>
           <Standing club={offer.club} />
-          <span className="approach-tags" style={{ marginLeft: 0, justifyContent: 'flex-start', marginTop: 'var(--s3)' }}>
+          <span
+            className="approach-tags"
+            style={{ marginLeft: 0, justifyContent: 'flex-start', marginTop: 'var(--s3)' }}
+          >
             {staying && <span className="tag tag--home">{t('offers.stay')}</span>}
             {offer.loan && <span className="tag">{t('offers.loan')}</span>}
             <span className={`tag ${roleClass(offer.projectedRole)}`}>
@@ -200,7 +205,11 @@ function Lead({
 }
 
 /** How far the squad you would join sits above or below you today. */
-function gapLabel(offer: Offer, career: Career, t: (k: StringKey, v?: Record<string, string | number>) => string) {
+function gapLabel(
+  offer: Offer,
+  career: Career,
+  t: (k: StringKey, v?: Record<string, string | number>) => string,
+) {
   const gap = Math.round(offer.club.strength - career.player.ovr)
   if (gap > 0) return t('offers.above', { n: gap })
   if (gap < 0) return t('offers.below', { n: -gap })
