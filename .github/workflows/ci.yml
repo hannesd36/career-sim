@@ -95,6 +95,24 @@ jobs:
       # state anybody cloning the repo starts in.
       - run: npm run build
 
+  # The leaderboard worker is a separate package with its own lockfile, and
+  # until now nothing checked it at all: a change that broke it would only have
+  # been found by deploying it.
+  server:
+    name: Worker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+        working-directory: server
+      - run: npx tsc --noEmit -p tsconfig.json
+        working-directory: server
+
   audit:
     name: Dependencies
     runs-on: ubuntu-latest
