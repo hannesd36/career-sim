@@ -11,12 +11,25 @@ import {
 import { headlinesFor } from '../press'
 import type { Career } from '../types'
 
-const opts = { name: 'Modifier Test', nation: 'Germany', position: 'ST' as const, foot: 'Right' as const }
+const opts = {
+  name: 'Modifier Test',
+  nation: 'Germany',
+  position: 'ST' as const,
+  foot: 'Right' as const,
+}
 
 const stats = (over: Partial<CareerCabinetStats> = {}): CareerCabinetStats => ({
-  careersRetired: 0, bestPeakOvr: 0, totalGoals: 0, totalApps: 0, totalMajors: 0,
-  ballonDors: 0, worldCups: 0, oneClubCareers: 0, longestSeasons: 0,
-  iconCareers: 0, cleanLegends: 0,
+  careersRetired: 0,
+  bestPeakOvr: 0,
+  totalGoals: 0,
+  totalApps: 0,
+  totalMajors: 0,
+  ballonDors: 0,
+  worldCups: 0,
+  oneClubCareers: 0,
+  longestSeasons: 0,
+  iconCareers: 0,
+  cleanLegends: 0,
   ...over,
 })
 
@@ -36,9 +49,14 @@ describe('start modifiers', () => {
     for (const m of MODIFIERS) {
       if (m.id === 'standard') continue
       const e = m.effects
-      const helps = e.startOvr > 0 || e.startPotential > 0 || e.growth > 1 || e.decline < 1 || e.injury < 1
+      const helps =
+        e.startOvr > 0 || e.startPotential > 0 || e.growth > 1 || e.decline < 1 || e.injury < 1
       const costs =
-        e.startOvr < 0 || e.growth < 1 || e.decline > 1 || e.eventPressure > 1 || e.startTierFloor !== null
+        e.startOvr < 0 ||
+        e.growth < 1 ||
+        e.decline > 1 ||
+        e.eventPressure > 1 ||
+        e.startTierFloor !== null
       expect(helps, `${m.id} gives nothing`).toBe(true)
       expect(costs, `${m.id} costs nothing`).toBe(true)
     }

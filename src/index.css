@@ -335,7 +335,9 @@ h3 {
 
 [data-stage='legacy'] .spine-mark {
   background: var(--flood);
-  box-shadow: 0 0 0 3px var(--bg-sunk), 0 0 0 4px var(--flood);
+  box-shadow:
+    0 0 0 3px var(--bg-sunk),
+    0 0 0 4px var(--flood);
 }
 
 @media (min-width: 1060px) {
@@ -554,7 +556,10 @@ h3 {
   border: 1px solid var(--line-2);
   color: var(--fg);
   background: transparent;
-  transition: background var(--t), color var(--t), border-color var(--t);
+  transition:
+    background var(--t),
+    color var(--t),
+    border-color var(--t);
 }
 
 .act:hover {
@@ -965,7 +970,9 @@ h3 {
   letter-spacing: 0.04em;
   padding-bottom: 2px;
   box-shadow: inset 0 -1px 0 var(--line-2);
-  transition: box-shadow var(--t), color var(--t);
+  transition:
+    box-shadow var(--t),
+    color var(--t);
 }
 
 .club-tag:hover {
@@ -1034,7 +1041,9 @@ h3 {
 
 /* the top of the ladder is the one place the system allows itself a flourish */
 .grade.rar-ultimate .grade-rule {
-  box-shadow: 0 3px 0 var(--bg), 0 6px 0 var(--tier);
+  box-shadow:
+    0 3px 0 var(--bg),
+    0 6px 0 var(--tier);
 }
 
 .grade.rar-ultimate .grade-foot {
@@ -1387,7 +1396,9 @@ h3 {
   padding: var(--s4) var(--s4);
   background: var(--flood);
   color: var(--flood-fg);
-  transition: background var(--t), color var(--t);
+  transition:
+    background var(--t),
+    color var(--t);
 }
 
 .kickoff-label {
@@ -1441,7 +1452,9 @@ h3 {
   text-transform: uppercase;
   color: var(--fg-3);
   border-right: 1px solid var(--line-2);
-  transition: color var(--t), background var(--t);
+  transition:
+    color var(--t),
+    background var(--t);
 }
 
 .tempo button:last-child {
@@ -1665,7 +1678,9 @@ button.yr:hover .yr-age,
   background: var(--bg-sunk);
   font-size: 11.5px;
   color: var(--fg-3);
-  transition: color var(--t), background var(--t);
+  transition:
+    color var(--t),
+    background var(--t);
 }
 
 .sub:hover {
@@ -1888,7 +1903,10 @@ button.yr:hover .yr-age,
   width: 100%;
   padding: var(--s3) var(--s2);
   border-bottom: 1px solid var(--line);
-  transition: background var(--t), box-shadow var(--t), padding-left var(--t);
+  transition:
+    background var(--t),
+    box-shadow var(--t),
+    padding-left var(--t);
 }
 
 .approach:hover {
@@ -2043,7 +2061,9 @@ button.yr:hover .yr-age,
   text-transform: uppercase;
   color: var(--fg-3);
   border-left: 1px solid var(--line);
-  transition: background var(--t), color var(--t);
+  transition:
+    background var(--t),
+    color var(--t);
 }
 
 .approach-table:hover {
@@ -2125,7 +2145,9 @@ button.yr:hover .yr-age,
   padding: var(--s4);
   min-height: 148px;
   border-right: 1px solid var(--line-2);
-  transition: background var(--t), color var(--t);
+  transition:
+    background var(--t),
+    color var(--t);
 }
 
 .fork-side:last-child {
@@ -2256,7 +2278,8 @@ button.yr:hover .yr-age,
   inset: 0;
   pointer-events: none;
   opacity: 0.26;
-  background-image: repeating-linear-gradient(90deg, var(--line-2) 0 1px, transparent 1px 16px),
+  background-image:
+    repeating-linear-gradient(90deg, var(--line-2) 0 1px, transparent 1px 16px),
     repeating-linear-gradient(0deg, var(--line-2) 0 1px, transparent 1px 16px);
 }
 
@@ -2321,7 +2344,9 @@ button.yr:hover .yr-age,
   left: 50%;
   color: var(--fg-2);
   transform: translateX(-50%);
-  transition: left var(--t-slow), transform var(--t-slow);
+  transition:
+    left var(--t-slow),
+    transform var(--t-slow);
   z-index: 1;
   pointer-events: none;
 }
@@ -2806,9 +2831,12 @@ button.yr:hover .yr-age,
 
 select.ruled {
   appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
     linear-gradient(135deg, currentColor 50%, transparent 50%);
-  background-position: calc(100% - 11px) 18px, calc(100% - 6px) 18px;
+  background-position:
+    calc(100% - 11px) 18px,
+    calc(100% - 6px) 18px;
   background-size: 5px 5px;
   background-repeat: no-repeat;
   padding-right: 26px;
@@ -2892,7 +2920,10 @@ select.ruled option {
   color: var(--fg-3);
   background: var(--bg);
   box-shadow: inset 0 0 0 1px var(--line-2);
-  transition: color var(--t), background var(--t), box-shadow var(--t);
+  transition:
+    color var(--t),
+    background var(--t),
+    box-shadow var(--t);
 }
 
 .pitchspot:hover {
@@ -2914,7 +2945,10 @@ select.ruled option {
   gap: var(--s3);
   padding: var(--s3) var(--s2);
   border-bottom: 1px solid var(--line);
-  transition: background var(--t), box-shadow var(--t), padding-left var(--t);
+  transition:
+    background var(--t),
+    box-shadow var(--t),
+    padding-left var(--t);
 }
 
 .roster-row:hover {
@@ -3149,7 +3183,10 @@ select.ruled option {
 .pace-opt {
   padding: var(--s3) var(--s3) var(--s3) 0;
   border-right: 1px solid var(--line);
-  transition: background var(--t), box-shadow var(--t), padding-left var(--t);
+  transition:
+    background var(--t),
+    box-shadow var(--t),
+    padding-left var(--t);
 }
 
 .pace-opt:last-child {
@@ -3207,7 +3244,9 @@ select.ruled option {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--fg-3);
-  transition: color var(--t), background var(--t);
+  transition:
+    color var(--t),
+    background var(--t);
 }
 
 .ground:last-child {
@@ -3327,7 +3366,10 @@ select.ruled option {
   text-align: left;
   border: 1px solid var(--line-2);
   color: var(--fg-2);
-  transition: border-color var(--t), background var(--t), color var(--t);
+  transition:
+    border-color var(--t),
+    background var(--t),
+    color var(--t);
 }
 
 .gamecard:hover {
@@ -3533,7 +3575,9 @@ select.ruled option {
   justify-content: center;
   padding: var(--s2);
   text-align: center;
-  transition: background var(--t), box-shadow var(--t);
+  transition:
+    background var(--t),
+    box-shadow var(--t);
 }
 
 .square:not(:disabled):hover {
@@ -3852,7 +3896,10 @@ select.ruled option {
   font-size: 14px;
   font-weight: 600;
   text-align: center;
-  transition: border-color var(--t), background var(--t), color var(--t);
+  transition:
+    border-color var(--t),
+    background var(--t),
+    color var(--t);
 }
 
 .crestq-opt:hover:not(:disabled) {
@@ -4496,7 +4543,9 @@ select.ruled option {
   line-height: 0;
   filter: grayscale(1) brightness(0.55);
   opacity: 0.6;
-  transition: filter var(--t), opacity var(--t);
+  transition:
+    filter var(--t),
+    opacity var(--t);
 }
 
 .shelf--won .shelf-art {
@@ -4722,7 +4771,10 @@ select.ruled option {
   padding: var(--s3) var(--s2);
   border-bottom: 1px solid var(--line);
   text-align: left;
-  transition: background var(--t), box-shadow var(--t), padding-left var(--t);
+  transition:
+    background var(--t),
+    box-shadow var(--t),
+    padding-left var(--t);
 }
 
 .legend-row:hover {
@@ -5158,7 +5210,11 @@ select.ruled option {
   text-align: left;
   padding: var(--s4);
   background:
-    radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--tier, var(--fg-2)) 18%, transparent), transparent 70%),
+    radial-gradient(
+      120% 80% at 50% 0%,
+      color-mix(in srgb, var(--tier, var(--fg-2)) 18%, transparent),
+      transparent 70%
+    ),
     var(--bg-raise);
   border: 2px solid var(--tier, var(--line-2));
   color: var(--fg);
@@ -5166,7 +5222,9 @@ select.ruled option {
 
 button.pcard {
   cursor: pointer;
-  transition: transform var(--t), box-shadow var(--t);
+  transition:
+    transform var(--t),
+    box-shadow var(--t);
 }
 
 button.pcard:hover {
@@ -5484,7 +5542,10 @@ button.pcard:hover {
   text-align: left;
   border: 1px solid var(--line-2);
   color: var(--fg-2);
-  transition: border-color var(--t), background var(--t), color var(--t);
+  transition:
+    border-color var(--t),
+    background var(--t),
+    color var(--t);
 }
 
 .mod:hover {
@@ -5641,7 +5702,6 @@ button.pcard:hover {
     display: none;
   }
 }
-
 
 /* ---------------------------------------------------------------------------
    the detailed mode: the shape under the rating
@@ -5836,7 +5896,10 @@ button.pcard:hover {
   border: 1px solid var(--line-2);
   color: var(--fg-2);
   font-size: 13px;
-  transition: border-color var(--t), background var(--t), color var(--t);
+  transition:
+    border-color var(--t),
+    background var(--t),
+    color var(--t);
 }
 
 .train:hover {
@@ -5853,7 +5916,6 @@ button.pcard:hover {
 .hint--pace {
   text-align: center;
 }
-
 
 /* ---------------------------------------------------------------------------
    the detailed mode: the contract, the room, the body, the money
@@ -5988,7 +6050,10 @@ button.pcard:hover {
   text-align: left;
   border: 1px solid var(--line-2);
   color: var(--fg-2);
-  transition: border-color var(--t), background var(--t), color var(--t);
+  transition:
+    border-color var(--t),
+    background var(--t),
+    color var(--t);
 }
 
 .term:hover {

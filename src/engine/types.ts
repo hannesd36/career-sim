@@ -39,7 +39,13 @@ export type TrophyId =
   | 'tots'
 
 /** The trophies weighty enough to count toward a career's headline honours. */
-export const MAJOR_TROPHIES: TrophyId[] = ['worldcup', 'continentalnation', 'continental', 'league', 'cup']
+export const MAJOR_TROPHIES: TrophyId[] = [
+  'worldcup',
+  'continentalnation',
+  'continental',
+  'league',
+  'cup',
+]
 
 /**
  * Trophies store what they were won with, never a rendered label — the label is

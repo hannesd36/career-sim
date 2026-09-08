@@ -63,22 +63,9 @@ export type AttrId =
   | 'gkReflexes'
 
 export type Facet =
-  | 'pace'
-  | 'shooting'
-  | 'passing'
-  | 'dribbling'
-  | 'defending'
-  | 'physical'
-  | 'goalkeeping'
+  'pace' | 'shooting' | 'passing' | 'dribbling' | 'defending' | 'physical' | 'goalkeeping'
 
-export const FACETS: Facet[] = [
-  'pace',
-  'shooting',
-  'passing',
-  'dribbling',
-  'defending',
-  'physical',
-]
+export const FACETS: Facet[] = ['pace', 'shooting', 'passing', 'dribbling', 'defending', 'physical']
 
 /** A keeper trains the one facet that is his, split five ways underneath. */
 export const GK_FACETS: Facet[] = ['goalkeeping', 'passing', 'physical']
@@ -365,7 +352,10 @@ export function shapeBonus(attrs: Attributes, position: Position): number {
 }
 
 /** The facet averages, which is what a card shows rather than all twenty nine. */
-export function facetSummary(attrs: Attributes, position: Position): { facet: Facet; value: number }[] {
+export function facetSummary(
+  attrs: Attributes,
+  position: Position,
+): { facet: Facet; value: number }[] {
   return facetsFor(position).map((facet) => {
     const vals = ATTRS_BY_FACET[facet]
       .map((id) => attrs[id])

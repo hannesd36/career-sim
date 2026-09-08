@@ -206,12 +206,16 @@ export const EVENTS: GameEvent[] = [
           { weight: 48, result: 'frozen-out', tone: 'bad', effect: { ovr: -4 } },
         ],
       },
-      { key: 'stay-quiet', outcomes: [{ weight: 1, result: 'stayed-quiet', tone: 'neutral', effect: {} }] },
+      {
+        key: 'stay-quiet',
+        outcomes: [{ weight: 1, result: 'stayed-quiet', tone: 'neutral', effect: {} }],
+      },
     ],
   },
   {
     id: 'agent-gamble',
-    weight: ({ player, last }) => (player.age >= 21 && player.age <= 30 && last.rating >= 6.9 ? 1.6 : 0),
+    weight: ({ player, last }) =>
+      player.age >= 21 && player.age <= 30 && last.rating >= 6.9 ? 1.6 : 0,
     choices: [
       {
         key: 'wait',
@@ -220,7 +224,10 @@ export const EVENTS: GameEvent[] = [
           { weight: 55, result: 'nobody-came', tone: 'bad', effect: { ovr: -4 } },
         ],
       },
-      { key: 'take-what-is-there', outcomes: [{ weight: 1, result: 'took-it', tone: 'neutral', effect: {} }] },
+      {
+        key: 'take-what-is-there',
+        outcomes: [{ weight: 1, result: 'took-it', tone: 'neutral', effect: {} }],
+      },
     ],
   },
   {
@@ -235,7 +242,10 @@ export const EVENTS: GameEvent[] = [
           { weight: 34, result: 'buckled', tone: 'bad', effect: { ovr: -2 } },
         ],
       },
-      { key: 'decline-armband', outcomes: [{ weight: 1, result: 'declined', tone: 'neutral', effect: {} }] },
+      {
+        key: 'decline-armband',
+        outcomes: [{ weight: 1, result: 'declined', tone: 'neutral', effect: {} }],
+      },
     ],
   },
   {
@@ -249,7 +259,10 @@ export const EVENTS: GameEvent[] = [
           { weight: 62, result: 'benched', tone: 'bad', effect: { ovr: -4 } },
         ],
       },
-      { key: 'fall-in-line', outcomes: [{ weight: 1, result: 'fell-in-line', tone: 'neutral', effect: { ovr: 1 } }] },
+      {
+        key: 'fall-in-line',
+        outcomes: [{ weight: 1, result: 'fell-in-line', tone: 'neutral', effect: { ovr: 1 } }],
+      },
     ],
   },
   {
@@ -263,7 +276,10 @@ export const EVENTS: GameEvent[] = [
           { weight: 55, result: 'broke-down', tone: 'bad', effect: { ovr: -5 } },
         ],
       },
-      { key: 'take-a-break', outcomes: [{ weight: 1, result: 'took-break', tone: 'neutral', effect: { ovr: -1 } }] },
+      {
+        key: 'take-a-break',
+        outcomes: [{ weight: 1, result: 'took-break', tone: 'neutral', effect: { ovr: -1 } }],
+      },
     ],
   },
 
@@ -406,13 +422,19 @@ export const EVENTS: GameEvent[] = [
   },
   {
     id: 'documentary',
-    weight: ({ player, last }) => (player.ovr >= 74 && player.age >= 23 && last.apps >= 20 ? 1.4 : 0),
+    weight: ({ player, last }) =>
+      player.ovr >= 74 && player.age >= 23 && last.apps >= 20 ? 1.4 : 0,
     choices: [
       {
         key: 'let-them-in',
         outcomes: [
           { weight: 45, result: 'came-off-well', tone: 'good', effect: { ovr: 1, reputation: 4 } },
-          { weight: 55, result: 'caught-everything', tone: 'bad', effect: { ovr: -2, reputation: -4 } },
+          {
+            weight: 55,
+            result: 'caught-everything',
+            tone: 'bad',
+            effect: { ovr: -2, reputation: -4 },
+          },
         ],
       },
       {
@@ -425,7 +447,8 @@ export const EVENTS: GameEvent[] = [
   // ------------------------------------------------------ the football itself
   {
     id: 'new-manager',
-    weight: ({ last }) => (last.leaguePosition >= 12 || (last.rating > 0 && last.rating < 6.6) ? 2.2 : 0),
+    weight: ({ last }) =>
+      last.leaguePosition >= 12 || (last.rating > 0 && last.rating < 6.6) ? 2.2 : 0,
     choices: [
       {
         key: 'learn-the-system',
@@ -647,8 +670,7 @@ export const EVENTS: GameEvent[] = [
   },
   {
     id: 'defender-cards',
-    weight: ({ player, last }) =>
-      isDefender(player.position) && last.yellowCards >= 8 ? 2.4 : 0,
+    weight: ({ player, last }) => (isDefender(player.position) && last.yellowCards >= 8 ? 2.4 : 0),
     choices: [
       {
         key: 'change-your-game',
@@ -689,7 +711,8 @@ export const EVENTS: GameEvent[] = [
   },
   {
     id: 'country-armband',
-    weight: ({ player, last }) => (player.natCapped && player.age >= 27 && last.natApps >= 4 ? 1.6 : 0),
+    weight: ({ player, last }) =>
+      player.natCapped && player.age >= 27 && last.natApps >= 4 ? 1.6 : 0,
     choices: [
       {
         key: 'lead-them',
@@ -708,7 +731,8 @@ export const EVENTS: GameEvent[] = [
   {
     id: 'international-retirement',
     once: true,
-    weight: ({ player, last }) => (player.natCapped && player.age >= 31 && last.natApps >= 1 ? 1.6 : 0),
+    weight: ({ player, last }) =>
+      player.natCapped && player.age >= 31 && last.natApps >= 1 ? 1.6 : 0,
     choices: [
       {
         key: 'step-back',
@@ -739,7 +763,9 @@ export const EVENTS: GameEvent[] = [
       },
       {
         key: 'shut-it-down',
-        outcomes: [{ weight: 1, result: 'stayed-professional', tone: 'neutral', effect: { ovr: 1 } }],
+        outcomes: [
+          { weight: 1, result: 'stayed-professional', tone: 'neutral', effect: { ovr: 1 } },
+        ],
       },
     ],
   },
@@ -770,7 +796,12 @@ export const EVENTS: GameEvent[] = [
       {
         key: 'bring-him-on',
         outcomes: [
-          { weight: 68, result: 'they-remember-it', tone: 'good', effect: { ovr: 1, reputation: 3 } },
+          {
+            weight: 68,
+            result: 'they-remember-it',
+            tone: 'good',
+            effect: { ovr: 1, reputation: 3 },
+          },
           { weight: 32, result: 'he-took-your-place', tone: 'bad', effect: { ovr: -3 } },
         ],
       },

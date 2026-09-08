@@ -107,5 +107,7 @@ export function newlyEarnedCareerAwards(
   before: CareerCabinetStats,
   after: CareerCabinetStats,
 ): CareerAward[] {
-  return CAREER_AWARDS.filter((a) => !isCareerAwardEarned(a, before) && isCareerAwardEarned(a, after))
+  return CAREER_AWARDS.filter(
+    (a) => !isCareerAwardEarned(a, before) && isCareerAwardEarned(a, after),
+  )
 }

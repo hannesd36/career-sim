@@ -154,7 +154,10 @@ const worldCup: Draw = ({ fill, shade }) => (
 /** The Henri Delaunay: a cup on a long stem, wide at the mouth. */
 const delaunay: Draw = ({ fill, shade }) => (
   <g>
-    <path fill={fill} d="M13 8h22v4.2c0 8.4-3.6 14.2-7.6 16.2V44h4.4a1.6 1.6 0 0 1 0 3.2H16.2a1.6 1.6 0 0 1 0-3.2h4.4V28.4C16.6 26.4 13 20.6 13 12.2z" />
+    <path
+      fill={fill}
+      d="M13 8h22v4.2c0 8.4-3.6 14.2-7.6 16.2V44h4.4a1.6 1.6 0 0 1 0 3.2H16.2a1.6 1.6 0 0 1 0-3.2h4.4V28.4C16.6 26.4 13 20.6 13 12.2z"
+    />
     <path fill={fill} d="M12.2 5.6h23.6v2.8H12.2z" />
     <path fill={shade} opacity="0.3" d="M17.4 10h3.2v16.6c-2-2.4-3.2-6.6-3.2-11.6z" />
     <g fill={fill}>{PLINTH}</g>
@@ -164,7 +167,10 @@ const delaunay: Draw = ({ fill, shade }) => (
 /** The Copa América: a low, very wide cup on a fat base. */
 const wideCup: Draw = ({ fill, shade }) => (
   <g>
-    <path fill={fill} d="M9 12h30v2.6c0 8-4.8 13.6-9.4 15V44h5a1.6 1.6 0 0 1 0 3.2H13.4a1.6 1.6 0 0 1 0-3.2h5V29.6C13.8 28.2 9 22.6 9 14.6z" />
+    <path
+      fill={fill}
+      d="M9 12h30v2.6c0 8-4.8 13.6-9.4 15V44h5a1.6 1.6 0 0 1 0 3.2H13.4a1.6 1.6 0 0 1 0-3.2h5V29.6C13.8 28.2 9 22.6 9 14.6z"
+    />
     <path fill={shade} opacity="0.3" d="M13.6 14.4h3.4v13.2c-2.2-2.2-3.4-6-3.4-10.2z" />
     <g fill={fill}>{PLINTH}</g>
   </g>
@@ -173,7 +179,10 @@ const wideCup: Draw = ({ fill, shade }) => (
 /** The Africa Cup of Nations: a cup carried on three legs. */
 const tripod: Draw = ({ fill, shade }) => (
   <g>
-    <path fill={fill} d="M13 6h22v8.6c0 7.6-3.4 12.8-7.2 14.6V38h-7.6V29.2C16.4 27.4 13 22.2 13 14.6z" />
+    <path
+      fill={fill}
+      d="M13 6h22v8.6c0 7.6-3.4 12.8-7.2 14.6V38h-7.6V29.2C16.4 27.4 13 22.2 13 14.6z"
+    />
     <path fill={fill} d="M20.2 38h7.6l4.6 9.4H15.6zM12 47h24v3.4H12z" />
     <path fill={shade} opacity="0.32" d="M17 9h3.2v17.4C18.2 24.2 17 20 17 15z" />
     <g fill={fill}>{PLINTH}</g>
@@ -183,8 +192,15 @@ const tripod: Draw = ({ fill, shade }) => (
 /** The Nations League: a cup with a spiral of national colours around it. */
 const spiral: Draw = ({ fill, shade }) => (
   <g>
-    <path fill={fill} d="M14 7h20v10.4c0 7.8-3.2 13-6.6 14.8V44h4.4a1.6 1.6 0 0 1 0 3.2H16.2a1.6 1.6 0 0 1 0-3.2h4.4V32.2C17.2 30.4 14 25.2 14 17.4z" />
-    <path fill={shade} opacity="0.45" d="M14.4 12h19.2v2.6H14.4zM15.6 19h16.8v2.6H15.6zM18 26h12v2.6H18z" />
+    <path
+      fill={fill}
+      d="M14 7h20v10.4c0 7.8-3.2 13-6.6 14.8V44h4.4a1.6 1.6 0 0 1 0 3.2H16.2a1.6 1.6 0 0 1 0-3.2h4.4V32.2C17.2 30.4 14 25.2 14 17.4z"
+    />
+    <path
+      fill={shade}
+      opacity="0.45"
+      d="M14.4 12h19.2v2.6H14.4zM15.6 19h16.8v2.6H15.6zM18 26h12v2.6H18z"
+    />
     <g fill={fill}>{PLINTH}</g>
   </g>
 )
@@ -202,7 +218,10 @@ const medal: Draw = ({ fill, shade }) => (
 /** The Gold Cup: a cup with a broad, flared mouth on a square block. */
 const flared: Draw = ({ fill, shade }) => (
   <g>
-    <path fill={fill} d="M12 9h24l-3.4 9.6c-1 5.6-3.4 9.4-6.2 10.8V44h4.4a1.6 1.6 0 0 1 0 3.2H17.2a1.6 1.6 0 0 1 0-3.2h4.4V29.4c-2.8-1.4-5.2-5.2-6.2-10.8z" />
+    <path
+      fill={fill}
+      d="M12 9h24l-3.4 9.6c-1 5.6-3.4 9.4-6.2 10.8V44h4.4a1.6 1.6 0 0 1 0 3.2H17.2a1.6 1.6 0 0 1 0-3.2h4.4V29.4c-2.8-1.4-5.2-5.2-6.2-10.8z"
+    />
     <path fill={shade} opacity="0.3" d="M17.6 12h3.2v15.4c-1.8-1.8-2.9-5-3.2-9.4z" />
     <g fill={fill}>{BLOCK}</g>
   </g>
@@ -229,7 +248,11 @@ const risingBoot: Draw = ({ fill, shade }) => (
       fill={fill}
       d="M9 18h11.4c1.2 0 2.2.7 2.7 1.8l2.4 6 10.4 1.7 8.6 3.6c1.9.8 3.1 2.6 3.1 4.6V40H9z"
     />
-    <path fill={shade} opacity="0.35" d="m26 27.6 1.9 5.8h4.6L30.6 28zM19.4 25l1.7 5.2h4.6L24 25z" />
+    <path
+      fill={shade}
+      opacity="0.35"
+      d="m26 27.6 1.9 5.8h4.6L30.6 28zM19.4 25l1.7 5.2h4.6L24 25z"
+    />
     <g fill={fill}>{BLOCK}</g>
   </g>
 )
@@ -241,7 +264,11 @@ const bootOnBall: Draw = ({ fill, shade }) => (
       fill={fill}
       d="M8 10h10.6c1.1 0 2.1.7 2.5 1.7l2.3 5.6 9.7 1.6 8 3.4c1.8.8 2.9 2.5 2.9 4.4v3.5H8z"
     />
-    <path fill={shade} opacity="0.35" d="m24.6 19 1.8 5.4h4.3l-1.8-5.4zM18.4 16.6l1.6 4.8h4.3l-1.6-4.8z" />
+    <path
+      fill={shade}
+      opacity="0.35"
+      d="m24.6 19 1.8 5.4h4.3l-1.8-5.4zM18.4 16.6l1.6 4.8h4.3l-1.6-4.8z"
+    />
     <circle cx="24" cy="44" r="12" fill={fill} />
     <path
       fill={shade}

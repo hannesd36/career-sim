@@ -1,0 +1,71 @@
+# Dependency tracking.
+#
+# Grouped rather than one pull request per package: twenty separate bumps a
+# week is how people learn to ignore Dependabot. Patch and minor updates for
+# everything arrive as a single PR that CI either passes or does not, and only
+# a major version gets its own, because those are the ones worth reading.
+version: 2
+
+updates:
+  # ---- the game itself ----
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 5
+    labels: ['dependencies']
+    commit-message:
+      prefix: deps
+      prefix-development: deps-dev
+    groups:
+      # React and its types move together or not at all.
+      react:
+        patterns: ['react', 'react-dom', '@types/react', '@types/react-dom']
+      # Build and test tooling: noisy, low risk, one PR.
+      tooling:
+        patterns: ['vite', '@vitejs/*', 'vitest', 'typescript', 'tsx']
+        update-types: ['minor', 'patch']
+      # Linting and formatting, likewise.
+      linting:
+        patterns: ['eslint', '@eslint/*', 'typescript-eslint', 'eslint-*', 'prettier', 'globals']
+        update-types: ['minor', 'patch']
+      # Everything else that is only a patch or a minor.
+      rest:
+        patterns: ['*']
+        update-types: ['minor', 'patch']
+
+  # ---- the leaderboard worker, which has its own lockfile ----
+  - package-ecosystem: npm
+    directory: /server
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 3
+    labels: ['dependencies', 'server']
+    commit-message:
+      prefix: deps(server)
+    groups:
+      wrangler:
+        patterns: ['wrangler', '@cloudflare/*']
+      rest:
+        patterns: ['*']
+        update-types: ['minor', 'patch']
+
+  # ---- the actions the pipeline itself runs on ----
+  # These pin to major tags (checkout@v4), so this mostly catches the day a v5
+  # lands and the day an action is deprecated.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels: ['dependencies', 'ci']
+    commit-message:
+      prefix: ci
+    groups:
+      actions:
+        patterns: ['*']

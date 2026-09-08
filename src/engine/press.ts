@@ -58,8 +58,12 @@ export function headlinesFor(career: Career, record: SeasonRecord): Headline[] {
   const clubName = record.clubName
   const keeper = isKeeper(career.player.position)
   const out: { headline: Headline; weight: number }[] = []
-  const say = (id: HeadlineId, weight: number, tone: Headline['tone'], params: Headline['params'] = {}) =>
-    out.push({ headline: { id, params, tone }, weight })
+  const say = (
+    id: HeadlineId,
+    weight: number,
+    tone: Headline['tone'],
+    params: Headline['params'] = {},
+  ) => out.push({ headline: { id, params, tone }, weight })
 
   if (record.banned) {
     say('banned', 100, 'bad', { name: career.player.name })
@@ -72,11 +76,21 @@ export function headlinesFor(career: Career, record: SeasonRecord): Headline[] {
     ['ballondor', 'goldenboot', 'playmaker', 'goldenglove', 'goldenboy', 'tots'].includes(t.id),
   )
   const team = record.trophies.filter(
-    (t) => !['ballondor', 'goldenboot', 'playmaker', 'goldenglove', 'goldenboy', 'tots', 'league'].includes(t.id),
+    (t) =>
+      ![
+        'ballondor',
+        'goldenboot',
+        'playmaker',
+        'goldenglove',
+        'goldenboy',
+        'tots',
+        'league',
+      ].includes(t.id),
   )
   if (titles.length) say('title', 95, 'good', { club: clubName, league: league?.name ?? '' })
   for (const t of team) say('silverware', 88, 'good', { club: clubName, trophy: t.id })
-  for (const t of individual) say('individual', 92, 'good', { name: career.player.name, trophy: t.id })
+  for (const t of individual)
+    say('individual', 92, 'good', { name: career.player.name, trophy: t.id })
 
   // --- what was produced ------------------------------------------------
   const goals = record.goals + record.natGoals
@@ -84,7 +98,8 @@ export function headlinesFor(career: Career, record: SeasonRecord): Headline[] {
   const shutouts = record.cleanSheets + record.natCleanSheets
   if (!keeper && goals >= 15) say('haul', 60 + goals, 'good', { name: career.player.name, goals })
   if (assists >= 12) say('assists', 55 + assists, 'good', { name: career.player.name, assists })
-  if (keeper && shutouts >= 12) say('shutouts', 60 + shutouts, 'good', { name: career.player.name, n: shutouts })
+  if (keeper && shutouts >= 12)
+    say('shutouts', 60 + shutouts, 'good', { name: career.player.name, n: shutouts })
 
   // --- the club's own verdict ------------------------------------------
   const objective = objectiveOf(career, record)
@@ -94,9 +109,12 @@ export function headlinesFor(career: Career, record: SeasonRecord): Headline[] {
 
   // --- how the season went ----------------------------------------------
   const jump = record.ovrEnd - record.ovrStart
-  if (jump >= 5) say('breakthrough', 70, 'good', { name: career.player.name, n: jump, ovr: record.ovrEnd })
-  else if (jump <= -3 && record.age >= 31) say('stalled', 52, 'bad', { name: career.player.name, ovr: record.ovrEnd })
-  if (record.gamesMissedInjured >= 12) say('injury', 66, 'bad', { name: career.player.name, n: record.gamesMissedInjured })
+  if (jump >= 5)
+    say('breakthrough', 70, 'good', { name: career.player.name, n: jump, ovr: record.ovrEnd })
+  else if (jump <= -3 && record.age >= 31)
+    say('stalled', 52, 'bad', { name: career.player.name, ovr: record.ovrEnd })
+  if (record.gamesMissedInjured >= 12)
+    say('injury', 66, 'bad', { name: career.player.name, n: record.gamesMissedInjured })
 
   if (league) {
     const bottom = league.teams - 2
@@ -111,11 +129,14 @@ export function headlinesFor(career: Career, record: SeasonRecord): Headline[] {
   const idx = career.history.indexOf(record)
   if (idx >= 0 && record.natApps > 0) {
     const capsBefore = career.history.slice(0, idx).reduce((s, r) => s + r.natApps, 0)
-    if (capsBefore === 0) say('debut', 80, 'good', { name: career.player.name, nation: career.player.nation })
+    if (capsBefore === 0)
+      say('debut', 80, 'good', { name: career.player.name, nation: career.player.nation })
   }
 
-  if (record.apps <= 6 && record.age >= 20) say('benched', 62, 'bad', { name: career.player.name, club: clubName })
-  if (record.age >= 36 && record.apps >= 20) say('veteran', 45, 'good', { name: career.player.name, age: record.age })
+  if (record.apps <= 6 && record.age >= 20)
+    say('benched', 62, 'bad', { name: career.player.name, club: clubName })
+  if (record.age >= 36 && record.apps >= 20)
+    say('veteran', 45, 'good', { name: career.player.name, age: record.age })
 
   // Where the year group stands, but only once it means something: at
   // seventeen everybody is top of a table nobody has played in yet.
@@ -125,7 +146,13 @@ export function headlinesFor(career: Career, record: SeasonRecord): Headline[] {
   }
 
   // A good season at a club below your level is a summer of speculation.
-  if (club && league && record.rating >= 7.2 && record.apps >= 15 && record.ovrEnd > club.strength + 3) {
+  if (
+    club &&
+    league &&
+    record.rating >= 7.2 &&
+    record.apps >= 15 &&
+    record.ovrEnd > club.strength + 3
+  ) {
     say('linked', 44, 'neutral', { name: career.player.name, club: clubName })
   }
   if (record.onLoan) say('loan-return', 30, 'neutral', { name: career.player.name, club: clubName })

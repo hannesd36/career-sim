@@ -317,8 +317,7 @@ const en = {
   'ev.surgery.result.rested': 'The slow road back. Nothing gained, nothing broken.',
 
   'ev.extra-training.title': 'The summer',
-  'ev.extra-training.body':
-    'Six weeks off. Recovery, or a gym and a private coach.',
+  'ev.extra-training.body': 'Six weeks off. Recovery, or a gym and a private coach.',
   'ev.extra-training.grind': 'Train all summer',
   'ev.extra-training.rest': 'Actually rest',
   'ev.extra-training.result.paid-off': 'You come back in the best shape of your life.',
@@ -335,8 +334,7 @@ const en = {
   'ev.transfer-strike.result.stayed-quiet': 'You train, you wait, you stay professional.',
 
   'ev.agent-gamble.title': 'Wait a year',
-  'ev.agent-gamble.body':
-    'Your agent swears a giant comes next summer if you sit this window out.',
+  'ev.agent-gamble.body': 'Your agent swears a giant comes next summer if you sit this window out.',
   'ev.agent-gamble.wait': 'Sit out the window',
   'ev.agent-gamble.take-what-is-there': 'Take what is on the table',
   'ev.agent-gamble.result.giant-came': 'He was right. Next summer is a different class of club.',
@@ -360,7 +358,8 @@ const en = {
   'ev.coach-clash.result.fell-in-line': 'You keep working, and quietly earn some respect.',
 
   'ev.burnout.title': 'Too many games',
-  'ev.burnout.body': 'You played almost every minute and the tank is empty. There is a tournament this summer.',
+  'ev.burnout.body':
+    'You played almost every minute and the tank is empty. There is a tournament this summer.',
   'ev.burnout.play-through': 'Play through it',
   'ev.burnout.take-a-break': 'Pull out and rest',
   'ev.burnout.result.held-up': 'Your body holds. You come through it intact.',
@@ -400,7 +399,8 @@ const en = {
   'ev.boot-deal.do-the-shoot': 'Do the shoot',
   'ev.boot-deal.stay-in-camp': 'Stay in camp',
   'ev.boot-deal.result.harmless': 'Two days, a cheque, and nothing lost.',
-  'ev.boot-deal.result.missed-the-work': 'You miss the work everyone else did and start the year behind.',
+  'ev.boot-deal.result.missed-the-work':
+    'You miss the work everyone else did and start the year behind.',
   'ev.boot-deal.result.did-the-work': 'You do the whole camp and start the season sharp.',
 
   'ev.nightlife.title': 'The video',
@@ -413,7 +413,8 @@ const en = {
   'ev.nightlife.result.more-came-out': 'More footage comes out and now it is about lying.',
 
   'ev.wage-holdout.title': 'The new contract',
-  'ev.wage-holdout.body': 'You are worth more than the paper says and everyone in the building knows it.',
+  'ev.wage-holdout.body':
+    'You are worth more than the paper says and everyone in the building knows it.',
   'ev.wage-holdout.hold-firm': 'Hold out for the money',
   'ev.wage-holdout.sign-it': 'Sign what is offered',
   'ev.wage-holdout.result.they-paid': 'They pay. You are a big earner and you play like one.',
@@ -421,7 +422,8 @@ const en = {
   'ev.wage-holdout.result.signed': 'You sign, and everyone gets on with the season.',
 
   'ev.agent-switch.title': 'The bigger agency',
-  'ev.agent-switch.body': 'An agency with real reach wants you. The man who found you at fifteen does not.',
+  'ev.agent-switch.body':
+    'An agency with real reach wants you. The man who found you at fifteen does not.',
   'ev.agent-switch.switch': 'Sign with them',
   'ev.agent-switch.stay-loyal': 'Stay with your man',
   'ev.agent-switch.result.better-doors': 'The doors open wider than they ever have.',
@@ -433,12 +435,14 @@ const en = {
   'ev.documentary.let-them-in': 'Let them in',
   'ev.documentary.keep-the-door-shut': 'Keep the door shut',
   'ev.documentary.result.came-off-well': 'You come across well and the country warms to you.',
-  'ev.documentary.result.caught-everything': 'They film the bad days too, and those are the ones people watch.',
+  'ev.documentary.result.caught-everything':
+    'They film the bad days too, and those are the ones people watch.',
   'ev.documentary.result.shut': 'You keep your season to yourself.',
 
   // ---- the football itself ----
   'ev.new-manager.title': 'The new man',
-  'ev.new-manager.body': 'He arrives with a system nobody here has played, and no patience for learning it slowly.',
+  'ev.new-manager.body':
+    'He arrives with a system nobody here has played, and no patience for learning it slowly.',
   'ev.new-manager.learn-the-system': 'Learn his system',
   'ev.new-manager.play-your-way': 'Play your own way',
   'ev.new-manager.result.adapted': 'It takes months, and then it makes you better.',
@@ -447,10 +451,12 @@ const en = {
   'ev.new-manager.result.dropped': 'He has seen this before. You sit.',
 
   'ev.position-switch.title': 'A new position',
-  'ev.position-switch.body': 'The staff think you have a second career waiting somewhere else on the pitch.',
+  'ev.position-switch.body':
+    'The staff think you have a second career waiting somewhere else on the pitch.',
   'ev.position-switch.move': 'Take the new role',
   'ev.position-switch.stay-where-you-are': 'Stay where you are',
-  'ev.position-switch.result.second-career': 'It fits immediately. You should have moved years ago.',
+  'ev.position-switch.result.second-career':
+    'It fits immediately. You should have moved years ago.',
   'ev.position-switch.result.lost-at-sea': 'You spend a season lost between two jobs.',
   'ev.position-switch.result.stayed': 'You stay in the position you know.',
 
@@ -459,7 +465,8 @@ const en = {
   'ev.penalty-duty.take-them': 'Take them',
   'ev.penalty-duty.let-someone-else': 'Let someone else',
   'ev.penalty-duty.result.never-missed': 'You take them all year and never miss one.',
-  'ev.penalty-duty.result.missed-the-big-one': 'You miss the one that mattered, and everyone saw it.',
+  'ev.penalty-duty.result.missed-the-big-one':
+    'You miss the one that mattered, and everyone saw it.',
   'ev.penalty-duty.result.passed': 'Somebody else steps up.',
 
   'ev.derby-red.title': 'The red card',
@@ -471,11 +478,13 @@ const en = {
   'ev.derby-red.result.served': 'You sit out the games and say nothing.',
 
   'ev.dressing-room-split.title': 'Two camps',
-  'ev.dressing-room-split.body': 'Half the squad is finished with the manager. The other half is his.',
+  'ev.dressing-room-split.body':
+    'Half the squad is finished with the manager. The other half is his.',
   'ev.dressing-room-split.pick-a-side': 'Pick a side',
   'ev.dressing-room-split.stay-out-of-it': 'Stay out of it',
   'ev.dressing-room-split.result.won-the-room': 'Your side wins and you come out of it a leader.',
-  'ev.dressing-room-split.result.wrong-side': 'You backed the wrong men and they all leave without you.',
+  'ev.dressing-room-split.result.wrong-side':
+    'You backed the wrong men and they all leave without you.',
   'ev.dressing-room-split.result.stayed-out': 'You train, you play, and you let them fight it out.',
 
   'ev.european-nights.title': 'Thursday nights',
@@ -497,7 +506,8 @@ const en = {
   'ev.winter-surgery.result.got-worse': 'It turns into something the physios cannot reach.',
 
   'ev.injections.title': 'The injections',
-  'ev.injections.body': 'The doctor can get you through every week. He is honest about what it does after.',
+  'ev.injections.body':
+    'The doctor can get you through every week. He is honest about what it does after.',
   'ev.injections.take-the-needle': 'Take them',
   'ev.injections.sit-it-out': 'Sit until it heals',
   'ev.injections.result.got-through-it': 'You play the season and nothing gives way.',
@@ -505,7 +515,8 @@ const en = {
   'ev.injections.result.sat': 'You sit for months and lose your place.',
 
   'ev.preseason-weight.title': 'The weigh in',
-  'ev.preseason-weight.body': 'You came back heavier than you left, and the staff have the number on a board.',
+  'ev.preseason-weight.body':
+    'You came back heavier than you left, and the staff have the number on a board.',
   'ev.preseason-weight.crash-it-off': 'Get it off fast',
   'ev.preseason-weight.work-into-it': 'Work into it slowly',
   'ev.preseason-weight.result.flying': 'It comes off in a fortnight and you are flying by August.',
@@ -513,7 +524,8 @@ const en = {
   'ev.preseason-weight.result.slow-start': 'It takes until October, and October is late.',
 
   'ev.sports-science.title': 'The new department',
-  'ev.sports-science.body': 'The club has hired people who want to change how you sleep, eat and warm up.',
+  'ev.sports-science.body':
+    'The club has hired people who want to change how you sleep, eat and warm up.',
   'ev.sports-science.rebuild-everything': 'Rebuild your week',
   'ev.sports-science.keep-your-routine': 'Keep your routine',
   'ev.sports-science.result.marginal-gains': 'Small things, all of them, and together they add up.',
@@ -522,7 +534,8 @@ const en = {
 
   // ---- what you play, specifically ----
   'ev.keeper-coach.title': 'The keeper coach',
-  'ev.keeper-coach.body': 'He wants to rebuild your handling from the ground up. It will look worse before it looks better.',
+  'ev.keeper-coach.body':
+    'He wants to rebuild your handling from the ground up. It will look worse before it looks better.',
   'ev.keeper-coach.rebuild-your-handling': 'Rebuild it',
   'ev.keeper-coach.trust-what-works': 'Trust what works',
   'ev.keeper-coach.result.unbeatable': 'By Christmas you are catching things you used to parry.',
@@ -530,21 +543,26 @@ const en = {
   'ev.keeper-coach.result.kept-it': 'You keep the hands that got you this far.',
 
   'ev.striker-drought.title': 'The drought',
-  'ev.striker-drought.body': 'A season of chances and almost nothing to show for it. The finishing is in your head now.',
+  'ev.striker-drought.body':
+    'A season of chances and almost nothing to show for it. The finishing is in your head now.',
   'ev.striker-drought.see-someone': 'Talk to someone',
   'ev.striker-drought.work-it-out-alone': 'Work it out alone',
-  'ev.striker-drought.result.goals-came-back': 'A few sessions, and the net starts getting bigger again.',
+  'ev.striker-drought.result.goals-came-back':
+    'A few sessions, and the net starts getting bigger again.',
   'ev.striker-drought.result.nothing-changed': 'You talk it through and nothing much changes.',
   'ev.striker-drought.result.came-good': 'You stay late every night until the first one goes in.',
   'ev.striker-drought.result.another-year-of-it': 'Another year of hitting the side netting.',
 
   'ev.defender-cards.title': 'The referees',
-  'ev.defender-cards.body': 'You spent the season one foul from a suspension, and they know your name now.',
+  'ev.defender-cards.body':
+    'You spent the season one foul from a suspension, and they know your name now.',
   'ev.defender-cards.change-your-game': 'Change your game',
   'ev.defender-cards.keep-going': 'Give them nothing',
-  'ev.defender-cards.result.cleaner-and-better': 'You defend with your feet instead of your arms, and you are better for it.',
+  'ev.defender-cards.result.cleaner-and-better':
+    'You defend with your feet instead of your arms, and you are better for it.',
   'ev.defender-cards.result.lost-your-edge': 'You pull out of tackles you used to win.',
-  'ev.defender-cards.result.they-fear-you': 'Forwards do not fancy it against you, and that is worth something.',
+  'ev.defender-cards.result.they-fear-you':
+    'Forwards do not fancy it against you, and that is worth something.',
   'ev.defender-cards.result.suspended-again': 'You miss a third of the season in the stand.',
 
   // ---- the shirt with the badge on it ----
@@ -552,8 +570,10 @@ const en = {
   'ev.nation-switch.body': 'Your own country has never called. Another federation has.',
   'ev.nation-switch.switch': 'Take the call',
   'ev.nation-switch.hold-out': 'Hold out for your own',
-  'ev.nation-switch.result.capped-at-last': 'You sing a different anthem and you are an international.',
-  'ev.nation-switch.result.never-belonged': 'You never feel like one of them, and the crowd agrees.',
+  'ev.nation-switch.result.capped-at-last':
+    'You sing a different anthem and you are an international.',
+  'ev.nation-switch.result.never-belonged':
+    'You never feel like one of them, and the crowd agrees.',
   'ev.nation-switch.result.held-out': 'You keep waiting for the call.',
 
   'ev.country-armband.title': 'Your country',
@@ -565,42 +585,53 @@ const en = {
   'ev.country-armband.result.just-played': 'You go, you play, you come home.',
 
   'ev.international-retirement.title': 'Two shirts, one body',
-  'ev.international-retirement.body': 'The club wants your minutes managed. The country still wants you at every window.',
+  'ev.international-retirement.body':
+    'The club wants your minutes managed. The country still wants you at every window.',
   'ev.international-retirement.step-back': 'Retire from the national team',
   'ev.international-retirement.keep-both': 'Wear both shirts',
-  'ev.international-retirement.result.fresher-legs': 'The extra rest shows in your legs when it matters.',
-  'ev.international-retirement.result.still-has-it': 'You give both shirts everything and it somehow holds.',
-  'ev.international-retirement.result.ran-you-down': 'Too many flights, too little recovery. It catches up.',
+  'ev.international-retirement.result.fresher-legs':
+    'The extra rest shows in your legs when it matters.',
+  'ev.international-retirement.result.still-has-it':
+    'You give both shirts everything and it somehow holds.',
+  'ev.international-retirement.result.ran-you-down':
+    'Too many flights, too little recovery. It catches up.',
 
   // ---- what people want from you ----
   'ev.rival-approach.title': 'Somebody wants you',
-  'ev.rival-approach.body': 'A bigger club keeps coming up in interviews. Your own dressing room is asked about it too.',
+  'ev.rival-approach.body':
+    'A bigger club keeps coming up in interviews. Your own dressing room is asked about it too.',
   'ev.rival-approach.let-it-run': 'Let it run',
   'ev.rival-approach.shut-it-down': 'Shut it down',
-  'ev.rival-approach.result.played-lighter': 'You play like a man with somewhere else to be, and it works.',
+  'ev.rival-approach.result.played-lighter':
+    'You play like a man with somewhere else to be, and it works.',
   'ev.rival-approach.result.weighed-you-down': 'The noise follows you onto the pitch and it shows.',
-  'ev.rival-approach.result.stayed-professional': 'Nothing to see, you say, and mean it. The manager notices.',
+  'ev.rival-approach.result.stayed-professional':
+    'Nothing to see, you say, and mean it. The manager notices.',
 
   'ev.testimonial.title': 'One night, no science to it',
   'ev.testimonial.body': 'The club wants to give you a night to remember before this is over.',
   'ev.testimonial.give-them-a-show': 'Give them a show',
   'ev.testimonial.take-it-easy': 'Take it easy',
   'ev.testimonial.result.the-old-magic': 'Thirty thousand people get exactly what they came for.',
-  'ev.testimonial.result.costly-knock': 'You go in too hard for a game that did not need it, and something goes.',
+  'ev.testimonial.result.costly-knock':
+    'You go in too hard for a game that did not need it, and something goes.',
   'ev.testimonial.result.gentle-lap': 'You wave, you jog, you let the night be about the crowd.',
 
   // ---- the end of it ----
   'ev.youth-mentor.title': 'The kid',
-  'ev.youth-mentor.body': 'There is a teenager in your position who could be very good, and he is watching you.',
+  'ev.youth-mentor.body':
+    'There is a teenager in your position who could be very good, and he is watching you.',
   'ev.youth-mentor.bring-him-on': 'Bring him on',
   'ev.youth-mentor.keep-him-out': 'Give him nothing',
-  'ev.youth-mentor.result.they-remember-it': 'You teach him everything, and the club remembers who did.',
+  'ev.youth-mentor.result.they-remember-it':
+    'You teach him everything, and the club remembers who did.',
   'ev.youth-mentor.result.he-took-your-place': 'He learns fast. He learns your shirt.',
   'ev.youth-mentor.result.held-on': 'You keep him at arm’s length and keep your place.',
   'ev.youth-mentor.result.looked-small': 'The room sees it for what it is.',
 
   'ev.coaching-badges.title': 'The badges',
-  'ev.coaching-badges.body': 'You could start your coaching badges now, in the evenings, while you are still playing.',
+  'ev.coaching-badges.body':
+    'You could start your coaching badges now, in the evenings, while you are still playing.',
   'ev.coaching-badges.start-them': 'Start them now',
   'ev.coaching-badges.not-yet': 'Not yet',
   'ev.coaching-badges.result.read-the-game': 'You start seeing the game the way the staff do.',
@@ -780,7 +811,8 @@ const en = {
   'grid.mode.friend': 'Someone next to you',
   'grid.mode.online': 'A friend online',
   'grid.modeHint.solo': 'Nine names, and the rarer the man the more he is worth.',
-  'grid.modeHint.cpu': 'It knows the book. How much of it it remembers, and how hard it plays, is up to you.',
+  'grid.modeHint.cpu':
+    'It knows the book. How much of it it remembers, and how hard it plays, is up to you.',
   'grid.modeHint.friend': 'One screen, two of you, turn about.',
   'grid.modeHint.online': 'Open a room and send the link.',
   'grid.them': 'Them',
@@ -977,7 +1009,8 @@ const en = {
   'book.countries_one': 'One country',
   'grid.wrongSolo': '{name} does not fit. One name gone.',
   'quiz.bookLoading': 'Fetching the rest of the book.',
-  'quiz.bookOffline': 'Only the hand written book loaded, so your board today will not match anybody else’s.',
+  'quiz.bookOffline':
+    'Only the hand written book loaded, so your board today will not match anybody else’s.',
   'net.otherBook': 'The other one has an older book. Some answers will disagree.',
   'book.built': 'Last pulled from Wikidata on {date}.',
   'book.builtNever': 'Only the hand written half is here.',
@@ -1056,28 +1089,35 @@ const en = {
   'mod.standard': 'The usual way',
   'mod.standard.how': 'A youth product at a modest club. Nothing added, nothing taken away.',
   'mod.wonderkid': 'Wonderkid',
-  'mod.wonderkid.how': 'Far ahead at sixteen and grows faster. When the decline comes it comes twice as hard.',
+  'mod.wonderkid.how':
+    'Far ahead at sixteen and grows faster. When the decline comes it comes twice as hard.',
   'mod.latebloomer': 'Late bloomer',
-  'mod.latebloomer.how': 'Behind everybody for years, but a much higher ceiling and a body that barely ages.',
+  'mod.latebloomer.how':
+    'Behind everybody for years, but a much higher ceiling and a body that barely ages.',
   'mod.maverick': 'Maverick',
-  'mod.maverick.how': 'Improves faster and falls faster, and every summer brings twice as many decisions.',
+  'mod.maverick.how':
+    'Improves faster and falls faster, and every summer brings twice as many decisions.',
   'mod.ironman': 'Iron man',
   'mod.ironman.how': 'Almost never injured and ages gently. Never spectacular either.',
   'mod.minnow': 'Nobody is watching',
-  'mod.minnow.how': 'The bottom of the pyramid and a lower rating, with a much higher ceiling to climb to.',
+  'mod.minnow.how':
+    'The bottom of the pyramid and a lower rating, with a much higher ceiling to climb to.',
   'mod.nomad': 'Nomad',
-  'mod.nomad.how': 'A career that never settles. More decisions every summer, and a gentler decline.',
+  'mod.nomad.how':
+    'A career that never settles. More decisions every summer, and a gentler decline.',
   'mod.unlockAt': 'Unlocks at {what}',
 
   // ---- today's career ----
   'daily.title': 'Today’s career',
-  'daily.blurb': 'The same player, the same clubs and the same decisions for everybody, until midnight.',
+  'daily.blurb':
+    'The same player, the same clubs and the same decisions for everybody, until midnight.',
   'daily.play': 'Play today’s career',
   'daily.continue': 'Carry on with today’s',
   'daily.finished': 'You have finished today’s career.',
   'daily.next': 'Next one in {time}',
   'daily.tag': 'Daily',
-  'daily.fixedBrief': 'Everybody gets the same player today: a {position} from {nation}, {foot} footed. Only the name is yours.',
+  'daily.fixedBrief':
+    'Everybody gets the same player today: a {position} from {nation}, {foot} footed. Only the name is yours.',
 
   // ---- the streak ----
   'streak.title': 'Streak',
@@ -1088,7 +1128,8 @@ const en = {
 
   // ---- the boards ----
   'board.title': 'Boards',
-  'board.off': 'The boards are not switched on for this build. Everything else works exactly as it did.',
+  'board.off':
+    'The boards are not switched on for this build. Everything else works exactly as it did.',
   'board.yourName': 'Your name on the board',
   'board.namePlaceholder': 'Nothing is posted until you enter one',
   'board.friendCode': 'Friend code',
@@ -1098,7 +1139,8 @@ const en = {
   'board.copy': 'Copy',
   'board.leave': 'Leave',
   'board.inGroup': 'Showing the board for {code}. Share the code and your runs land side by side.',
-  'board.openBoard': 'The open board. Anybody can post to it and nothing is checked, so do not take it too seriously.',
+  'board.openBoard':
+    'The open board. Anybody can post to it and nothing is checked, so do not take it too seriously.',
   'board.loading': 'Fetching.',
   'board.empty': 'Nothing posted here yet.',
   'board.unreachable': 'The board could not be reached. The game is unaffected.',
@@ -1194,7 +1236,6 @@ const en = {
   'train.hint':
     'The one you pick comes on faster. It does not make you better overall, it decides what kind of player you turn into.',
   'train.change': 'Change',
-
 
   // ---- the deal you are playing under ----
   'con.title': 'Your contract',
@@ -1564,7 +1605,6 @@ const de: Record<Key, string> = {
   'event.riskLater': 'erwischt, ab jetzt jedes Jahr',
   'event.continue': 'Damit leben',
 
-
   'ev.doping-offer.title': 'Ein leises Angebot',
   'ev.doping-offer.body':
     'Ein Mann, der nicht beim Verein angestellt ist, kennt ein Programm. Erwischt worden sei damit noch nie jemand.',
@@ -1628,12 +1668,15 @@ const de: Record<Key, string> = {
   'ev.coach-clash.body': 'Das ganze Jahr stellt er andere vor dir auf und streut gegen dich.',
   'ev.coach-clash.push-back': 'Es laut aussprechen',
   'ev.coach-clash.fall-in-line': 'Schlucken und arbeiten',
-  'ev.coach-clash.result.coach-sacked': 'Die Führung stellt sich hinter dich. Im November ist er weg.',
-  'ev.coach-clash.result.benched': 'Die Führung stellt sich hinter ihn. Unter ihm spielst du nie wieder.',
+  'ev.coach-clash.result.coach-sacked':
+    'Die Führung stellt sich hinter dich. Im November ist er weg.',
+  'ev.coach-clash.result.benched':
+    'Die Führung stellt sich hinter ihn. Unter ihm spielst du nie wieder.',
   'ev.coach-clash.result.fell-in-line': 'Du arbeitest weiter und verdienst dir still Respekt.',
 
   'ev.burnout.title': 'Zu viele Spiele',
-  'ev.burnout.body': 'Du hast fast jede Minute gespielt und der Tank ist leer. Diesen Sommer ist ein Turnier.',
+  'ev.burnout.body':
+    'Du hast fast jede Minute gespielt und der Tank ist leer. Diesen Sommer ist ein Turnier.',
   'ev.burnout.play-through': 'Durchziehen',
   'ev.burnout.take-a-break': 'Absagen und regenerieren',
   'ev.burnout.result.held-up': 'Dein Körper hält. Du kommst heil durch.',
@@ -1647,15 +1690,18 @@ const de: Record<Key, string> = {
   'ev.first-team-debut.go-up': 'Früh hochgehen',
   'ev.first-team-debut.stay-down': 'Noch ein Jahr unten',
   'ev.first-team-debut.result.thrown-in': 'Sie werfen dich rein, und du kommst mit dem Tempo klar.',
-  'ev.first-team-debut.result.carried-drinks': 'Du trägst ein Jahr lang Trinkflaschen und schaust zu.',
+  'ev.first-team-debut.result.carried-drinks':
+    'Du trägst ein Jahr lang Trinkflaschen und schaust zu.',
   'ev.first-team-debut.result.won-things': 'Du gewinnst unten alles, was es zu gewinnen gibt.',
 
   'ev.loan-move.title': 'Zwei Ligen tiefer',
-  'ev.loan-move.body': 'Ein kleinerer Verein lässt dich jede Woche spielen. Hier bist du ein Name auf einer Liste.',
+  'ev.loan-move.body':
+    'Ein kleinerer Verein lässt dich jede Woche spielen. Hier bist du ein Name auf einer Liste.',
   'ev.loan-move.drop-and-play': 'Runtergehen und spielen',
   'ev.loan-move.stay-and-fight': 'Bleiben und kämpfen',
   'ev.loan-move.result.every-week': 'Du spielst jede Woche und kommst als Fußballer zurück.',
-  'ev.loan-move.result.forgotten': 'Du gehst eine Stufe runter, und hier erinnert sich niemand mehr.',
+  'ev.loan-move.result.forgotten':
+    'Du gehst eine Stufe runter, und hier erinnert sich niemand mehr.',
   'ev.loan-move.result.won-a-place': 'Du trainierst wie ein Besessener und holst dir das Trikot.',
   'ev.loan-move.result.sat': 'Du siehst dir noch eine Saison von der Bank an.',
 
@@ -1674,7 +1720,8 @@ const de: Record<Key, string> = {
   'ev.boot-deal.stay-in-camp': 'Im Trainingslager bleiben',
   'ev.boot-deal.result.harmless': 'Zwei Tage, ein Scheck, und nichts verloren.',
   'ev.boot-deal.result.missed-the-work': 'Dir fehlt die Arbeit, die alle anderen gemacht haben.',
-  'ev.boot-deal.result.did-the-work': 'Du ziehst das Lager durch und startest scharf in die Saison.',
+  'ev.boot-deal.result.did-the-work':
+    'Du ziehst das Lager durch und startest scharf in die Saison.',
 
   'ev.nightlife.title': 'Das Video',
   'ev.nightlife.body': 'Ein Handy hat dich um vier Uhr morgens erwischt, und es macht die Runde.',
@@ -1683,22 +1730,28 @@ const de: Record<Key, string> = {
   'ev.nightlife.result.respected': 'Du stehst dazu, und die Kabine rechnet es dir an.',
   'ev.nightlife.result.made-it-worse': 'Du sagst zu viel, und es läuft zwei Wochen lang.',
   'ev.nightlife.result.blew-over': 'Niemand hakt nach. Die Sache verläuft im Sand.',
-  'ev.nightlife.result.more-came-out': 'Es tauchen weitere Aufnahmen auf, und jetzt geht es ums Lügen.',
+  'ev.nightlife.result.more-came-out':
+    'Es tauchen weitere Aufnahmen auf, und jetzt geht es ums Lügen.',
 
   'ev.wage-holdout.title': 'Der neue Vertrag',
-  'ev.wage-holdout.body': 'Du bist mehr wert, als auf dem Papier steht, und im ganzen Verein weiß man das.',
+  'ev.wage-holdout.body':
+    'Du bist mehr wert, als auf dem Papier steht, und im ganzen Verein weiß man das.',
   'ev.wage-holdout.hold-firm': 'Hart bleiben',
   'ev.wage-holdout.sign-it': 'Unterschreiben, was da ist',
-  'ev.wage-holdout.result.they-paid': 'Sie zahlen. Du bist ein Großverdiener und spielst wie einer.',
-  'ev.wage-holdout.result.benched-until-you-sign': 'Sie lassen dich draußen, bis du doch unterschreibst.',
+  'ev.wage-holdout.result.they-paid':
+    'Sie zahlen. Du bist ein Großverdiener und spielst wie einer.',
+  'ev.wage-holdout.result.benched-until-you-sign':
+    'Sie lassen dich draußen, bis du doch unterschreibst.',
   'ev.wage-holdout.result.signed': 'Du unterschreibst, und alle machen weiter.',
 
   'ev.agent-switch.title': 'Die größere Agentur',
-  'ev.agent-switch.body': 'Eine Agentur mit echter Reichweite will dich. Der Mann, der dich mit fünfzehn fand, nicht.',
+  'ev.agent-switch.body':
+    'Eine Agentur mit echter Reichweite will dich. Der Mann, der dich mit fünfzehn fand, nicht.',
   'ev.agent-switch.switch': 'Bei ihnen unterschreiben',
   'ev.agent-switch.stay-loyal': 'Bei deinem Mann bleiben',
   'ev.agent-switch.result.better-doors': 'Die Türen gehen weiter auf als je zuvor.',
-  'ev.agent-switch.result.burned-bridges': 'Es wird hässlich, und ein Jahr lang leidet der Fußball.',
+  'ev.agent-switch.result.burned-bridges':
+    'Es wird hässlich, und ein Jahr lang leidet der Fußball.',
   'ev.agent-switch.result.stayed': 'Du bleibst. Er weiß, was du brauchst.',
 
   'ev.documentary.title': 'Die Kameras',
@@ -1706,21 +1759,25 @@ const de: Record<Key, string> = {
   'ev.documentary.let-them-in': 'Sie reinlassen',
   'ev.documentary.keep-the-door-shut': 'Die Tür zulassen',
   'ev.documentary.result.came-off-well': 'Du kommst gut rüber, und das Land mag dich.',
-  'ev.documentary.result.caught-everything': 'Sie filmen auch die schlechten Tage, und genau die schauen alle.',
+  'ev.documentary.result.caught-everything':
+    'Sie filmen auch die schlechten Tage, und genau die schauen alle.',
   'ev.documentary.result.shut': 'Deine Saison bleibt deine Sache.',
 
   // ---- der Fußball selbst ----
   'ev.new-manager.title': 'Der Neue',
-  'ev.new-manager.body': 'Er bringt ein System mit, das hier keiner gespielt hat, und wenig Geduld beim Lernen.',
+  'ev.new-manager.body':
+    'Er bringt ein System mit, das hier keiner gespielt hat, und wenig Geduld beim Lernen.',
   'ev.new-manager.learn-the-system': 'Sein System lernen',
   'ev.new-manager.play-your-way': 'Dein Spiel spielen',
   'ev.new-manager.result.adapted': 'Es dauert Monate, und danach macht es dich besser.',
-  'ev.new-manager.result.never-fit': 'Du siehst darin nie richtig aus, und er stellt dich nicht mehr auf.',
+  'ev.new-manager.result.never-fit':
+    'Du siehst darin nie richtig aus, und er stellt dich nicht mehr auf.',
   'ev.new-manager.result.he-adapted': 'Du bist zu gut zum Draußenlassen. Er baut es um dich herum.',
   'ev.new-manager.result.dropped': 'Er kennt das schon. Du sitzt.',
 
   'ev.position-switch.title': 'Eine neue Position',
-  'ev.position-switch.body': 'Der Staff glaubt, woanders auf dem Platz wartet eine zweite Karriere auf dich.',
+  'ev.position-switch.body':
+    'Der Staff glaubt, woanders auf dem Platz wartet eine zweite Karriere auf dich.',
   'ev.position-switch.move': 'Die neue Rolle nehmen',
   'ev.position-switch.stay-where-you-are': 'Bleiben, wo du bist',
   'ev.position-switch.result.second-career': 'Es passt sofort. Du hättest längst wechseln sollen.',
@@ -1732,7 +1789,8 @@ const de: Record<Key, string> = {
   'ev.penalty-duty.take-them': 'Sie schießen',
   'ev.penalty-duty.let-someone-else': 'Jemand anderem überlassen',
   'ev.penalty-duty.result.never-missed': 'Du schießt sie das ganze Jahr und verschießt keinen.',
-  'ev.penalty-duty.result.missed-the-big-one': 'Du verschießt den einen, der zählte, und alle haben es gesehen.',
+  'ev.penalty-duty.result.missed-the-big-one':
+    'Du verschießt den einen, der zählte, und alle haben es gesehen.',
   'ev.penalty-duty.result.passed': 'Ein anderer übernimmt.',
 
   'ev.derby-red.title': 'Die Rote Karte',
@@ -1744,11 +1802,14 @@ const de: Record<Key, string> = {
   'ev.derby-red.result.served': 'Du sitzt die Spiele ab und sagst nichts.',
 
   'ev.dressing-room-split.title': 'Zwei Lager',
-  'ev.dressing-room-split.body': 'Die halbe Mannschaft ist mit dem Trainer fertig. Die andere Hälfte gehört ihm.',
+  'ev.dressing-room-split.body':
+    'Die halbe Mannschaft ist mit dem Trainer fertig. Die andere Hälfte gehört ihm.',
   'ev.dressing-room-split.pick-a-side': 'Eine Seite wählen',
   'ev.dressing-room-split.stay-out-of-it': 'Dich raushalten',
-  'ev.dressing-room-split.result.won-the-room': 'Deine Seite setzt sich durch, und du gehst als Führungsspieler daraus hervor.',
-  'ev.dressing-room-split.result.wrong-side': 'Du hast auf die Falschen gesetzt, und sie gehen alle ohne dich.',
+  'ev.dressing-room-split.result.won-the-room':
+    'Deine Seite setzt sich durch, und du gehst als Führungsspieler daraus hervor.',
+  'ev.dressing-room-split.result.wrong-side':
+    'Du hast auf die Falschen gesetzt, und sie gehen alle ohne dich.',
   'ev.dressing-room-split.result.stayed-out': 'Du trainierst, du spielst, und lässt sie streiten.',
 
   'ev.european-nights.title': 'Donnerstagabende',
@@ -1764,10 +1825,12 @@ const de: Record<Key, string> = {
   'ev.winter-surgery.body': 'Etwas Kleines, das nie ganz weggeht. Drei Wochen würden reichen.',
   'ev.winter-surgery.get-it-done': 'Ausräumen lassen',
   'ev.winter-surgery.manage-it': 'Durchs Jahr managen',
-  'ev.winter-surgery.result.clean': 'Drei Wochen, und du hattest vergessen, wie schmerzfrei sich anfühlt.',
+  'ev.winter-surgery.result.clean':
+    'Drei Wochen, und du hattest vergessen, wie schmerzfrei sich anfühlt.',
   'ev.winter-surgery.result.slow-back': 'Der Aufbau zieht sich, und die halbe Saison ist weg.',
   'ev.winter-surgery.result.held': 'Du managst es. Es wird nie besser und nie schlimmer.',
-  'ev.winter-surgery.result.got-worse': 'Es wird zu etwas, an das die Physios nicht mehr rankommen.',
+  'ev.winter-surgery.result.got-worse':
+    'Es wird zu etwas, an das die Physios nicht mehr rankommen.',
 
   'ev.injections.title': 'Die Spritzen',
   'ev.injections.body': 'Der Arzt bringt dich durch jede Woche. Er sagt ehrlich, was danach kommt.',
@@ -1778,7 +1841,8 @@ const de: Record<Key, string> = {
   'ev.injections.result.sat': 'Du sitzt monatelang und verlierst deinen Platz.',
 
   'ev.preseason-weight.title': 'Das Wiegen',
-  'ev.preseason-weight.body': 'Du kommst schwerer zurück, als du gegangen bist, und die Zahl hängt am Brett.',
+  'ev.preseason-weight.body':
+    'Du kommst schwerer zurück, als du gegangen bist, und die Zahl hängt am Brett.',
   'ev.preseason-weight.crash-it-off': 'Schnell runter damit',
   'ev.preseason-weight.work-into-it': 'Langsam reinarbeiten',
   'ev.preseason-weight.result.flying': 'In zwei Wochen ist es runter, und im August fliegst du.',
@@ -1786,16 +1850,19 @@ const de: Record<Key, string> = {
   'ev.preseason-weight.result.slow-start': 'Es dauert bis Oktober, und Oktober ist spät.',
 
   'ev.sports-science.title': 'Die neue Abteilung',
-  'ev.sports-science.body': 'Der Verein hat Leute geholt, die ändern wollen, wie du schläfst, isst und dich aufwärmst.',
+  'ev.sports-science.body':
+    'Der Verein hat Leute geholt, die ändern wollen, wie du schläfst, isst und dich aufwärmst.',
   'ev.sports-science.rebuild-everything': 'Die Woche umbauen',
   'ev.sports-science.keep-your-routine': 'Bei deiner Routine bleiben',
   'ev.sports-science.result.marginal-gains': 'Lauter kleine Dinge, und zusammen ergeben sie etwas.',
-  'ev.sports-science.result.lost-your-rhythm': 'Du kämpfst ein Jahr lang gegen deine eigene Routine.',
+  'ev.sports-science.result.lost-your-rhythm':
+    'Du kämpfst ein Jahr lang gegen deine eigene Routine.',
   'ev.sports-science.result.kept-it': 'Du machst das, was bei dir immer funktioniert hat.',
 
   // ---- was du genau spielst ----
   'ev.keeper-coach.title': 'Der Torwarttrainer',
-  'ev.keeper-coach.body': 'Er will dein Fangen von Grund auf neu bauen. Erst wird es schlechter aussehen.',
+  'ev.keeper-coach.body':
+    'Er will dein Fangen von Grund auf neu bauen. Erst wird es schlechter aussehen.',
   'ev.keeper-coach.rebuild-your-handling': 'Neu aufbauen',
   'ev.keeper-coach.trust-what-works': 'Dem vertrauen, was geht',
   'ev.keeper-coach.result.unbeatable': 'Ab Weihnachten fängst du, was du früher abgeklatscht hast.',
@@ -1803,22 +1870,30 @@ const de: Record<Key, string> = {
   'ev.keeper-coach.result.kept-it': 'Du behältst die Hände, die dich so weit gebracht haben.',
 
   'ev.striker-drought.title': 'Die Flaute',
-  'ev.striker-drought.body': 'Eine Saison voller Chancen und fast nichts dabei. Der Abschluss sitzt jetzt im Kopf.',
+  'ev.striker-drought.body':
+    'Eine Saison voller Chancen und fast nichts dabei. Der Abschluss sitzt jetzt im Kopf.',
   'ev.striker-drought.see-someone': 'Mit jemandem reden',
   'ev.striker-drought.work-it-out-alone': 'Allein durch',
-  'ev.striker-drought.result.goals-came-back': 'Ein paar Sitzungen, und das Tor wird wieder größer.',
+  'ev.striker-drought.result.goals-came-back':
+    'Ein paar Sitzungen, und das Tor wird wieder größer.',
   'ev.striker-drought.result.nothing-changed': 'Ihr redet es durch, und viel ändert sich nicht.',
-  'ev.striker-drought.result.came-good': 'Du bleibst jeden Abend länger, bis der erste wieder drin ist.',
+  'ev.striker-drought.result.came-good':
+    'Du bleibst jeden Abend länger, bis der erste wieder drin ist.',
   'ev.striker-drought.result.another-year-of-it': 'Noch ein Jahr Außennetz.',
 
   'ev.defender-cards.title': 'Die Schiedsrichter',
-  'ev.defender-cards.body': 'Die ganze Saison ein Foul vor der Sperre, und jetzt kennen sie deinen Namen.',
+  'ev.defender-cards.body':
+    'Die ganze Saison ein Foul vor der Sperre, und jetzt kennen sie deinen Namen.',
   'ev.defender-cards.change-your-game': 'Dein Spiel umstellen',
   'ev.defender-cards.keep-going': 'Ihnen nichts schenken',
-  'ev.defender-cards.result.cleaner-and-better': 'Du verteidigst mit den Füßen statt mit den Armen, und es macht dich besser.',
-  'ev.defender-cards.result.lost-your-edge': 'Du ziehst aus Zweikämpfen zurück, die du früher gewonnen hast.',
-  'ev.defender-cards.result.they-fear-you': 'Stürmer haben keine Lust auf dich, und das ist etwas wert.',
-  'ev.defender-cards.result.suspended-again': 'Du verbringst ein Drittel der Saison auf der Tribüne.',
+  'ev.defender-cards.result.cleaner-and-better':
+    'Du verteidigst mit den Füßen statt mit den Armen, und es macht dich besser.',
+  'ev.defender-cards.result.lost-your-edge':
+    'Du ziehst aus Zweikämpfen zurück, die du früher gewonnen hast.',
+  'ev.defender-cards.result.they-fear-you':
+    'Stürmer haben keine Lust auf dich, und das ist etwas wert.',
+  'ev.defender-cards.result.suspended-again':
+    'Du verbringst ein Drittel der Saison auf der Tribüne.',
 
   // ---- das Trikot mit dem Wappen ----
   'ev.nation-switch.title': 'Der andere Pass',
@@ -1826,57 +1901,73 @@ const de: Record<Key, string> = {
   'ev.nation-switch.switch': 'Den Anruf annehmen',
   'ev.nation-switch.hold-out': 'Auf das eigene Land warten',
   'ev.nation-switch.result.capped-at-last': 'Du singst eine andere Hymne und bist Nationalspieler.',
-  'ev.nation-switch.result.never-belonged': 'Du fühlst dich nie als einer von ihnen, und die Kurve sieht es genauso.',
+  'ev.nation-switch.result.never-belonged':
+    'Du fühlst dich nie als einer von ihnen, und die Kurve sieht es genauso.',
   'ev.nation-switch.result.held-out': 'Du wartest weiter auf den Anruf.',
 
   'ev.country-armband.title': 'Dein Land',
   'ev.country-armband.body': 'Der Bundestrainer will, dass du die Nationalmannschaft führst.',
   'ev.country-armband.lead-them': 'Sie führen',
   'ev.country-armband.just-play': 'Einfach spielen',
-  'ev.country-armband.result.carried-it': 'Du trägst es gut, und ein ganzes Land lernt deinen Namen.',
+  'ev.country-armband.result.carried-it':
+    'Du trägst es gut, und ein ganzes Land lernt deinen Namen.',
   'ev.country-armband.result.too-much': 'Das Gewicht kommt mit zurück in den Verein.',
   'ev.country-armband.result.just-played': 'Du fährst hin, spielst und kommst wieder.',
 
   'ev.international-retirement.title': 'Zwei Trikots, ein Körper',
-  'ev.international-retirement.body': 'Der Verein will deine Einsätze steuern. Das Land will dich weiter zu jedem Termin.',
+  'ev.international-retirement.body':
+    'Der Verein will deine Einsätze steuern. Das Land will dich weiter zu jedem Termin.',
   'ev.international-retirement.step-back': 'Aus der Nationalmannschaft zurücktreten',
   'ev.international-retirement.keep-both': 'Beide Trikots tragen',
-  'ev.international-retirement.result.fresher-legs': 'Die zusätzliche Ruhe zeigt sich in deinen Beinen, wenn es zählt.',
-  'ev.international-retirement.result.still-has-it': 'Du gibst beiden Trikots alles, und es hält irgendwie.',
-  'ev.international-retirement.result.ran-you-down': 'Zu viele Flüge, zu wenig Erholung. Es holt dich ein.',
+  'ev.international-retirement.result.fresher-legs':
+    'Die zusätzliche Ruhe zeigt sich in deinen Beinen, wenn es zählt.',
+  'ev.international-retirement.result.still-has-it':
+    'Du gibst beiden Trikots alles, und es hält irgendwie.',
+  'ev.international-retirement.result.ran-you-down':
+    'Zu viele Flüge, zu wenig Erholung. Es holt dich ein.',
 
   // ---- was man von dir will ----
   'ev.rival-approach.title': 'Jemand will dich',
-  'ev.rival-approach.body': 'Ein größerer Verein taucht ständig in Interviews auf. Auch deine eigene Kabine wird danach gefragt.',
+  'ev.rival-approach.body':
+    'Ein größerer Verein taucht ständig in Interviews auf. Auch deine eigene Kabine wird danach gefragt.',
   'ev.rival-approach.let-it-run': 'Laufen lassen',
   'ev.rival-approach.shut-it-down': 'Im Keim ersticken',
-  'ev.rival-approach.result.played-lighter': 'Du spielst wie jemand mit einem Ort, an dem er noch sein könnte, und es funktioniert.',
+  'ev.rival-approach.result.played-lighter':
+    'Du spielst wie jemand mit einem Ort, an dem er noch sein könnte, und es funktioniert.',
   'ev.rival-approach.result.weighed-you-down': 'Der Lärm folgt dir aufs Feld, und man sieht es.',
-  'ev.rival-approach.result.stayed-professional': 'Nichts zu sehen, sagst du, und meinst es. Der Trainer merkt es sich.',
+  'ev.rival-approach.result.stayed-professional':
+    'Nichts zu sehen, sagst du, und meinst es. Der Trainer merkt es sich.',
 
   'ev.testimonial.title': 'Ein Abend, keine Wissenschaft dahinter',
-  'ev.testimonial.body': 'Der Verein will dir einen unvergesslichen Abend schenken, bevor das hier vorbei ist.',
+  'ev.testimonial.body':
+    'Der Verein will dir einen unvergesslichen Abend schenken, bevor das hier vorbei ist.',
   'ev.testimonial.give-them-a-show': 'Ihnen eine Show geben',
   'ev.testimonial.take-it-easy': 'Es ruhig angehen',
-  'ev.testimonial.result.the-old-magic': 'Dreißigtausend Leute bekommen genau das, wofür sie gekommen sind.',
-  'ev.testimonial.result.costly-knock': 'Du gehst zu hart in ein Spiel, das das nicht gebraucht hätte, und etwas reißt.',
+  'ev.testimonial.result.the-old-magic':
+    'Dreißigtausend Leute bekommen genau das, wofür sie gekommen sind.',
+  'ev.testimonial.result.costly-knock':
+    'Du gehst zu hart in ein Spiel, das das nicht gebraucht hätte, und etwas reißt.',
   'ev.testimonial.result.gentle-lap': 'Du winkst, du joggst, du lässt den Abend der Kurve gehören.',
 
   // ---- das Ende davon ----
   'ev.youth-mentor.title': 'Der Junge',
-  'ev.youth-mentor.body': 'Auf deiner Position steht ein Teenager, der sehr gut werden kann, und er schaut dir zu.',
+  'ev.youth-mentor.body':
+    'Auf deiner Position steht ein Teenager, der sehr gut werden kann, und er schaut dir zu.',
   'ev.youth-mentor.bring-him-on': 'Ihn aufbauen',
   'ev.youth-mentor.keep-him-out': 'Ihm nichts geben',
-  'ev.youth-mentor.result.they-remember-it': 'Du bringst ihm alles bei, und der Verein merkt sich, wer das war.',
+  'ev.youth-mentor.result.they-remember-it':
+    'Du bringst ihm alles bei, und der Verein merkt sich, wer das war.',
   'ev.youth-mentor.result.he-took-your-place': 'Er lernt schnell. Er lernt dein Trikot.',
   'ev.youth-mentor.result.held-on': 'Du hältst ihn auf Abstand und behältst deinen Platz.',
   'ev.youth-mentor.result.looked-small': 'Die Kabine sieht genau, was das ist.',
 
   'ev.coaching-badges.title': 'Die Lizenz',
-  'ev.coaching-badges.body': 'Du könntest jetzt mit der Trainerlizenz anfangen, abends, während du noch spielst.',
+  'ev.coaching-badges.body':
+    'Du könntest jetzt mit der Trainerlizenz anfangen, abends, während du noch spielst.',
   'ev.coaching-badges.start-them': 'Jetzt anfangen',
   'ev.coaching-badges.not-yet': 'Noch nicht',
-  'ev.coaching-badges.result.read-the-game': 'Du siehst das Spiel allmählich so, wie der Staff es sieht.',
+  'ev.coaching-badges.result.read-the-game':
+    'Du siehst das Spiel allmählich so, wie der Staff es sieht.',
   'ev.coaching-badges.result.head-elsewhere': 'Dein Kopf sitzt samstagnachmittags im Seminarraum.',
   'ev.coaching-badges.result.later': 'Dafür ist danach Zeit.',
 
@@ -2047,7 +2138,8 @@ const de: Record<Key, string> = {
   'grid.mode.friend': 'Jemand neben dir',
   'grid.mode.online': 'Ein Freund online',
   'grid.modeHint.solo': 'Neun Namen, und je seltener der Mann, desto mehr zählt er.',
-  'grid.modeHint.cpu': 'Er kennt das Lexikon. Wie viel ihm davon einfällt und wie hart er spielt, bestimmst du.',
+  'grid.modeHint.cpu':
+    'Er kennt das Lexikon. Wie viel ihm davon einfällt und wie hart er spielt, bestimmst du.',
   'grid.modeHint.friend': 'Ein Bildschirm, ihr zwei, abwechselnd.',
   'grid.modeHint.online': 'Raum öffnen und den Link schicken.',
   'grid.them': 'Er',
@@ -2213,7 +2305,8 @@ const de: Record<Key, string> = {
   'hof.award.marathon-career': 'Zwanzig Saisons',
   'hof.award.marathon-career.how': 'Spiele zwanzig Saisons in einer Karriere.',
   'hof.award.clean-legend': 'Sauber und gut',
-  'hof.award.clean-legend.how': 'Beende eine Karriere ab Gold, ohne je das Programm angerührt zu haben.',
+  'hof.award.clean-legend.how':
+    'Beende eine Karriere ab Gold, ohne je das Programm angerührt zu haben.',
   'hof.award.iron-man': 'Tausend Einsätze',
   'hof.award.iron-man.how': 'Erreiche tausend Einsätze, über alle Karrieren.',
 
@@ -2242,7 +2335,8 @@ const de: Record<Key, string> = {
   'book.countries_one': 'Ein Land',
   'grid.wrongSolo': '{name} passt nicht. Ein Name weg.',
   'quiz.bookLoading': 'Der Rest des Lexikons wird geholt.',
-  'quiz.bookOffline': 'Nur der handgeschriebene Teil ist geladen. Dein Raster passt heute darum nicht zu dem der anderen.',
+  'quiz.bookOffline':
+    'Nur der handgeschriebene Teil ist geladen. Dein Raster passt heute darum nicht zu dem der anderen.',
   'net.otherBook': 'Der andere hat ein älteres Lexikon. Ein paar Antworten passen nicht zusammen.',
   'book.built': 'Zuletzt am {date} von Wikidata geholt.',
   'book.builtNever': 'Nur der handgeschriebene Teil ist da.',
@@ -2316,27 +2410,34 @@ const de: Record<Key, string> = {
   'mod.standard': 'Der normale Weg',
   'mod.standard.how': 'Ein Eigengewächs bei einem kleinen Verein. Nichts dazu, nichts weg.',
   'mod.wonderkid': 'Wunderkind',
-  'mod.wonderkid.how': 'Mit sechzehn allen voraus und wächst schneller. Wenn es abwärts geht, dann doppelt so steil.',
+  'mod.wonderkid.how':
+    'Mit sechzehn allen voraus und wächst schneller. Wenn es abwärts geht, dann doppelt so steil.',
   'mod.latebloomer': 'Spätzünder',
-  'mod.latebloomer.how': 'Jahrelang hinterher, dafür ein viel höheres Limit und ein Körper, der kaum altert.',
+  'mod.latebloomer.how':
+    'Jahrelang hinterher, dafür ein viel höheres Limit und ein Körper, der kaum altert.',
   'mod.maverick': 'Freigeist',
-  'mod.maverick.how': 'Wächst schneller und fällt schneller, und jeder Sommer bringt doppelt so viele Entscheidungen.',
+  'mod.maverick.how':
+    'Wächst schneller und fällt schneller, und jeder Sommer bringt doppelt so viele Entscheidungen.',
   'mod.ironman': 'Stehaufmännchen',
   'mod.ironman.how': 'Fast nie verletzt und altert sanft. Dafür auch nie überragend.',
   'mod.minnow': 'Keiner schaut hin',
-  'mod.minnow.how': 'Ganz unten in der Pyramide und schlechter bewertet, dafür mit viel mehr Luft nach oben.',
+  'mod.minnow.how':
+    'Ganz unten in der Pyramide und schlechter bewertet, dafür mit viel mehr Luft nach oben.',
   'mod.nomad': 'Wandervogel',
-  'mod.nomad.how': 'Eine Karriere, die nie zur Ruhe kommt. Mehr Entscheidungen jeden Sommer, dafür ein sanfterer Abstieg.',
+  'mod.nomad.how':
+    'Eine Karriere, die nie zur Ruhe kommt. Mehr Entscheidungen jeden Sommer, dafür ein sanfterer Abstieg.',
   'mod.unlockAt': 'Frei ab {what}',
 
   'daily.title': 'Karriere des Tages',
-  'daily.blurb': 'Derselbe Spieler, dieselben Vereine und dieselben Entscheidungen für alle, bis Mitternacht.',
+  'daily.blurb':
+    'Derselbe Spieler, dieselben Vereine und dieselben Entscheidungen für alle, bis Mitternacht.',
   'daily.play': 'Karriere des Tages spielen',
   'daily.continue': 'Bei der heutigen weitermachen',
   'daily.finished': 'Du hast die heutige Karriere beendet.',
   'daily.next': 'Nächste in {time}',
   'daily.tag': 'Täglich',
-  'daily.fixedBrief': 'Heute bekommen alle denselben Spieler: {position} aus {nation}, {foot}fuß. Nur der Name gehört dir.',
+  'daily.fixedBrief':
+    'Heute bekommen alle denselben Spieler: {position} aus {nation}, {foot}fuß. Nur der Name gehört dir.',
 
   'streak.title': 'Serie',
   'streak.days': '{n} Tage am Stück',
@@ -2345,7 +2446,8 @@ const de: Record<Key, string> = {
   'streak.none': 'Spiel heute irgendetwas, dann fängt sie an.',
 
   'board.title': 'Ranglisten',
-  'board.off': 'Die Ranglisten sind in dieser Version nicht eingeschaltet. Alles andere läuft genau wie vorher.',
+  'board.off':
+    'Die Ranglisten sind in dieser Version nicht eingeschaltet. Alles andere läuft genau wie vorher.',
   'board.yourName': 'Dein Name auf der Liste',
   'board.namePlaceholder': 'Ohne Namen wird nichts eingetragen',
   'board.friendCode': 'Freundescode',
@@ -2354,8 +2456,10 @@ const de: Record<Key, string> = {
   'board.create': 'Neu erstellen',
   'board.copy': 'Kopieren',
   'board.leave': 'Verlassen',
-  'board.inGroup': 'Das ist die Liste zu {code}. Gib den Code weiter, dann stehen eure Läufe nebeneinander.',
-  'board.openBoard': 'Die offene Liste. Jeder kann eintragen und nichts wird geprüft, also nimm sie nicht zu ernst.',
+  'board.inGroup':
+    'Das ist die Liste zu {code}. Gib den Code weiter, dann stehen eure Läufe nebeneinander.',
+  'board.openBoard':
+    'Die offene Liste. Jeder kann eintragen und nichts wird geprüft, also nimm sie nicht zu ernst.',
   'board.loading': 'Wird geholt.',
   'board.empty': 'Hier steht noch nichts.',
   'board.unreachable': 'Die Liste war nicht erreichbar. Am Spiel ändert das nichts.',
@@ -2380,7 +2484,8 @@ const de: Record<Key, string> = {
   'detail.title': 'Wie viel Detail',
   'detail.simple': 'Einfach',
   'detail.detailed': 'Detailliert',
-  'detail.simple.how': 'Eine Bewertung, ein Klick pro Saison. Die Karriere, und nichts zu verwalten.',
+  'detail.simple.how':
+    'Eine Bewertung, ein Klick pro Saison. Die Karriere, und nichts zu verwalten.',
   'detail.detailed.how':
     'Alles von oben, plus das, was unter der Bewertung liegt. Attribute, ein Vertrag, ein Trainer mit einer Meinung, und ein Körper, der sich erinnert.',
   'detail.oneWay': 'Eine einfache Karriere kannst du später auf detailliert stellen. Zurück nicht.',
@@ -2447,7 +2552,6 @@ const de: Record<Key, string> = {
   'train.hint':
     'Woran du arbeitest, kommt schneller. Besser machst du dich damit nicht, du entscheidest nur, was für ein Spieler du wirst.',
   'train.change': 'Ändern',
-
 
   'con.title': 'Dein Vertrag',
   'con.wage': 'Gehalt',

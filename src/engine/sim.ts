@@ -255,7 +255,11 @@ export function simulateSeason(ctx: SeasonContext): SeasonRecord {
       3.2,
     )
     conceded = rng.poisson(concededPer90 * nineties)
-    const savesPer90 = clamp(4.4 - (club.strength - league.strength) * 0.085 + (ovr - league.strength) * 0.02, 1.5, 6.5)
+    const savesPer90 = clamp(
+      4.4 - (club.strength - league.strength) * 0.085 + (ovr - league.strength) * 0.02,
+      1.5,
+      6.5,
+    )
     saves = rng.poisson(savesPer90 * nineties)
   }
 
@@ -294,7 +298,8 @@ export function simulateSeason(ctx: SeasonContext): SeasonRecord {
   }
   if (!finalIn && continental && played && league.continental) {
     const odds = clamp((club.strength - 76) / 32, 0.008, 0.45)
-    if (rng.chance(odds)) finalIn = { trophy: 'continental', opponent: rivalIn(league.id, club, rng) }
+    if (rng.chance(odds))
+      finalIn = { trophy: 'continental', opponent: rivalIn(league.id, club, rng) }
   }
 
   return {
@@ -341,7 +346,12 @@ export function simulateSeason(ctx: SeasonContext): SeasonRecord {
 export const isWorldCupYear = (season: number) => season % 4 === 2
 export const isContinentalYear = (season: number) => season % 4 === 0
 
-export function simulateInternational(player: Player, record: SeasonRecord, season: number, rng: Rng) {
+export function simulateInternational(
+  player: Player,
+  record: SeasonRecord,
+  season: number,
+  rng: Rng,
+) {
   const nation = NATION_BY_NAME[player.nation]
   if (!nation || player.age < 17) return
 
@@ -350,7 +360,8 @@ export function simulateInternational(player: Player, record: SeasonRecord, seas
   if (player.ovr < threshold || record.apps < 8) return
 
   const edge = player.ovr - nation.strength
-  const share = edge >= 2 ? rng.range(0.85, 1) : edge >= -3 ? rng.range(0.55, 0.85) : rng.range(0.2, 0.5)
+  const share =
+    edge >= 2 ? rng.range(0.85, 1) : edge >= -3 ? rng.range(0.55, 0.85) : rng.range(0.2, 0.5)
   const tournament = isWorldCupYear(season) || isContinentalYear(season)
   const games = tournament ? rng.int(9, 14) : rng.int(6, 9)
   const apps = Math.round(games * share)
@@ -426,7 +437,11 @@ export function awardIndividual(player: Player, record: SeasonRecord, season: nu
 
   // Ballon d'Or: an elite season at an elite club in an elite league.
   const bigTrophies = record.trophies.filter(
-    (t) => t.id === 'league' || t.id === 'continental' || t.id === 'worldcup' || t.id === 'continentalnation',
+    (t) =>
+      t.id === 'league' ||
+      t.id === 'continental' ||
+      t.id === 'worldcup' ||
+      t.id === 'continentalnation',
   ).length
   const score =
     record.goals +
@@ -477,7 +492,12 @@ export interface Progression {
  * Moves hidden potential first (this season's football changed what the player
  * could become), then moves the rating towards it.
  */
-export function progress(player: Player, record: SeasonRecord, seasonsPlayed: number, rng: Rng): Progression {
+export function progress(
+  player: Player,
+  record: SeasonRecord,
+  seasonsPlayed: number,
+  rng: Rng,
+): Progression {
   const league = LEAGUE_BY_ID[record.leagueId]
   const before = { ovr: player.ovr, pot: player.hiddenPotential }
   const minuteShare = clamp(record.apps > 0 ? record.minutes / (90 * 38) : 0, 0, 1.2)
@@ -550,7 +570,21 @@ export function marketValue(player: Player, club: Club): number {
 
   const age = player.age
   const ageMul =
-    age <= 21 ? 1.35 : age <= 25 ? 1.2 : age <= 28 ? 1 : age <= 31 ? 0.7 : age <= 33 ? 0.42 : age <= 35 ? 0.22 : age <= 37 ? 0.1 : 0.04
+    age <= 21
+      ? 1.35
+      : age <= 25
+        ? 1.2
+        : age <= 28
+          ? 1
+          : age <= 31
+            ? 0.7
+            : age <= 33
+              ? 0.42
+              : age <= 35
+                ? 0.22
+                : age <= 37
+                  ? 0.1
+                  : 0.04
   value *= ageMul
 
   if (age <= 23) value *= 1 + (player.hiddenPotential - player.ovr) * 0.03

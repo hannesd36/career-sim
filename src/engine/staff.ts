@@ -70,7 +70,16 @@ export function newRoom(
     mates.push({
       name: personName(nation, conf, rng),
       position: rng.pick([
-        'GK', 'CB', 'LB', 'RB', 'CDM', 'CM', 'CAM', 'LW', 'RW', 'ST',
+        'GK',
+        'CB',
+        'LB',
+        'RB',
+        'CDM',
+        'CM',
+        'CAM',
+        'LW',
+        'RW',
+        'ST',
       ] as Position[]),
       ovr: clamp(Math.round(rng.gauss(squadOvr, 5)), 45, 94),
       bond: clamp(Math.round(rng.gauss(52, 16)), 10, 90),
@@ -125,11 +134,7 @@ export function updateOpinion(
 }
 
 /** The squad's view moves more slowly, and cares about different things. */
-export function updateStanding(
-  room: Room,
-  record: SeasonRecord,
-  rng: Rng,
-): number {
+export function updateStanding(room: Room, record: SeasonRecord, rng: Rng): number {
   const played = clamp(record.apps / 30, 0, 1)
   const move = (played - 0.45) * 8 + (record.rating > 700 ? 3 : 0) + rng.gauss(0, 2.5)
   return clamp(Math.round(room.standing + move), 0, 100)
@@ -149,8 +154,7 @@ export function managerSurvives(
   rng: Rng,
 ): boolean {
   const years = season - manager.since
-  const pressure =
-    (leaguePosition - 8) * 0.022 + (years > 4 ? 0.08 : 0) - manager.standing * 0.0035
+  const pressure = (leaguePosition - 8) * 0.022 + (years > 4 ? 0.08 : 0) - manager.standing * 0.0035
   return !rng.chance(clamp(pressure, 0.03, 0.6))
 }
 
@@ -160,13 +164,7 @@ export function managerSurvives(
  * floor and the ceiling around it.
  */
 export function roleFromOpinion(baseRole: SquadRole, opinion: number): SquadRole {
-  const order: SquadRole[] = [
-    'Benchwarmer',
-    'Squad player',
-    'Rotation',
-    'Starter',
-    'Key player',
-  ]
+  const order: SquadRole[] = ['Benchwarmer', 'Squad player', 'Rotation', 'Starter', 'Key player']
   const at = order.indexOf(baseRole)
   if (at < 0) return baseRole
   const shift = opinion >= 78 ? 1 : opinion >= 62 ? 0 : opinion >= 40 ? 0 : opinion >= 25 ? -1 : -2

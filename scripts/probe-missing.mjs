@@ -43,13 +43,27 @@ const CANDIDATES = {
 // TheSportsDB spells this one "Czechia", not "Czech Republic" — getting it
 // wrong silently rejects every otherwise-correct match.
 const COUNTRY = {
-  eng1: 'England', ger1: 'Germany', fra1: 'France', por1: 'Portugal', bel1: 'Belgium',
-  aut1: 'Austria', cze1: 'Czechia', pol1: 'Poland', ger2: 'Germany', fra2: 'France',
-  ger3: 'Germany', ksa1: 'Saudi Arabia', arg1: 'Argentina',
+  eng1: 'England',
+  ger1: 'Germany',
+  fra1: 'France',
+  por1: 'Portugal',
+  bel1: 'Belgium',
+  aut1: 'Austria',
+  cze1: 'Czechia',
+  pol1: 'Poland',
+  ger2: 'Germany',
+  fra2: 'France',
+  ger3: 'Germany',
+  ksa1: 'Saudi Arabia',
+  arg1: 'Argentina',
 }
 
 const norm = (s) =>
-  s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '')
+  s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]/g, '')
 
 /**
  * The country filter alone is not enough: searching "Paris SG" returns Torcy,
@@ -68,7 +82,10 @@ async function search(name) {
   for (let attempt = 0; attempt < 4; attempt++) {
     try {
       const res = await fetch(url, { headers: { 'User-Agent': 'career-sim/0.1' } })
-      if (res.status === 429) { await sleep(25000 * (attempt + 1)); continue }
+      if (res.status === 429) {
+        await sleep(25000 * (attempt + 1))
+        continue
+      }
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       return (await res.json()).teams || []
     } catch {

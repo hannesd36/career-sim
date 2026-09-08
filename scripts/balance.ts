@@ -152,9 +152,7 @@ function summarise(position: Position, runs: number, nerve: Nerve = 'safe') {
       ).length,
     )
     ballons.push(c.trophies.filter((tr) => tr.id === 'ballondor').length)
-    topLeagueSeasons.push(
-      c.history.filter((s) => LEAGUE_BY_ID[s.leagueId].strength >= 74).length,
-    )
+    topLeagueSeasons.push(c.history.filter((s) => LEAGUE_BY_ID[s.leagueId].strength >= 74).length)
     if (c.history.some((h) => h.banned)) banned++
     if (t.peakOvr > bestValue) {
       bestValue = t.peakOvr
@@ -175,12 +173,12 @@ function summarise(position: Position, runs: number, nerve: Nerve = 'safe') {
     `seasons ${mean(seasons)}   apps ${mean(apps)}   goals ${mean(goals)}   caps ${mean(caps)}`,
   )
   console.log(
-    `major trophies ${mean(majors)}   ballon d'or in ${(ballons.filter(Boolean).length / runs * 100).toFixed(1)}% of careers`,
+    `major trophies ${mean(majors)}   ballon d'or in ${((ballons.filter(Boolean).length / runs) * 100).toFixed(1)}% of careers`,
   )
   console.log(`seasons in a top division ${mean(topLeagueSeasons)}`)
   console.log(`best run: ${bestLine}`)
   if (nerve === 'reckless') {
-    console.log(`banned at some point: ${(banned / runs * 100).toFixed(1)}% of careers`)
+    console.log(`banned at some point: ${((banned / runs) * 100).toFixed(1)}% of careers`)
   }
 }
 

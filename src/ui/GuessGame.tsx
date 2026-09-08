@@ -160,8 +160,7 @@ export function GuessGame({ onExit, invited }: Props) {
     setShared(false)
     setAwards([])
     setRival(online ? { guesses: 0 } : null)
-    if (tell && online && lobby.isHost)
-      lobby.send({ t: 'setup', seed: nextSeed, pond, difficulty })
+    if (tell && online && lobby.isHost) lobby.send({ t: 'setup', seed: nextSeed, pond, difficulty })
   }
 
   /**
@@ -231,7 +230,9 @@ export function GuessGame({ onExit, invited }: Props) {
               else if (m === 'random') restart(randomSeed(), false)
             }}
           >
-            {m === 'daily' ? t('quiz.daily', { n: dayNumber() }) : t(`guess.mode.${m}` as StringKey)}
+            {m === 'daily'
+              ? t('quiz.daily', { n: dayNumber() })
+              : t(`guess.mode.${m}` as StringKey)}
           </button>
         ))}
       </div>
@@ -300,7 +301,8 @@ export function GuessGame({ onExit, invited }: Props) {
           </span>
         ) : (
           <span className="tally-turns">
-            {t('guess.streak')} <b>{num(streak.run)}</b> · {t('guess.best')} <b>{num(streak.best)}</b>
+            {t('guess.streak')} <b>{num(streak.run)}</b> · {t('guess.best')}{' '}
+            <b>{num(streak.best)}</b>
           </span>
         )}
       </div>

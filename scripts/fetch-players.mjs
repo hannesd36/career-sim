@@ -47,13 +47,35 @@ const OLDEST = 1930
  * a centre back, a "winger" is a right winger, a "forward" is a striker.
  */
 const POSITION = {
-  Q201330: 'GK', Q179789: 'GK', Q172964: 'GK', Q1317534: 'GK',
-  Q336286: 'CB', Q268258: 'CB', Q3664517: 'CB', Q1489923: 'CB', Q1109563: 'CB', Q285676: 'CB',
-  Q90173132: 'RB', Q107213256: 'RB', Q124650007: 'LB',
-  Q193592: 'CM', Q8025128: 'CM', Q6008848: 'CM', Q16501245: 'CM',
-  Q18691898: 'CDM', Q90326494: 'CAM',
-  Q114358125: 'LW', Q114358158: 'LW', Q11681748: 'RW', Q642259: 'RW', Q114358150: 'RW',
-  Q280658: 'ST', Q9731197: 'ST', Q6037916: 'ST', Q3446915: 'ST', Q1642283: 'ST',
+  Q201330: 'GK',
+  Q179789: 'GK',
+  Q172964: 'GK',
+  Q1317534: 'GK',
+  Q336286: 'CB',
+  Q268258: 'CB',
+  Q3664517: 'CB',
+  Q1489923: 'CB',
+  Q1109563: 'CB',
+  Q285676: 'CB',
+  Q90173132: 'RB',
+  Q107213256: 'RB',
+  Q124650007: 'LB',
+  Q193592: 'CM',
+  Q8025128: 'CM',
+  Q6008848: 'CM',
+  Q16501245: 'CM',
+  Q18691898: 'CDM',
+  Q90326494: 'CAM',
+  Q114358125: 'LW',
+  Q114358158: 'LW',
+  Q11681748: 'RW',
+  Q642259: 'RW',
+  Q114358150: 'RW',
+  Q280658: 'ST',
+  Q9731197: 'ST',
+  Q6037916: 'ST',
+  Q3446915: 'ST',
+  Q1642283: 'ST',
 }
 
 const POS_ORDER = ['GK', 'CB', 'LB', 'RB', 'CDM', 'CM', 'CAM', 'LW', 'RW', 'ST']
@@ -165,10 +187,9 @@ console.log(`${fame.size} people found, keeping ${ranked.length}`)
 // senior clubs a man actually had needs the national teams taken back out.
 const nationalTeams = new Set()
 {
-  const rows = await ask(
-    `SELECT ?t WHERE { ?t wdt:P31/wdt:P279* wd:Q6979593 }`,
-    { label: 'national teams' },
-  )
+  const rows = await ask(`SELECT ?t WHERE { ?t wdt:P31/wdt:P279* wd:Q6979593 }`, {
+    label: 'national teams',
+  })
   for (const row of rows) nationalTeams.add(qid(row.t.value))
   console.log(`${nationalTeams.size} national teams, which do not count as clubs`)
 }
@@ -217,7 +238,8 @@ for (const part of facts) {
     }
     if (row.pos) {
       const mapped = POSITION[qid(row.pos.value)]
-      if (mapped && (!rec.pos || (POS_RANK[mapped] ?? 0) > (POS_RANK[rec.pos] ?? 0))) rec.pos = mapped
+      if (mapped && (!rec.pos || (POS_RANK[mapped] ?? 0) > (POS_RANK[rec.pos] ?? 0)))
+        rec.pos = mapped
     }
   }
   batch++
@@ -268,7 +290,10 @@ for (const part of careers) {
 const homeless = [...people.entries()].filter(([, rec]) => !rec.natQ && rec.clubs.size)
 if (homeless.length) {
   console.log(`${homeless.length} people with no country on them, asking again`)
-  for (const part of chunk(homeless.map(([id]) => id), 120)) {
+  for (const part of chunk(
+    homeless.map(([id]) => id),
+    120,
+  )) {
     const rows = await ask(
       `SELECT ?p ?nat ?viaTeam WHERE {
          VALUES ?p { ${values(part)} }
@@ -341,13 +366,28 @@ for (const [id, rec] of people) {
   // Wikidata disambiguates people it has two of: "Rodri (footballer, born
   // 1996)". Nobody types that, and the game only ever needs the name.
   const name = rec.name.replace(/\s*\([^)]*\)\s*$/, '').trim()
-  if (!name || /^Q\d+$/.test(name)) { dropped++; continue }
-  if (!rec.clubs.size) { dropped++; continue }
-  if (!Number.isFinite(rec.born) || rec.born < OLDEST) { dropped++; continue }
-  if (!nat?.name) { dropped++; continue }
+  if (!name || /^Q\d+$/.test(name)) {
+    dropped++
+    continue
+  }
+  if (!rec.clubs.size) {
+    dropped++
+    continue
+  }
+  if (!Number.isFinite(rec.born) || rec.born < OLDEST) {
+    dropped++
+    continue
+  }
+  if (!nat?.name) {
+    dropped++
+    continue
+  }
 
   const flag = FLAG[nat.name] ?? nat.flag
-  if (!flag) { dropped++; continue }
+  if (!flag) {
+    dropped++
+    continue
+  }
   const conf = CONF_OVERRIDE[nat.name] ?? nat.conf ?? 'UEFA'
 
   let n = nationIndex.get(nat.name)
@@ -400,4 +440,7 @@ const out = {
 
 writeFileSync(OUT, JSON.stringify(out))
 const kb = (JSON.stringify(out).length / 1024).toFixed(0)
-console.log(`\nwrote ${rows.length} players (${dropped} dropped), ${clubList.length} clubs, ${nationList.length} countries, ${kb} kB`)
+console.log(
+  `\nwrote ${rows.length} players (${dropped} dropped), ${clubList.length} clubs, ${nationList.length} countries, ${kb} kB`,
+)
+console.log(`${noPosition} of them came back with no position on them`)

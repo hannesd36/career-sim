@@ -122,7 +122,9 @@ export function matches(c: Criterion, l: Legend): boolean {
         case 'fourcountries':
           return l.countries.length >= 4
         case 'onecountry':
-          return l.totalClubs > 1 && l.totalClubs === l.careerClubs.length && l.countries.length === 1
+          return (
+            l.totalClubs > 1 && l.totalClubs === l.careerClubs.length && l.countries.length === 1
+          )
         case 'retired':
           return l.retired
         case 'playing':

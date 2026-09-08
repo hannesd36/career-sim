@@ -133,9 +133,7 @@ function Entry({ legend, open, onToggle, country, position, t }: EntryProps) {
           <b>{legend.name}</b>
           <span className="entry-meta">
             {position(legend.position)} · {club?.name ?? '—'} ·{' '}
-            {legend.retired
-              ? t('book.finished')
-              : t('book.age', { n: NOW - legend.born })}
+            {legend.retired ? t('book.finished') : t('book.age', { n: NOW - legend.born })}
           </span>
         </span>
         <Flag code={flagOf(legend.nation)} title={country(legend.nation)} />
@@ -161,7 +159,11 @@ function Entry({ legend, open, onToggle, country, position, t }: EntryProps) {
             <span>{t('book.countries', { n: legend.countries.length })}</span>
           </div>
           {legend.honours.length > 0 && (
-            <TrophyRow honours={legend.honours} size={26} label={(h) => t(`hon.${h}` as StringKey)} />
+            <TrophyRow
+              honours={legend.honours}
+              size={26}
+              label={(h) => t(`hon.${h}` as StringKey)}
+            />
           )}
         </div>
       )}

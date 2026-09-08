@@ -73,7 +73,12 @@ function validBoard(board: unknown): board is string {
 }
 
 const clean = (v: unknown, max: number) =>
-  typeof v === 'string' ? v.replace(/[\p{C}]/gu, '').trim().slice(0, max) : ''
+  typeof v === 'string'
+    ? v
+        .replace(/[\p{C}]/gu, '')
+        .trim()
+        .slice(0, max)
+    : ''
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -170,9 +175,7 @@ export default {
       // than anybody looks at, and the sweep is cheap enough to ride on a write.
       if (String(board).startsWith('daily:') && Math.random() < 0.02) {
         const cutoff = new Date(now - 30 * 86_400_000).toISOString().slice(0, 10)
-        await env.DB.prepare(
-          `DELETE FROM scores WHERE board LIKE 'daily:%' AND board < ?1`,
-        )
+        await env.DB.prepare(`DELETE FROM scores WHERE board LIKE 'daily:%' AND board < ?1`)
           .bind(`daily:${cutoff}`)
           .run()
       }

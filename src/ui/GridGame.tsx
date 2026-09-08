@@ -120,7 +120,8 @@ export function GridGame({ onExit, invited }: Props) {
   // On a phone the board fills the screen, so the square you just tapped opens
   // something you would otherwise have to go looking for.
   useEffect(() => {
-    if (picking !== null) drawerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    if (picking !== null)
+      drawerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [picking])
 
   const grid = useMemo(() => buildGrid(seed, difficulty), [seed, difficulty])
@@ -267,7 +268,8 @@ export function GridGame({ onExit, invited }: Props) {
         break
       case 'move': {
         const legend = LEGEND_BY_ID[String(msg.id)]
-        if (legend) claim(Number(msg.cell), legend, String(msg.by) as Mark, Number(msg.worth) || 0, false)
+        if (legend)
+          claim(Number(msg.cell), legend, String(msg.by) as Mark, Number(msg.worth) || 0, false)
         break
       }
       case 'miss':
@@ -364,7 +366,9 @@ export function GridGame({ onExit, invited }: Props) {
               </button>
             </div>
             <p className="hint">{t(daily ? 'quiz.dailyHint' : 'quiz.randomHint')}</p>
-            {daily && book.state === 'failed' && <p className="note note--bad">{t('quiz.bookOffline')}</p>}
+            {daily && book.state === 'failed' && (
+              <p className="note note--bad">{t('quiz.bookOffline')}</p>
+            )}
           </section>
         )}
 
@@ -379,7 +383,9 @@ export function GridGame({ onExit, invited }: Props) {
             {t('grid.start')}
           </button>
         </div>
-        {online && lobby.connected && !lobby.isHost && <p className="hint">{t('net.hostStarts')}</p>}
+        {online && lobby.connected && !lobby.isHost && (
+          <p className="hint">{t('net.hostStarts')}</p>
+        )}
       </div>
     )
   }
@@ -578,4 +584,3 @@ export function GridGame({ onExit, invited }: Props) {
 function Row({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
-

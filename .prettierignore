@@ -1,0 +1,8 @@
+dist
+node_modules
+server/.wrangler
+package-lock.json
+server/package-lock.json
+
+# generated: a single 20k-entry line, and nothing reads it by hand
+public/players.json

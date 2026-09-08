@@ -11,17 +11,47 @@ import {
 } from '../objectives'
 import type { Career, SeasonRecord } from '../types'
 
-const opts = { name: 'Objective Test', nation: 'Germany', position: 'ST' as const, foot: 'Right' as const }
+const opts = {
+  name: 'Objective Test',
+  nation: 'Germany',
+  position: 'ST' as const,
+  foot: 'Right' as const,
+}
 
 function record(overrides: Partial<SeasonRecord> = {}): SeasonRecord {
   return {
-    season: 2026, age: 22, clubId: 'x', clubName: 'X', badge: null, leagueId: 'ger1',
-    onLoan: false, ovrStart: 70, ovrEnd: 70, role: 'Starter',
-    apps: 30, goals: 10, assists: 5, cleanSheets: 0, conceded: 0, saves: 0,
-    tackles: 0, keyPasses: 0, yellowCards: 0, redCards: 0, rating: 7,
-    minutes: 2400, gamesMissedInjured: 0, leaguePosition: 5,
-    ceilingBefore: [70, 85], ceilingAfter: [70, 85], trophies: [], banned: false,
-    natApps: 0, natGoals: 0, natAssists: 0, natCleanSheets: 0,
+    season: 2026,
+    age: 22,
+    clubId: 'x',
+    clubName: 'X',
+    badge: null,
+    leagueId: 'ger1',
+    onLoan: false,
+    ovrStart: 70,
+    ovrEnd: 70,
+    role: 'Starter',
+    apps: 30,
+    goals: 10,
+    assists: 5,
+    cleanSheets: 0,
+    conceded: 0,
+    saves: 0,
+    tackles: 0,
+    keyPasses: 0,
+    yellowCards: 0,
+    redCards: 0,
+    rating: 7,
+    minutes: 2400,
+    gamesMissedInjured: 0,
+    leaguePosition: 5,
+    ceilingBefore: [70, 85],
+    ceilingAfter: [70, 85],
+    trophies: [],
+    banned: false,
+    natApps: 0,
+    natGoals: 0,
+    natAssists: 0,
+    natCleanSheets: 0,
     ...overrides,
   }
 }
@@ -125,7 +155,13 @@ describe('season objectives', () => {
   it('has no demand for a club it has never heard of', () => {
     expect(
       buildObjective({
-        seed: 1, season: 2026, clubId: 'nope', ovr: 70, age: 22, position: 'ST', nation: 'Germany',
+        seed: 1,
+        season: 2026,
+        clubId: 'nope',
+        ovr: 70,
+        age: 22,
+        position: 'ST',
+        nation: 'Germany',
       }),
     ).toBeNull()
   })

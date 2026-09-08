@@ -1,0 +1,38 @@
+# GitHub's own static analysis, looking for security holes rather than style.
+#
+# It is free on public repositories and finds a different class of thing from
+# ESLint: injection, unsafe URL handling, prototype pollution. Findings land in
+# the Security tab of the repository, not in the pull request checks, so this
+# never blocks a release on its own.
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Mondays, so a hole disclosed during the week is found even if nobody
+    # pushed anything.
+    - cron: '30 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  analyse:
+    name: Analyse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          queries: security-and-quality
+
+      - uses: github/codeql-action/analyze@v3
+        with:
+          category: /language:javascript-typescript

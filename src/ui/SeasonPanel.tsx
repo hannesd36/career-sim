@@ -36,9 +36,7 @@ export function SeasonPanel({ career, record, onClub, onBack }: Props) {
   // everything else worth stopping on, the season it actually happened.
   const seasonIndex = career.history.indexOf(record)
   const milestones =
-    seasonIndex >= 0
-      ? detectMilestones(career, seasonIndex).filter((m) => !isTierMilestone(m))
-      : []
+    seasonIndex >= 0 ? detectMilestones(career, seasonIndex).filter((m) => !isTierMilestone(m)) : []
 
   const stats = keeper
     ? [

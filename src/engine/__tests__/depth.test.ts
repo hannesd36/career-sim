@@ -27,7 +27,13 @@ import { isDetailed, type Career, type SeasonRecord, type SquadRole } from '../t
 
 function make(detail: 'simple' | 'detailed', seed = 771): Career {
   return createCareer({
-    name: 'Test', nation: 'Germany', position: 'ST', foot: 'Right', mode: 'normal', seed, detail,
+    name: 'Test',
+    nation: 'Germany',
+    position: 'ST',
+    foot: 'Right',
+    mode: 'normal',
+    seed,
+    detail,
   })
 }
 
@@ -122,17 +128,30 @@ describe('terms', () => {
 
 describe('what a season pays', () => {
   const rec = (over: Partial<SeasonRecord>): SeasonRecord =>
-    ({ goals: 0, assists: 0, apps: 0, cleanSheets: 0, trophies: [], role: 'Starter', ...over }) as SeasonRecord
+    ({
+      goals: 0,
+      assists: 0,
+      apps: 0,
+      cleanSheets: 0,
+      trophies: [],
+      role: 'Starter',
+      ...over,
+    }) as SeasonRecord
 
   it('is the wage for a year when there are no bonuses', () => {
-    const c = sign({ id: 'standard', wage: 10, years: 3, promised: null, bonuses: [] }, bigClub, 2026)
+    const c = sign(
+      { id: 'standard', wage: 10, years: 3, promised: null, bonuses: [] },
+      bigClub,
+      2026,
+    )
     expect(seasonEarnings(c, rec({ goals: 20 }))).toBe(520)
   })
 
   it('adds the bonus sheet on top', () => {
     const c = sign(
       { id: 'incentive', wage: 10, years: 3, promised: null, bonuses: [{ kind: 'goal', per: 5 }] },
-      bigClub, 2026,
+      bigClub,
+      2026,
     )
     expect(seasonEarnings(c, rec({ goals: 4 }))).toBe(540)
   })
@@ -144,7 +163,11 @@ describe('what a season pays', () => {
 
 describe('contract length', () => {
   it('counts down and reports when it is running out', () => {
-    const c = sign({ id: 'standard', wage: 5, years: 3, promised: null, bonuses: [] }, bigClub, 2026)
+    const c = sign(
+      { id: 'standard', wage: 5, years: 3, promised: null, bonuses: [] },
+      bigClub,
+      2026,
+    )
     expect(c.until).toBe(2029)
     expect(yearsLeft(c, 2026)).toBe(4)
     expect(isExpiring(c, 2026)).toBe(false)
@@ -158,7 +181,9 @@ describe('a promise broken', () => {
   const withRole = (role: SquadRole) => ({ role }) as SeasonRecord
   it('only counts when the club actually went back on it', () => {
     const promised = sign(
-      { id: 'standard', wage: 5, years: 2, promised: 'Starter', bonuses: [] }, bigClub, 2026,
+      { id: 'standard', wage: 5, years: 2, promised: 'Starter', bonuses: [] },
+      bigClub,
+      2026,
     )
     expect(promiseBroken(promised, withRole('Rotation'))).toBe(true)
     expect(promiseBroken(promised, withRole('Benchwarmer'))).toBe(true)
@@ -169,7 +194,9 @@ describe('a promise broken', () => {
 
   it('cannot happen when nothing was promised', () => {
     const nothing = sign(
-      { id: 'short', wage: 5, years: 1, promised: null, bonuses: [] }, bigClub, 2026,
+      { id: 'short', wage: 5, years: 1, promised: null, bonuses: [] },
+      bigClub,
+      2026,
     )
     expect(promiseBroken(nothing, withRole('Benchwarmer'))).toBe(false)
     expect(promiseBroken(null, withRole('Benchwarmer'))).toBe(false)
@@ -263,7 +290,9 @@ describe('injuries', () => {
   it('leave a mark on the attributes that survives a refit', () => {
     const attrs = { acceleration: 70, sprintSpeed: 70, finishing: 70 }
     const hurt = applyLasting(attrs, {
-      id: 'cruciate', season: 2030, games: 30,
+      id: 'cruciate',
+      season: 2030,
+      games: 30,
       lasting: { attrs: ['acceleration', 'sprintSpeed'], amount: 3 },
     })
     expect(hurt.acceleration).toBe(67)
@@ -305,8 +334,18 @@ describe('the manager', () => {
 
   it('warms to a player who plays well and cools on one who does not play', () => {
     const room = newRoom(2026, 70, new Rng(1), 'Germany', 'UEFA')
-    const good = updateOpinion(room.manager, { apps: 34, rating: 760 } as SeasonRecord, 'ST', new Rng(2))
-    const absent = updateOpinion(room.manager, { apps: 0, rating: 0 } as SeasonRecord, 'ST', new Rng(2))
+    const good = updateOpinion(
+      room.manager,
+      { apps: 34, rating: 760 } as SeasonRecord,
+      'ST',
+      new Rng(2),
+    )
+    const absent = updateOpinion(
+      room.manager,
+      { apps: 0, rating: 0 } as SeasonRecord,
+      'ST',
+      new Rng(2),
+    )
     expect(good.opinion).toBeGreaterThan(room.manager.opinion)
     expect(absent.opinion).toBeLessThan(room.manager.opinion)
   })

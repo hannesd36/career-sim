@@ -77,8 +77,20 @@ const POOL: Ambition[] = [
   { id: 'goals-150', band: 'mid', outfieldOnly: true, need: 150, have: (c) => totals(c).goals },
   { id: 'goals-300', band: 'late', outfieldOnly: true, need: 300, have: (c) => totals(c).goals },
   { id: 'assists-100', band: 'mid', outfieldOnly: true, need: 100, have: (c) => totals(c).assists },
-  { id: 'cleansheets-100', band: 'mid', keeperOnly: true, need: 100, have: (c) => totals(c).cleanSheets },
-  { id: 'cleansheets-200', band: 'late', keeperOnly: true, need: 200, have: (c) => totals(c).cleanSheets },
+  {
+    id: 'cleansheets-100',
+    band: 'mid',
+    keeperOnly: true,
+    need: 100,
+    have: (c) => totals(c).cleanSheets,
+  },
+  {
+    id: 'cleansheets-200',
+    band: 'late',
+    keeperOnly: true,
+    need: 200,
+    have: (c) => totals(c).cleanSheets,
+  },
   { id: 'apps-200', band: 'early', need: 200, have: (c) => totals(c).apps },
   { id: 'apps-500', band: 'late', need: 500, have: (c) => totals(c).apps },
   { id: 'caps-25', band: 'mid', need: 25, have: (c) => totals(c).natApps },
@@ -114,9 +126,7 @@ export interface AmbitionProgress {
  */
 export function ambitionsOf(career: Career): AmbitionId[] {
   const keeper = isKeeper(career.player.position)
-  const eligible = POOL.filter((a) =>
-    keeper ? !a.outfieldOnly : !a.keeperOnly,
-  )
+  const eligible = POOL.filter((a) => (keeper ? !a.outfieldOnly : !a.keeperOnly))
   const rng = new Rng((career.seed ^ 0xa11b1) >>> 0)
   const drawFrom = (band: Band, count: number, taken: Set<AmbitionId>): AmbitionId[] => {
     const bag = rng.shuffle(eligible.filter((a) => a.band === band && !taken.has(a.id)))
@@ -169,7 +179,9 @@ export function nextAmbition(career: Career): AmbitionProgress | null {
 
 /** Which of the five are done — used to decide whether one just landed. */
 export function completedAmbitions(career: Career): AmbitionId[] {
-  return ambitionBoard(career).filter((a) => a.done).map((a) => a.id)
+  return ambitionBoard(career)
+    .filter((a) => a.done)
+    .map((a) => a.id)
 }
 
 /** Nations, for the "played in N countries" line to name where you have been. */

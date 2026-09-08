@@ -13,13 +13,7 @@ import type { CareerCabinetStats } from './careerAwards'
  * can make the plain game worse.
  */
 export type ModifierId =
-  | 'standard'
-  | 'wonderkid'
-  | 'latebloomer'
-  | 'maverick'
-  | 'ironman'
-  | 'minnow'
-  | 'nomad'
+  'standard' | 'wonderkid' | 'latebloomer' | 'maverick' | 'ironman' | 'minnow' | 'nomad'
 
 export interface ModifierEffects {
   /** added to the rating a career is created at */

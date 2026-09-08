@@ -52,9 +52,12 @@ console.log(counts.map(([k, n]) => `  ${k}: ${n}`).join('\n'))
 
 // ---- clubs deep enough to head a column ----
 const clubTally = new Map<string, number>()
-for (const l of LEGENDS) for (const c of l.careerClubs) clubTally.set(c, (clubTally.get(c) ?? 0) + 1)
+for (const l of LEGENDS)
+  for (const c of l.careerClubs) clubTally.set(c, (clubTally.get(c) ?? 0) + 1)
 const heads = [...clubTally].filter(([, n]) => n >= 12)
-console.log(`${clubTally.size} clubs appear at all, ${heads.length} of them on twelve players or more`)
+console.log(
+  `${clubTally.size} clubs appear at all, ${heads.length} of them on twelve players or more`,
+)
 
 const nationTally = new Map<string, number>()
 for (const l of LEGENDS) nationTally.set(l.nation, (nationTally.get(l.nation) ?? 0) + 1)
@@ -63,7 +66,8 @@ console.log(`${nationTally.size} countries`)
 // ---- the honours patch has to land on somebody ----
 const ids = new Set(LEGENDS.map((l) => l.id))
 const { HONOUR_PATCH } = await import('../src/data/legends2')
-for (const id of Object.keys(HONOUR_PATCH)) if (!ids.has(id)) fail(`honour patch: nobody with id "${id}"`)
+for (const id of Object.keys(HONOUR_PATCH))
+  if (!ids.has(id)) fail(`honour patch: nobody with id "${id}"`)
 
 // ---- every square a grid could deal has to be answerable at all ----
 const sample: Criterion[] = [
@@ -94,10 +98,7 @@ if (existsSync(GENERATED)) {
   const steps = [100, 60, 40, 30, 20, 14, 8]
   const fame = book.rows.map((r: unknown[]) => Number(r[4]))
   console.log(
-    '  ' +
-      steps
-        .map((s) => `${s}+: ${fame.filter((f: number) => f >= s).length}`)
-        .join('   '),
+    '  ' + steps.map((s) => `${s}+: ${fame.filter((f: number) => f >= s).length}`).join('   '),
   )
 } else {
   console.log('\nno generated book yet (run npm run fetch:players)')

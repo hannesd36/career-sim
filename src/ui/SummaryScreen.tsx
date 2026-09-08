@@ -4,7 +4,16 @@ import { isKeeper } from '../engine/sim'
 import type { Career, TrophyId } from '../engine/types'
 import { useI18n } from '../i18n'
 import type { StringKey } from '../i18n/strings'
-import { Crest, Flag, Grade, OutputBars, Trajectory, TrophyIcon, formatValue, seasonLabel } from './bits'
+import {
+  Crest,
+  Flag,
+  Grade,
+  OutputBars,
+  Trajectory,
+  TrophyIcon,
+  formatValue,
+  seasonLabel,
+} from './bits'
 import { CareerTable } from './CareerTable'
 
 interface Props {
@@ -60,7 +69,14 @@ export function SummaryScreen({ career, onPlayAgain, onBack, onClub, onShare }: 
   // Staying on the programme for seven summers is one decision taken seven
   // times, not seven entries in a list nobody reads to the bottom of.
   const decisions = career.eventLog.reduce<
-    { season: number; until: number | null; id: string; choice: string; tone: string; times: number }[]
+    {
+      season: number
+      until: number | null
+      id: string
+      choice: string
+      tone: string
+      times: number
+    }[]
   >((acc, e) => {
     const prev = acc[acc.length - 1]
     if (prev && prev.id === e.id && prev.choice === e.choice) {

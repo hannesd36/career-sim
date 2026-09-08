@@ -30,14 +30,7 @@ export function newRoomCode(len = 5): string {
 /** The broker hands out ids globally, so ours carry a name nobody else uses. */
 const peerIdFor = (room: string) => `karrieresim-${room.toUpperCase()}`
 
-export type LinkState =
-  | 'idle'
-  | 'opening'
-  | 'waiting'
-  | 'connecting'
-  | 'open'
-  | 'closed'
-  | 'error'
+export type LinkState = 'idle' | 'opening' | 'waiting' | 'connecting' | 'open' | 'closed' | 'error'
 
 /** Anything either side can say. The games agree on the payloads themselves. */
 export interface Wire {

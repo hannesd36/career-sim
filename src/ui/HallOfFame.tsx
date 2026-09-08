@@ -54,7 +54,9 @@ export function HallOfFameScreen({
         </button>
       </div>
 
-      <p className="kicker kicker--loud">{t('award.blurb', { n: have, of: CAREER_AWARDS.length })}</p>
+      <p className="kicker kicker--loud">
+        {t('award.blurb', { n: have, of: CAREER_AWARDS.length })}
+      </p>
 
       <div className="cabinet">
         {CAREER_AWARDS.map((a) => (
@@ -80,7 +82,8 @@ export function HallOfFameScreen({
                 <span className="legend-who">
                   <span className="legend-name">{career.player.name}</span>
                   <span className="legend-meta">
-                    {t(`pos.${career.player.position}` as StringKey)} · {seasonLabel(career.startYear)}
+                    {t(`pos.${career.player.position}` as StringKey)} ·{' '}
+                    {seasonLabel(career.startYear)}
                     {'–'}
                     {seasonLabel(career.season)}
                   </span>

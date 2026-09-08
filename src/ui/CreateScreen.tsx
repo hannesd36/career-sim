@@ -114,66 +114,66 @@ export function CreateScreen({ onStart, onCancel, fixed }: Props) {
       )}
 
       {!fixed && (
-      <div className="two-up">
-        <div className="field">
-          <label htmlFor="nation">{t('create.nation')}</label>
-          <select
-            id="nation"
-            className="ruled"
-            value={nation}
-            onChange={(e) => setNation(e.target.value)}
-          >
-            {nations.map((n) => (
-              <option key={n.name} value={n.name}>
-                {country(n.name)}
-              </option>
-            ))}
-          </select>
-          {chosen && (
-            <p className="hint">
-              <Flag code={chosen.flag} />
-              {t('create.nationHint', { threshold: chosen.strength - 7 })}
-            </p>
-          )}
-        </div>
+        <div className="two-up">
+          <div className="field">
+            <label htmlFor="nation">{t('create.nation')}</label>
+            <select
+              id="nation"
+              className="ruled"
+              value={nation}
+              onChange={(e) => setNation(e.target.value)}
+            >
+              {nations.map((n) => (
+                <option key={n.name} value={n.name}>
+                  {country(n.name)}
+                </option>
+              ))}
+            </select>
+            {chosen && (
+              <p className="hint">
+                <Flag code={chosen.flag} />
+                {t('create.nationHint', { threshold: chosen.strength - 7 })}
+              </p>
+            )}
+          </div>
 
-        <div className="field">
-          <label htmlFor="foot">{t('create.foot')}</label>
-          <select
-            id="foot"
-            className="ruled"
-            value={foot}
-            onChange={(e) => setFoot(e.target.value as Foot)}
-          >
-            <option value="Right">{t('create.footRight')}</option>
-            <option value="Left">{t('create.footLeft')}</option>
-          </select>
+          <div className="field">
+            <label htmlFor="foot">{t('create.foot')}</label>
+            <select
+              id="foot"
+              className="ruled"
+              value={foot}
+              onChange={(e) => setFoot(e.target.value as Foot)}
+            >
+              <option value="Right">{t('create.footRight')}</option>
+              <option value="Left">{t('create.footLeft')}</option>
+            </select>
+          </div>
         </div>
-      </div>
       )}
 
       {!fixed && (
-      <div className="field">
-        <label>{t('create.position')}</label>
-        <div className="pitchmap" role="group" aria-label={t('create.position')}>
-          {POSITIONS.map((p) => (
-            <button
-              key={p}
-              type="button"
-              className={`pitchspot${p === position ? ' pitchspot--on' : ''}`}
-              style={{ left: `${SPOTS[p].x}%`, top: `${SPOTS[p].y}%` }}
-              onClick={() => setPosition(p)}
-              title={posName(p)}
-              aria-pressed={p === position}
-            >
-              {p}
-            </button>
-          ))}
+        <div className="field">
+          <label>{t('create.position')}</label>
+          <div className="pitchmap" role="group" aria-label={t('create.position')}>
+            {POSITIONS.map((p) => (
+              <button
+                key={p}
+                type="button"
+                className={`pitchspot${p === position ? ' pitchspot--on' : ''}`}
+                style={{ left: `${SPOTS[p].x}%`, top: `${SPOTS[p].y}%` }}
+                onClick={() => setPosition(p)}
+                title={posName(p)}
+                aria-pressed={p === position}
+              >
+                {p}
+              </button>
+            ))}
+          </div>
+          <p className="hint">
+            <b>{posName(position)}</b> · {posHint}
+          </p>
         </div>
-        <p className="hint">
-          <b>{posName(position)}</b> · {posHint}
-        </p>
-      </div>
       )}
 
       {/* A career begun under one of these is a different problem, not an

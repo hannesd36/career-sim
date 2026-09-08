@@ -51,9 +51,7 @@ export function EventScreen({ career, onChoose, onContinue }: Props) {
         <div className="fork">
           {event.choices.map((choice) => (
             <button key={choice.key} className="fork-side" onClick={() => onChoose(choice.key)}>
-              <span className="fork-name">
-                {t(`ev.${pending.id}.${choice.key}` as StringKey)}
-              </span>
+              <span className="fork-name">{t(`ev.${pending.id}.${choice.key}` as StringKey)}</span>
               <span className="fork-odds">
                 {choice.outcomes.map((outcome) => (
                   <span className="odd" key={outcome.result}>

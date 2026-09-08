@@ -1,0 +1,112 @@
+# Every push and every pull request goes through this before anything ships.
+#
+# Split into parallel jobs on purpose. One long job tells you "it failed"; four
+# short ones tell you whether it was the formatting, a lint rule, the types or
+# the engine, and you can see all four verdicts at once rather than fixing the
+# formatting only to discover a test was broken too.
+#
+# The deploy is a separate workflow and repeats the test and build steps, so a
+# green run here is never the only thing standing between a bad commit and the
+# live site.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # lets you re-run the checks by hand without pushing anything
+  workflow_dispatch:
+
+# A newer push makes an older run pointless, so it is cancelled. Not true of
+# the deploy, which has to finish what it started.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  format:
+    name: Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Warnings are allowed through; errors are not. The known debt in the
+      # older game screens shows up in the log without blocking a release.
+      - run: npm run lint
+
+  types:
+    name: Types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Coverage rather than a bare run: the number is printed in the job
+      # summary, so a change that quietly stops testing something is visible
+      # in the pull request instead of six months later.
+      - run: npm run test:coverage
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Built without the leaderboard secret on purpose: this proves the site
+      # still builds and works when the worker is not configured, which is the
+      # state anybody cloning the repo starts in.
+      - run: npm run build
+
+  audit:
+    name: Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # A known high-severity hole in something we ship is a build failure.
+      # Anything below that is reported and left to the weekly Dependabot pass.
+      - run: npm audit --audit-level=high --omit=dev
+      - name: Everything else, for the record
+        run: npm audit || true

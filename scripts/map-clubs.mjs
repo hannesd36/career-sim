@@ -104,7 +104,9 @@ const countryOf = leagueCountries()
 const map = !fresh && existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : {}
 
 const todo = clubs.filter((c) => !map[c.id])
-console.log(`${clubs.length} clubs, ${clubs.length - todo.length} already mapped, ${todo.length} to do`)
+console.log(
+  `${clubs.length} clubs, ${clubs.length - todo.length} already mapped, ${todo.length} to do`,
+)
 
 for (const [id, q] of Object.entries(OVERRIDES)) {
   if (!map[id] && clubs.some((c) => c.id === id)) map[id] = q
@@ -144,7 +146,8 @@ for (const [leagueId, list] of byLeague) {
       if (!hits?.length) continue
       const want = wantedCountries(club.leagueId)
       const right = hits.filter((h) => h.country && want.includes(h.country))
-      const pick = right.length === 1 ? right[0] : right.length ? null : hits.length === 1 ? hits[0] : null
+      const pick =
+        right.length === 1 ? right[0] : right.length ? null : hits.length === 1 ? hits[0] : null
       if (pick) map[club.id] = pick.q
     }
     await sleep(400)
@@ -159,7 +162,8 @@ console.log(`after exact matching: ${Object.keys(map).length} mapped`)
 const stillMissing = clubs.filter((c) => !map[c.id])
 console.log(`${stillMissing.length} left for the search box`)
 
-const REJECT = /\b(women|femin|feminine|damen|reserves?|academy|youth|futsal|II|B team|under-\d+)\b/i
+const REJECT =
+  /\b(women|femin|feminine|damen|reserves?|academy|youth|futsal|II|B team|under-\d+)\b/i
 
 for (const club of stillMissing) {
   if (outOfTime()) {
@@ -291,7 +295,8 @@ for (const [country, list] of byCountry) {
     if (!hits.length) {
       // a name that begins or ends with ours: "Genk" finds "Genk Racing"
       const near = [...names.entries()].filter(
-        ([n]) => n === key || n.startsWith(key + ' ') || key.startsWith(n + ' ') || n.endsWith(' ' + key),
+        ([n]) =>
+          n === key || n.startsWith(key + ' ') || key.startsWith(n + ' ') || n.endsWith(' ' + key),
       )
       if (near.length === 1) hits = [...near[0][1]]
       else if (near.length > 1) hits = [...new Set(near.flatMap(([, set]) => [...set]))]
@@ -327,7 +332,9 @@ for (const [country, list] of byCountry) {
   }
 
   for (const { club, hits } of picks) {
-    const best = hits.map((q) => ({ q, squad: counts.get(q) ?? 0 })).sort((a, b) => b.squad - a.squad)[0]
+    const best = hits
+      .map((q) => ({ q, squad: counts.get(q) ?? 0 }))
+      .sort((a, b) => b.squad - a.squad)[0]
     if (best && best.squad >= 10) {
       map[club.id] = best.q
       console.log(`  + ${club.id} → ${best.q} (${best.squad} players)`)
@@ -344,12 +351,30 @@ for (const [country, list] of byCountry) {
 // pass searches the bare name and believes the description.
 
 const ADJECTIVE = {
-  England: 'English', Scotland: 'Scottish', Wales: 'Welsh', Spain: 'Spanish',
-  Germany: 'German', Italy: 'Italian', France: 'French', Portugal: 'Portuguese',
-  Netherlands: 'Dutch', Belgium: 'Belgian', Türkiye: 'Turkish', Greece: 'Greek',
-  Austria: 'Austrian', Switzerland: 'Swiss', Denmark: 'Danish', Czechia: 'Czech',
-  Croatia: 'Croatian', Poland: 'Polish', Norway: 'Norwegian', Brazil: 'Brazilian',
-  'Saudi Arabia': 'Saudi', Mexico: 'Mexican', Argentina: 'Argentine', USA: 'American',
+  England: 'English',
+  Scotland: 'Scottish',
+  Wales: 'Welsh',
+  Spain: 'Spanish',
+  Germany: 'German',
+  Italy: 'Italian',
+  France: 'French',
+  Portugal: 'Portuguese',
+  Netherlands: 'Dutch',
+  Belgium: 'Belgian',
+  Türkiye: 'Turkish',
+  Greece: 'Greek',
+  Austria: 'Austrian',
+  Switzerland: 'Swiss',
+  Denmark: 'Danish',
+  Czechia: 'Czech',
+  Croatia: 'Croatian',
+  Poland: 'Polish',
+  Norway: 'Norwegian',
+  Brazil: 'Brazilian',
+  'Saudi Arabia': 'Saudi',
+  Mexico: 'Mexican',
+  Argentina: 'Argentine',
+  USA: 'American',
 }
 
 for (const club of clubs.filter((c) => !map[c.id])) {
@@ -402,4 +427,5 @@ writeFileSync(OUT, JSON.stringify(map, null, 1) + '\n')
 const mapped = clubs.filter((c) => map[c.id]).length
 console.log(`\n${mapped} of ${clubs.length} clubs mapped`)
 const missing = clubs.filter((c) => !map[c.id])
-if (missing.length) console.log('still missing:\n  ' + missing.map((c) => `${c.id} (${c.name})`).join('\n  '))
+if (missing.length)
+  console.log('still missing:\n  ' + missing.map((c) => `${c.id} (${c.name})`).join('\n  '))

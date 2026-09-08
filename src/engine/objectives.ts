@@ -30,14 +30,7 @@ import type { Career, Club, Position, SeasonRecord } from './types'
  * objective it was actually played under.
  */
 export type ObjectiveKind =
-  | 'finish'
-  | 'survive'
-  | 'goals'
-  | 'assists'
-  | 'apps'
-  | 'cleansheets'
-  | 'rating'
-  | 'silverware'
+  'finish' | 'survive' | 'goals' | 'assists' | 'apps' | 'cleansheets' | 'rating' | 'silverware'
 
 export interface SeasonObjective {
   kind: ObjectiveKind
@@ -283,7 +276,10 @@ export function buildObjective(input: ObjectiveInput): SeasonObjective | null {
       // The floor has to sit under what a benchwarmer actually manages. Held at
       // six it rounded every fringe season up to a number the bench could not
       // reach, and four unwinnable demands in a row is a fine, not an objective.
-      return { kind, target: clamp(Math.round(par.apps * rng.range(0.9, 1.06)), 3, Math.round(games)) }
+      return {
+        kind,
+        target: clamp(Math.round(par.apps * rng.range(0.9, 1.06)), 3, Math.round(games)),
+      }
     case 'rating':
       return { kind, target: Math.round(par.rating * rng.range(0.994, 1.006) * 100) }
     case 'finish': {
