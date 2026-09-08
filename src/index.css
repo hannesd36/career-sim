@@ -5853,3 +5853,448 @@ button.pcard:hover {
 .hint--pace {
   text-align: center;
 }
+
+
+/* ---------------------------------------------------------------------------
+   the detailed mode: the contract, the room, the body, the money
+   --------------------------------------------------------------------------- */
+
+.cash {
+  font-family: var(--poster);
+  white-space: nowrap;
+}
+
+.cash i {
+  font-style: normal;
+  font-size: 0.72em;
+  opacity: 0.75;
+  margin-left: 2px;
+}
+
+/* ---- the contract ---- */
+
+.deal {
+  border-top: 2px solid var(--fg);
+  padding-top: var(--s3);
+}
+
+.deal-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+
+.deal-head h3 {
+  margin: 0;
+  font-family: var(--poster);
+  font-size: 22px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.deal-wage {
+  font-size: 19px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.deal-wage i {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--fg-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.deal-term {
+  margin: var(--s2) 0 4px;
+  font-size: 14px;
+}
+
+.deal-term--short {
+  color: var(--flood);
+}
+
+.deal-broken {
+  margin: var(--s2) 0 0;
+  padding: var(--s2);
+  border-left: 3px solid var(--down);
+  background: color-mix(in srgb, var(--down) 10%, var(--bg));
+  font-size: 13px;
+}
+
+.deal-bonuses {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--s2);
+}
+
+.deal-bonuses-label {
+  font-size: 12px;
+  color: var(--fg-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.deal-bonus {
+  padding: 3px 8px;
+  border: 1px solid var(--line-2);
+  font-size: 12px;
+  color: var(--fg-2);
+}
+
+/* ---- signing ---- */
+
+.signing {
+  border-top: 2px solid var(--fg);
+  padding-top: var(--s3);
+}
+
+.terms-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-bottom: var(--s2);
+}
+
+.terms-head h4 {
+  margin: 0;
+  font-family: var(--poster);
+  font-size: 17px;
+  text-transform: uppercase;
+}
+
+.terms-free {
+  font-size: 12px;
+  color: var(--flood);
+}
+
+.terms-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--s2);
+}
+
+.term {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--s3);
+  text-align: left;
+  border: 1px solid var(--line-2);
+  color: var(--fg-2);
+  transition: border-color var(--t), background var(--t), color var(--t);
+}
+
+.term:hover {
+  border-color: var(--fg-2);
+  color: var(--fg);
+}
+
+.term--on {
+  border-color: var(--flood);
+  background: color-mix(in srgb, var(--flood) 12%, var(--bg));
+  color: var(--fg);
+}
+
+.term b {
+  font-family: var(--poster);
+  font-size: 15px;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.term-money {
+  font-size: 18px;
+  color: var(--fg);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.term-money i {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--fg-2);
+  text-transform: uppercase;
+}
+
+.term-years,
+.term-bonus,
+.term-how {
+  font-size: 12px;
+}
+
+.term-bonus {
+  color: var(--flood);
+}
+
+/* ---- the dressing room ---- */
+
+.room {
+  border-top: 2px solid var(--fg);
+  padding-top: var(--s3);
+}
+
+.room-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-bottom: var(--s2);
+}
+
+.room-head h3 {
+  margin: 0;
+  font-family: var(--poster);
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+.room-armband {
+  padding: 2px 8px;
+  border: 1px solid var(--flood);
+  color: var(--flood);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.room-boss {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s2);
+}
+
+.room-role {
+  font-size: 11px;
+  color: var(--fg-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.room-name {
+  font-family: var(--poster);
+  font-size: 19px;
+}
+
+.room-style,
+.room-since {
+  font-size: 12px;
+  color: var(--fg-2);
+}
+
+.room-mood {
+  margin: var(--s2) 0 0;
+  font-size: 14px;
+}
+
+.room-mood--trusted {
+  color: var(--up);
+}
+
+.room-mood--frozen,
+.room-mood--doubted {
+  color: var(--down);
+}
+
+.room-standing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 3px;
+  align-items: center;
+  column-gap: var(--s2);
+  row-gap: 5px;
+  margin-top: var(--s3);
+  color: var(--fg-2);
+  font-size: 13px;
+}
+
+.room-standing b {
+  font-family: var(--poster);
+  font-size: 17px;
+  color: var(--fg);
+}
+
+.room-mates {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--s2) var(--s3);
+  margin-top: var(--s3);
+}
+
+.room-mates > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.mate {
+  padding: 3px 8px;
+  border: 1px solid var(--line-2);
+  font-size: 12px;
+  color: var(--fg-2);
+}
+
+.mate i {
+  font-style: normal;
+  font-family: var(--poster);
+  color: var(--fg);
+  margin-left: 3px;
+}
+
+.mate--friend {
+  border-color: color-mix(in srgb, var(--up) 55%, var(--line-2));
+}
+
+.mate--rival {
+  border-color: color-mix(in srgb, var(--down) 55%, var(--line-2));
+}
+
+/* ---- the body ---- */
+
+.body-panel {
+  border-top: 2px solid var(--fg);
+  padding-top: var(--s3);
+}
+
+.glass {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.glass--iron,
+.glass--sturdy {
+  color: var(--up);
+}
+
+.glass--fragile,
+.glass--glass {
+  color: var(--down);
+}
+
+.injury-list {
+  margin-top: var(--s2);
+}
+
+.injury {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--s2);
+  padding: 5px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.injury-season {
+  font-family: var(--poster);
+  color: var(--fg-2);
+  font-size: 12px;
+}
+
+.injury-lasting {
+  font-size: 11px;
+  color: var(--down);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---- the money screen ---- */
+
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: color-mix(in srgb, var(--bg) 92%, #000);
+  overflow-y: auto;
+  padding: var(--s4);
+}
+
+.sheet-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  padding-bottom: var(--s6);
+}
+
+.life-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--s3);
+  margin: var(--s4) 0;
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.life-figures > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.life-figures span {
+  font-size: 11px;
+  color: var(--fg-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.life-figures b {
+  font-size: 20px;
+}
+
+.life-figures .up {
+  color: var(--up);
+}
+
+.life-figures .down {
+  color: var(--down);
+}
+
+.life-section {
+  margin: var(--s5) 0 var(--s2);
+  font-family: var(--poster);
+  font-size: 19px;
+  text-transform: uppercase;
+}
+
+.mod-cost {
+  font-size: 11px;
+  color: var(--fg-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mod:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.invest-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  align-items: center;
+}
+
+.invest-amount {
+  width: 140px;
+}
+
+.act--wide {
+  width: 100%;
+}
+
+.act--small {
+  padding: 4px 10px;
+  font-size: 12px;
+}

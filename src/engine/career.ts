@@ -1,5 +1,6 @@
 import { CLUB_BY_ID, CLUBS, clubsInLeague } from '../data/clubs'
 import { LEAGUE_BY_ID, areNeighbours } from '../data/leagues'
+import { NATION_BY_NAME as NATIONS_BY_NAME } from '../data/nations'
 import { NATION_BY_NAME } from '../data/nations'
 import {
   EVENT_BY_ID,
@@ -11,6 +12,12 @@ import {
 } from './events'
 import * as attributes from './attributes'
 import type { Facet } from './attributes'
+import * as contracts from './contracts'
+import type { Terms } from './contracts'
+import * as finances from './finances'
+import type { SpendId } from './finances'
+import * as injuries from './injuries'
+import * as staff from './staff'
 import { effectsOf, type ModifierId } from './modifiers'
 import { judgeObjective, objectiveOf, objectiveSwing } from './objectives'
 import { Rng, clamp, randomSeed } from './rng'
@@ -39,6 +46,7 @@ import {
   type Position,
   type RetirementReason,
   type SeasonRecord,
+  type SquadRole,
   type TrophyId,
 } from './types'
 
@@ -124,11 +132,21 @@ export function createCareer(opts: CreateOptions): Career {
   player.value = marketValue(player, club)
 
   const detail: CareerDetail = opts.detail === 'detailed' ? 'detailed' : 'simple'
+  let contract: contracts.Contract | null = null
+  let room: staff.Room | undefined
+  let money: finances.Finances | undefined
   if (detail === 'detailed') {
     player.attributes = attributes.generate(player.ovr, player.position, rng)
+    player.body = injuries.newBody(rng)
+    // A youth product signs whatever the club puts in front of him.
+    const role = projectRole(player.ovr, club.strength, player.age)
+    const terms = contracts.offerTerms(player, club, role, rng)[0]
+    contract = contracts.sign(terms, club, startYearOf(opts))
+    room = staff.newRoom(startYearOf(opts), club.strength, rng, nation.name, nation.conf)
+    money = finances.emptyFinances()
   }
 
-  const startYear = opts.startYear ?? 2026
+  const startYear = startYearOf(opts)
   return {
     id: `${seed}-${Date.now()}`,
     seed,
@@ -152,7 +170,14 @@ export function createCareer(opts: CreateOptions): Career {
     detail,
     training: null,
     detailedFrom: detail === 'detailed' ? startYear : undefined,
+    contract,
+    finances: money,
+    room,
   }
+}
+
+function startYearOf(opts: CreateOptions): number {
+  return opts.startYear ?? 2026
 }
 
 /**
@@ -168,13 +193,38 @@ export function upgradeToDetailed(career: Career): Career {
   const rng = new Rng(career.seed ^ 0x5eed)
   const player = { ...career.player }
   player.attributes = attributes.generate(player.ovr, player.position, rng)
+  player.body = injuries.newBody(rng)
+
+  // The career already has a club and a standing at it, so the contract and the
+  // dressing room are built to match where it actually got to rather than being
+  // handed the terms of a sixteen year old.
+  const club = CLUB_BY_ID[player.clubId]
+  const nation = NATIONS_BY_NAME[player.nation] ?? NATIONS_BY_NAME.Germany
+  const role = projectRole(player.ovr, club.strength, player.age)
+  const terms = contracts.offerTerms(player, club, role, rng)[0]
+
   return {
     ...career,
     player,
     detail: 'detailed',
     detailedFrom: career.season,
     training: null,
+    contract: contracts.sign(terms, club, career.season),
+    finances: finances.emptyFinances(),
+    room: staff.newRoom(career.season, club.strength, rng, nation.name, nation.conf),
   }
+}
+
+/** Turning a standing arrangement on or off. */
+export function toggleSpend(career: Career, id: SpendId): Career {
+  if (!isDetailed(career) || !career.finances) return career
+  return { ...career, finances: finances.toggle(career.finances, id) }
+}
+
+/** Moving money into investments, or pulling it back out. */
+export function moveInvestment(career: Career, amount: number): Career {
+  if (!isDetailed(career) || !career.finances) return career
+  return { ...career, finances: finances.invest(career.finances, amount) }
 }
 
 /** Sets what the player works on over the coming summer. */
@@ -255,6 +305,30 @@ function runOneSeason(career: Career, rng: Rng): SeasonRecord {
 
   const effects = effectsOf(career.modifier)
   const continental = continentalEntry(club, previous, rng)
+
+  // --- what the detailed mode decides before a ball is kicked -----------
+  // The role comes from what the manager thinks of you rather than from the
+  // rating alone, and the injury is drawn from this body's own history. Both
+  // are handed to the simulation; it does not know where they came from.
+  const detailed = isDetailed(career)
+  const perks = finances.perksOf(career.finances)
+  let roleOverride: SquadRole | undefined
+  let pendingInjury: injuries.Injury | null = null
+
+  if (detailed && career.room) {
+    const base = projectRole(player.ovr, club.strength, player.age)
+    roleOverride = staff.roleFromOpinion(base, career.room.manager.opinion)
+  }
+  if (detailed && player.body) {
+    pendingInjury = injuries.rollInjury(player.body, {
+      age: player.age,
+      season: career.season,
+      risk: (effects.injury ?? 1) * perks.injury,
+      recovery: perks.recovery,
+      rng,
+    })
+  }
+
   const record = simulateSeason({
     player,
     club,
@@ -263,6 +337,8 @@ function runOneSeason(career: Career, rng: Rng): SeasonRecord {
     rng,
     tableSeed: career.seed,
     injuryScale: effects.injury,
+    roleOverride,
+    injuryGames: detailed ? (pendingInjury?.games ?? 0) : undefined,
   })
 
   simulateInternational(player, record, career.season, rng)
@@ -288,7 +364,7 @@ function runOneSeason(career: Career, rng: Rng): SeasonRecord {
   // simulation decided this season is, the attributes are refitted to it. What
   // the summer's training and the player's age get to decide is which parts of
   // him carry that number.
-  if (isDetailed(career) && player.attributes) {
+  if (detailed && player.attributes) {
     player.attributes = attributes.advance(player.attributes, {
       position: player.position,
       age: player.age,
@@ -296,6 +372,49 @@ function runOneSeason(career: Career, rng: Rng): SeasonRecord {
       training: career.training ?? null,
       rng,
     })
+    // A bad injury takes something for good. Applied after the refit, so the
+    // loss survives rather than being squeezed straight back out by it.
+    if (pendingInjury?.lasting) {
+      player.attributes = injuries.applyLasting(player.attributes, pendingInjury)
+    }
+  }
+
+  if (detailed) {
+    // --- the body remembers ---------------------------------------------
+    if (pendingInjury && player.body) {
+      player.body = injuries.record(player.body, pendingInjury)
+      record.injury = pendingInjury
+    }
+
+    // --- the books ------------------------------------------------------
+    const earned = contracts.seasonEarnings(career.contract ?? null, record)
+    record.earned = earned
+    if (career.finances) {
+      career.finances = finances.settleSeason(career.finances, earned, rng).finances
+    }
+
+    // --- the people -----------------------------------------------------
+    if (career.room) {
+      let room = staff.agedRoom(career.room, rng)
+      room = {
+        ...room,
+        manager: staff.updateOpinion(room.manager, record, player.position, rng),
+        standing: staff.updateStanding(room, record, rng),
+      }
+      // A manager who has run out of road is replaced, and the new one arrives
+      // with an opinion of his own. This is the moment a career can turn.
+      if (!staff.managerSurvives(room.manager, record.leaguePosition, career.season, rng)) {
+        const nation = NATIONS_BY_NAME[player.nation] ?? NATIONS_BY_NAME.Germany
+        room = { ...room, manager: staff.newManager(career.season + 1, rng, nation.name, nation.conf) }
+      }
+      career.room = room
+      record.managerOpinion = room.manager.opinion
+    }
+
+    // --- did they keep their word? ---------------------------------------
+    if (contracts.promiseBroken(career.contract ?? null, record)) {
+      career.promiseBroken = true
+    }
   }
 
   player.age += 1
@@ -724,7 +843,7 @@ export function generateOffers(
 }
 
 /** Accepts an offer and moves the career into the next season. */
-export function acceptOffer(career: Career, offer: Offer): Career {
+export function acceptOffer(career: Career, offer: Offer, terms?: Terms): Career {
   const player = { ...career.player }
   if (offer.loan) {
     player.parentClubId = player.clubId
@@ -736,7 +855,52 @@ export function acceptOffer(career: Career, offer: Offer): Career {
     player.parentClubId = null
   }
   player.value = marketValue(player, offer.club)
-  return { ...career, player, season: career.season + 1, offers: [], phase: 'season', runLeft: 0 }
+
+  const next: Career = {
+    ...career,
+    player,
+    season: career.season + 1,
+    offers: [],
+    phase: 'season',
+    runLeft: 0,
+  }
+
+  // A detailed move is also a signing and a new dressing room. Staying put on
+  // the same deal keeps both: only a move, or terms actually chosen, changes
+  // the paperwork.
+  if (isDetailed(career)) {
+    const rng = new Rng(career.seed ^ (career.season * 40503))
+    const moved = offer.club.id !== career.player.clubId
+    if (terms) {
+      next.contract = contracts.sign(terms, offer.club, career.season + 1)
+    } else if (moved) {
+      const chosen = contracts.offerTerms(player, offer.club, offer.projectedRole, rng)[0]
+      next.contract = contracts.sign(chosen, offer.club, career.season + 1)
+    }
+    if (moved) {
+      const nation = NATIONS_BY_NAME[player.nation] ?? NATIONS_BY_NAME.Germany
+      next.room = staff.newRoom(
+        career.season + 1,
+        offer.club.strength,
+        rng,
+        nation.name,
+        nation.conf,
+      )
+      next.promiseBroken = false
+    }
+  }
+  return next
+}
+
+/** The terms a club will put on the table for an offer already on it. */
+export function termsFor(career: Career, offer: Offer): Terms[] {
+  const rng = new Rng(career.seed ^ (offer.club.id.length * 7919) ^ (career.season * 13))
+  const terms = contracts.offerTerms(career.player, offer.club, offer.projectedRole, rng)
+  // Nobody has to pay a fee for a player whose deal ran out, so the wages go up.
+  if (contracts.yearsLeft(career.contract ?? null, career.season) === 0) {
+    return terms.map((t) => ({ ...t, wage: contracts.freeAgentBump(t.wage) }))
+  }
+  return terms
 }
 
 export function retire(career: Career): Career {

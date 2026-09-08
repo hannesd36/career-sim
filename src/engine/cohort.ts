@@ -52,6 +52,16 @@ const SURNAMES: Record<string, string[]> = {
   asian: ['Tanaka', 'Nakamura', 'Kim', 'Park', 'Watanabe', 'Suzuki', 'Choi', 'Rahimi', 'Yamamoto', 'Lee', 'Chen', 'Al-Harbi', 'Hosseini', 'Kobayashi', 'Sato'],
 }
 
+/**
+ * A person's name from a nation's own pool. Exported so the dressing room draws
+ * its managers and teammates from the same lists the year group does, rather
+ * than keeping a second copy of every surname in football.
+ */
+export function personName(nation: string, conf: string, rng: Rng): string {
+  const culture = cultureOf(nation, conf)
+  return `${rng.pick(FORENAMES[culture])} ${rng.pick(SURNAMES[culture])}`
+}
+
 /** Which name pool a nation draws from. Unlisted confederations fall back. */
 function cultureOf(nation: string, conf: string): string {
   const latin = ['Spain', 'Portugal', 'Italy', 'Brazil', 'Argentina', 'Uruguay', 'Colombia', 'Chile', 'Mexico', 'France', 'Peru', 'Ecuador']

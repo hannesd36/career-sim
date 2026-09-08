@@ -62,15 +62,22 @@ describe('the shape follows the rating', () => {
     }
   })
 
-  it('does not change the football that gets played', () => {
-    // Same seed, same everything: the detailed mode may only add a layer on
-    // top, never move the simulation underneath it.
-    const simple = run(make('simple', 77), 8)
-    const detailed = run(make('detailed', 77), 8)
-    expect(detailed.player.ovr).toBe(simple.player.ovr)
-    expect(detailed.player.age).toBe(simple.player.age)
-    expect(detailed.history.map((h) => h.goals)).toEqual(simple.history.map((h) => h.goals))
-    expect(detailed.history.map((h) => h.rating)).toEqual(simple.history.map((h) => h.rating))
+  it('leaves the attributes themselves unable to move the simulation', () => {
+    /*
+     * This used to assert that a detailed career and a simple one on the same
+     * seed played identical football. That stopped being true once the manager
+     * started choosing the squad role and the body started choosing the
+     * injury, both of which are the point of those systems.
+     *
+     * What the attribute layer itself may still not do is feed back into the
+     * rating. The shape is refitted to the OVR every season, so however far
+     * training pushes a player one way, the number the simulation runs on is
+     * the one it decided.
+     */
+    const shooters = run(setTraining(make('detailed', 77), 'shooting'), 8)
+    const defenders = run(setTraining(make('detailed', 77), 'defending'), 8)
+    expect(shooters.player.ovr).toBe(defenders.player.ovr)
+    expect(shooters.history.map((h) => h.goals)).toEqual(defenders.history.map((h) => h.goals))
   })
 })
 

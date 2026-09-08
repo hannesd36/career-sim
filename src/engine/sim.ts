@@ -164,6 +164,14 @@ export interface SeasonContext {
   tableSeed: number
   /** a start modifier's multiplier on how often the body gives out */
   injuryScale?: number
+  /**
+   * The detailed mode decides these two itself and hands them in: the role
+   * comes from what the manager thinks of you rather than from the rating
+   * alone, and the injury has a name and a length before it gets here. Left
+   * out, the season rolls both the way it always has.
+   */
+  roleOverride?: SquadRole
+  injuryGames?: number
 }
 
 /** Somebody has to be standing in the other half on the night. */
@@ -195,12 +203,16 @@ export function simulateSeason(ctx: SeasonContext): SeasonRecord {
   const totalGames = leagueGames + cupGames + contGames
 
   // --- availability -----------------------------------------------------
-  const role = projectRole(ovr, club.strength, player.age)
+  const role = ctx.roleOverride ?? projectRole(ovr, club.strength, player.age)
   const share = roleShare(role, player.age)
 
-  const injuryRisk = (0.2 + Math.max(0, player.age - 29) * 0.035) * (ctx.injuryScale ?? 1)
   let gamesMissedInjured = 0
-  if (rng.chance(injuryRisk)) gamesMissedInjured += rng.int(3, player.age >= 32 ? 24 : 18)
+  if (ctx.injuryGames !== undefined) {
+    gamesMissedInjured = Math.min(ctx.injuryGames, totalGames)
+  } else {
+    const injuryRisk = (0.2 + Math.max(0, player.age - 29) * 0.035) * (ctx.injuryScale ?? 1)
+    if (rng.chance(injuryRisk)) gamesMissedInjured += rng.int(3, player.age >= 32 ? 24 : 18)
+  }
   const available = Math.max(0, totalGames - gamesMissedInjured)
 
   const minutes = Math.round(available * 90 * share * rng.range(0.9, 1.1))
