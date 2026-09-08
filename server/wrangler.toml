@@ -1,0 +1,15 @@
+name = "career-sim-boards"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# Filled in by `wrangler d1 create career-sim-boards` — paste the database_id it
+# prints into the line below before deploying.
+[[d1_databases]]
+binding = "DB"
+database_name = "career-sim-boards"
+database_id = "PASTE_DATABASE_ID_HERE"
+
+[vars]
+# Origins allowed to post a score. Leave empty to allow any origin, which is
+# fine for a board with no accounts and nothing to steal.
+ALLOWED_ORIGINS = "https://karriere-sim.de,https://www.karriere-sim.de,http://localhost:5173"

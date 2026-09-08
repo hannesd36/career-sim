@@ -1,3 +1,6 @@
+import type { Attributes, Facet } from './attributes'
+import type { ModifierId } from './modifiers'
+
 export type Position = 'GK' | 'CB' | 'LB' | 'RB' | 'CDM' | 'CM' | 'CAM' | 'LW' | 'RW' | 'ST'
 
 export const POSITIONS: Position[] = ['GK', 'CB', 'LB', 'RB', 'CDM', 'CM', 'CAM', 'LW', 'RW', 'ST']
@@ -131,9 +134,37 @@ export interface Player {
   bannedUntil: number | null
   /** 0-100, starts at 50; only a ban moves it, and clubs notice */
   reputation: number
+
+  /**
+   * The detailed mode's shape underneath the rating. Absent on a simple career
+   * and on every save written before the detailed mode existed, which is why
+   * nothing may read it without checking.
+   */
+  attributes?: Attributes
 }
 
 export type Phase = 'create' | 'season' | 'event' | 'penalty' | 'offers' | 'retired'
+
+/**
+ * How much of a career is on the table.
+ *
+ * `simple` is the game as it always was: one rating, one click a season, no
+ * money and no paperwork. `detailed` keeps every bit of that and adds the
+ * things underneath it — attributes, contracts, a manager with an opinion, a
+ * body that remembers its injuries.
+ *
+ * A career picks one when it is created and can only ever go up. Absent means
+ * `simple`, so no save written before this existed needs migrating.
+ */
+export type CareerDetail = 'simple' | 'detailed'
+
+export function detailOf(career: { detail?: CareerDetail }): CareerDetail {
+  return career.detail === 'detailed' ? 'detailed' : 'simple'
+}
+
+export function isDetailed(career: { detail?: CareerDetail }): boolean {
+  return detailOf(career) === 'detailed'
+}
 
 /**
  * How fast the career runs. The mode sets how many seasons a click covers and
@@ -210,4 +241,32 @@ export interface Career {
   pendingPenalty: PendingPenalty | null
   eventLog: EventLogEntry[]
   createdAt: number
+  /**
+   * The start this career was begun under, if it was not the ordinary one.
+   * Optional on purpose: a save written before starts existed is a `standard`
+   * career and needs no migration to say so.
+   */
+  modifier?: ModifierId
+  /**
+   * Simple or detailed. Optional so an old save reads as simple without a
+   * migration step; go through `detailOf` rather than touching it.
+   */
+  detail?: CareerDetail
+  /**
+   * What the player works on over the summer. Deliberately sticky: it carries
+   * from season to season until it is changed, so a career with one focus is
+   * one decision rather than the same decision twenty times. Detailed only.
+   */
+  training?: Facet | null
+  /**
+   * The season a simple career was turned into a detailed one, if it was. Kept
+   * so the career table can say where the numbers started being real.
+   */
+  detailedFrom?: number
+  /**
+   * Set on a career begun from the daily challenge, holding the day it was
+   * drawn for. Two careers with the same tag are the same run, played by
+   * different people, and are the only careers that can be compared directly.
+   */
+  daily?: string
 }

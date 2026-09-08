@@ -9,6 +9,10 @@ import {
   rollEvent,
   rollOutcome,
 } from './events'
+import * as attributes from './attributes'
+import type { Facet } from './attributes'
+import { effectsOf, type ModifierId } from './modifiers'
+import { judgeObjective, objectiveOf, objectiveSwing } from './objectives'
 import { Rng, clamp, randomSeed } from './rng'
 import {
   awardIndividual,
@@ -22,7 +26,9 @@ import {
 import {
   MAJOR_TROPHIES,
   MODE_CONFIG,
+  isDetailed,
   type Career,
+  type CareerDetail,
   type Club,
   type Foot,
   type GameMode,
@@ -44,6 +50,12 @@ export interface CreateOptions {
   mode?: GameMode
   seed?: number
   startYear?: number
+  /** an unlocked start, if the career is being begun under one */
+  modifier?: ModifierId
+  /** the day this career was drawn for, if it came from the daily challenge */
+  daily?: string
+  /** simple or detailed; a career picks once and can only ever go up */
+  detail?: CareerDetail
 }
 
 const START_AGE = 16
@@ -53,18 +65,28 @@ export function createCareer(opts: CreateOptions): Career {
   const rng = new Rng(seed)
   const nation = NATION_BY_NAME[opts.nation] ?? NATION_BY_NAME.Germany
 
-  // A youth product comes through at a modest club in his own country.
-  const pool = nation.startLeagues.flatMap((id) => clubsInLeague(id)).filter((c) => c.tier >= 3)
-  const club = pool.length ? rng.pick(pool) : rng.pick(CLUBS.filter((c) => c.tier >= 4))
+  const effects = effectsOf(opts.modifier)
+
+  // A youth product comes through at a modest club in his own country. A start
+  // that demands an even smaller one pushes the floor down rather than moving
+  // the player somewhere else: it is still his country, just further down it.
+  const floor = Math.max(3, effects.startTierFloor ?? 3)
+  const pool = nation.startLeagues.flatMap((id) => clubsInLeague(id)).filter((c) => c.tier >= floor)
+  const fallback = CLUBS.filter((c) => c.tier >= Math.max(4, floor))
+  const club = pool.length ? rng.pick(pool) : rng.pick(fallback.length ? fallback : CLUBS)
 
   const archetypeRoll = rng.next()
   const archetype = archetypeRoll < 0.12 ? 'wonderkid' : archetypeRoll < 0.3 ? 'late' : 'normal'
 
   // Start close enough to the bottom of the pyramid that the first transfer
   // window is a real choice rather than five variations on "you won't play".
-  const ovr = rng.int(50, 58) + (archetype === 'wonderkid' ? 2 : 0)
+  const ovr = clamp(rng.int(50, 58) + (archetype === 'wonderkid' ? 2 : 0) + effects.startOvr, 42, 70)
   const potentialBoost = archetype === 'wonderkid' ? 7 : archetype === 'late' ? 3 : 0
-  const hiddenPotential = clamp(ovr + rng.gauss(21, 9) + potentialBoost, ovr + 4, 94)
+  const hiddenPotential = clamp(
+    ovr + rng.gauss(21, 9) + potentialBoost + effects.startPotential,
+    ovr + 4,
+    94,
+  )
 
   const player: Player = {
     name: opts.name.trim() || 'New Player',
@@ -101,6 +123,11 @@ export function createCareer(opts: CreateOptions): Career {
   if (player.potMax < hiddenPotential) player.potMax = Math.ceil(hiddenPotential)
   player.value = marketValue(player, club)
 
+  const detail: CareerDetail = opts.detail === 'detailed' ? 'detailed' : 'simple'
+  if (detail === 'detailed') {
+    player.attributes = attributes.generate(player.ovr, player.position, rng)
+  }
+
   const startYear = opts.startYear ?? 2026
   return {
     id: `${seed}-${Date.now()}`,
@@ -120,7 +147,40 @@ export function createCareer(opts: CreateOptions): Career {
     pendingPenalty: null,
     eventLog: [],
     createdAt: Date.now(),
+    modifier: opts.modifier ?? 'standard',
+    daily: opts.daily,
+    detail,
+    training: null,
+    detailedFrom: detail === 'detailed' ? startYear : undefined,
   }
+}
+
+/**
+ * Turns a simple career into a detailed one, mid-run and one way only.
+ *
+ * The attributes are built around the rating the career already reached rather
+ * than from scratch, so a thirty-year-old who arrives here gets the shape of
+ * the player he actually became. A career already detailed is returned
+ * untouched, which makes this safe to call from a button without guarding.
+ */
+export function upgradeToDetailed(career: Career): Career {
+  if (isDetailed(career)) return career
+  const rng = new Rng(career.seed ^ 0x5eed)
+  const player = { ...career.player }
+  player.attributes = attributes.generate(player.ovr, player.position, rng)
+  return {
+    ...career,
+    player,
+    detail: 'detailed',
+    detailedFrom: career.season,
+    training: null,
+  }
+}
+
+/** Sets what the player works on over the coming summer. */
+export function setTraining(career: Career, facet: Facet | null): Career {
+  if (!isDetailed(career)) return career
+  return { ...career, training: facet }
 }
 
 // ---------------------------------------------------------------------------
@@ -193,6 +253,7 @@ function runOneSeason(career: Career, rng: Rng): SeasonRecord {
     return record
   }
 
+  const effects = effectsOf(career.modifier)
   const continental = continentalEntry(club, previous, rng)
   const record = simulateSeason({
     player,
@@ -201,6 +262,7 @@ function runOneSeason(career: Career, rng: Rng): SeasonRecord {
     continental,
     rng,
     tableSeed: career.seed,
+    injuryScale: effects.injury,
   })
 
   simulateInternational(player, record, career.season, rng)
@@ -208,7 +270,33 @@ function runOneSeason(career: Career, rng: Rng): SeasonRecord {
   if (record.natApps > 0) player.natCapped = true
 
   const prog = progress(player, record, career.history.length, rng)
-  record.ovrEnd = prog.ovrAfter
+  // A start that trades a steeper rise for a steeper fall reshapes the season's
+  // own verdict rather than replacing it: the football that was played is the
+  // football that was played, and this only changes what it did to the player.
+  if (effects.growth !== 1 || effects.decline !== 1) {
+    const delta = prog.ovrAfter - record.ovrStart
+    const scaled = delta * (delta >= 0 ? effects.growth : effects.decline)
+    player.ovr = clamp(Math.round(record.ovrStart + scaled), 40, 99)
+    player.hiddenPotential = clamp(player.hiddenPotential, player.ovr, 99)
+    player.potMin = clamp(player.potMin, player.ovr, 99)
+    player.potMax = clamp(Math.max(player.potMax, player.potMin + 1), player.potMin + 1, 99)
+    record.ceilingAfter = [player.potMin, player.potMax]
+  }
+  record.ovrEnd = player.ovr
+
+  // The shape follows the rating, never the other way round: whatever the
+  // simulation decided this season is, the attributes are refitted to it. What
+  // the summer's training and the player's age get to decide is which parts of
+  // him carry that number.
+  if (isDetailed(career) && player.attributes) {
+    player.attributes = attributes.advance(player.attributes, {
+      position: player.position,
+      age: player.age,
+      ovrAfter: player.ovr,
+      training: career.training ?? null,
+      rng,
+    })
+  }
 
   player.age += 1
   const home = player.onLoan && player.parentClubId ? CLUB_BY_ID[player.parentClubId] : club
@@ -296,7 +384,11 @@ function runBatch(start: Career): Career {
 
     // --- does something demand a decision? ------------------------------
     const club = CLUB_BY_ID[next.player.clubId]
-    const pressure = MODE_CONFIG[next.mode].eventPressure
+    const pressure = clamp(
+      MODE_CONFIG[next.mode].eventPressure * effectsOf(next.modifier).eventPressure,
+      0,
+      0.95,
+    )
     const event = record.banned
       ? null
       : rollEvent(
@@ -340,7 +432,10 @@ function advanceToWindow(career: Career, rng: Rng): Career {
     return { ...career, season: career.season + 1, offers: [], phase: 'season' }
   }
 
-  const offers = generateOffers(player, career.lastSeason, rng)
+  // The summer is where the club says what it made of the season it set you.
+  const last = career.lastSeason
+  const swing = last ? objectiveSwing(judgeObjective(objectiveOf(career, last), last)) : 0
+  const offers = generateOffers(player, last, rng, swing)
   return {
     ...career,
     offers,
@@ -521,8 +616,8 @@ export function transferAffinity(from: Club, to: Club, player: Player, level: nu
 }
 
 /** What the market thinks you're worth as a footballer, not just your rating. */
-function marketLevel(player: Player, last: SeasonRecord | null): number {
-  let level = player.ovr
+function marketLevel(player: Player, last: SeasonRecord | null, swing = 0): number {
+  let level = player.ovr + swing
   if (last) {
     if (last.rating > 0) level += (last.rating - 6.8) * 3
     level += last.trophies.length * 0.7
@@ -548,9 +643,15 @@ function offerFor(club: Club, player: Player, loan: boolean, rng: Rng): Offer {
   return { club, loan, projectedRole: role, continental }
 }
 
-export function generateOffers(player: Player, last: SeasonRecord | null, rng: Rng): Offer[] {
+export function generateOffers(
+  player: Player,
+  last: SeasonRecord | null,
+  rng: Rng,
+  /** what answering the club's season objective was worth, in rating points */
+  swing = 0,
+): Offer[] {
   if (player.age >= 41) return []
-  const level = marketLevel(player, last)
+  const level = marketLevel(player, last, swing)
   const current = CLUB_BY_ID[player.clubId]
 
   const candidates = CLUBS.filter((c) => c.id !== current.id)

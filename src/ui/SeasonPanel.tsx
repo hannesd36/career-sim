@@ -6,6 +6,7 @@ import type { Career, SeasonRecord } from '../engine/types'
 import { useI18n, type Translator } from '../i18n'
 import type { StringKey } from '../i18n/strings'
 import { Crest, Delta, ordinal, roleClass, seasonLabel } from './bits'
+import { ObjectiveVerdict, Press } from './CareerExtras'
 
 interface Props {
   career: Career
@@ -88,6 +89,10 @@ export function SeasonPanel({ career, record, onClub, onBack }: Props) {
         <Delta value={delta} size="lg" />
       </div>
 
+      {/* What the club had asked for, and what the season made of it. It sits
+          above the numbers because it is the sentence they are an answer to. */}
+      <ObjectiveVerdict career={career} record={record} />
+
       {!record.banned && (
         <div className="readout" style={{ borderTop: 'none' }}>
           {stats.map((s) => (
@@ -123,6 +128,8 @@ export function SeasonPanel({ career, record, onClub, onBack }: Props) {
           ))}
         </div>
       )}
+
+      <Press career={career} record={record} />
 
       <div className="notes">
         {notesFor(career, record, i18n).map((n, i) => (

@@ -12,6 +12,8 @@ interface Props {
   onPlayAgain: () => void
   onBack: () => void
   onClub: (clubId: string, season: number) => void
+  /** opens the card, so a finished career can leave the browser as a picture */
+  onShare?: () => void
 }
 
 const MAJOR: TrophyId[] = ['worldcup', 'continentalnation', 'continental', 'league', 'cup']
@@ -21,7 +23,7 @@ const MAJOR: TrophyId[] = ['worldcup', 'continentalnation', 'continental', 'leag
  * they got, what they won, where they spent it, and what they decided along
  * the way. It is the only screen in the game given room to breathe.
  */
-export function SummaryScreen({ career, onPlayAgain, onBack, onClub }: Props) {
+export function SummaryScreen({ career, onPlayAgain, onBack, onClub, onShare }: Props) {
   const { t, lang, country, trophyShort } = useI18n()
   const stats = totals(career)
   const nation = NATION_BY_NAME[career.player.nation]
@@ -243,6 +245,11 @@ export function SummaryScreen({ career, onPlayAgain, onBack, onClub }: Props) {
         <button className="act act--primary" onClick={onPlayAgain}>
           {t('summary.again')}
         </button>
+        {onShare && (
+          <button className="act" onClick={onShare}>
+            {t('share.open')}
+          </button>
+        )}
         <button className="act act--quiet" onClick={onBack}>
           {t('summary.back')}
         </button>

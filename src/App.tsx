@@ -3,9 +3,11 @@ import { CLUB_BY_ID } from './data/clubs'
 import { AWARDS, earnedCount, readStats } from './engine/awards'
 import {
   acceptOffer,
+  careerScore,
   closeEvent,
   closePenalty,
   playSeasons,
+  setTraining,
   resolveEvent,
   retire,
   takePenalty,
@@ -18,6 +20,13 @@ import {
   computeCabinetStats,
   newlyEarnedCareerAwards,
 } from './engine/careerAwards'
+import {
+  dailyBrief,
+  dailyKey,
+  dailyRecordFor,
+  rememberDaily,
+  untilNextDaily,
+} from './engine/daily'
 import { detectMilestonesForRun, type MilestoneId } from './engine/milestones'
 import {
   deleteCareer,
@@ -27,13 +36,25 @@ import {
   renameCareer,
   saveCareer,
 } from './engine/storage'
-import { MODE_CONFIG, type Career, type Offer, type PenaltyCorner, type Phase } from './engine/types'
+import { readStreak, streakStrip, touchStreak, type Streak } from './engine/streak'
+import {
+  MODE_CONFIG,
+  isDetailed,
+  type Career,
+  type Offer,
+  type PenaltyCorner,
+  type Phase,
+} from './engine/types'
 import { rarityClass } from './engine/rarity'
+import { leaderboardEnabled, playerName, submitScore } from './net/leaderboard'
 import { useI18n } from './i18n'
 import type { StringKey } from './i18n/strings'
 import { roomFromUrl } from './net/peer'
 import { AwardsScreen } from './ui/Awards'
+import { BoardsScreen } from './ui/Boards'
 import { Book } from './ui/Book'
+import { AttributePanel, TrainingPicker } from './ui/Attributes'
+import { Ambitions, Cohort, NextUp, ObjectiveBrief } from './ui/CareerExtras'
 import { CreateScreen } from './ui/CreateScreen'
 import { CrestGame } from './ui/CrestGame'
 import { EventScreen } from './ui/EventScreen'
@@ -45,6 +66,7 @@ import { LangSwitch } from './ui/LangSwitch'
 import { LeagueTable } from './ui/LeagueTable'
 import { OfferScreen } from './ui/OfferScreen'
 import { PenaltyScreen } from './ui/PenaltyScreen'
+import { PlayerCard, ShareCard } from './ui/PlayerCard'
 import { Rail } from './ui/Rail'
 import { SeasonPanel } from './ui/SeasonPanel'
 import { SettingsPanel } from './ui/SettingsPanel'
@@ -53,7 +75,18 @@ import { Crest, careerStage, formatValue, seasonLabel, type Stage } from './ui/b
 import { useBook } from './ui/useBook'
 import { useTheme, type Theme } from './ui/useSettings'
 
-type View = 'home' | 'create' | 'career' | 'grid' | 'guess' | 'crest' | 'awards' | 'book' | 'hof'
+type View =
+  | 'home'
+  | 'create'
+  | 'daily'
+  | 'career'
+  | 'grid'
+  | 'guess'
+  | 'crest'
+  | 'awards'
+  | 'book'
+  | 'hof'
+  | 'boards'
 type Standings = { clubId: string; season?: number }
 
 const STEPS = [1, 3, 5]
@@ -77,6 +110,8 @@ export default function App() {
   const [perched, setPerched] = useState(false)
   const [milestoneToast, setMilestoneToast] = useState<MilestoneId[]>([])
   const [careerAwardToast, setCareerAwardToast] = useState<CareerAward[]>([])
+  const [sharing, setSharing] = useState(false)
+  const [streak, setStreak] = useState<Streak>(() => readStreak())
   const fileInput = useRef<HTMLInputElement>(null)
   const nowRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
@@ -100,6 +135,25 @@ export default function App() {
         const after = computeCabinetStats([...others, career])
         const newly = newlyEarnedCareerAwards(before, after)
         if (newly.length) setCareerAwardToast(newly)
+
+        // A finished career is the only thing worth putting on a board, and a
+        // daily one goes to its own day as well as to the all-time list.
+        if (leaderboardEnabled() && playerName().trim()) {
+          const score = careerScore(career)
+          const detail = `${career.player.name} · ${totals(career).peakOvr}`
+          void submitScore({ board: 'career', value: score, detail })
+          if (career.daily) {
+            void submitScore({ board: `daily:${career.daily}`, value: score, detail })
+          }
+        }
+        if (career.daily) {
+          rememberDaily({
+            key: career.daily,
+            careerId: career.id,
+            score: careerScore(career),
+            finished: true,
+          })
+        }
       } else if (now === 'offers' && prev !== 'offers') {
         const hits = detectMilestonesForRun(career)
         if (hits.length) setMilestoneToast(hits)
@@ -144,12 +198,14 @@ export default function App() {
     prevPhase.current = c.phase
     setMilestoneToast([])
     setCareerAwardToast([])
+    setSharing(false)
   }
 
   const play = (seasons: number) => {
     if (!career) return
     setCareer(playSeasons(career, seasons))
     setReading(null)
+    setStreak(touchStreak())
   }
 
   const accept = (offer: Offer) => {
@@ -168,6 +224,35 @@ export default function App() {
       <Frame label={t('app.name')}>
         <Topbar next={next} onTheme={cycle} />
         <CreateScreen onStart={open} onCancel={saves.length ? backHome : undefined} />
+      </Frame>
+    )
+  }
+
+  // Today's career: the brief is fixed, so the screen only asks for a name.
+  if (view === 'daily') {
+    const key = dailyKey()
+    const brief = dailyBrief(key)
+    return (
+      <Frame label={t('daily.title')}>
+        <Topbar next={next} onTheme={cycle} />
+        <CreateScreen
+          onStart={(c) => {
+            rememberDaily({ key, careerId: c.id })
+            setStreak(touchStreak())
+            open(c)
+          }}
+          onCancel={backHome}
+          fixed={{ ...brief, daily: key }}
+        />
+      </Frame>
+    )
+  }
+
+  if (view === 'boards') {
+    return (
+      <Frame label={t('board.title')}>
+        <Topbar next={next} onTheme={cycle} />
+        <BoardsScreen onExit={backHome} />
       </Frame>
     )
   }
@@ -234,7 +319,9 @@ export default function App() {
         <Topbar next={next} onTheme={cycle} />
         <Home
           saves={saves}
+          streak={streak}
           onNew={() => setView('create')}
+          onDaily={() => setView('daily')}
           onOpen={open}
           onDelete={(id) => {
             deleteCareer(id)
@@ -271,7 +358,10 @@ export default function App() {
   }
 
   const club = CLUB_BY_ID[career.player.clubId]
-  const steps = MODE_CONFIG[career.mode].seasons
+  // A detailed career asks something every summer, so it cannot be run five
+  // seasons deep on one click. The pace control goes away rather than lying.
+  const detailed = isDetailed(career)
+  const steps = detailed ? 1 : MODE_CONFIG[career.mode].seasons
   const stage = careerStage(career)
 
   /*
@@ -287,6 +377,15 @@ export default function App() {
     <div className="ask" ref={nowRef}>
       {career.phase === 'season' && (
         <>
+          {/* Read on the way past: a season you go into knowing what is wanted
+              of you is a different season from one you only score afterwards. */}
+          <ObjectiveBrief career={career} />
+          {/* One of the few things in a detailed career you decide rather than
+              receive, so it sits in front of the button that spends it. */}
+          <TrainingPicker
+            career={career}
+            onPick={(facet) => setCareer(setTraining(career, facet))}
+          />
           <button className="kickoff" onClick={() => play(steps)}>
             {club && <Crest club={club} size="lg" eager />}
             <span className="kickoff-label">
@@ -303,18 +402,23 @@ export default function App() {
               →
             </span>
           </button>
-          <div className="tempo" role="group" aria-label={t('mode.title')}>
-            {STEPS.map((n) => (
-              <button
-                key={n}
-                className={n === steps ? 'on' : undefined}
-                onClick={() => play(n)}
-                title={t('mode.seasonsPerClick', { n })}
-              >
-                {t('mode.nSeasons', { n })}
-              </button>
-            ))}
-          </div>
+          {detailed ? (
+            <p className="hint hint--pace">{t('detail.paceLocked')}</p>
+          ) : (
+            <div className="tempo" role="group" aria-label={t('mode.title')}>
+              {STEPS.map((n) => (
+                <button
+                  key={n}
+                  className={n === steps ? 'on' : undefined}
+                  onClick={() => play(n)}
+                  title={t('mode.seasonsPerClick', { n })}
+                >
+                  {t('mode.nSeasons', { n })}
+                </button>
+              ))}
+            </div>
+          )}
+          <NextUp career={career} />
         </>
       )}
 
@@ -388,6 +492,7 @@ export default function App() {
           onPlayAgain={() => setView('create')}
           onBack={backHome}
           onClub={openClub}
+          onShare={() => setSharing(true)}
         />
       ) : (
         <div className="spread">
@@ -412,9 +517,16 @@ export default function App() {
             )}
 
             {!waiting && ask}
+
+            <AttributePanel career={career} />
+            <Ambitions career={career} />
+            <Cohort career={career} />
           </div>
 
           <aside className="rail">
+            {/* The card sits in the sticky column, so the thing you are playing
+                for is on screen the whole way down a career. */}
+            <PlayerCard career={career} size="sm" onClick={() => setSharing(true)} />
             <Rail
               career={career}
               reading={reading}
@@ -424,6 +536,8 @@ export default function App() {
           </aside>
         </div>
       )}
+
+      {sharing && <ShareCard career={career} onClose={() => setSharing(false)} />}
 
       {standings && (
         <LeagueTable
@@ -597,18 +711,120 @@ function HofMark() {
 type SortMode = 'recent' | 'rating' | 'name'
 const SORTS: SortMode[] = ['recent', 'rating', 'name']
 
+/**
+ * Today's career.
+ *
+ * The same seed for everybody, redrawn at midnight UTC, so it is the only run
+ * two people can honestly compare. The card knows three states: not started,
+ * in progress, and done, and says the same thing in all three — here is the
+ * one career today that is not only yours.
+ */
+function DailyCard({
+  onPlay,
+  onOpen,
+  saves,
+}: {
+  onPlay: () => void
+  onOpen: (c: Career) => void
+  saves: Career[]
+}) {
+  const { t } = useI18n()
+  const key = dailyKey()
+  const record = dailyRecordFor(key)
+  const started = record ? (saves.find((c) => c.id === record.careerId) ?? null) : null
+  const [left, setLeft] = useState(() => untilNextDaily())
+
+  useEffect(() => {
+    const tick = setInterval(() => setLeft(untilNextDaily()), 30_000)
+    return () => clearInterval(tick)
+  }, [])
+
+  const hours = Math.floor(left / 3600)
+  const minutes = Math.floor((left % 3600) / 60)
+  const clock = `${hours}h ${String(minutes).padStart(2, '0')}m`
+
+  return (
+    <div className="daily">
+      <div className="daily-top">
+        <span className="daily-tag">{t('daily.tag')}</span>
+        <span className="daily-clock">{t('daily.next', { time: clock })}</span>
+      </div>
+      <h3 className="daily-title">{t('daily.title')}</h3>
+      <p className="daily-blurb">{t('daily.blurb')}</p>
+      {started ? (
+        <button className="act act--primary" onClick={() => onOpen(started)}>
+          {started.phase === 'retired' ? t('home.view') : t('daily.continue')}
+        </button>
+      ) : (
+        <button className="act act--primary" onClick={onPlay}>
+          {t('daily.play')}
+        </button>
+      )}
+      {started?.phase === 'retired' && <p className="daily-done">{t('daily.finished')}</p>}
+    </div>
+  )
+}
+
+/**
+ * The last fortnight, as dots. It counts and it does nothing else: nothing is
+ * locked behind it and nothing is lost by breaking it.
+ */
+function StreakStrip({ streak }: { streak: Streak }) {
+  const { t } = useI18n()
+  const days = streakStrip(14)
+  return (
+    <div className="streak">
+      <div className="streak-top">
+        <span className="streak-k">{t('streak.title')}</span>
+        {streak.best > 0 && <span className="streak-best">{t('streak.best', { n: streak.best })}</span>}
+      </div>
+      <div className="streak-num">
+        {streak.current > 0 ? t('streak.days', { n: streak.current }) : t('streak.none')}
+      </div>
+      <div className="streak-dots" aria-hidden="true">
+        {days.map((d) => (
+          <i key={d.day} className={d.played ? 'on' : undefined} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/** A column chart with a rule across it, for the boards. */
+function BoardMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M4 20h16" />
+      <path d="M7 20v-6M12 20V5M17 20v-9" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 interface HomeProps {
   saves: Career[]
+  streak: Streak
   onNew: () => void
+  onDaily: () => void
   onOpen: (c: Career) => void
   onDelete: (id: string) => void
   onRename: (id: string, name: string) => void
   onExport: (c: Career) => void
   onImport: () => void
-  onGame: (game: 'grid' | 'guess' | 'crest' | 'awards' | 'book' | 'hof') => void
+  onGame: (game: 'grid' | 'guess' | 'crest' | 'awards' | 'book' | 'hof' | 'boards') => void
 }
 
-function Home({ saves, onNew, onOpen, onDelete, onRename, onExport, onImport, onGame }: HomeProps) {
+function Home({
+  saves,
+  streak,
+  onNew,
+  onDaily,
+  onOpen,
+  onDelete,
+  onRename,
+  onExport,
+  onImport,
+  onGame,
+}: HomeProps) {
   const { t, num } = useI18n()
   const book = useBook()
   const [sort, setSort] = useState<SortMode>('recent')
@@ -625,6 +841,15 @@ function Home({ saves, onNew, onOpen, onDelete, onRename, onExport, onImport, on
   }, [saves, sort])
   const cabinet = useMemo(() => earnedCount(readStats()), [])
   const hofCabinet = useMemo(() => careerAwardsEarned(computeCabinetStats(saves)), [saves])
+  // The card at the top is the best career there is, finished or not: a run in
+  // progress that has already beaten everything before it is the story now.
+  const best = useMemo(
+    () =>
+      saves.length
+        ? saves.reduce((top, c) => (careerScore(c) > careerScore(top) ? c : top))
+        : null,
+    [saves],
+  )
 
   const startRename = (career: Career) => {
     setRenaming(career.id)
@@ -648,6 +873,21 @@ function Home({ saves, onNew, onOpen, onDelete, onRename, onExport, onImport, on
           <button className="act act--quiet" onClick={onImport}>
             {t('home.import')}
           </button>
+        </div>
+      </section>
+
+      {/* The best thing this browser has ever done, said at the size it
+          deserves, next to the one career everybody is playing today. */}
+      <section className="showcase">
+        {best && (
+          <div className="showcase-card">
+            <span className="showcase-k">{t('home.bestCareer')}</span>
+            <PlayerCard career={best} onClick={() => onOpen(best)} />
+          </div>
+        )}
+        <div className="showcase-side">
+          <DailyCard onPlay={onDaily} onOpen={onOpen} saves={saves} />
+          <StreakStrip streak={streak} />
         </div>
       </section>
 
@@ -695,6 +935,12 @@ function Home({ saves, onNew, onOpen, onDelete, onRename, onExport, onImport, on
                 blurb: t('book.cardBlurb'),
                 go: t('book.open'),
               },
+              {
+                id: 'boards',
+                title: t('game.boards'),
+                blurb: t('game.boardsBlurb'),
+                go: t('award.open'),
+              },
             ] as const
           ).map((g) => (
             <button key={g.id} className="gamecard" onClick={() => onGame(g.id)}>
@@ -709,6 +955,8 @@ function Home({ saves, onNew, onOpen, onDelete, onRename, onExport, onImport, on
                   <CabinetMark />
                 ) : g.id === 'hof' ? (
                   <HofMark />
+                ) : g.id === 'boards' ? (
+                  <BoardMark />
                 ) : (
                   <BookMark />
                 )}
