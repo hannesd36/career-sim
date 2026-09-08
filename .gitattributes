@@ -1,0 +1,18 @@
+# Line endings are LF everywhere, including in the working copy on Windows.
+#
+# Without this, git hands a Windows checkout CRLF while Prettier is configured
+# for LF, so `npm run format:check` fails on a clean clone and "fixing" it
+# rewrites every file back to CRLF for the next person. One ending, no argument.
+* text=auto eol=lf
+
+# Binary, so never touched.
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+# Generated and enormous: keep them out of diffs and out of language stats.
+public/players.json linguist-generated=true
+package-lock.json linguist-generated=true
+server/package-lock.json linguist-generated=true
