@@ -2,12 +2,12 @@ name = "career-sim-boards"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
 
-# Filled in by `wrangler d1 create career-sim-boards` — paste the database_id it
-# prints into the line below before deploying.
+# Created with `wrangler d1 create career-sim-boards`. The id is not a secret:
+# it names the database, and reaching it still needs the account it lives in.
 [[d1_databases]]
 binding = "DB"
 database_name = "career-sim-boards"
-database_id = "PASTE_DATABASE_ID_HERE"
+database_id = "75e143e8-cd55-4af2-8707-ecbaca316103"
 
 [vars]
 # Origins allowed to post a score. Leave empty to allow any origin, which is
