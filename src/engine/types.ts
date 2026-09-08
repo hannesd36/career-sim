@@ -1,5 +1,9 @@
 import type { Attributes, Facet } from './attributes'
+import type { Contract } from './contracts'
+import type { Finances } from './finances'
+import type { Body, Injury } from './injuries'
 import type { ModifierId } from './modifiers'
+import type { Room } from './staff'
 
 export type Position = 'GK' | 'CB' | 'LB' | 'RB' | 'CDM' | 'CM' | 'CAM' | 'LW' | 'RW' | 'ST'
 
@@ -87,6 +91,12 @@ export interface SeasonRecord {
   caught?: boolean
   /** the club reached this final; a shootout decides whether it is won */
   finalIn?: { trophy: TrophyId; opponent: string }
+  /** the injury that cost the games above, when the detailed mode named one */
+  injury?: Injury
+  /** what the season paid, thousands, detailed mode only */
+  earned?: number
+  /** the manager's view of the player at the end of it */
+  managerOpinion?: number
   /** international */
   natApps: number
   natGoals: number
@@ -141,6 +151,8 @@ export interface Player {
    * nothing may read it without checking.
    */
   attributes?: Attributes
+  /** every injury this career has had, and how brittle it turned out to be */
+  body?: Body
 }
 
 export type Phase = 'create' | 'season' | 'event' | 'penalty' | 'offers' | 'retired'
@@ -263,6 +275,17 @@ export interface Career {
    * so the career table can say where the numbers started being real.
    */
   detailedFrom?: number
+  /** the deal currently being played under. Detailed careers only. */
+  contract?: Contract | null
+  /** earnings, spending and investments. Detailed careers only. */
+  finances?: Finances
+  /** the manager, the squad's view, and the named teammates at this club */
+  room?: Room
+  /**
+   * Set when the club has gone back on the role it promised. It is cleared once
+   * the player has had the chance to do something about it.
+   */
+  promiseBroken?: boolean
   /**
    * Set on a career begun from the daily challenge, holding the day it was
    * drawn for. Two careers with the same tag are the same run, played by

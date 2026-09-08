@@ -6,8 +6,11 @@ import {
   careerScore,
   closeEvent,
   closePenalty,
+  moveInvestment,
   playSeasons,
   setTraining,
+  termsFor,
+  toggleSpend,
   resolveEvent,
   retire,
   takePenalty,
@@ -53,7 +56,10 @@ import { roomFromUrl } from './net/peer'
 import { AwardsScreen } from './ui/Awards'
 import { BoardsScreen } from './ui/Boards'
 import { Book } from './ui/Book'
+import type { Terms } from './engine/contracts'
+import { yearsLeft } from './engine/contracts'
 import { AttributePanel, TrainingPicker } from './ui/Attributes'
+import { BodyPanel, ContractPanel, LifeScreen, RoomPanel, TermsPicker } from './ui/Depth'
 import { Ambitions, Cohort, NextUp, ObjectiveBrief } from './ui/CareerExtras'
 import { CreateScreen } from './ui/CreateScreen'
 import { CrestGame } from './ui/CrestGame'
@@ -112,6 +118,11 @@ export default function App() {
   const [careerAwardToast, setCareerAwardToast] = useState<CareerAward[]>([])
   const [sharing, setSharing] = useState(false)
   const [streak, setStreak] = useState<Streak>(() => readStreak())
+  // A detailed signing is a negotiation, so the offer waits here with the terms
+  // on the table until a shape has been picked.
+  const [pending, setPending] = useState<{ offer: Offer; terms: Terms[] } | null>(null)
+  const [chosenTerms, setChosenTerms] = useState<Terms | null>(null)
+  const [lifeOpen, setLifeOpen] = useState(false)
   const fileInput = useRef<HTMLInputElement>(null)
   const nowRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
@@ -208,9 +219,30 @@ export default function App() {
     setStreak(touchStreak())
   }
 
+  /*
+   * Signing, in two modes.
+   *
+   * A simple career takes the shirt and gets on with it. A detailed one has
+   * terms to agree first, so the click opens the negotiation rather than
+   * finishing it, and the signing happens once a shape has been picked.
+   */
   const accept = (offer: Offer) => {
     if (!career) return
+    if (isDetailed(career)) {
+      const terms = termsFor(career, offer)
+      setPending({ offer, terms })
+      setChosenTerms(terms[0])
+      return
+    }
     setCareer(acceptOffer(career, offer))
+    setReading(null)
+  }
+
+  const signIt = () => {
+    if (!career || !pending || !chosenTerms) return
+    setCareer(acceptOffer(career, pending.offer, chosenTerms))
+    setPending(null)
+    setChosenTerms(null)
     setReading(null)
   }
 
@@ -386,6 +418,11 @@ export default function App() {
             career={career}
             onPick={(facet) => setCareer(setTraining(career, facet))}
           />
+          {isDetailed(career) && (
+            <button className="act act--quiet act--wide" onClick={() => setLifeOpen(true)}>
+              {t('life.open')}
+            </button>
+          )}
           <button className="kickoff" onClick={() => play(steps)}>
             {club && <Crest club={club} size="lg" eager />}
             <span className="kickoff-label">
@@ -438,13 +475,40 @@ export default function App() {
         />
       )}
 
-      {career.phase === 'offers' && (
+      {career.phase === 'offers' && !pending && (
         <OfferScreen
           career={career}
           onAccept={accept}
           onRetire={() => setCareer(retire(career))}
           onClub={openClub}
         />
+      )}
+
+      {/* The negotiation, once a club has been chosen but nothing signed. */}
+      {career.phase === 'offers' && pending && (
+        <div className="signing">
+          <p className="kicker kicker--loud">{pending.offer.club.name}</p>
+          <TermsPicker
+            terms={pending.terms}
+            chosen={chosenTerms}
+            onPick={setChosenTerms}
+            freeAgent={yearsLeft(career.contract ?? null, career.season) === 0}
+          />
+          <div className="act-row">
+            <button className="act act--primary" onClick={signIt} disabled={!chosenTerms}>
+              {t('con.sign')}
+            </button>
+            <button
+              className="act act--quiet"
+              onClick={() => {
+                setPending(null)
+                setChosenTerms(null)
+              }}
+            >
+              {t('app.back')}
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )
@@ -518,7 +582,10 @@ export default function App() {
 
             {!waiting && ask}
 
+            <ContractPanel career={career} />
             <AttributePanel career={career} />
+            <RoomPanel career={career} />
+            <BodyPanel career={career} />
             <Ambitions career={career} />
             <Cohort career={career} />
           </div>
@@ -538,6 +605,25 @@ export default function App() {
       )}
 
       {sharing && <ShareCard career={career} onClose={() => setSharing(false)} />}
+
+      {/* Where the money goes. Its own screen, because deciding what a career's
+          earnings are for is different thinking from picking a club. */}
+      {lifeOpen && isDetailed(career) && (
+        <div className="sheet" role="dialog" aria-label={t('life.title')}>
+          <div className="sheet-inner">
+            <LifeScreen
+              career={career}
+              onToggle={(id) => setCareer(toggleSpend(career, id))}
+              onInvest={(amount) => setCareer(moveInvestment(career, amount))}
+            />
+            <div className="act-row">
+              <button className="act act--quiet" onClick={() => setLifeOpen(false)}>
+                {t('app.close')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {standings && (
         <LeagueTable
