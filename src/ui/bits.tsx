@@ -83,9 +83,27 @@ export function Grade({ ovr, size = 'lg' }: { ovr: number; size?: 'lg' | 'md' | 
   )
 }
 
-/** The same idea at table size: a number underlined in its tier. */
+/**
+ * The same idea at table size: a number underlined in its tier.
+ *
+ * The tier used to be carried by the colour of that underline and nothing
+ * else, which makes it invisible to anybody who cannot separate bronze from
+ * gold. It now says its own name to a screen reader and on hover, and the
+ * underline has a different *shape* per tier as well as a different colour.
+ */
 export function TierNum({ value }: { value: number }) {
-  return <span className={`tier-num ${rarityClass(value)}`}>{value}</span>
+  const { t } = useI18n()
+  const tier = rarityOf(value)
+  const name = t(`rar.${tier}` as StringKey)
+  return (
+    <span
+      className={`tier-num ${rarityClass(value)}`}
+      title={name}
+      aria-label={`${value}, ${name}`}
+    >
+      {value}
+    </span>
+  )
 }
 
 /**

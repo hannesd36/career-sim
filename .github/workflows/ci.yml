@@ -12,7 +12,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   pull_request:
   # lets you re-run the checks by hand without pushing anything
   workflow_dispatch:

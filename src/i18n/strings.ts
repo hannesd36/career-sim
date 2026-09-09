@@ -1343,6 +1343,26 @@ const en = {
   'style.fits': 'His football suits you',
   'style.against': 'His football does not suit you',
 
+  // ---- the squad announcement, once a summer ----
+  'cu.title': 'Your country',
+  'cu.first-callup': '{nation} call you up for the first time.',
+  'cu.squad-named': 'You are in the {nation} squad.',
+  'cu.tournament-squad': 'You are going to the tournament with {nation}.',
+  'cu.tournament-missed': 'The {nation} squad goes to the tournament without you.',
+  'cu.left-out': 'You were fit, playing, and not picked.',
+  'cu.dropped': '{nation} have stopped calling.',
+  'cu.regular': 'You are one of the first names on the {nation} sheet.',
+  'cu.captain-material': 'You are the best player {nation} have.',
+  'cu.too-good-to-ignore': 'A season like that, and {nation} still have not called.',
+  'cu.retired-from-international': 'Your international career is behind you.',
+  'cu.caps': '{n} caps',
+  'cu.caps_one': 'One cap',
+  'caps.never': 'Never capped',
+  'caps.a-few': 'A handful of caps',
+  'caps.regular': 'A regular international',
+  'caps.mainstay': 'A mainstay of the national side',
+  'caps.legend': "One of his country's most capped players",
+
   'home.bestCareer': 'Your best career',
 }
 
@@ -2654,6 +2674,25 @@ const de: Record<Key, string> = {
   'style.rotator': 'Rotiert ständig',
   'style.fits': 'Sein Fußball passt zu dir',
   'style.against': 'Sein Fußball passt nicht zu dir',
+
+  'cu.title': 'Dein Land',
+  'cu.first-callup': '{nation} nominiert dich zum ersten Mal.',
+  'cu.squad-named': 'Du stehst im Kader von {nation}.',
+  'cu.tournament-squad': 'Du fährst mit {nation} zum Turnier.',
+  'cu.tournament-missed': 'Der Kader von {nation} fährt ohne dich zum Turnier.',
+  'cu.left-out': 'Du warst fit, hast gespielt, und wurdest nicht nominiert.',
+  'cu.dropped': '{nation} ruft nicht mehr an.',
+  'cu.regular': 'Bei {nation} stehst du als Erster auf dem Zettel.',
+  'cu.captain-material': 'Du bist der beste Spieler, den {nation} hat.',
+  'cu.too-good-to-ignore': 'So eine Saison, und {nation} hat immer noch nicht angerufen.',
+  'cu.retired-from-international': 'Deine Zeit in der Nationalmannschaft ist vorbei.',
+  'cu.caps': '{n} Länderspiele',
+  'cu.caps_one': 'Ein Länderspiel',
+  'caps.never': 'Nie nominiert',
+  'caps.a-few': 'Eine Handvoll Länderspiele',
+  'caps.regular': 'Stammgast in der Nationalelf',
+  'caps.mainstay': 'Feste Größe in der Nationalelf',
+  'caps.legend': 'Einer der Rekordnationalspieler seines Landes',
 
   'home.bestCareer': 'Deine beste Karriere',
 }
