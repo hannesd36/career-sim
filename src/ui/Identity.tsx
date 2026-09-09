@@ -3,7 +3,7 @@ import { LEAGUE_BY_ID } from '../data/leagues'
 import { NATION_BY_NAME } from '../data/nations'
 import { totals } from '../engine/career'
 import { dopingTestRisk } from '../engine/events'
-import { pointsToNextRarity, rarityClass } from '../engine/rarity'
+import { pointsToNextRarity, rarityClass, rarityOf } from '../engine/rarity'
 import { isKeeper } from '../engine/sim'
 import type { Career, TrophyId } from '../engine/types'
 import { useI18n } from '../i18n'
@@ -63,7 +63,12 @@ export function Identity({ career, onClub, variant = 'full' }: Props) {
           <i>{t('card.value')}</i>
           <b>{formatValue(player.value, lang)}</b>
         </span>
-        <span className={`who-ovr ${rarityClass(player.ovr)}`}>{player.ovr}</span>
+        <span
+          className={`who-ovr ${rarityClass(player.ovr)}`}
+          title={t(`rar.${rarityOf(player.ovr)}` as StringKey)}
+        >
+          {player.ovr}
+        </span>
       </header>
     )
   }

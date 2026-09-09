@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { CLUB_BY_ID } from '../data/clubs'
 import { LEAGUE_BY_ID } from '../data/leagues'
 import { NATION_BY_NAME } from '../data/nations'
-import { rarityClass } from '../engine/rarity'
+import { rarityClass, rarityOf } from '../engine/rarity'
 import { isKeeper } from '../engine/sim'
 import type { Career, SeasonRecord, TrophyId } from '../engine/types'
 import { useI18n } from '../i18n'
@@ -174,7 +174,13 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
               </span>
               <span className="yr-n">{spell.apps}</span>
               <span className="yr-n">{keeper ? spell.cleanSheets : spell.goals}</span>
-              <span className={`yr-ovr ovr ${rarityClass(spell.ovrEnd)}`}>{spell.ovrEnd}</span>
+              <span
+                className={`yr-ovr ovr ${rarityClass(spell.ovrEnd)}`}
+                title={t(`rar.${rarityOf(spell.ovrEnd)}` as StringKey)}
+                aria-label={`${spell.ovrEnd}, ${t(`rar.${rarityOf(spell.ovrEnd)}` as StringKey)}`}
+              >
+                {spell.ovrEnd}
+              </span>
             </button>
 
             {open === spell.key &&

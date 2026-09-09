@@ -10,7 +10,7 @@ import {
   type SeasonObjective,
 } from '../engine/objectives'
 import { headlinesFor } from '../engine/press'
-import { rarityClass } from '../engine/rarity'
+import { rarityClass, rarityOf } from '../engine/rarity'
 import type { Career, SeasonRecord } from '../engine/types'
 import { useI18n, type Translator } from '../i18n'
 import type { StringKey } from '../i18n/strings'
@@ -193,7 +193,13 @@ export function Cohort({ career }: { career: Career }) {
               </span>
               <span className="peer-pos">{t(`pos.${row.position}` as StringKey)}</span>
               <span className="peer-goals">{row.goals || '·'}</span>
-              <span className={`peer-ovr ovr ${rarityClass(row.ovr)}`}>{row.ovr}</span>
+              <span
+                className={`peer-ovr ovr ${rarityClass(row.ovr)}`}
+                title={t(`rar.${rarityOf(row.ovr)}` as StringKey)}
+                aria-label={`${row.ovr}, ${t(`rar.${rarityOf(row.ovr)}` as StringKey)}`}
+              >
+                {row.ovr}
+              </span>
             </div>
           )
         })}
