@@ -58,6 +58,14 @@ export type EventId =
   // --- the end of it ---
   | 'youth-mentor'
   | 'coaching-badges'
+  // --- the ones that make a career a story ---
+  | 'old-club-calls'
+  | 'giant-watching'
+  | 'relegated'
+  | 'player-of-the-season'
+  | 'young-pretender'
+  | 'comeback'
+  | 'tournament-summer'
 
 export interface EventEffect {
   /** rating points, the only currency a decision spends */
@@ -102,6 +110,14 @@ export interface EventContext {
   seasonsPlayed: number
   /** every decision already taken, so a one-off does not come round again */
   decided: Set<string>
+  /**
+   * Clubs this career wore the shirt of before the current one. Optional
+   * because an event that needs it simply does not fire without it, which is
+   * exactly what a caller that cannot supply it should get.
+   */
+  pastClubs?: string[]
+  /** the season before the one just played, where there is one */
+  previous?: SeasonRecord | null
 }
 
 /** Chance of being caught, rising the longer the player keeps at it. */
@@ -829,6 +845,171 @@ export const EVENTS: GameEvent[] = [
       {
         key: 'not-yet',
         outcomes: [{ weight: 1, result: 'later', tone: 'neutral', effect: {} }],
+      },
+    ],
+  },
+
+  // ------------------------------------------- the ones that make a story
+  /*
+   * These seven are here for one reason: so a career has years in it you would
+   * tell somebody about afterwards. Every one is still the same trade as
+   * everything above, this many rating points this often, but each is a
+   * situation a footballer would recognise rather than a modifier with a name
+   * on it. The club that made you ringing up. Somebody nobody says no to
+   * sending people to watch. The year everything came off. The nineteen year
+   * old who is quicker than you.
+   */
+  {
+    id: 'old-club-calls',
+    weight: ({ player, club, pastClubs }) => {
+      if (!pastClubs?.length || player.age < 26) return 0
+      return pastClubs.some((id) => id !== club.id) ? 2 : 0
+    },
+    choices: [
+      {
+        key: 'keep-the-door-open',
+        outcomes: [
+          { weight: 55, result: 'something-to-play-for', tone: 'good', effect: { ovr: 3 } },
+          { weight: 45, result: 'head-was-elsewhere', tone: 'bad', effect: { ovr: -3 } },
+        ],
+      },
+      {
+        key: 'close-it',
+        outcomes: [{ weight: 1, result: 'not-yet', tone: 'neutral', effect: { ovr: 1 } }],
+      },
+    ],
+  },
+  {
+    id: 'giant-watching',
+    weight: ({ player, club, last }) =>
+      player.ovr >= club.strength + 5 && player.age >= 21 && player.age <= 31 && last.apps >= 20
+        ? 2.2
+        : 0,
+    choices: [
+      {
+        key: 'give-them-a-season',
+        outcomes: [
+          { weight: 52, result: 'you-were-worth-it', tone: 'good', effect: { ovr: 4 } },
+          { weight: 48, result: 'you-tried-too-hard', tone: 'bad', effect: { ovr: -3 } },
+        ],
+      },
+      {
+        key: 'play-your-game',
+        outcomes: [
+          { weight: 70, result: 'nothing-changed', tone: 'neutral', effect: { ovr: 1 } },
+          { weight: 30, result: 'they-looked-elsewhere', tone: 'bad', effect: { ovr: -1 } },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'relegated',
+    weight: ({ last, club }) => {
+      const league = LEAGUE_BY_ID[club.leagueId]
+      if (!league || last.leaguePosition < league.teams - 2) return 0
+      return 2.6
+    },
+    choices: [
+      {
+        key: 'take-them-back-up',
+        outcomes: [
+          { weight: 58, result: 'carried-them', tone: 'good', effect: { ovr: 2 } },
+          { weight: 42, result: 'a-year-nobody-saw', tone: 'bad', effect: { ovr: -3 } },
+        ],
+      },
+      {
+        key: 'ask-to-leave',
+        outcomes: [
+          { weight: 60, result: 'they-understood', tone: 'neutral', effect: { ovr: 1 } },
+          { weight: 40, result: 'they-froze-you-out', tone: 'bad', effect: { ovr: -2 } },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'player-of-the-season',
+    weight: ({ last, player }) =>
+      last.rating >= 7.35 && last.apps >= 25 && player.age >= 20 ? 2 : 0,
+    choices: [
+      {
+        key: 'kick-on',
+        outcomes: [
+          { weight: 55, result: 'again-and-better', tone: 'good', effect: { ovr: 4 } },
+          { weight: 45, result: 'could-not-repeat-it', tone: 'bad', effect: { ovr: -2 } },
+        ],
+      },
+      {
+        key: 'same-again',
+        outcomes: [{ weight: 1, result: 'steady', tone: 'neutral', effect: { ovr: 1 } }],
+      },
+    ],
+  },
+  {
+    id: 'young-pretender',
+    weight: ({ player, last }) => (player.age >= 29 && last.apps < 24 ? 2.4 : 0),
+    choices: [
+      {
+        key: 'see-him-off',
+        outcomes: [
+          { weight: 48, result: 'still-the-better-player', tone: 'good', effect: { ovr: 3 } },
+          { weight: 52, result: 'the-legs-said-no', tone: 'bad', effect: { ovr: -4 } },
+        ],
+      },
+      {
+        key: 'teach-him',
+        outcomes: [
+          { weight: 62, result: 'became-the-senior-man', tone: 'neutral', effect: { ovr: 1 } },
+          {
+            weight: 38,
+            result: 'talked-yourself-onto-the-bench',
+            tone: 'bad',
+            effect: { ovr: -2 },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'comeback',
+    weight: ({ last, previous, player }) => {
+      if (!previous || player.age > 34) return 0
+      return last.ovrEnd <= previous.ovrEnd - 4 ? 2.8 : 0
+    },
+    choices: [
+      {
+        key: 'everything-at-it',
+        outcomes: [
+          { weight: 54, result: 'the-year-back', tone: 'good', effect: { ovr: 5 } },
+          { weight: 46, result: 'nothing-came-back', tone: 'bad', effect: { ovr: -3 } },
+        ],
+      },
+      {
+        key: 'brick-by-brick',
+        outcomes: [
+          { weight: 72, result: 'slow-and-steady', tone: 'neutral', effect: { ovr: 2 } },
+          { weight: 28, result: 'never-got-going', tone: 'bad', effect: { ovr: -1 } },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'tournament-summer',
+    weight: ({ player, last }) =>
+      player.natCapped && last.natApps >= 2 && player.age >= 21 && player.age <= 34 ? 2 : 0,
+    choices: [
+      {
+        key: 'go',
+        outcomes: [
+          { weight: 50, result: 'the-summer-of-your-life', tone: 'good', effect: { ovr: 4 } },
+          { weight: 50, result: 'came-back-empty', tone: 'bad', effect: { ovr: -4 } },
+        ],
+      },
+      {
+        key: 'stay-home',
+        outcomes: [
+          { weight: 65, result: 'fresh-in-august', tone: 'neutral', effect: { ovr: 2 } },
+          { weight: 35, result: 'they-stopped-calling', tone: 'bad', effect: { ovr: -1 } },
+        ],
       },
     ],
   },

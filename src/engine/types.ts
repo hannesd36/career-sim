@@ -101,6 +101,12 @@ export interface SeasonRecord {
   injury?: Injury
   /** what the season paid, thousands, detailed mode only */
   earned?: number
+  /**
+   * What the market said you were worth at the end of it. Optional because
+   * every save written before it existed has no such number, and a season
+   * report that cannot say what changed simply does not say it.
+   */
+  value?: number
   /** the manager's view of the player at the end of it */
   managerOpinion?: number
   /** international */

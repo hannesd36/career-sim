@@ -7,7 +7,7 @@ import { isKeeper } from '../engine/sim'
 import type { Career, SeasonRecord, TrophyId } from '../engine/types'
 import { useI18n } from '../i18n'
 import type { StringKey } from '../i18n/strings'
-import { Crest, Delta, Flag, LAST_AGE, STAGE_AT, TrophyIcon, seasonLabel } from './bits'
+import { Crest, Delta, Flag, LAST_AGE, TrophyIcon, seasonLabel } from './bits'
 
 interface Spell {
   key: string
@@ -80,6 +80,10 @@ interface Props {
  * empty rows at the bottom are the part still to be played, and they are the
  * whole point of the thing. A career is not a list of what you did, it is a
  * fixed number of years and how many you have spent.
+ *
+ * The years ahead are deliberately, completely blank. They used to carry
+ * labels, and a label is a promise the game has not made: an empty row reads
+ * as a career nobody has written yet, which is exactly what it is.
  */
 export function Rail({ career, reading, onRead, onNow }: Props) {
   const { t, country, trophyShort } = useI18n()
@@ -102,13 +106,19 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
   const [open, setOpen] = useState<string | null>(current)
   useEffect(() => setOpen(current), [current])
 
-  // The years still to play. Every age a career changes character at is always
-  // on the list and says what it is, so the empty half of the column reads as
-  // the plan rather than as padding.
+  // Every year still to play, one row each, and nothing written in any of
+  // them. The column is the career: the part above the line happened, the part
+  // below it has not, and the length of the second half is the point.
   const ahead: number[] = []
-  for (let a = age + 2; a <= LAST_AGE; a += 2) ahead.push(a)
-  for (const s of STAGE_AT) if (s.age > age && !ahead.includes(s.age)) ahead.push(s.age)
-  ahead.sort((a, b) => a - b)
+  for (let a = age + 1; a <= LAST_AGE; a++) ahead.push(a)
+
+  // The best rating this career has ever held, marked once so the shape of it
+  // is visible without reading every row.
+  const peak = career.history.reduce((best, s) => Math.max(best, s.ovrEnd), 0)
+
+  // Which summers a decision was taken in, so a season that turned the career
+  // is findable from the column rather than only from the season panel.
+  const decided = new Set(career.eventLog.map((e) => e.season))
 
   return (
     <div className="years">
@@ -135,10 +145,11 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
 
       {spells.map((spell, i) => {
         const move = i > 0 ? stepBetween(spells[i - 1], spell) : null
+        const topped = peak > 0 && spell.ovrEnd === peak
         return (
           <div key={spell.key}>
             <button
-              className={`yr yr--spell${open === spell.key ? ' yr--open' : ''}`}
+              className={`yr yr--spell${open === spell.key ? ' yr--open' : ''}${topped ? ' yr--peak' : ''}`}
               onClick={() => setOpen(open === spell.key ? null : spell.key)}
               aria-expanded={open === spell.key}
               title={t(open === spell.key ? 'rail.collapse' : 'rail.expand')}
@@ -176,7 +187,11 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
               <span className="yr-n">{keeper ? spell.cleanSheets : spell.goals}</span>
               <span
                 className={`yr-ovr ovr ${rarityClass(spell.ovrEnd)}`}
-                title={t(`rar.${rarityOf(spell.ovrEnd)}` as StringKey)}
+                title={
+                  topped
+                    ? t('rail.peak', { ovr: spell.ovrEnd })
+                    : t(`rar.${rarityOf(spell.ovrEnd)}` as StringKey)
+                }
                 aria-label={`${spell.ovrEnd}, ${t(`rar.${rarityOf(spell.ovrEnd)}` as StringKey)}`}
               >
                 {spell.ovrEnd}
@@ -204,6 +219,11 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
                       )}
                     </span>
                     <span className="sub-num">
+                      {/* a summer that asked something of you, marked so the
+                          turns in a career can be found from the column */}
+                      {decided.has(s.season) && (
+                        <i className="sub-turn" title={t('rail.decision')} />
+                      )}
                       {s.ovrEnd}
                       {delta !== 0 && <Delta value={delta} />}
                     </span>
@@ -214,28 +234,28 @@ export function Rail({ career, reading, onRead, onNow }: Props) {
         )
       })}
 
-      <button className="yr yr--now" onClick={onNow}>
-        <span className="yr-age">{age}</span>
-        <span className="yr-who">{t('rail.unwritten')}</span>
-        <span className="yr-n" />
-        <span className="yr-n" />
-        <span className="yr-ovr">?</span>
-      </button>
+      {/* Where the career actually is. It names the season rather than
+          promising anything about it, and it is the only amber row. */}
+      {career.phase !== 'retired' && (
+        <button className="yr yr--now" onClick={onNow}>
+          <span className="yr-age">{age}</span>
+          <span className="yr-who">{seasonLabel(career.season)}</span>
+          <span className="yr-n" />
+          <span className="yr-n" />
+          <span className="yr-ovr">{career.player.ovr}</span>
+        </button>
+      )}
 
-      {ahead.map((a) => {
-        const opens = STAGE_AT.find((s) => s.age === a)
-        return (
-          <div className={`yr yr--ahead${opens ? ' yr--chapter' : ''}`} key={a}>
+      {career.phase !== 'retired' &&
+        ahead.map((a) => (
+          <div className="yr yr--ahead" key={a}>
             <span className="yr-age">{a}</span>
-            <span className="yr-who">
-              {opens && <span className="yr-stage">{t(`stage.${opens.stage}` as StringKey)}</span>}
-            </span>
+            <span className="yr-who" />
             <span className="yr-n" />
             <span className="yr-n" />
             <span className="yr-ovr" />
           </div>
-        )
-      })}
+        ))}
     </div>
   )
 }

@@ -31,7 +31,6 @@ import {
   simulateSeason,
 } from './sim'
 import {
-  MAJOR_TROPHIES,
   MODE_CONFIG,
   isDetailed,
   type Career,
@@ -47,7 +46,6 @@ import {
   type RetirementReason,
   type SeasonRecord,
   type SquadRole,
-  type TrophyId,
 } from './types'
 
 export interface CreateOptions {
@@ -427,6 +425,9 @@ function runOneSeason(career: Career, rng: Rng): SeasonRecord {
   player.age += 1
   const home = player.onLoan && player.parentClubId ? CLUB_BY_ID[player.parentClubId] : club
   player.value = marketValue(player, home)
+  // Kept on the season as well as on the player, so a report can say what a
+  // year did to your price rather than only what you are worth today.
+  record.value = player.value
 
   if (player.onLoan && player.parentClubId) {
     player.clubId = player.parentClubId
@@ -525,6 +526,11 @@ function runBatch(start: Career): Career {
             season: next.season,
             seasonsPlayed: next.history.length,
             decided: new Set(next.eventLog.map((e) => e.id)),
+            // The clubs already behind you, and the season before this one:
+            // the two things a career needs to remember for an event to be
+            // about the career rather than about the season.
+            pastClubs: [...new Set(next.history.map((s) => s.clubId))],
+            previous: next.history[next.history.length - 2] ?? null,
           },
           pressure,
           rng,
@@ -561,7 +567,8 @@ function advanceToWindow(career: Career, rng: Rng): Career {
   // The summer is where the club says what it made of the season it set you.
   const last = career.lastSeason
   const swing = last ? objectiveSwing(judgeObjective(objectiveOf(career, last), last)) : 0
-  const offers = generateOffers(player, last, rng, swing)
+  const pastClubs = new Set(career.history.map((s) => s.clubId))
+  const offers = generateOffers(player, last, rng, swing, pastClubs)
   return {
     ...career,
     offers,
@@ -707,7 +714,14 @@ export function closeEvent(career: Career): Career {
  * the world is genuinely available to you, so the geography is damped rather
  * than removed as your level rises.
  */
-export function transferAffinity(from: Club, to: Club, player: Player, level: number): number {
+export function transferAffinity(
+  from: Club,
+  to: Club,
+  player: Player,
+  level: number,
+  /** clubs this career has already played for, which pull harder than strangers */
+  pastClubs?: Set<string>,
+): number {
   const a = LEAGUE_BY_ID[from.leagueId]
   const b = LEAGUE_BY_ID[to.leagueId]
   let affinity = 1
@@ -732,6 +746,11 @@ export function transferAffinity(from: Club, to: Club, player: Player, level: nu
   // going home is always easier than going somewhere new
   const home = NATION_BY_NAME[player.nation]
   if (home && b.country === home.name && a.country !== home.name) affinity *= 1.7
+
+  // A club you already played for knows exactly what it is getting, and the
+  // supporters have not forgotten you. Going back is the most common story in
+  // football and it was the one move the market could not make.
+  if (pastClubs?.has(to.id)) affinity *= 2.4
 
   // teenagers rarely cross a border, and almost never an ocean
   if (player.age <= 19 && a.country !== b.country) {
@@ -785,6 +804,8 @@ export function generateOffers(
   rng: Rng,
   /** what answering the club's season objective was worth, in rating points */
   swing = 0,
+  /** clubs already played for, so a homecoming is a move the market can make */
+  pastClubs?: Set<string>,
 ): Offer[] {
   if (player.age >= 41) return []
   const level = marketLevel(player, last, swing)
@@ -798,12 +819,10 @@ export function generateOffers(
       if (player.age <= 21) interest *= 1 + (player.potMax - player.ovr) * 0.04
       // Nobody drops five divisions for no reason.
       if (dist < -16) interest *= 0.05
-      interest *= transferAffinity(current, club, player, level)
+      interest *= transferAffinity(current, club, player, level, pastClubs)
       return { club, dist, interest }
     })
     .filter((c) => c.interest > 0.02)
-
-  if (!candidates.length) return []
 
   const sample = (pool: typeof candidates, count: number, taken: Set<string>): Club[] => {
     const out: Club[] = []
@@ -821,30 +840,49 @@ export function generateOffers(
   }
 
   const taken = new Set<string>()
-  const stepUp = candidates.filter((c) => c.dist > 2.5)
-  const lateral = candidates.filter((c) => c.dist <= 2.5 && c.dist >= -3.5)
-  const stepDown = candidates.filter((c) => c.dist < -3.5)
+  const picked: Club[] = []
 
-  const picked = [
-    ...sample(stepUp, 2, taken),
-    ...sample(lateral, 2, taken),
-    ...sample(stepDown, 1, taken),
-  ]
-  if (picked.length < 4) picked.push(...sample(candidates, 4 - picked.length, taken))
+  /*
+   * Nobody else wanting you is not the same thing as being finished.
+   *
+   * The market used to hand back an empty window the moment no other club was
+   * interested, and an empty window ends a career on the spot: a nineteen year
+   * old at a club perfectly happy to keep him would simply stop existing. So
+   * the drawing of other clubs is skipped when there are none to draw, and the
+   * club he is already at still gets to make its offer below.
+   */
+  if (candidates.length) {
+    const stepUp = candidates.filter((c) => c.dist > 2.5)
+    const lateral = candidates.filter((c) => c.dist <= 2.5 && c.dist >= -3.5)
+    const stepDown = candidates.filter((c) => c.dist < -3.5)
 
-  // The nearest realistic move should always be on the table: a player in the
-  // 3. Liga must be able to see a 2. Bundesliga club, even on an unlucky draw.
-  const homeCountry = LEAGUE_BY_ID[current.leagueId].country
-  if (!picked.some((c) => LEAGUE_BY_ID[c.leagueId].country === homeCountry)) {
-    const domestic = candidates.filter((c) => LEAGUE_BY_ID[c.club.leagueId].country === homeCountry)
-    const [replacement] = sample(domestic, 1, taken)
-    if (replacement) picked[picked.length - 1] = replacement
+    picked.push(
+      ...sample(stepUp, 2, taken),
+      ...sample(lateral, 2, taken),
+      ...sample(stepDown, 1, taken),
+    )
+    if (picked.length < 4) picked.push(...sample(candidates, 4 - picked.length, taken))
+
+    // The nearest realistic move should always be on the table: a player in
+    // the 3. Liga must be able to see a 2. Bundesliga club, even on an
+    // unlucky draw.
+    const homeCountry = LEAGUE_BY_ID[current.leagueId].country
+    if (!picked.some((c) => LEAGUE_BY_ID[c.leagueId].country === homeCountry)) {
+      const domestic = candidates.filter(
+        (c) => LEAGUE_BY_ID[c.club.leagueId].country === homeCountry,
+      )
+      const [replacement] = sample(domestic, 1, taken)
+      if (replacement) picked[picked.length - 1] = replacement
+    }
   }
 
   const offers = picked.map((club) => offerFor(club, player, false, rng))
 
   const stayRole = projectRole(player.ovr, current.strength, player.age)
-  if (stayRole !== 'Benchwarmer' || player.age <= 21) {
+  // A club keeps a player it can still use, and it always keeps a young one.
+  // The last clause is what stops a quiet career being deleted rather than
+  // played out: with nothing else on the table, staying is the career.
+  if (stayRole !== 'Benchwarmer' || player.age <= 21 || offers.length === 0) {
     offers.unshift(offerFor(current, player, false, rng))
   }
 
@@ -986,27 +1024,11 @@ export function totals(career: Career): CareerTotals {
   return t
 }
 
-/**
- * One number for a whole career, so two of them can be put in an order. Peak
- * rating carries most of it; trophies and a couple of individual honours are
- * worth a jump on top of that, and appearances are the only thing that never
- * stops accumulating.
+/*
+ * The one-number version of a career lives in `legacy.ts`, next to the six
+ * things it is made of. It is not re-exported from here on purpose: a score
+ * that can be imported from two places ends up meaning two things.
  */
-export function careerScore(career: Career): number {
-  const stats = totals(career)
-  const counts = new Map<TrophyId, number>()
-  for (const tr of career.trophies) counts.set(tr.id, (counts.get(tr.id) ?? 0) + 1)
-  const majors = MAJOR_TROPHIES.reduce((s, id) => s + (counts.get(id) ?? 0), 0)
-  return Math.round(
-    stats.peakOvr * 6 +
-      majors * 22 +
-      (counts.get('ballondor') ?? 0) * 90 +
-      (counts.get('worldcup') ?? 0) * 60 +
-      stats.goals * 1.2 +
-      stats.assists * 0.8 +
-      stats.apps * 0.35,
-  )
-}
 
 /** Per-club breakdown for the end-of-career screen. */
 export interface ClubSpell {

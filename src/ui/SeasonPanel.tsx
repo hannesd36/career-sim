@@ -6,8 +6,9 @@ import { isDefender, isKeeper } from '../engine/sim'
 import type { Career, SeasonRecord } from '../engine/types'
 import { useI18n, type Translator } from '../i18n'
 import type { StringKey } from '../i18n/strings'
-import { Crest, Delta, ordinal, roleClass, seasonLabel } from './bits'
+import { Crest, Delta, formatValue, ordinal, roleClass, seasonLabel } from './bits'
 import { ObjectiveVerdict, Press } from './CareerExtras'
+import { RivalNews } from './Rival'
 
 interface Props {
   career: Career
@@ -25,7 +26,7 @@ interface Props {
  */
 export function SeasonPanel({ career, record, onClub, onBack }: Props) {
   const i18n = useI18n()
-  const { t, num, role, country } = i18n
+  const { t, num, role, country, lang } = i18n
   const league = LEAGUE_BY_ID[record.leagueId]
   const keeper = isKeeper(career.player.position)
   const defender = isDefender(career.player.position)
@@ -59,6 +60,26 @@ export function SeasonPanel({ career, record, onClub, onBack }: Props) {
       ]
 
   const decisions = career.eventLog.filter((e) => e.season === record.season)
+
+  /*
+   * The price, and only when it moved enough to mean something.
+   *
+   * Saves written before the season started carrying a value have none, and
+   * the block simply does not appear for them: an inferred number would be a
+   * worse answer than no number.
+   */
+  const index = career.history.indexOf(record)
+  const before = index > 0 ? career.history[index - 1].value : undefined
+  const value =
+    record.value === undefined || record.value <= 0
+      ? null
+      : (() => {
+          const from = before === undefined ? null : before
+          const ratio = from && from > 0 ? record.value! / from : Infinity
+          // A price that barely moved is not news. A doubling is.
+          if (from !== null && ratio < 1.6 && ratio > 0.65) return null
+          return { from, to: record.value!, up: from === null || record.value! > from }
+        })()
 
   return (
     <section className="dispatch">
@@ -111,10 +132,45 @@ export function SeasonPanel({ career, record, onClub, onBack }: Props) {
         </div>
       )}
 
+      {/*
+       * Crossing a tier is the loudest thing a rating ever does, so it is the
+       * one place a season report is allowed to shout: the class you have just
+       * joined, set as a headline, with the number that got you there. The top
+       * of the scale gets its own line, because it happens once.
+       */}
       {crossed && (
-        <div className={`promotion ${rarityClass(record.ovrEnd)}`}>
-          <strong>{t(`rar.${rarityOf(record.ovrEnd)}` as StringKey)}</strong>
-          <span>{t('rar.promotedSub', { ovr: record.ovrEnd })}</span>
+        <div
+          className={`promotion ${rarityClass(record.ovrEnd)}${
+            record.ovrEnd >= 99 ? ' promotion--top' : ''
+          }`}
+          key={record.ovrEnd}
+        >
+          <span className="promotion-k">{t('rar.newLevel')}</span>
+          <strong className="promotion-tier">
+            {t(`rar.${rarityOf(record.ovrEnd)}` as StringKey)}
+          </strong>
+          <span className="promotion-ovr">{record.ovrEnd}</span>
+          <span className="promotion-sub">
+            {record.ovrEnd >= 99 ? t('rar.theTop') : t('rar.promotedSub', { ovr: record.ovrEnd })}
+          </span>
+        </div>
+      )}
+
+      {/* What the market made of the year. Only a move worth noticing is
+          shown: a career reads its own price as a signal, not as a ledger. */}
+      {value && (
+        <div className={`worth${value.up ? ' worth--up' : ''}`}>
+          <span className="worth-k">{t('season.value')}</span>
+          {value.from !== null && (
+            <>
+              <span className="worth-was">{formatValue(value.from, lang)}</span>
+              <span className="worth-arrow" aria-hidden="true">
+                →
+              </span>
+            </>
+          )}
+          <span className="worth-now">{formatValue(value.to, lang)}</span>
+          <span className="worth-say">{t(value.up ? 'season.valueUp' : 'season.valueDown')}</span>
         </div>
       )}
 
@@ -131,6 +187,8 @@ export function SeasonPanel({ career, record, onClub, onBack }: Props) {
       <Press career={career} record={record} />
 
       <div className="notes">
+        {/* what the other one from your year group did with the same summer */}
+        <RivalNews career={career} season={record.season} />
         {notesFor(career, record, i18n).map((n, i) => (
           <div className={`note${n.loud ? ' note--loud' : ''}`} key={i}>
             {n.text}

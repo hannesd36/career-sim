@@ -1,9 +1,70 @@
 import { LEAGUE_BY_ID } from '../data/leagues'
 import { retirementHint } from '../engine/career'
-import type { Career, Club, Offer } from '../engine/types'
+import type { Career, Offer, SquadRole } from '../engine/types'
+import type { Club } from '../engine/types'
 import { useI18n } from '../i18n'
 import type { StringKey } from '../i18n/strings'
 import { Crest, Flag, roleClass, seasonLabel } from './bits'
+
+/**
+ * What signing here would actually be like, in three words and some plus
+ * signs.
+ *
+ * A transfer window is not a list of squad ratings, it is four different
+ * lives, and the difference between them is always the same three things:
+ * whether you play, whether you get better, and who you play against. None of
+ * this is new information — it is the role, the gap and the league the screen
+ * was already showing — it is the same information said in a way two clubs can
+ * be compared on without reading a word.
+ */
+type SignalId = 'minutes' | 'growth' | 'level'
+
+interface Signal {
+  id: SignalId
+  /** nought to three */
+  weight: number
+}
+
+const MINUTES: Record<SquadRole, number> = {
+  'Key player': 3,
+  Starter: 3,
+  Rotation: 2,
+  'Squad player': 1,
+  Benchwarmer: 0,
+}
+
+function signalsFor(offer: Offer, career: Career): Signal[] {
+  const league = LEAGUE_BY_ID[offer.club.leagueId]
+  const gap = offer.club.strength - career.player.ovr
+
+  // Training above your level is what improves a footballer; training below it
+  // is what ends careers quietly.
+  const growth = gap >= 6 ? 3 : gap >= 2 ? 2 : gap >= -2 ? 1 : 0
+  const strength = league?.strength ?? 60
+  let level = strength >= 76 ? 3 : strength >= 70 ? 2 : strength >= 62 ? 1 : 0
+  if (offer.continental && level < 3) level += 1
+
+  return [
+    { id: 'minutes', weight: MINUTES[offer.projectedRole] },
+    { id: 'growth', weight: growth },
+    { id: 'level', weight: level },
+  ]
+}
+
+function Signals({ offer, career }: { offer: Offer; career: Career }) {
+  const { t } = useI18n()
+  return (
+    <span className="signals">
+      {signalsFor(offer, career).map((signal) => (
+        <span className={`sig sig--${signal.weight}`} key={signal.id}>
+          <i>{t(`offers.sig.${signal.id}` as StringKey)}</i>
+          <b aria-hidden="true">{'+'.repeat(signal.weight) || '·'}</b>
+          <span className="sr">{signal.weight}</span>
+        </span>
+      ))}
+    </span>
+  )
+}
 
 /**
  * Where a club sits inside its own division. A career decision is never really
@@ -95,6 +156,7 @@ export function OfferScreen({ career, onAccept, onRetire, onClub }: Props) {
                   <span style={{ minWidth: 0 }}>
                     <span className="approach-name">{offer.club.name}</span>
                     <Standing club={offer.club} />
+                    <Signals offer={offer} career={career} />
                   </span>
                   <span className="approach-tags">
                     {staying && <span className="tag tag--home">{t('offers.stay')}</span>}
@@ -169,6 +231,7 @@ function Lead({
           </span>
           <span className="approach-name">{offer.club.name}</span>
           <Standing club={offer.club} />
+          <Signals offer={offer} career={career} />
           <span
             className="approach-tags"
             style={{ marginLeft: 0, justifyContent: 'flex-start', marginTop: 'var(--s3)' }}
