@@ -298,6 +298,25 @@ h3 {
 .rail {
   position: sticky;
   top: var(--s3);
+  /* Twenty-four unplayed years is a tall column on purpose. It scrolls inside
+     itself so the bottom of a career is always reachable, whatever the window
+     is doing. */
+  max-height: calc(100vh - var(--s4));
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) transparent;
+}
+
+.rail::-webkit-scrollbar {
+  width: 6px;
+}
+
+.rail::-webkit-scrollbar-thumb {
+  background: var(--line-2);
+}
+
+.rail::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .spine {
@@ -1643,26 +1662,46 @@ button.yr:hover .yr-age,
 }
 
 /*
- * The years still ahead of you, which is the whole point of the column. The
- * ones a career changes character at say so, so the empty half reads as the
- * shape of what is coming rather than as blank rows: emerging at eighteen,
- * established at twenty-one, prime at twenty-five, veteran at thirty.
+ * The years still ahead of you, which is the whole point of the column.
+ *
+ * They carry nothing at all: no label, no placeholder, no "to be written".
+ * A row with an age in it and nothing beside it is a year of a career nobody
+ * has played yet, and that reads far louder than any words would. They are set
+ * tighter than the years behind them so a whole career still fits on a screen.
  */
+.yr--ahead {
+  padding: 4px 0;
+  border-bottom-color: color-mix(in srgb, var(--line) 55%, transparent);
+}
+
 .yr--ahead .yr-age {
+  font-size: 12px;
   color: var(--fg-3);
-  opacity: 0.55;
+  opacity: 0.5;
 }
 
-.yr--chapter .yr-age {
-  opacity: 1;
+/* every fifth year keeps its full weight, so the column still has a ruler */
+.yr--ahead:nth-child(5n) .yr-age {
+  opacity: 0.8;
 }
 
-.yr-stage {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--fg-3);
+/*
+ * The best rating the career ever held. A hairline under the tier block, in
+ * the amber that means "this is the thing", and nothing else: the column is
+ * read at a glance and a second badge in it would cost more than it says.
+ */
+.yr--peak .yr-ovr {
+  box-shadow: 0 2px 0 var(--flood);
+}
+
+/* a summer that asked something of you */
+.sub-turn {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-right: 6px;
+  vertical-align: 2px;
+  background: var(--claret);
 }
 
 /* --- the seasons inside a spell --- */
@@ -1815,28 +1854,127 @@ button.yr:hover .yr-age,
 
 /* --- the two things a season can shout --- */
 
+/*
+ * A tier crossing.
+ *
+ * The rating going up by one is a number; the rating crossing seventy-five is
+ * a different class of footballer, and the report is allowed to say so at the
+ * size it deserves. It is still the house style — a rule in the tier colour,
+ * a numeral in Anton, no glow — just given room for one paragraph.
+ */
 .promotion {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: var(--s3);
-  padding: var(--s3) var(--s4);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2px var(--s3);
+  padding: var(--s4);
   margin-top: var(--s4);
   background: var(--bg-raise);
   box-shadow: inset 4px 0 0 var(--tier, var(--flood));
+  animation: promotion-in var(--t-slow) both;
 }
 
-.promotion strong {
+@keyframes promotion-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.promotion-k {
+  grid-column: 1;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.promotion-tier {
+  grid-column: 1;
   font-family: var(--poster);
   font-weight: 400;
-  font-size: 24px;
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1;
   text-transform: uppercase;
   color: var(--tier, var(--fg));
 }
 
-.promotion span {
+.promotion-ovr {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  padding: 4px 12px 6px;
+  font-family: var(--poster);
+  font-size: clamp(34px, 6vw, 54px);
+  line-height: 1;
+  color: var(--tier-fg);
+  background: var(--tier, var(--fg-2));
+  font-variant-numeric: tabular-nums;
+}
+
+.promotion-sub {
+  grid-column: 1;
+  margin-top: 4px;
   font-size: 12.5px;
   color: var(--fg-2);
+}
+
+/* ninety-nine happens once in a career, if it happens at all */
+.promotion--top {
+  border: 1px solid var(--tier, var(--flood));
+}
+
+/*
+ * What the market made of the year. Two numbers and an arrow, and only when
+ * the move is big enough to be a signal rather than a ledger entry.
+ */
+.worth {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s2) var(--s3);
+  margin-top: var(--s4);
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.worth-k {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.worth-was {
+  font-family: var(--poster);
+  font-size: 18px;
+  color: var(--fg-3);
+}
+
+.worth-arrow {
+  color: var(--fg-3);
+}
+
+.worth-now {
+  font-family: var(--poster);
+  font-size: clamp(22px, 3.6vw, 32px);
+  line-height: 1;
+  color: var(--fg);
+}
+
+.worth-say {
+  margin-left: auto;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.worth--up .worth-now {
+  color: var(--flood-text);
 }
 
 /* --- the other kind of moment: a number that just meant something --- */
@@ -1941,6 +2079,63 @@ button.yr:hover .yr-age,
   gap: 5px;
   margin-left: auto;
   flex: none;
+}
+
+/*
+ * What signing here would be like: three words and some plus signs.
+ *
+ * The plus signs are doing the comparing, so they are set in the poster face
+ * and given the amber only where a club is genuinely strong on that count.
+ * A club with nothing to offer on one of them says so with a full stop rather
+ * than an empty space, because an empty space reads as missing data.
+ */
+.signals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  margin-top: 7px;
+}
+
+.sig {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.sig i {
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.sig b {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  color: var(--fg-3);
+}
+
+.sig--2 b {
+  color: var(--fg-2);
+}
+
+.sig--3 b {
+  color: var(--flood-text);
+}
+
+/* the same value in words, for anybody who cannot see the plus signs */
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .approach-squad {
@@ -3050,6 +3245,340 @@ select.ruled option {
   color: var(--fg-3);
 }
 
+/*
+ * The years a career ran, set as the two numbers anybody would actually say:
+ * sixteen to thirty-eight, with the whole thing between them drawn as a rule.
+ */
+.recap-span {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin: 0 0 var(--s4);
+}
+
+.recap-span-num {
+  font-family: var(--poster);
+  font-size: clamp(30px, 5vw, 52px);
+  line-height: 1;
+  color: var(--fg-2);
+}
+
+.recap-span-rule {
+  height: 2px;
+  width: clamp(40px, 12vw, 120px);
+  background: linear-gradient(to right, var(--line-2), var(--flood));
+}
+
+/* the three or four numbers a career is quoted in */
+.recap-figures {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s3);
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line);
+}
+
+.recap-fig b {
+  display: block;
+  font-family: var(--poster);
+  font-size: clamp(30px, 5vw, 46px);
+  font-weight: 400;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.recap-fig i {
+  display: block;
+  margin-top: 6px;
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+/*
+ * The career as the handful of years it was about.
+ *
+ * The age carries the row, because a career is remembered in ages rather than
+ * seasons, and the loud lines are the ones that would be in the first
+ * paragraph of anybody's write-up. Everything else is deliberately quiet: a
+ * timeline where every line shouts is a list.
+ */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.tl {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--s3);
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.tl-age {
+  font-family: var(--poster);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--fg-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.tl-what {
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--fg-2);
+}
+
+.tl-season {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--fg-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.tl--loud {
+  box-shadow: inset 2px 0 0 var(--flood);
+  padding-left: var(--s3);
+}
+
+.tl--loud .tl-age {
+  color: var(--flood-text);
+}
+
+.tl--loud .tl-what {
+  font-family: var(--poster);
+  font-size: 21px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+/*
+ * The score, and the six things it is made of.
+ *
+ * The number is the biggest thing on the block because it is the only thing
+ * two careers can be compared on; the bars underneath exist so it can be
+ * argued with, which is the only way a score of this kind earns any trust.
+ */
+.legacyscore {
+  border-top: 2px solid var(--fg);
+  border-bottom: 1px solid var(--line);
+  padding: var(--s4) 0;
+}
+
+.legacyscore-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--s3);
+}
+
+.legacyscore-k {
+  flex: none;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.legacyscore-num {
+  font-family: var(--poster);
+  font-size: clamp(46px, 9vw, 84px);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  color: var(--flood-text);
+  font-variant-numeric: tabular-nums;
+  animation: countup var(--t-slow) both;
+}
+
+@keyframes countup {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.legacyscore-tier {
+  margin-left: auto;
+  font-family: var(--poster);
+  font-size: clamp(15px, 2.4vw, 22px);
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.legacyscore-parts {
+  display: grid;
+  gap: 6px;
+  margin-top: var(--s4);
+}
+
+.legacypart {
+  display: grid;
+  /* wide enough for the German labels, which are the long ones */
+  grid-template-columns: minmax(0, 19ch) minmax(0, 1fr) 5ch;
+  align-items: center;
+  gap: var(--s3);
+  font-size: 11px;
+}
+
+.legacypart-k {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.legacypart-bar {
+  height: 4px;
+  background: var(--bg-sunk);
+  border: 1px solid var(--line);
+}
+
+.legacypart-bar i {
+  display: block;
+  height: 100%;
+  background: var(--line-2);
+}
+
+.legacypart-n {
+  text-align: right;
+  font-family: var(--poster);
+  font-size: 14px;
+  color: var(--fg-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.legacyscore--compact {
+  border-top-width: 1px;
+  padding: var(--s3) 0;
+}
+
+.legacyscore--compact .legacyscore-num {
+  font-size: 34px;
+}
+
+/* the one line a career would be remembered by */
+.greatest {
+  display: grid;
+  gap: 4px;
+  margin-top: var(--s4);
+  padding: var(--s3) var(--s4);
+  border-left: 2px solid var(--flood);
+  background: var(--bg-raise);
+}
+
+.greatest-k {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.greatest-what {
+  font-family: var(--poster);
+  font-size: clamp(19px, 3vw, 28px);
+  font-weight: 400;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.greatest-when {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--fg-3);
+}
+
+/*
+ * The reason to start another one.
+ *
+ * It is the loudest thing under the score on purpose: the screen it sits on is
+ * the end of something, and the whole job of the last block on it is to be the
+ * beginning of the next thing.
+ */
+.onemore {
+  display: grid;
+  gap: var(--s2);
+  margin-top: var(--s4);
+  padding: var(--s4);
+  border: 1px solid var(--flood);
+  background: color-mix(in srgb, var(--flood) 8%, var(--bg));
+}
+
+.onemore-k {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--flood-text);
+}
+
+.onemore-what {
+  font-family: var(--poster);
+  font-size: clamp(20px, 3.4vw, 32px);
+  font-weight: 400;
+  line-height: 1.12;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+/*
+ * The record being chased, in the rail. Four things and a line: what the best
+ * career ever managed, what this one is on, and how far apart they are.
+ */
+.pacer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 40px;
+  align-items: center;
+  gap: 4px var(--s2);
+  margin-bottom: var(--s4);
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.pacer-k {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.pacer-k--now {
+  color: var(--fg-2);
+}
+
+.pacer-n {
+  font-size: 13px;
+  min-width: 40px;
+  padding: 1px 0 2px;
+}
+
+.pacer-say {
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.pacer--ahead .pacer-say {
+  color: var(--flood-text);
+}
+
 .honours-roll {
   display: grid;
 }
@@ -3960,8 +4489,65 @@ select.ruled option {
     gap: var(--s6);
   }
 
+  .aims {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* the two of them stay side by side on a phone: that is the whole point */
+  .rival-ovr {
+    min-width: 40px;
+    font-size: 16px;
+  }
+
+  .rival-nums {
+    gap: var(--s2);
+  }
+
+  .hero-card {
+    position: static;
+    max-width: 300px;
+  }
+
+  .hero-figures {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s3) var(--s2);
+  }
+
+  /* Four big numbers do not fit across a phone; two and two do. */
+  .recap-figures {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s4) var(--s3);
+  }
+
+  /* the line wraps here, and a separator at the end of a line is a typo */
+  .legacy-span .dot {
+    display: none;
+  }
+
+  .tl {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  /* the season is the least of it, and the first thing a narrow row loses */
+  .tl-season {
+    display: none;
+  }
+
+  .legacypart {
+    grid-template-columns: minmax(0, 13ch) minmax(0, 1fr) 4.5ch;
+    font-size: 10px;
+  }
+
+  /* Stacked under the present, the column has the whole page to run down and
+     has no business scrolling inside itself. */
   .rail {
     position: static;
+    max-height: none;
+    overflow: visible;
   }
 
   .now .moment {
@@ -4594,6 +5180,230 @@ select.ruled option {
   color: var(--fg-3);
 }
 
+/* ---------------------------------------------------------------------------
+   the archive: the best career there has ever been, the things still to do,
+   and the records the whole lot of them add up to
+   --------------------------------------------------------------------------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: var(--s5);
+  align-items: start;
+}
+
+.hero-card {
+  position: sticky;
+  top: var(--s3);
+}
+
+.hero-name {
+  font-family: var(--poster);
+  font-size: clamp(32px, 6vw, 60px);
+  line-height: 0.95;
+  text-transform: uppercase;
+  margin: var(--s2) 0 var(--s3);
+}
+
+.hero-id {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.hero-figures {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--s3);
+  margin: var(--s4) 0;
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-fig b {
+  display: block;
+  font-family: var(--poster);
+  font-size: clamp(22px, 3.4vw, 34px);
+  font-weight: 400;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-fig i {
+  display: block;
+  margin-top: 4px;
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.hero-honours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s3);
+  margin-bottom: var(--s4);
+}
+
+.hero-honour {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--line-2);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.hero-honour b {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--flood-text);
+}
+
+/* --- named things to go and do --- */
+
+.challenges {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.chal {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 2px var(--s2);
+  padding: var(--s3);
+  background: var(--bg);
+}
+
+.chal-mark {
+  grid-row: span 3;
+  font-size: 13px;
+  line-height: 1.2;
+  color: var(--fg-3);
+}
+
+.chal--done .chal-mark {
+  color: var(--pitch);
+}
+
+.chal-name {
+  font-family: var(--poster);
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.chal--done .chal-name {
+  color: var(--fg);
+}
+
+.chal-how {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--fg-3);
+}
+
+.chal-by {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--flood-text);
+}
+
+.chal-hidden {
+  margin-top: var(--s3);
+}
+
+/* the three in front of somebody deciding what to play */
+.aims {
+  display: grid;
+  /* Three across, always. `auto-fit` would lay out five columns on a wide
+     window and leave two of them empty, which reads as three things that got
+     cut off rather than three things chosen. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s3);
+}
+
+.aim {
+  padding: var(--s3);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--flood);
+  background: var(--bg-raise);
+}
+
+.aim--done {
+  border-left-color: var(--pitch);
+  opacity: 0.6;
+}
+
+.aim-name {
+  display: block;
+  font-family: var(--poster);
+  font-size: 17px;
+  text-transform: uppercase;
+}
+
+.aim-how {
+  display: block;
+  margin-top: 4px;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--fg-3);
+}
+
+/* --- the record book --- */
+
+.records {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0 var(--s5);
+}
+
+.record {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0 var(--s3);
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.record-k {
+  font-size: 12px;
+  color: var(--fg-2);
+}
+
+.record-v {
+  font-family: var(--poster);
+  font-size: 20px;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.record-by {
+  grid-column: 1 / -1;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
 /* --- everything you have played, as a column of numbers --- */
 
 .counts {
@@ -4621,6 +5431,25 @@ select.ruled option {
 
 /* --- something won, said once, in the corner --- */
 
+/*
+ * Something worth saying, said once, in the corner.
+ *
+ * Two of them can land on the same click — a milestone crossed and a challenge
+ * finished in the same summer — so they stack rather than sitting on top of
+ * each other. The stack is fixed; the notes inside it are not.
+ */
+.toasts {
+  position: fixed;
+  right: var(--s3);
+  bottom: var(--s3);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s2);
+  pointer-events: none;
+}
+
 .toast {
   position: fixed;
   right: var(--s3);
@@ -4633,6 +5462,13 @@ select.ruled option {
   border: 1px solid var(--flood);
   box-shadow: 0 12px 40px rgb(0 0 0 / 0.45);
   animation: moment-in 320ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+/* inside the stack they are ordinary blocks, one under the other */
+.toasts .toast {
+  position: static;
+  right: auto;
+  bottom: auto;
 }
 
 .toast-row {
@@ -5074,6 +5910,216 @@ select.ruled option {
    being played. Your own row is the row the table is about.
    =========================================================================== */
 
+/* ---------------------------------------------------------------------------
+   the other one from your year group
+   ---------------------------------------------------------------------------
+   Two columns, four numbers each, and no commentary. The one in front is the
+   only thing marked, because the only question the panel answers is which of
+   you is winning.
+   --------------------------------------------------------------------------- */
+
+.rival {
+  border-top: 2px solid var(--fg);
+  padding-top: var(--s3);
+}
+
+.rival-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-bottom: var(--s3);
+}
+
+.rival-head h3 {
+  margin: 0;
+  font-family: var(--poster);
+  font-size: 22px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.rival-head span {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.rival-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.rival-side {
+  display: grid;
+  gap: var(--s2);
+  padding: var(--s3);
+  background: var(--bg);
+}
+
+.rival-side--you {
+  background: var(--bg-raise);
+}
+
+.rival-who {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.rival-who b {
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 17px;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rival-club {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 0;
+  font-size: 11.5px;
+  color: var(--fg-3);
+}
+
+.rival-club .nm {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rival-ovr {
+  justify-self: start;
+  min-width: 46px;
+  font-size: 18px;
+  padding: 2px 8px 3px;
+}
+
+.rival-nums {
+  display: flex;
+  gap: var(--s3);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.rival-nums b {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--poster);
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0;
+  color: var(--fg-2);
+}
+
+/* whoever is in front, marked once */
+.rival-side--up {
+  box-shadow: inset 0 2px 0 var(--flood);
+}
+
+.rival-side--up .rival-nums b {
+  color: var(--fg);
+}
+
+/* his year, in your season report */
+.note--rival {
+  border-left: 2px solid var(--line-2);
+  color: var(--fg-3);
+  font-style: italic;
+}
+
+/* --- the two of you, at the end of it --- */
+
+.versus {
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+  border-top: 2px solid var(--fg);
+}
+
+.versus-k {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.versus-ask {
+  margin: var(--s1) 0 var(--s4);
+  font-family: var(--poster);
+  font-size: clamp(22px, 4vw, 38px);
+  font-weight: 400;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.versus-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 5.5ch 5.5ch;
+  gap: 0 var(--s3);
+  align-items: baseline;
+}
+
+.versus-label {
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.versus-name {
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--line-2);
+  font-family: var(--poster);
+  font-size: 15px;
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--fg-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.versus-name--won {
+  color: var(--flood-text);
+}
+
+.versus-n {
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  font-family: var(--poster);
+  font-size: 19px;
+  color: var(--fg-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.versus-n--up {
+  color: var(--fg);
+}
+
+.versus-verdict {
+  margin: var(--s4) 0 0;
+  font-family: var(--poster);
+  font-size: clamp(17px, 2.6vw, 24px);
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: var(--flood-text);
+}
+
 .cohort {
   border-top: 2px solid var(--fg);
   padding-top: var(--s3);
@@ -5301,6 +6347,21 @@ button.pcard:hover {
   color: var(--fg-3);
 }
 
+/* the verdict on a career that is over, printed on the thing you keep */
+.pc-final {
+  margin-top: var(--s2);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tier, var(--flood-text));
+}
+
+.pcard--sm .pc-final {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
 .pc-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -5411,6 +6472,12 @@ button.pcard:hover {
   align-items: start;
 }
 
+/* Before there is a best career there is only today's, and it takes the width
+   of the card that is not there yet rather than sitting in half a page. */
+.showcase--solo {
+  grid-template-columns: minmax(0, 520px);
+}
+
 .showcase-k {
   display: block;
   margin-bottom: var(--s2);
@@ -5475,6 +6542,41 @@ button.pcard:hover {
   margin: var(--s2) 0 0;
   font-size: 12px;
   color: var(--up);
+}
+
+/*
+ * Today, once it is over. The same four numbers for everybody, which is the
+ * only reason a daily career is worth having: it is the one run in the game
+ * two people can honestly hold up next to each other.
+ */
+.daily-result {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s2);
+  margin-bottom: var(--s3);
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.daily-fig b {
+  display: block;
+  font-family: var(--poster);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.daily-fig i {
+  display: block;
+  margin-top: 4px;
+  font-style: normal;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
 }
 
 .streak {

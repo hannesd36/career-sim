@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { CLUB_BY_ID } from '../../data/clubs'
 import { LEAGUE_BY_ID } from '../../data/leagues'
-import { createCareer, playSeasons, transferAffinity } from '../career'
+import { createCareer, generateOffers, playSeasons, transferAffinity } from '../career'
+import { Rng } from '../rng'
 import type { Club } from '../types'
 
 const opts = {
@@ -110,5 +111,45 @@ describe('transferAffinity', () => {
     const highLevel = transferAffinity(from, distant, player, 90)
 
     expect(highLevel).toBeGreaterThan(lowLevel)
+  })
+})
+
+describe('the summer window', () => {
+  const clubIn = (leagueId: string): Club => ({
+    id: `test-${leagueId}`,
+    name: 'Test Club',
+    leagueId,
+    tier: LEAGUE_BY_ID[leagueId].tier,
+    badge: null,
+    strength: LEAGUE_BY_ID[leagueId].strength,
+  })
+
+  it('always leaves a player somewhere to play, however little anybody wants him', () => {
+    // A career nobody is interested in used to be handed an empty window,
+    // which ends it on the spot. The club he is already at still gets to keep
+    // him, so a quiet career is played out rather than deleted.
+    const career = createCareer({ ...opts, seed: 3 })
+    for (const age of [19, 24, 31, 38]) {
+      const player = { ...career.player, age, ovr: 42, potMin: 42, potMax: 43 }
+      const offers = generateOffers(player, null, new Rng(age))
+      expect(offers.length, `age ${age}`).toBeGreaterThan(0)
+    }
+  })
+
+  it('stops offering anything at all once the boots are done', () => {
+    const career = createCareer({ ...opts, seed: 3 })
+    expect(generateOffers({ ...career.player, age: 41 }, null, new Rng(1))).toEqual([])
+  })
+
+  it('pulls a career back towards a club it already played for', () => {
+    const career = createCareer({ ...opts, seed: 8 })
+    const player = { ...career.player, age: 29, nation: 'Germany' }
+    const from = clubIn('ita1')
+    const old = clubIn('ger1')
+    const stranger = { ...clubIn('ger1'), id: 'test-stranger' }
+
+    const known = transferAffinity(from, old, player, 74, new Set([old.id]))
+    const unknown = transferAffinity(from, stranger, player, 74)
+    expect(known).toBeGreaterThan(unknown)
   })
 })

@@ -61,6 +61,17 @@ export interface DailyRecord {
   /** filled in once the career reaches its end */
   score?: number
   finished?: boolean
+  /*
+   * What the run came to, copied out of the career when it ends.
+   *
+   * It is duplicated on purpose: the result of a day you played is the one
+   * thing that should survive the save being deleted, and every field is
+   * optional so a record written before any of this existed still reads.
+   */
+  peak?: number
+  goals?: number
+  trophies?: number
+  seasons?: number
 }
 
 function readAll(): DailyRecord[] {
@@ -96,4 +107,15 @@ export function rememberDaily(record: DailyRecord) {
 export function untilNextDaily(now: Date = new Date()): number {
   const next = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1)
   return Math.max(0, Math.round((next - now.getTime()) / 1000))
+}
+
+/** Today's run, if it has been finished. */
+export function dailyResult(key: string = dailyKey()): DailyRecord | null {
+  const record = dailyRecordFor(key)
+  return record?.finished ? record : null
+}
+
+/** How many days a daily career has ever been finished on. */
+export function dailiesFinished(): number {
+  return readAll().filter((r) => r.finished).length
 }
