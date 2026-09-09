@@ -102,8 +102,8 @@ jobs:
     name: Worker
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -111,6 +111,11 @@ jobs:
       - run: npm ci
         working-directory: server
       - run: npx tsc --noEmit -p tsconfig.json
+        working-directory: server
+      # The worker has its own lockfile, so the root audit never saw it. That
+      # is how a high-severity advisory in wrangler's toolchain reached the
+      # default branch without a single CI job going red.
+      - run: npm audit --audit-level=high
         working-directory: server
 
   audit:
