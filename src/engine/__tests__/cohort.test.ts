@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { createCareer } from '../career'
 import { cohortOf, cohortRank, cohortTable, peerGoalsBy, peerOvrAt } from '../cohort'
 import { isKeeper } from '../sim'
+import { LEGENDS } from '../../data/players'
 
 const opts = {
   name: 'Cohort Test',
@@ -87,5 +88,46 @@ describe('the year group', () => {
     const { rank, of } = cohortRank(career)
     expect(of).toBe(10)
     expect(cohortTable(career).find((r) => r.you)!.rank).toBe(rank)
+  })
+})
+
+describe('real footballers in the year group', () => {
+  it('fills the table from the book rather than inventing names', () => {
+    const peers = cohortOf(createCareer({ ...opts, seed: 77 }))
+    const real = peers.filter((p) => p.real)
+    expect(real.length).toBeGreaterThan(0)
+    // Everybody the book supplied has to actually be in it.
+    for (const peer of real) {
+      expect(LEGENDS.some((l) => l.name === peer.name)).toBe(true)
+    }
+  })
+
+  it('only reaches for players young enough to be a generation', () => {
+    // A sixteen year old starting in 2026 was born in 2010 and Wikidata has
+    // nobody that young, so the pool is the youngest the book carries. What
+    // must not happen is a year group full of players who have retired.
+    const peers = cohortOf(createCareer({ ...opts, seed: 21 }))
+    for (const peer of peers.filter((p) => p.real)) {
+      const legend = LEGENDS.find((l) => l.name === peer.name)!
+      expect(legend.retired).toBe(false)
+    }
+  })
+
+  it('still fills nine even when the book cannot supply them', () => {
+    // The book is fetched at runtime, so the table has to stand up before it
+    // lands and if it never lands at all.
+    const peers = cohortOf(createCareer({ ...opts, seed: 5 }))
+    expect(peers).toHaveLength(9)
+    for (const peer of peers) {
+      expect(peer.name.trim().length).toBeGreaterThan(0)
+      expect(typeof peer.real).toBe('boolean')
+    }
+  })
+
+  it('gives a made-up peer a two part name and a real one whatever it has', () => {
+    const peers = cohortOf(createCareer({ ...opts, seed: 9 }))
+    for (const peer of peers.filter((p) => !p.real)) {
+      expect(peer.name.split(' ')).toHaveLength(2)
+    }
   })
 })

@@ -71,7 +71,7 @@ const en = {
   'card.value': 'Value',
   'card.reputation': 'Reputation',
   'card.doping': 'On the programme',
-  'card.ceiling': 'How good you can get',
+  'card.ceiling': 'Ceiling',
   'card.ceilingNew': 'Scouts have barely seen you',
   'card.ceilingNarrow': 'Sharper every season',
   'table.open': 'Show the table',
@@ -184,7 +184,7 @@ const en = {
   'summary.meta': '{seasons} seasons · {clubs} clubs',
   'summary.score': 'Career score',
   'summary.scoreMeta': 'Seed {seed} · final value {value}',
-  'summary.output': 'What you actually produced, season by season.',
+  'summary.output': 'Output',
   'summary.honours': 'Honours',
   'summary.majors': '{n} major honours',
   'summary.majors_one': 'One major honour',
@@ -868,7 +868,7 @@ const en = {
   'award.title': 'The cabinet',
   'award.blurb': '{n} of {of} won',
   'award.open': 'Open it',
-  'award.ledger': 'Everything you have played',
+  'award.ledger': 'Record',
   'award.won': 'Won: ',
   'award.firstwin': 'First blood',
   'award.firstwin.how': 'Win a grid.',
@@ -929,7 +929,7 @@ const en = {
   'milestone.platinum': 'Reached Platinum',
   'milestone.ultimate': 'Reached Icon',
   'milestone.won': 'Milestone: ',
-  'season.milestones': 'Moments this season',
+  'season.milestones': 'Moments',
 
   // ---- the hall of fame ----
   'game.hof': 'Hall of Fame',
@@ -937,7 +937,7 @@ const en = {
   'hof.title': 'The hall of fame',
   'hof.legends': 'Retired careers',
   'hof.empty': 'Nobody has hung up their boots yet.',
-  'hof.ledger': 'Every career, added up',
+  'hof.ledger': 'Totals',
   'hof.col.player': 'Player',
   'hof.col.peak': 'Peak',
   'hof.col.trophies': 'Honours',
@@ -1017,7 +1017,7 @@ const en = {
   'book.source': 'The long tail comes from Wikidata and is refreshed every three months.',
 
   // ---- the club's demand for the season ----
-  'obj.thisSeason': 'What {club} want this season',
+  'obj.thisSeason': 'This season at {club}',
   'obj.met': 'Delivered',
   'obj.missed': 'Missed',
   'obj.goals': 'Score {n} goals',
@@ -1030,7 +1030,7 @@ const en = {
   'obj.silverware': 'Win something',
 
   // ---- the five things a career is for ----
-  'amb.title': 'What this career is for',
+  'amb.title': 'Goals',
   'amb.done': '{n} of {of} done',
   'amb.toGo': '{what}: {n} to go',
   'amb.goals-50': '50 career goals',
@@ -1056,7 +1056,7 @@ const en = {
   'amb.loyal-150': '150 games at one club',
 
   // ---- your year group ----
-  'cohort.title': 'Your year group',
+  'cohort.title': 'Your generation',
   'cohort.age': 'At {age}',
   'cohort.rank': '{rank} of {of} in your year',
 
@@ -1228,7 +1228,7 @@ const en = {
   'at.gkReflexes': 'Reflexes',
 
   // ---- what you work on over the summer ----
-  'train.title': 'What do you work on this summer?',
+  'train.title': 'Training',
   'train.short': 'Training',
   'train.none': 'Nothing in particular',
   'train.noneHow': 'Take the summer off. You still grow into your position.',
@@ -1253,7 +1253,7 @@ const en = {
   'con.bonus.app': '{n} a game',
   'con.bonus.cleanSheet': '{n} a clean sheet',
   'con.bonus.trophy': '{n} a trophy',
-  'con.pick': 'What are you signing?',
+  'con.pick': 'Terms',
   'con.terms.standard': 'The normal deal',
   'con.terms.standard.how': 'Three years at the going rate.',
   'con.terms.long': 'Long and safe',
@@ -1276,7 +1276,7 @@ const en = {
   'life.upkeep': 'Going out a season',
   'life.invested': 'Invested',
   'life.returns': 'Investments have made',
-  'life.spending': 'What you pay for',
+  'life.spending': 'Spending',
   'life.on': 'On',
   'life.off': 'Off',
   'life.cost': '{n} a season',
@@ -1421,7 +1421,7 @@ const de: Record<Key, string> = {
   'card.value': 'Marktwert',
   'card.reputation': 'Ruf',
   'card.doping': 'Auf dem Programm',
-  'card.ceiling': 'Wie gut du werden kannst',
+  'card.ceiling': 'Grenze',
   'card.ceilingNew': 'Scouts kennen dich kaum',
   'card.ceilingNarrow': 'Jede Saison genauer',
   'table.open': 'Tabelle zeigen',
@@ -1527,7 +1527,7 @@ const de: Record<Key, string> = {
   'summary.meta': '{seasons} Saisons · {clubs} Vereine',
   'summary.score': 'Karriere-Punktzahl',
   'summary.scoreMeta': 'Seed {seed} · letzter Marktwert {value}',
-  'summary.output': 'Was du wirklich gebracht hast, Saison für Saison.',
+  'summary.output': 'Ausbeute',
   'summary.honours': 'Titel',
   'summary.majors': '{n} große Titel',
   'summary.majors_one': 'Ein großer Titel',
@@ -2214,7 +2214,7 @@ const de: Record<Key, string> = {
   'award.title': 'Die Vitrine',
   'award.blurb': '{n} von {of} geholt',
   'award.open': 'Aufmachen',
-  'award.ledger': 'Alles, was du gespielt hast',
+  'award.ledger': 'Bilanz',
   'award.won': 'Geholt: ',
   'award.firstwin': 'Der erste',
   'award.firstwin.how': 'Gewinn ein Raster.',
@@ -2275,7 +2275,7 @@ const de: Record<Key, string> = {
   'milestone.platinum': 'Platin erreicht',
   'milestone.ultimate': 'Ikone erreicht',
   'milestone.won': 'Meilenstein: ',
-  'season.milestones': 'Momente dieser Saison',
+  'season.milestones': 'Momente',
 
   // ---- die Ruhmeshalle ----
   'game.hof': 'Ruhmeshalle',
@@ -2283,7 +2283,7 @@ const de: Record<Key, string> = {
   'hof.title': 'Die Ruhmeshalle',
   'hof.legends': 'Beendete Karrieren',
   'hof.empty': 'Noch niemand hat die Schuhe an den Nagel gehängt.',
-  'hof.ledger': 'Jede Karriere, zusammengezählt',
+  'hof.ledger': 'Summen',
   'hof.col.player': 'Spieler',
   'hof.col.peak': 'Bestwert',
   'hof.col.trophies': 'Titel',
@@ -2362,7 +2362,7 @@ const de: Record<Key, string> = {
   'book.builtNever': 'Nur der handgeschriebene Teil ist da.',
   'book.source': 'Der lange Rest kommt von Wikidata und wird alle drei Monate neu geholt.',
 
-  'obj.thisSeason': 'Was {club} diese Saison will',
+  'obj.thisSeason': 'Diese Saison bei {club}',
   'obj.met': 'Erfüllt',
   'obj.missed': 'Verfehlt',
   'obj.goals': 'Schieß {n} Tore',
@@ -2374,7 +2374,7 @@ const de: Record<Key, string> = {
   'obj.survive': 'Bleib über Platz {position}',
   'obj.silverware': 'Hol einen Titel',
 
-  'amb.title': 'Wofür diese Karriere da ist',
+  'amb.title': 'Ziele',
   'amb.done': '{n} von {of} geschafft',
   'amb.toGo': '{what}: noch {n}',
   'amb.goals-50': '50 Karrieretore',
@@ -2399,7 +2399,7 @@ const de: Record<Key, string> = {
   'amb.clubs-6': 'Sechs Vereine',
   'amb.loyal-150': '150 Spiele für einen Verein',
 
-  'cohort.title': 'Dein Jahrgang',
+  'cohort.title': 'Deine Generation',
   'cohort.age': 'Mit {age}',
   'cohort.rank': 'Platz {rank} von {of} in deinem Jahrgang',
 
@@ -2564,7 +2564,7 @@ const de: Record<Key, string> = {
   'at.gkPositioning': 'Stellungsspiel',
   'at.gkReflexes': 'Reflexe',
 
-  'train.title': 'Woran arbeitest du diesen Sommer?',
+  'train.title': 'Training',
   'train.short': 'Training',
   'train.none': 'Nichts Bestimmtes',
   'train.noneHow': 'Nimm dir den Sommer. In deine Position wächst du trotzdem hinein.',
@@ -2588,7 +2588,7 @@ const de: Record<Key, string> = {
   'con.bonus.app': '{n} pro Spiel',
   'con.bonus.cleanSheet': '{n} pro weißer Weste',
   'con.bonus.trophy': '{n} pro Titel',
-  'con.pick': 'Was unterschreibst du?',
+  'con.pick': 'Konditionen',
   'con.terms.standard': 'Der normale Vertrag',
   'con.terms.standard.how': 'Drei Jahre zum üblichen Satz.',
   'con.terms.long': 'Lang und sicher',
@@ -2610,7 +2610,7 @@ const de: Record<Key, string> = {
   'life.upkeep': 'Geht pro Saison raus',
   'life.invested': 'Angelegt',
   'life.returns': 'Die Anlage hat gebracht',
-  'life.spending': 'Wofür du zahlst',
+  'life.spending': 'Ausgaben',
   'life.on': 'An',
   'life.off': 'Aus',
   'life.cost': '{n} pro Saison',

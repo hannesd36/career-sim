@@ -1,5 +1,7 @@
 import { CLUBS } from '../data/clubs'
-import { NATIONS } from '../data/nations'
+import type { Legend } from '../data/legend'
+import { NATION_BY_NAME, NATIONS } from '../data/nations'
+import { LEGENDS } from '../data/players'
 import { Rng, clamp } from './rng'
 import { totals } from './career'
 import { isKeeper } from './sim'
@@ -32,6 +34,8 @@ export interface Peer {
   peakAge: number
   /** the club they came through at, by strength band */
   clubId: string
+  /** true when this is a real footballer out of the book */
+  real: boolean
 }
 
 const FORENAMES: Record<string, string[]> = {
@@ -303,6 +307,9 @@ function cultureOf(nation: string, conf: string): string {
 }
 
 /** Clubs sorted by strength once, so a peer's level maps to a real badge. */
+/** How many birth years back the "youngest players" pool reaches. */
+const REAL_WINDOW = 6
+
 const BY_STRENGTH: Club[] = [...CLUBS].sort((a, b) => a.strength - b.strength)
 
 function clubForLevel(level: number, rng: Rng): Club {
@@ -321,10 +328,88 @@ const COHORT_SIZE = 9
  * after, and roughly one in five never gets near what he was supposed to be.
  * A table where everybody is good is a table with no story in it.
  */
+/**
+ * The youngest real footballers the book knows about.
+ *
+ * A sixteen year old starting in 2026 was born in 2010, and Wikidata has
+ * nobody at all born that year: the book thins out at 2006 and stops at 2009.
+ * So a literal same-birth-year cohort cannot be built out of real people, and
+ * pretending otherwise would mean an empty table.
+ *
+ * What is real is the *generation*: the youngest players the book actually
+ * carries, which is the group a sixteen year old is coming up behind. They are
+ * drawn once per career from the seed, weighted towards the better known ones
+ * so the table has names in it somebody might recognise.
+ */
+function realPool(): Legend[] {
+  if (!LEGENDS.length) return []
+  let youngest = 0
+  for (const l of LEGENDS) if (l.born > youngest) youngest = l.born
+  const floor = youngest - REAL_WINDOW
+  return LEGENDS.filter((l) => l.born >= floor && !l.retired)
+}
+
+/** How a real player's fame maps onto the curve a peer is drawn as. */
+function peerFromLegend(legend: Legend, id: number, rng: Rng): Peer {
+  // A year group needs one who makes it and one who does not, whatever the
+  // fame numbers say. The hand-written half of the book is all famous by
+  // definition and would otherwise come out as nine identical prospects.
+  const shape = id === 0 ? 1.5 : id === COHORT_SIZE - 1 ? -1.1 : rng.gauss(0, 1)
+  // Fame is a sitelink count: a handful of young players are known everywhere
+  // and most are known in one country. The log keeps that from turning the
+  // best known teenager into a 99 and everybody else into a 60.
+  const known = clamp(Math.log10(Math.max(1, legend.fame)) / 2.2, 0, 1)
+  const start = clamp(Math.round(52 + known * 8 + rng.gauss(0, 2)), 46, 66)
+  const ceiling = clamp(
+    Math.round(start + 14 + known * 16 + shape * 7 + rng.gauss(0, 3)),
+    start + 2,
+    96,
+  )
+  const nation = NATION_BY_NAME[legend.nation]
+  return {
+    id,
+    name: legend.name,
+    nation: legend.nation,
+    flag: nation?.flag ?? '',
+    position: legend.position,
+    start,
+    ceiling,
+    peakAge: rng.int(25, 30),
+    clubId: clubForLevel(ceiling - rng.int(6, 14), rng).id,
+    real: true,
+  }
+}
+
 export function cohortOf(career: Career): Peer[] {
   const rng = new Rng((career.seed ^ 0xc0ff0f) >>> 0)
   const peers: Peer[] = []
-  for (let i = 0; i < COHORT_SIZE; i++) {
+
+  // Real players first, as many as the book can supply. It is fetched at
+  // runtime, so early on this is the hand-written half and grows to the full
+  // book a moment later; the table simply gets better names when it lands.
+  const pool = realPool()
+  const taken = new Set<string>()
+  while (pool.length && peers.length < COHORT_SIZE) {
+    // Weighted by fame, so the table is not nine names nobody has heard of.
+    let best: Legend | null = null
+    let bestScore = -1
+    for (let tries = 0; tries < 12; tries++) {
+      const pick = pool[rng.int(0, pool.length - 1)]
+      if (taken.has(pick.id)) continue
+      const score = Math.log10(Math.max(1, pick.fame)) + rng.next()
+      if (score > bestScore) {
+        best = pick
+        bestScore = score
+      }
+    }
+    if (!best) break
+    taken.add(best.id)
+    peers.push(peerFromLegend(best, peers.length, rng))
+  }
+
+  // Whatever the book could not fill is made up, so the table is always nine
+  // deep even before the fetch lands or if it never does.
+  for (let i = peers.length; i < COHORT_SIZE; i++) {
     const nation = rng.pick(NATIONS)
     const culture = cultureOf(nation.name, nation.conf)
     const name = `${rng.pick(FORENAMES[culture])} ${rng.pick(SURNAMES[culture])}`
@@ -355,6 +440,7 @@ export function cohortOf(career: Career): Peer[] {
       ceiling,
       peakAge: rng.int(25, 30),
       clubId: clubForLevel(ceiling - rng.int(6, 14), rng).id,
+      real: false,
     })
   }
   return peers
