@@ -1,4 +1,5 @@
 import { LEAGUE_BY_ID } from '../data/leagues'
+import { callupFor } from '../engine/callup'
 import { detectMilestones, isTierMilestone } from '../engine/milestones'
 import { rarityClass, rarityOf } from '../engine/rarity'
 import { isDefender, isKeeper } from '../engine/sim'
@@ -196,16 +197,39 @@ function notesFor(
     notes.push({ text: t('season.injury', { n: record.gamesMissedInjured }) })
   }
 
-  if (record.natApps > 0) {
-    const capped = career.history.some((s) => s.season < record.season && s.natApps > 0)
-    const nation = country(career.player.nation)
+  /*
+   * The national team, as a moment rather than a number.
+   *
+   * The squad announcement comes first because it is the thing that happened;
+   * the caps and goals are the detail underneath it. A season that produced no
+   * caps used to say nothing at all, which is exactly the season worth a line:
+   * being dropped, being left out of a tournament, or having a year good
+   * enough that the silence is the story.
+   */
+  const callup = callupFor(
+    career,
+    record,
+    career.history.find((s) => s.season === record.season - 1) ?? null,
+  )
+  if (callup) {
     notes.push({
-      text: capped
-        ? record.natGoals > 0
-          ? t('season.capsGoals', { n: record.natApps, nation, goals: record.natGoals })
-          : t('season.caps', { n: record.natApps, nation })
-        : t('season.firstCap', { nation }),
+      text: t(`cu.${callup.id}` as StringKey, { nation: country(callup.nation) }),
+      loud: callup.tone === 'bad',
     })
+  }
+
+  if (record.natApps > 0) {
+    const nation = country(career.player.nation)
+    // The first cap is already said above, so this is only ever the tally.
+    const firstEver = !career.history.some((s) => s.season < record.season && s.natApps > 0)
+    if (!firstEver || record.natGoals > 0) {
+      notes.push({
+        text:
+          record.natGoals > 0
+            ? t('season.capsGoals', { n: record.natApps, nation, goals: record.natGoals })
+            : t('season.caps', { n: record.natApps, nation }),
+      })
+    }
   }
 
   if (record.redCards > 0) notes.push({ text: t('season.sentOff', { n: record.redCards }) })

@@ -1,5 +1,9 @@
 # Career Simulator
 
+[![CI](https://github.com/hannesd36/career-sim/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/hannesd36/career-sim/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/hannesd36/career-sim/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/hannesd36/career-sim/actions/workflows/codeql.yml)
+[![Deploy](https://github.com/hannesd36/career-sim/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/hannesd36/career-sim/actions/workflows/deploy.yml)
+
 A browser football career simulator. You start at sixteen with a rating and a
 vague idea of how good you might become, then pick a club every summer until you
 retire. Runs entirely client-side — no backend, no accounts.
